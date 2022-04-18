@@ -1,18 +1,117 @@
-html {
-  font-size: 14px;
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Open Sans", sans-serif;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+:root {
+    --red-main: #d72130;
+    --red-hover: #e02232;
+    --red-active: #c80515; 
+    --fieldframe-dark: #7f8899;
+    --fieldframe-light: #ccd3e0;
+    --text-color-dark: #2b2f43;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.small-button {
+    height: 30px;
+    font-size: 12px;
 }
 
-body {
-  margin-bottom: 60px;
+.signup-page-container {
+    width: 1400px;
+    height: 600px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.signup-page-container .left-container {
+    height: 100%;
+    width: 500px;
+}
+
+.signup-page-container .left-container img {
+    width: 100%;
+    height: 100%;
+}
+
+.signup-page-container .right-container {
+    height: 100%;
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-container .signup-block .signup-header-block {
+    width: 100%;
+}
+
+.signup-header-block .menu-caption {
+    color: black;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.signup-page-container .right-container .signup-block {
+    width: 390px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-color-dark);
+}
+
+.right-container .signup-block form {
+    width: 100%;
+}
+
+.signup-block form label {
+    margin-bottom: 4px;
+}
+
+.signup-page-container .right-container .double-input-box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.right-container .single-input-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+}
+
+.right-container .double-input-box div {
+    display: flex;
+    flex-direction: column;
+}
+
+.signup-block .double-input-box input {
+    width: 178px;
+    height: 42px;
+}
+
+.signup-block .single-input-box input {
+    width: 100%;
+    height: 42px;
+}
+
+.signup-block input[type=submit] {
+    width: 100%;
+    height: 42px;
+    margin-top: 36px;
+    background: var(--red-main);
+    color: #FFFFFF;
+    font-weight: bold;
+    border: none;
+}
+
+.signup-block form input {
+    border: var(--fieldframe-light) 1px solid;
 }

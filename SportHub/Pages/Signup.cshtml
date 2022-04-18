@@ -1,0 +1,43 @@
+﻿@page
+@model SportHub.Pages.SignupModel
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<div class="signup-page-container">
+    <div class="left-container">
+        <img src="~/images/lebron-james.jpg" />
+    </div>
+    <div class="right-container">
+        <div class="signup-block">
+            <div class="signup-header-block">
+                <p class="menu-caption">Create Account</p>
+                <div>
+
+                </div>
+                <p class="body-text">Or use your email for registration:</p>
+            </div>
+            <form method="post">
+                <div class="double-input-box">
+                    <div>
+                        <label asp-for="signupCredentials.FirstName"></label>
+                        <input type="text" asp-for="signupCredentials.FirstName" />
+                    </div>
+                    <div>
+                        <label asp-for="signupCredentials.LastName"></label>
+                        <input type="text" asp-for="signupCredentials.LastName" />
+                    </div>
+                </div>
+                <div class="single-input-box">
+                    <label asp-for="signupCredentials.Email"></label>
+                    <input type="text" asp-for="signupCredentials.Email" />
+                </div>
+                <div class="single-input-box">
+                    <label asp-for="signupCredentials.PasswordHash"></label>
+                    <input type="password" asp-for="signupCredentials.PasswordHash" />
+                </div>
+                <input type="submit" class="small-button" value="SIGN UP" />
+            </form>
+        </div>
+    </div>
+</div>
