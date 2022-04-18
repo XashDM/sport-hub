@@ -50,10 +50,5 @@ namespace SportHub.Services
             return user;
 
         }
-
-        public string Test()
-        {
-            return "I'm connected";
-        }
     }
 }
