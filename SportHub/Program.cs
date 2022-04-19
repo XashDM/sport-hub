@@ -1,7 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+using SportHub.Domain;
+using SportHub.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<SportHubDBContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDB"));
+});
+
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddRazorPages()
+    .AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
