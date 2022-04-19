@@ -17,24 +17,24 @@
                 </div>
                 <p class="body-text">Or use your email for registration:</p>
             </div>
-            <form method="post">
+            <form id="signup-form" method="post">
                 <div class="double-input-box">
                     <div>
                         <label asp-for="signupCredentials.FirstName"></label>
-                        <input type="text" asp-for="signupCredentials.FirstName" />
+                        <input type="text" id="firstname-input" asp-for="signupCredentials.FirstName" />
                     </div>
                     <div>
                         <label asp-for="signupCredentials.LastName"></label>
-                        <input type="text" asp-for="signupCredentials.LastName" />
+                        <input type="text" id="lastname-input" asp-for="signupCredentials.LastName" />
                     </div>
                 </div>
                 <div class="single-input-box">
                     <label asp-for="signupCredentials.Email"></label>
-                    <input type="text" asp-for="signupCredentials.Email" />
+                    <input type="text" id="email-input" asp-for="signupCredentials.Email" />
                 </div>
                 <div class="single-input-box">
                     <label asp-for="signupCredentials.PasswordHash"></label>
-                    <input type="password" asp-for="signupCredentials.PasswordHash" />
+                    <input type="password" id="password-input" asp-for="signupCredentials.PasswordHash" />
                 </div>
                 <input type="submit" class="small-button" value="SIGN UP" />
             </form>
