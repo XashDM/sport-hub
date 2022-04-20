@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SportHub.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SportHub.Domain
 {
@@ -25,9 +20,7 @@ namespace SportHub.Domain
             modelBuilder.Entity<UserRole>()
                 .HasData(new UserRole { Id = 1, RoleName = "User" });
             modelBuilder.Entity<UserRole>()
-                .HasData(new UserRole { Id = 2, RoleName = "Admin" });
-                
+                .HasData(new UserRole { Id = 2, RoleName = "Admin" }); 
         }
-        
     }
 }
