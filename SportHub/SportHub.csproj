@@ -6,4 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\fonts\" />
+    <Folder Include="wwwroot\icons\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\fonts\OpenSans\OpenSans.woff" />
+    <None Include="wwwroot\temp.png" />
+  </ItemGroup>
+
 </Project>
