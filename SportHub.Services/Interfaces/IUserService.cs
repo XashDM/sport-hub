@@ -5,5 +5,6 @@ namespace SportHub.Services
     public interface IUserService
     {
         User CreateUser(string email, string passwordHash, string firstName, string lastName);
+        User GetUserByEmail(string email);
     }
 }

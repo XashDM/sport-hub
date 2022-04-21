@@ -13,6 +13,7 @@ builder.Services.AddDbContext<SportHubDBContext>(options =>
 });
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();

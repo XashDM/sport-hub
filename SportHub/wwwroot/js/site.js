@@ -1,8 +1,5 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
-
-const { error } = require("jquery");
-
 // Write your JavaScript code.
 
 
@@ -14,14 +11,46 @@ async function sha256(message) {
     return hashHex;
 }
 
+function ValidateEmail($email) {
+    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+    return emailReg.test($email);
+}
+
+function ValidatePassword(value) {
+    return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
+        && /[a-z]/.test(value) // has a lowercase letter
+        && /\d/.test(value) // has a digit
+}
+
 $("#signup-form").submit((event) => {
     event.preventDefault();
-
+    console.log("dhfjah");
     const firstName = $("#firstname-input").val().toString();
     const lastName = $("#lastname-input").val().toString();
     const emailAddress = $("#email-input").val().toString();
+    const password = $('#password-input').val().toString();
 
-    let passwordHash = sha256($('#password-input').val().toString()).then((res) => {
+    if (!firstName) {
+        console.error("Firstname is null");
+        return;
+    }
+
+    if (!lastName) {
+        console.error("Lastname is null");
+        return;
+    }
+
+    if (!(ValidateEmail(emailAddress) && emailAddress != null)) {
+        console.error("Invalid email");
+        return;
+    }
+
+    if (!ValidatePassword(password)) {
+        console.error("Invalid password");
+        return;
+    }
+
+    let passwordHash = sha256(password).then((res) => {
         passwordHash = res;
         SignUp(firstName, lastName, emailAddress, passwordHash);
     });

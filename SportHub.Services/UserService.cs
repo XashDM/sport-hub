@@ -38,6 +38,13 @@ namespace SportHub.Services
             return user;
         }
 
+        public User GetUserByEmail(string email)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.Email == email);
+
+            return user;
+        }
+
         private bool IsExistingEmail(string email)
         {
             return _context.Users.Where(u => u.Email == email).Any();
