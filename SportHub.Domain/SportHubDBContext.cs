@@ -8,6 +8,7 @@ namespace SportHub.Domain
         public SportHubDBContext(DbContextOptions options) : base(options) { }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Article> Articles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

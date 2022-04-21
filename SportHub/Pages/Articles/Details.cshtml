@@ -1,0 +1,91 @@
+﻿@page
+@model SportHub.Pages.Articles.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SportHub</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SportHub.styles.css" asp-append-version="true" />
+</head>
+
+
+<div class="main">
+
+        
+    <div class="content">
+        <div class="topInfo">
+            <div class="categoryLink">
+                @Html.DisplayFor(model => model.Article.Category)
+            </div>
+            <div class="subcategoryLink">
+                 <b>>@Html.DisplayFor(model => model.Article.Subcategory)</b>
+            </div>
+        </div>
+        
+        <div class="imageContent">
+            <div class="ImageArticle">
+                <img src="@Html.DisplayFor(model => model.Article.Image)" alt="Italian Trulli">
+            </div>
+          
+            <div class="infoImage">
+                <div class="published">
+                    <b>
+                        Published / @Html.DisplayFor(model => model.Article.PostedDate)
+                    </b>
+                </div>
+                <div class="titleInfo">
+                    <b>
+                        @Html.DisplayFor(model => model.Article.Title)
+                    </b>
+                </div>
+                <div class="bottomInfo">
+                    
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias aut, 
+                        repellat ipsum facere voluptate dicta obcaecati deserunt nobis suscipit eaque?
+                    
+                </div> 
+            </div>
+            <div class="textUnderImage">
+                @Html.DisplayFor(model => model.Article.Text)
+            </div>
+        </div>
+    </div>
+    <div class="backgroundText">
+        News
+    </div>
+    <div class="backgroundTextNews">
+        @Html.DisplayFor(model => model.Article.Category)
+    </div>
+    <div class="comments">
+        <div class="countComments">
+            <b>COMMENTS (0)</b>
+        </div>
+        <div class="sortBy">
+            Sort by: 
+            <select>
+                <option>Most popular</option>
+                <option>Oldest first</option>
+                <option>Newest first</option>
+            </select>
+        </div>
+        <div class="yourCommects">
+
+        </div>
+        <div class="bodyCommects">
+
+        </div>
+        <div class="bottom_comments">
+
+        </div>
+    </div>
+</div>
+<div class="bottomInfo">
+    <a asp-page="./Edit" asp-route-id="@Model.Article.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
