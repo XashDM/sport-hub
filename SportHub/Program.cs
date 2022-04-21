@@ -14,8 +14,8 @@ builder.Services.AddDbContext<SportHubDBContext>(options =>
 
 builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddRazorPages()
-    .AddRazorRuntimeCompilation();
+/*builder.Services.AddRazorPages()
+    .AddRazorRuntimeCompilation();*/
 
 var app = builder.Build();
 
