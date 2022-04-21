@@ -1,11 +1,9 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-.navbar {
+﻿.navbar {
     height: 83px;
     border-bottom: solid;
     border-color: #ededed;
     border-width: 1px;
+    position: sticky;
 }
 
 .container {
@@ -75,8 +73,6 @@ button#search-button {
     display: flex;
 }
 
-
-
 .sidebar {
     display: block;
     width: 220px;
@@ -134,7 +130,7 @@ footer {
   color: white;
 }
 
-
 main {
     width: 100%;
+
 }

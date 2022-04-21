@@ -17,8 +17,6 @@
                         <a class="logo-caption" asp-page="/Index">SportHub</a>
                     </div>
                 </div>
-
-
                 <div class="search-box">
                     <form style="display: flex; margin: auto;">
                         <button id="search-button"><img src="icons/search-icon.png" class="header-icons" alt="Search!"/></button>
@@ -34,12 +32,10 @@
                         <a href="@Url.ActionLink("#")"><img src="icons/twitter-logo.png" class="header-icons" alt="Twitter" /></a>
                     </div>
                 </div>
-
                 <div class="account-box">
                     <button class="small-button">Sign in</button>
                     <button class="small-button-inversed">Sign up</button>
                 </div>
-
                 <div class="language-box">
                     <form style="margin: auto" action="">
                       <select id="language">
@@ -49,7 +45,6 @@
                       </select>
                    </form>
                 </div>
-
             </div>
         </nav>
     </header>
@@ -87,22 +82,17 @@
             @RenderBody()
         </main>
     </div>
-
     <footer>
         <div class="navbar-logo">
              <a class="logo-caption" asp-page="/Index">SportHub</a>
         </div>
-
         <div class="copyright-box">
             <p class="regular-text">Copyright ©2022 SportHub</p>
         </div>
     </footer>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
