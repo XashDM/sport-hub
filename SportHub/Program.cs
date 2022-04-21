@@ -1,4 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using SportHub.Config.JwtAuthentication;
 using SportHub.Domain;
 using SportHub.Services;
 
@@ -13,9 +20,18 @@ builder.Services.AddDbContext<SportHubDBContext>(options =>
 });
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
+builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();
 
 /*builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();*/
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer();
 
 var app = builder.Build();
 
@@ -32,6 +48,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
