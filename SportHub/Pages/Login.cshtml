@@ -1,0 +1,58 @@
+﻿@page
+@model SportHub.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login User";
+}
+<div class="d-md-flex half">
+    <div class="rectang"> Spots Hub</div>
+   <div class="bg" style="background-image: url('@Url.Content("~/images/photo.jpg")')">
+</div>
+<div class="contents">
+   <div class="container">
+      <div class="row align-items-center justify-content-center">
+         <div class="col-md-12">
+            <div class="form-block mx-auto">
+               <div class="title">
+                  <h3>Log in to Sports Hub</h3>
+               </div>
+               <div class="icons">
+                  <img src="@Url.Content("~/images/FB.png")" />
+                  <img src="@Url.Content("~/images/Gmail.png")" />
+               </div>
+               <form method="post" id="loginForm">
+                  <label asp-for="loginCredentials.Email">Email Address</label>
+                  <div class="input_container">
+                     <input
+                        class="input_field" 
+                        placeholder="Email@gmail.com"
+                        type="email"
+                        name="Email"
+                        id="field_email"
+                        asp-for="loginCredentials.Email"
+                        required
+                        />
+                        <div class="text-dander custom" asp-validation-for="loginCredentials.Email"></div>
+                  </div>
+                  
+                  <label asp-for="loginCredentials.PasswordHash">Password</label>
+                  <span class="ml-auto "><a href="#" class="forgot-pass">Forgot password?</a></span> 
+                  <div class="input_container">
+                     <input
+                        required
+                        placeholder="8 + characters (letters and numbers)"
+                        type="password"
+                        name="Password"
+                        id="field_password"
+                        class="input_field"
+                        asp-for="loginCredentials.PasswordHash"
+                        />
+                        <div class="text-dander custom" asp-validation-for="loginCredentials.PasswordHash"></div>
+                  </div>
+                  <input type="submit" value="Log In" class="btn btn-block btn-primary"/>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
