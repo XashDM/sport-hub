@@ -1,37 +1,24 @@
 ﻿using FluentEmail.Core;
-using FluentEmail.Smtp;
+using Microsoft.AspNetCore.Mvc;
 using SportHub.Domain.Models;
 using System;
-using System.Net;
-using System.Net.Mail;
+using System.Globalization;
+using System.IO;
 
 namespace SportHub.Services
 {
     public class EmailService : IEmailService
     {
-
-        public async void SendSignUpEmail(User user)
+        public async void SendSignUpEmail(User user, [FromServices] IFluentEmail mailer)
         {
-            if (user == null)
-            {
-                throw new Exception("User was not provided.");
-            }
+            var emailBody = File.ReadAllText($"{Directory.GetCurrentDirectory()}/wwwroot/emails/signupEmail.html")
+                .Replace("{DateRegistered}", DateTime.Now.ToString("D",
+                  CultureInfo.CreateSpecificCulture("en-US")));
 
-            var sender = new SmtpSender(() => new SmtpClient("smtp.gmail.com")
-            {
-                UseDefaultCredentials = false,
-                Port = 587,
-                Credentials = new NetworkCredential("nickyr.beast@gmail.com", "***"),
-                EnableSsl = true
-            });
-
-            Email.DefaultSender = sender;
-
-            var email = Email
-                .From("nickyr.beast@gmail.com", "SportHub SignUp")
+            var email = mailer
                 .To(user.Email, user.FirstName)
-                .Subject("SignUp verification")
-                .Body("Just testing out");
+                .Subject("Signup verification")
+                .UsingTemplate(emailBody, new { });
 
             await email.SendAsync();
         }

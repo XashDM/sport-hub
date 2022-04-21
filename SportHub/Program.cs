@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SportHub.Domain;
 using SportHub.Services;
+using System.Net;
+using System.Net.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,18 @@ builder.Services.AddDbContext<SportHubDBContext>(options =>
 });
 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
+
+builder.Services
+    .AddFluentEmail("sporthub.mailservice@gmail.com", "SportHub Signup")
+    .AddRazorRenderer()
+    .AddSmtpSender(new SmtpClient("smtp.gmail.com")
+    {
+        UseDefaultCredentials = false,
+        Port = 587,
+        Credentials = new NetworkCredential("sporthub.mailservice@gmail.com", "steamisjustavaporizedwater123"),
+        EnableSsl = true
+    });
 
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();

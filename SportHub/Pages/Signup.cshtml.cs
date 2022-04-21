@@ -1,3 +1,4 @@
+using FluentEmail.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Models;
@@ -9,23 +10,32 @@ namespace SportHub.Pages
     {
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
+        private readonly IFluentEmail _mailer;
 
-        public SignupModel(IUserService userService, IEmailService emailService)
+        public SignupModel(IUserService userService, IEmailService emailService, [FromServices] IFluentEmail mailer)
         {
             _userService = userService;
             _emailService = emailService;
+            _mailer = mailer;
         }
         [BindProperty]
         public SignupCredentials signupCredentials { get; set; }
         public void OnGet()
         {
+
         }
 
         public void OnPost(SignupCredentials credentials)
         {
-            //var user = _userService.CreateUser(credentials.Email, credentials.PasswordHash, credentials.FirstName, credentials.LastName);
-            var user = _userService.GetUserByEmail(credentials.Email);
-            _emailService.SendSignUpEmail(user);
+            try
+            {
+                var user = _userService.CreateUser(credentials.Email, credentials.PasswordHash, credentials.FirstName, credentials.LastName);
+                _emailService.SendSignUpEmail(user, _mailer);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
