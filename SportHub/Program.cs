@@ -7,7 +7,8 @@ using System.Net.Mail;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages()
+    .AddRazorRuntimeCompilation();
 
 builder.Services.AddDbContext<SportHubDBContext>(options =>
 {
@@ -27,9 +28,6 @@ builder.Services
         Credentials = new NetworkCredential("sporthub.mailservice@gmail.com", "steamisjustavaporizedwater123"),
         EnableSsl = true
     });
-
-builder.Services.AddRazorPages()
-    .AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
