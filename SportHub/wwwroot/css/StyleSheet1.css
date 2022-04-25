@@ -1,0 +1,182 @@
+﻿ul {
+    z-index: 0;
+    list-style-type: none;
+    padding-left: 0px;
+    width: 160px;
+    margin-bottom: 5px;
+    margin-top: 0px;
+}
+
+.Category-Contener, .Subcategory-Contene, .Team-Contener {
+    position: absolute;
+    -webkit-transform-origin: top;
+    width: 160px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.Category-Contener {
+}
+
+.Subcategory-Contener {
+    position: absolute;
+    -webkit-transform: translate(60px,0px);
+    -webkit-transform-origin: top;
+    left: 100%;
+    top: 0px;
+}
+
+.Team-Contener {
+    position: absolute;
+    -webkit-transform: translate(60px,0px);
+    -webkit-transform-origin: top;
+    left: 100%;
+    top: 0px;
+}
+
+
+.item {
+    transition: box-shadow .3s;
+    background: #FFFFFF;
+    border: 0.5px solid #D4D9E2;
+    text-align: center;
+    font-size: 100%;
+    width: 100%;
+    margin-bottom: 24px;
+    position: relative;
+    width: 100%;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    -webkit-transform-origin: top;
+}
+
+.other:before {
+    content: "";
+    width: 30px;
+    height: 1px;
+    right: 100%;
+    top: 50%;
+    position: absolute;
+    border-top: 0.5px dashed #B2B2B2;
+}
+
+.item:hover {
+    border: 0.5px solid #FFFFFF;
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+}
+
+.button-open-form {
+    padding: 0;
+    margin-bottom: 10px;
+    text-align: center;
+    color: blue;
+    background: #eee;
+    opacity: 0.7;
+    position: absolute;
+    top: -56px;
+    width: 158px;
+    height: 31px;
+    border: 0.5px dashed #B2B2B2;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.SideLine {
+    background: none;
+    position: absolute;
+    width: 5px;
+    top: 17.5px;
+    left: -32px;
+    border-left: 0.5px dashed #B2B2B2;
+}
+
+    .SideLine:before {
+        content: "";
+        width: 30px;
+        height: 1px;
+        right: 100%;
+        top: 0;
+        position: absolute;
+        border-top: 0.5px dashed #B2B2B2;
+    }
+
+#screen {
+    margin-top: 100px;
+    margin-left: 30px;
+}
+
+#formid {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.form-to-add {
+    background-color: #fefefe;
+    margin: 5% auto 5%;
+    border: 1px solid #888;
+    width: 400px;
+    height: 250px;
+}
+
+.text-lable {
+    width: 100%;
+    text-align: center;
+    float: left;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.main-content {
+    width: 80%;
+    margin: 10% auto 10%;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.cancelbtn {
+    padding: 10px 20px;
+    float: right;
+    background: white;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+    .cancelbtn:hover, .addbutton:hover {
+        opacity: 0.7;
+    }
+
+.addbutton {
+    background: #D72130;
+    padding: 10px 20px;
+    float: right;
+    background: #D72130;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+}

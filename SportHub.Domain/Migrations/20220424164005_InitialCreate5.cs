@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SportHub.Domain.Migrations
 {
-    public partial class initial : Migration
+    public partial class InitialCreate5 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,6 +26,26 @@ namespace SportHub.Domain.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Articles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NavigationItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FatherItemId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NavigationItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NavigationItems_NavigationItems_FatherItemId",
+                        column: x => x.FatherItemId,
+                        principalTable: "NavigationItems",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -92,6 +112,11 @@ namespace SportHub.Domain.Migrations
                 values: new object[] { 2, "Admin" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_NavigationItems_FatherItemId",
+                table: "NavigationItems",
+                column: "FatherItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleName",
                 table: "UserRoles",
                 column: "RoleName",
@@ -113,6 +138,9 @@ namespace SportHub.Domain.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Articles");
+
+            migrationBuilder.DropTable(
+                name: "NavigationItems");
 
             migrationBuilder.DropTable(
                 name: "UserUserRole");

@@ -12,8 +12,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    [Migration("20220420083132_initial")]
-    partial class initial
+    [Migration("20220424164005_InitialCreate5")]
+    partial class InitialCreate5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -62,6 +62,32 @@ namespace SportHub.Domain.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("FatherItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FatherItemId");
+
+                    b.ToTable("NavigationItems");
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.User", b =>
@@ -146,6 +172,15 @@ namespace SportHub.Domain.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("UserUserRole");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
+                {
+                    b.HasOne("SportHub.Domain.Models.NavigationItem", "FatherItem")
+                        .WithMany()
+                        .HasForeignKey("FatherItemId");
+
+                    b.Navigation("FatherItem");
                 });
 
             modelBuilder.Entity("UserUserRole", b =>
