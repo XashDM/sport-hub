@@ -21,18 +21,6 @@
             margin-bottom: 36px;
         }
 
-        ul li:before {
-            content: '\2713';
-            display: block;
-            color: #D72130;
-        }
-
-        ul li {
-            list-style-type: none;
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
         .content {
             margin: 0 auto;
             width: 600px;
@@ -77,10 +65,10 @@
             <p class="welcome-text-date">{DateRegistered}</p>
         </div>
         <div class="container">
-            <ul><li class="tick"></li></ul>
+            <span style="color: #D72130; font-weight: 600; font-size: 24px;">&#x2713;</span>
             <p class="main-text-logo">Sports Hub</p>
             <p class="main-text">Now you will receive the latest news in the world of sport</p>
-            <a href="https://localhost:7128/index">GO TO WEBSITE</a>
+            <a href="{loginpage}">GO TO WEBSITE</a>
         </div>
     </div>
 </body>

@@ -12,8 +12,8 @@ namespace SportHub.Services
         public async void SendSignUpEmail(User user, [FromServices] IFluentEmail mailer)
         {
             var emailBody = File.ReadAllText($"{Directory.GetCurrentDirectory()}/wwwroot/emails/signupEmail.html")
-                .Replace("{DateRegistered}", DateTime.Now.ToString("D",
-                  CultureInfo.CreateSpecificCulture("en-US")));
+                .Replace("{DateRegistered}", DateTime.Now.ToString("MMMM dd, yyyy"))
+                .Replace("{loginpage}", "https://localhost:7128/login");
 
             var email = mailer
                 .To(user.Email, user.FirstName)
