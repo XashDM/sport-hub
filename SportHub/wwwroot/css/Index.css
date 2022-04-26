@@ -11,6 +11,13 @@
     z-index: -1;
 }
 
+.news-label {
+    margin-left: -100px;
+    top: 910px;
+    position: absolute;
+    z-index: -1;
+}
+
 .news-column{
     display: flex;
     width: 100%;
