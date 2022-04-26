@@ -28,6 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\Index.css" />
+    <None Include="wwwroot\css\_UserSideLayout.css" />
     <None Include="wwwroot\fonts\OpenSans\OpenSans.woff" />
     <None Include="wwwroot\temp.png" />
   </ItemGroup>
