@@ -172,6 +172,7 @@ option:hover {
 
 .newstag {
     background-color: #2f2f2f;
+    display: flex;
     color: white;
     font-family: 'Open Sans';
     font-style: normal;
@@ -180,6 +181,8 @@ option:hover {
     width: 160px;
     height: 50px;
     margin-bottom: -50px;
+    justify-content: center;
+    position: relative;
 }
 
 .box-shadow:hover {

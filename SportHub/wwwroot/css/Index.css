@@ -274,6 +274,34 @@
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 18px;
     line-height: 19px;
+}
+
+.photo-of-the-day-tag {
+    display: flex;
+    color: white;
+    margin-left: 35px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    width: 84px;
+    height: 104px;
+    margin-bottom: -109px;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.photo-of-the-day-tag img {
+    position: relative;
+}
+
+.photo-of-the-day-tag p {
+    position: relative;
+    margin-top: 25px;
+    margin-bottom: 9px;
+    left: -138px;
+    z-index: 3;
 }
