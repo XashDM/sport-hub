@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SportHub.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="../Pages/Shared/_UserSideLayout.cshtml.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -19,7 +20,7 @@
                 </div>
                 <div class="search-box">
                     <form style="display: flex; margin: auto;">
-                        <button id="search-button"><img src="icons/search-icon.png" class="header-icons" alt="Search!"/></button>
+                        <button id="search-button"><img src="" class="header-icons" alt="Search!"/></button>
                         <input type="search" id="header-search-field" class="lable" placeholder="Search..."/>
                     </form>
                 </div>
@@ -27,9 +28,9 @@
                 <div class="social-media-box">
                     <div class="icon-keeper">
                         <a class="caption" href="@Url.ActionLink("#")">Share...</a>
-                        <a href="@Url.ActionLink("#")"><img src="icons/facebook-logo.png" class="header-icons" alt="Facebook" /></a>
-                        <a href="@Url.ActionLink("#")"><img src="icons/google-logo.png" class="header-icons" alt="Google+" /></a>
-                        <a href="@Url.ActionLink("#")"><img src="icons/twitter-logo.png" class="header-icons" alt="Twitter" /></a>
+                        <a href="@Url.ActionLink("#")"><img src="~icons/facebook-logo.png" class="header-icons" alt="Facebook" /></a>
+                        <a href="@Url.ActionLink("#")"><img src="~icons/google-logo.png" class="header-icons" alt="Google+" /></a>
+                        <a href="@Url.ActionLink("#")"><img src="~icons/twitter-logo.png" class="header-icons" alt="Twitter" /></a>
                     </div>
                 </div>
                 <div class="account-box">

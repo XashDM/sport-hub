@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using SportHub.Config.JwtAuthentication;
 using SportHub.Domain;
 using SportHub.Services;
+using SportHub.Services.ArticleServices;
 using SportHub.Services.Interfaces;
 using SportHub.Services.NavigationItemServices;
 
@@ -25,6 +26,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
 builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();
 builder.Services.AddScoped<INavigationItemService, MainNavigationItemService>();
+builder.Services.AddScoped<GetArticleService, GetArticleService>();
 
 /*builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();*/

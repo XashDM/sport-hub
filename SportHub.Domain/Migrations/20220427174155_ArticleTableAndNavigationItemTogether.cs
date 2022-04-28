@@ -5,27 +5,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SportHub.Domain.Migrations
 {
-    public partial class initial : Migration
+    public partial class ArticleTableAndNavigationItemTogether : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Articles",
+                name: "NavigationItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Subcategory = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Team = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FatherItemId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Articles", x => x.Id);
+                    table.PrimaryKey("PK_NavigationItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NavigationItems_NavigationItems_FatherItemId",
+                        column: x => x.FatherItemId,
+                        principalTable: "NavigationItems",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -55,6 +56,28 @@ namespace SportHub.Domain.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Articles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReferenceItemId = table.Column<int>(type: "int", nullable: true),
+                    ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContentText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Articles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Articles_NavigationItems_ReferenceItemId",
+                        column: x => x.ReferenceItemId,
+                        principalTable: "NavigationItems",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -92,6 +115,16 @@ namespace SportHub.Domain.Migrations
                 values: new object[] { 2, "Admin" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Articles_ReferenceItemId",
+                table: "Articles",
+                column: "ReferenceItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NavigationItems_FatherItemId",
+                table: "NavigationItems",
+                column: "FatherItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleName",
                 table: "UserRoles",
                 column: "RoleName",
@@ -116,6 +149,9 @@ namespace SportHub.Domain.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserUserRole");
+
+            migrationBuilder.DropTable(
+                name: "NavigationItems");
 
             migrationBuilder.DropTable(
                 name: "UserRoles");

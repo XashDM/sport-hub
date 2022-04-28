@@ -30,28 +30,19 @@ namespace SportHub.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Category")
+                    b.Property<string>("ContentText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
+                    b.Property<string>("ImageLink")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Subcategory")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Team")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ReferenceItemId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -59,7 +50,35 @@ namespace SportHub.Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ReferenceItemId");
+
                     b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("FatherItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FatherItemId");
+
+                    b.ToTable("NavigationItems");
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.User", b =>
@@ -144,6 +163,24 @@ namespace SportHub.Domain.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("UserUserRole");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.Article", b =>
+                {
+                    b.HasOne("SportHub.Domain.Models.NavigationItem", "ReferenceItem")
+                        .WithMany()
+                        .HasForeignKey("ReferenceItemId");
+
+                    b.Navigation("ReferenceItem");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
+                {
+                    b.HasOne("SportHub.Domain.Models.NavigationItem", "FatherItem")
+                        .WithMany()
+                        .HasForeignKey("FatherItemId");
+
+                    b.Navigation("FatherItem");
                 });
 
             modelBuilder.Entity("UserUserRole", b =>

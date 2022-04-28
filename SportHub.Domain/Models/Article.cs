@@ -7,14 +7,13 @@ namespace SportHub.Domain.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Category { get; set; }
-        public string Subcategory { get; set; }
-        public string Team { get; set; }
-        public string Image { get; set; }
+        public int? ReferenceItemId { get; set; }
+        public virtual NavigationItem? ReferenceItem { get; set; }
+        public string ImageLink { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
-        public string Text { get; set; }
+        public string ContentText { get; set; }
         [Required]
         [DataType(DataType.Date)]
         public DateTime PostedDate { get; set; }
