@@ -14,9 +14,7 @@ async function sha256(message) {
 
 $("#loginForm").submit((event) => {
     event.preventDefault();
-
     const emailAddress = $("#field_email").val().toString();
-
     let passwordHash = sha256($('#field_password').val().toString()).then((res) => {
         passwordHash = res;
         Login(emailAddress, passwordHash);
@@ -37,14 +35,50 @@ function Login(email, passwordHash) {
             'PasswordHash': passwordHash
         },
         success(token) {
-            console.log(token);
             localStorage.setItem('Jwt Token', token);
-            window.location.href = '/Index';
+            window.location.href = '/Index'
         },
         error(errorThrown) {
             console.log(errorThrown);
+            $("#form-result").html('Incorrect user ID or password. Try again.');
         }
     });
 };
 
+
+function userData() {
+    var token = localStorage.getItem('Jwt Token');
+    if (token) {
+        var parseToken = JSON.parse(atob(token.split('.')[1]));
+    }
+    return parseToken;
+}
+
+function displayData() {
+    console.log(userData());
+    document.getElementById("fullName").textContent = userData().name + ' ' + userData().family_name;
+    document.getElementById("email").textContent = userData().email;
+    document.getElementById("username").textContent = userData().name + ' ' + userData().family_name;
+}
+
+function displayLogInOut() {
+    var token = localStorage.getItem('Jwt Token');
+    if (token) {
+        var parseToken = JSON.parse(atob(token.split('.')[1]));
+        if (Date.now() < parseToken['exp']* 1000) {
+            $("#buttons").hide();
+            $("#profile").show();
+        }
+        else {
+            window.clearInterval(timer);
+            $("#buttons").show();
+            $("#profile").hide();
+        }
+    }
+    else {
+        $("#buttons").show();
+        $("#profile").hide();
+        window.localStorage.removeItem("Jwt Token");
+    }
+}
 

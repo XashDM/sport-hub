@@ -22,8 +22,14 @@
     <ProjectReference Include="..\SportHub.Services\SportHub.Services.csproj" />
   </ItemGroup>
 
+ <ItemGroup>
+    <Folder Include="wwwroot\fonts\" />
+    <Folder Include="wwwroot\icons\" />
+  </ItemGroup>
+
   <ItemGroup>
-    <Folder Include="wwwroot\images\" />
+    <None Include="wwwroot\fonts\OpenSans\OpenSans.woff" />
+    <None Include="wwwroot\temp.png" />
   </ItemGroup>
 
 </Project>

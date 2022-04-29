@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SportHub</title>
+    <link rel="stylesheet" href="" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SportHub.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-logo">
+                    <div style="margin-top: 26px">
+                        <a class="logo-caption" asp-page="/Index">SportHub</a>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <form style="display: flex; margin: auto;">
+                        <button id="search-button"><img src="icons/search-icon.png" class="header-icons" alt="Search!"/></button>
+                        <input type="search" id="header-search-field" class="lable" placeholder="Search..."/>
+                    </form>
+                </div>
+
+                <div class="social-media-box">
+                    <div class="icon-keeper">
+                        <a class="caption" href="@Url.ActionLink("#")">Share...</a>
+                        <a href="@Url.ActionLink("#")"><img src="icons/facebook-logo.png" class="header-icons" alt="Facebook" /></a>
+                        <a href="@Url.ActionLink("#")"><img src="icons/google-logo.png" class="header-icons" alt="Google+" /></a>
+                        <a href="@Url.ActionLink("#")"><img src="icons/twitter-logo.png" class="header-icons" alt="Twitter" /></a>
+                    </div>
+                </div>
+                <div class="account-box">
+                    <div class="buttons" id="buttons">
+                         <button class="small-button" onclick="window.location='/Login';">Sign in</button>
+                    <button class="small-button-inversed">Sign up</button>
+                </div>
+                    <div class="profile" id="profile"> 
+                       <div class="dropdown" id="dropdown">
+                          <img src="https://www.tutorialrepublic.com/examples/images/avatar/2.jpg" class="avatar" alt="Avatar">
+                          <button class="dropbtn" id="fullName"></button>
+                          <div class="dropdown-content" id="cont">
+                              <div class=userInfo>
+                                  <span id="username" class="infoName"></span> <br /><span id="email" class="infoMail" ></span>
+                              </div>
+                          <a href="#">View profile </a>
+                          <a href="#">Change password</a>
+                          <a href="#">My surveys</a>
+                          <a href="#">Team hub</a>
+                          <hr class="solid">
+                          <a href="#">Log out</a>
+                          </div>
+                          <img class="polygon" id="pol" src="@Url.Content("~/images/Polygon.png")" />
+                        </div>
+                    </div>
+                </div>
+                <div class="language-box">
+                    <form style="margin: auto" action="">
+                      <select id="language">
+                        <option value="EN">EN</option>
+                        <option value="UA">UA</option>
+                        <option value="FR">FR</option>
+                      </select>
+                   </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+           <ul class="menu-caption">
+               <li>Home</li>
+               <li>NBA</li>
+               <li>NFL</li>
+               <li>MLB</li>
+               <li>NHL</li>
+               <li>CBB</li>
+               <li>CFB</li>
+               <li>NASCAR</li>
+               <li>GOLF</li>
+               <li>SOCCER</li>
+               <li>TEAM HUB</li>
+               <li>LIFESTYLE</li>
+               <li>DEALBOOK</li>
+               <li>VIDEO</li>
+           </ul>
+        <div class="sidebar-socials">
+            <p class="caption">Follow:</p>
+            <div>
+                <a href="@Url.ActionLink("#")"><img src="icons/facebook-logo.png" class="header-icons" alt="Facebook" /></a>
+                <a href="@Url.ActionLink("#")"><img src="icons/google-logo.png" class="header-icons" alt="Google+" /></a>
+            </div>
+            <div>
+                <a href="@Url.ActionLink("#")"><img src="icons/twitter-logo.png" class="header-icons" alt="Twitter" /></a>
+                <a href="@Url.ActionLink("#")"><img src="icons/youtube-logo.png" class="header-icons" alt="Youtube" /></a>
+           </div>
+        </div>
+    </div>
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+    <footer>
+        <div class="navbar-logo">
+             <a class="logo-caption" asp-page="/Index">SportHub</a>
+        </div>
+        <div class="copyright-box">
+            <p class="regular-text">Copyright ©2022 SportHub</p>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            displayLogInOut();
+            displayData();
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

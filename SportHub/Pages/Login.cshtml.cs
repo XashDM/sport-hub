@@ -5,6 +5,10 @@ using SportHub.Config.JwtAuthentication;
 using Microsoft.EntityFrameworkCore;
 using SportHub.Models;
 using SportHub.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using SportHub.Domain.Models;
 
 namespace SportHub.Pages
 {
@@ -21,6 +25,7 @@ namespace SportHub.Pages
             _logger = logger;
             _userService = userService;
             _jwtSigner = jwtSigner;
+           
         }
 
         public void OnGet()
