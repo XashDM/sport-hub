@@ -190,10 +190,6 @@ option:hover {
     box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.110932);
 }
 
-html {
-  font-size: 14px;
-}
-
 /*login page*/
 .forgot-pass {
     -webkit-transition: .3s all ease;
