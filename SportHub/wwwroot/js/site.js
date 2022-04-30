@@ -73,7 +73,3 @@ function SignUp(firstName, lastName, email, passwordHash) {
         }
     });
 };
-
-function successCallback(responce) {
-    localStorage.setItem("efqf", responce);
-}
