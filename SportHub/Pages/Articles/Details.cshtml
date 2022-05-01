@@ -15,54 +15,54 @@
 </head>
 
 
-<div class="main">   
-    <div class="content">
-        <div class="top-info">
-            <div class="category-link">
+<div class="get-article-main">   
+    <div class="get-article-content">
+        <div class="get-article-top-info">
+            <div class="get-article-category-link">
                 @Html.DisplayFor(model => model.category)
             </div>
-            <div class="subcategory-link">
+            <div class="get-article-subcategory-link">
                  <b>>@Html.DisplayFor(model => model.subcategory)</b>
             </div>
         </div>
-        <div class="image-content">
-            <div class="image-article">
+        <div class="get-article-image-content">
+            <div class="get-article-image-article">
                 <img src="@Html.DisplayFor(model => model.Article.ImageLink)" alt="Italian Trulli">
             </div>
           
-            <div class="info-image">
-                <div class="published">
+            <div class="get-article-info-image">
+                <div class="get-article-published">
                     <b>
                         Published / @Html.DisplayFor(model => model.Article.PostedDate)
                     </b>
                 </div>
-                <div class="title-info">
+                <div class="get-article-title-info">
                     <b>
                         @Html.DisplayFor(model => model.Article.Title)
                     </b>
                 </div>
-                <div class="bottom-info">
+                <div class="get-article-bottom-info">
                     
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias aut, 
                         repellat ipsum facere voluptate dicta obcaecati deserunt nobis suscipit eaque?
                 </div> 
             </div>
-            <div class="text-under-image">
+            <div class="get-article-text-under-image">
                 @Html.DisplayFor(model => model.Article.ContentText)
             </div>
         </div>
     </div>
-    <div class="background-text">
+    <div class="get-article-background-text">
         News
     </div>
-    <div class="background-text-news">
+    <div class="get-article-background-text-news">
         @Html.DisplayFor(model => model.category)
     </div>
-    <div class="comments">
-        <div class="count-comments">
+    <div class="get-article-comments">
+        <div class="get-article-count-comments">
             <b>COMMENTS (0)</b>
         </div>
-        <div class="sort-by">
+        <div class="get-article-sort-by">
             Sort by: 
             <select>
                 <option>Most popular</option>
@@ -70,13 +70,13 @@
                 <option>Newest first</option>
             </select>
         </div>
-        <div class="your-commects">
+        <div class="get-article-your-commects">
 
         </div>
-        <div class="body-commects">
+        <div class="get-article-body-commects">
 
         </div>
-        <div class="bottom-comments">
+        <div class="get-article-bottom-comments">
 
         </div>
     </div>

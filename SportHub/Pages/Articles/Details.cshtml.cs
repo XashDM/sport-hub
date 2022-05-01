@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Domain.Models;
 using SportHub.Services.ArticleServices;
+using SportHub.Services.Interfaces;
 
 namespace SportHub.Pages.Articles
 {
     public class DetailsModel : PageModel
     {
-        private readonly GetArticleService _service;
-        public DetailsModel(Domain.SportHubDBContext context, GetArticleService service)
+        private readonly IGetArticleService _service;
+        public DetailsModel(IGetArticleService service)
         {
             _service = service;
         }
-
 
         public Article Article { get; set; }
         public string team;
@@ -26,8 +26,6 @@ namespace SportHub.Pages.Articles
             {
                 return NotFound();
             }
-
-
             Article = _service.GetArticle(id);
             try
             {

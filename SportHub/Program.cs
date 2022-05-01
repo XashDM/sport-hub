@@ -26,7 +26,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
 builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();
 builder.Services.AddScoped<INavigationItemService, MainNavigationItemService>();
-builder.Services.AddScoped<GetArticleService, GetArticleService>();
+builder.Services.AddScoped<IGetArticleService, GetArticleService>();
 
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();

@@ -2,7 +2,7 @@
 
 namespace SportHub.Services.Interfaces
 {
-    internal interface IGetArticleService
+    public interface IGetArticleService
     {
         Article GetArticle(int? id);
         string GetArticlesTeam(int? id);
