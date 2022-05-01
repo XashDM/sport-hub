@@ -1,0 +1,307 @@
+﻿.content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.category-name {
+    margin-left: -100px;
+    margin-top: 78px;
+    position: absolute;
+    z-index: -1;
+}
+
+.news-label {
+    margin-left: -100px;
+    top: 910px;
+    position: absolute;
+    z-index: -1;
+}
+
+.news-column{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin-left: 6%;
+    margin-top: 85px;
+}
+
+.primary-content-area {
+    width: 100%;
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.main-column {
+    display: flex;
+    width: 70%;
+    flex-direction: column;
+}
+
+.main-column hr{
+    border-top: solid;
+    border-color: #b2b2b2;
+    border-width: 1px;
+    border-bottom: none;
+    width: 100%;
+}
+
+.feedback-column {
+    width: 28%;
+}
+
+.separator-lable {
+    width: 20%;
+    margin: -28px auto auto auto;
+    background-color: white;
+    border: 1px;
+    border-color: #b2b2b2;
+    border-radius: 25px;
+    border-style: solid;
+    height: 40px;
+}
+
+.separator-lable p {
+    margin-top: calc(19px/2);
+    text-align: center;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+}
+
+.main-article-photo {
+    width: 100%;
+    height: auto;
+    z-index: -1;
+    position: relative;
+}
+
+.medium-news-container {
+    display: flex;
+    width: 100%;
+}
+
+.medium-news-container li {
+    list-style-type: none;
+    width: 23%
+}
+
+.medium-news-container ul {
+    display: flex;
+    width: 100%;
+    padding: 0;
+    flex-direction: row;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.medium-news-box {
+    display: flex;
+    flex-direction: column;
+    height: 335px;
+}
+
+.medium-news-img{
+    height: 120%;
+}
+
+.medium-news-box p{
+    margin: 0% 7% 7% 7%;
+}
+
+.medium-news-box h3 {
+    margin: 2% auto 3% 7%;
+}
+
+.floating-icon {
+    position: relative;
+    margin-bottom: 25px;
+    margin-right: 25px;
+    margin-left: auto;
+    margin-top: auto;
+    opacity: 0;
+}
+
+.medium-news-box:hover .floating-icon {
+    opacity: 1;
+}
+
+.medium-crop {
+    width: 85%;
+    height: 50%;
+    overflow: hidden;
+    margin-left: 7%;
+    margin-right: 7%;
+    margin-top: 7%;
+}
+
+.secondary-news-box {
+    display: flex;
+    flex-direction: row;
+    gap: 3%;
+}
+
+.left-part, .right-part{
+    margin-top: 30px;
+    display: flex;
+    width: 50%;
+    height: 450px;
+    flex-direction: column;
+}
+
+.right-part {
+    border-top: solid;
+    border-width: 1px;
+    border-color: #b2b2b2;
+}
+
+.left-part {
+    border: solid;
+    border-width: 1px;
+    border-color: #b2b2b2;
+}
+
+.secondary-content-crop {
+    width: 100%;
+    height: 90%;
+    overflow: hidden;
+}
+
+.secondary-content-crop img{
+    height: 170%;
+}
+
+.secondary-content-title {
+    width: 100%;
+    height: 10%;
+    margin: 3% 2% 2% 3%;
+}
+
+.secondary-content-title h2 {
+    text-align: left;
+}
+
+.left-part:hover .floating-icon {
+    opacity: 1;
+}
+
+.small-news-box {
+    height: 33%;
+    display: flex;
+    flex-direction: row;
+    border-style: solid;
+    border-top: none;
+    border-width: 1px;
+    border-color: #b2b2b2;
+}
+
+.small-news-textbox {
+    width: 55%;
+    margin-left: 3%;
+    overflow: hidden;
+}
+
+.small-news-box:hover .floating-icon {
+    opacity: 1;
+}
+
+.small-news-crop {
+    height: 100%;
+    width: 37%;
+    overflow: hidden;
+}
+
+.small-news-crop img{
+    height: 120%;
+}
+
+.photo-of-the-day-crop {
+    position: relative;
+    margin-top: 30px;
+    width: 100%;
+    height: 700px;
+    overflow: hidden;
+}
+
+.photo-of-the-day-crop img {
+    height: 120%;
+}
+
+.photo-of-the-day-textbox {
+    position:absolute;
+    bottom: 3%;
+    margin-left: 3%;
+    margin-right: 3%;
+    width: 100%;
+}
+
+.photo-of-the-day-textbox p, .photo-of-the-day-textbox h2 {
+    color: white;
+}
+
+.best-news {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 4%;
+}
+
+.most-popular-block, .most-commented-block {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: left;
+}
+
+.most-popular-box, .most-commented-box {
+    display: flex;
+    height: 450px;
+    width: 100%;
+    flex-direction: column;
+    border-top: solid;
+    border-width: 1px;
+    border-color: #b2b2b2;
+}
+
+.most-popular-label, .most-commented-label {
+    margin-top: calc(19px/2);
+    text-align: center;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 19px;
+}
+
+.photo-of-the-day-tag {
+    display: flex;
+    color: white;
+    margin-left: 35px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    width: 84px;
+    height: 104px;
+    margin-bottom: -109px;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.photo-of-the-day-tag img {
+    position: relative;
+}
+
+.photo-of-the-day-tag p {
+    position: relative;
+    margin-top: 25px;
+    margin-bottom: 9px;
+    left: -138px;
+    z-index: 3;
+}

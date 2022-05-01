@@ -49,6 +49,11 @@ button#search-button {
     margin: auto;
 }
 
+.header-icons:hover {
+    filter: invert(16%) sepia(99%) saturate(7404%) 
+    hue-rotate(355deg) brightness(86%) contrast(118%);
+}
+
 .social-media-box {
     border-left-style: solid;
     border-right-style: solid;

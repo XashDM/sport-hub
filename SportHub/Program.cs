@@ -28,8 +28,8 @@ builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer
 builder.Services.AddScoped<INavigationItemService, MainNavigationItemService>();
 builder.Services.AddScoped<GetArticleService, GetArticleService>();
 
-/*builder.Services.AddRazorPages()
-    .AddRazorRuntimeCompilation();*/
+builder.Services.AddRazorPages()
+    .AddRazorRuntimeCompilation();
 
 builder.Services.AddAuthentication(options =>
 {
