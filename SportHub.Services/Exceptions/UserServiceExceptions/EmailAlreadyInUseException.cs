@@ -4,6 +4,6 @@ namespace SportHub.Services.Exceptions.UserServiceExceptions
 {
     public class EmailAlreadyInUseException : UserServiceException
     {
-        public EmailAlreadyInUseException() : base($"User with such email already exists") { }
+        public EmailAlreadyInUseException() : base($"User with such email already exists", 409) { }
     }
 }

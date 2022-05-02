@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Models;
 using SportHub.Services;
+using SportHub.Services.Exceptions.RootExceptions;
 
 namespace SportHub.Pages
 {
@@ -20,21 +21,26 @@ namespace SportHub.Pages
         }
         [BindProperty]
         public SignupCredentials signupCredentials { get; set; }
-        public void OnGet()
-        {
 
-        }
-
-        public void OnPost(SignupCredentials credentials)
+        public IActionResult OnPost(SignupCredentials credentials)
         {
             try
             {
                 var user = _userService.CreateUser(credentials.Email, credentials.PasswordHash, credentials.FirstName, credentials.LastName);
                 _emailService.SendSignUpEmail(user, _mailer);
+
+                Response.StatusCode = 201;
+                return new JsonResult(new { success = true });
+            }
+            catch (UserServiceException e)
+            {
+                Response.StatusCode = e.StatusCode;
+                return new JsonResult(new { error = e.Message });
             }
             catch (Exception)
             {
-                throw;
+                Response.StatusCode = 500;
+                return new JsonResult(new { error = "Something went wrong" });
             }
         }
     }

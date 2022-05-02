@@ -4,6 +4,10 @@ namespace SportHub.Services.Exceptions.RootExceptions
 {
     public abstract class UserServiceException : Exception
     {
-        protected UserServiceException(string message) : base(message) { }
+        public int StatusCode { get; protected set; }
+        protected UserServiceException(string message, int statusCode) : base(message)
+        {
+            StatusCode = statusCode;
+        }
     }
 }
