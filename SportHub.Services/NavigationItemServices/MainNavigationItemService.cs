@@ -40,14 +40,14 @@ namespace SportHub.Services.NavigationItemServices
         public List<NavigationItem> GetChildrenOfItem(int ItemId)
         {
             var listOfCheldren = _context.NavigationItems
-                .Where(NI => NI.FatherItemId == ItemId)
+                .Where(NI => NI.ParentItemId == ItemId)
                 .ToList();
             return listOfCheldren;
         }
         public List<NavigationItem> GetRoute()
         {
             var listOfCheldren = _context.NavigationItems
-                .Where(NI => NI.FatherItemId == null)
+                .Where(NI => NI.ParentItemId == null)
                 .ToList();
             return listOfCheldren;
         }
