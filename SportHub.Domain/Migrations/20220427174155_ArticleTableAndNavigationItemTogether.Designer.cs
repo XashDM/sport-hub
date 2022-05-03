@@ -12,13 +12,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.Designer.cs
-    [Migration("20220503102221_ChangeArticleTableAddRefItem1")]
-    partial class ChangeArticleTableAddRefItem1
-========
-    [Migration("20220503141538_parentId")]
-    partial class parentId
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220503141538_parentId.Designer.cs
+    [Migration("20220427174155_ArticleTableAndNavigationItemTogether")]
+    partial class ArticleTableAndNavigationItemTogether
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,32 +32,19 @@ namespace SportHub.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.Designer.cs
-                    b.Property<string>("Image")
-========
                     b.Property<string>("ContentText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageLink")
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220503141538_parentId.Designer.cs
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime2");
 
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.Designer.cs
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-========
                     b.Property<int?>("ReferenceItemId")
                         .HasColumnType("int");
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220503141538_parentId.Designer.cs
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -70,11 +52,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasKey("Id");
 
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.Designer.cs
-                    b.HasIndex("ItemId");
-========
                     b.HasIndex("ReferenceItemId");
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220503141538_parentId.Designer.cs
 
                     b.ToTable("Articles");
                 });
@@ -87,33 +65,20 @@ namespace SportHub.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.Designer.cs
                     b.Property<int?>("FatherItemId")
                         .HasColumnType("int");
 
-========
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220503141538_parentId.Designer.cs
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.Designer.cs
-========
-                    b.Property<int?>("ParentItemId")
-                        .HasColumnType("int");
-
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220503141538_parentId.Designer.cs
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.Designer.cs
                     b.HasIndex("FatherItemId");
-========
-                    b.HasIndex("ParentItemId");
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220503141538_parentId.Designer.cs
 
                     b.ToTable("NavigationItems");
                 });
@@ -204,38 +169,20 @@ namespace SportHub.Domain.Migrations
 
             modelBuilder.Entity("SportHub.Domain.Models.Article", b =>
                 {
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.Designer.cs
-                    b.HasOne("SportHub.Domain.Models.NavigationItem", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-========
                     b.HasOne("SportHub.Domain.Models.NavigationItem", "ReferenceItem")
                         .WithMany()
                         .HasForeignKey("ReferenceItemId");
 
                     b.Navigation("ReferenceItem");
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220503141538_parentId.Designer.cs
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.Designer.cs
                     b.HasOne("SportHub.Domain.Models.NavigationItem", "FatherItem")
-                        .WithMany("Children")
+                        .WithMany()
                         .HasForeignKey("FatherItemId");
 
                     b.Navigation("FatherItem");
-========
-                    b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentItem")
-                        .WithMany()
-                        .HasForeignKey("ParentItemId");
-
-                    b.Navigation("ParentItem");
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220503141538_parentId.Designer.cs
                 });
 
             modelBuilder.Entity("UserUserRole", b =>
@@ -251,11 +198,6 @@ namespace SportHub.Domain.Migrations
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
-                {
-                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

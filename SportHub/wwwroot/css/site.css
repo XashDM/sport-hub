@@ -21,7 +21,6 @@ html {
 
 body {
     margin: 0;
-    margin-bottom: 60px;
 }
 
 a {
@@ -29,50 +28,7 @@ a {
     text-decoration: none;
 }
 
-.caption {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 22px;
-    color: #7f8899;
-    text-decoration: none;
-}
-
-.lable {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-}
-
-.regular-text {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-}
-
-.logo-caption {
-    text-align: center;
-    text-decoration: none;
-    color: white;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 28px;
-    margin: auto;
-}
-
-.menu-caption {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: bold;
-    font-size: 22px;
-}
-
+/*Buttons, etc.*/
 .small-button, .small-button-inversed {
     background-color: #d72130;
     font-weight: 500;
@@ -139,6 +95,7 @@ option:hover {
 
 }
 
+/*Text styles*/
 .h1-background-text {
     font-family: 'Roboto Condensed';
     font-style: normal;
@@ -148,8 +105,74 @@ option:hover {
     transform: rotate(90deg);
 }
 
+.h2-heading-text {
+    text-align: left;
+    text-decoration: none;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 26px;
+    margin: auto;
+    color: #2b2f43;
+}
+
+.h3-heading-text {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    color: #2b2f43;
+}
+
+.caption {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #7f8899;
+    text-decoration: none;
+}
+
+.lable {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.regular-text {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+
+.logo-caption {
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 28px;
+    margin: auto;
+}
+
+.menu-caption {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+}
+
 .newstag {
     background-color: #2f2f2f;
+    display: flex;
     color: white;
     font-family: 'Open Sans';
     font-style: normal;
@@ -158,4 +181,10 @@ option:hover {
     width: 160px;
     height: 50px;
     margin-bottom: -50px;
+    justify-content: center;
+    position: relative;
+}
+
+.box-shadow:hover {
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.110932);
 }

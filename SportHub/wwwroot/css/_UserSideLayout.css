@@ -40,12 +40,18 @@ button#search-button {
     background-color: white;
     width: 10%;
     height: 83px;
+    max-width: 20px;
 }
 
 .header-icons {
     width: 25px;
     height: 25px;
     margin: auto;
+}
+
+.header-icons:hover {
+    filter: invert(16%) sepia(99%) saturate(7404%) 
+    hue-rotate(355deg) brightness(86%) contrast(118%);
 }
 
 .social-media-box {
