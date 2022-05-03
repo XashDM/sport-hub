@@ -8,11 +8,14 @@ using Microsoft.Extensions.Options;
 using SportHub.Config.JwtAuthentication;
 using SportHub.Domain;
 using SportHub.Services;
+using System.Net;
+using System.Net.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages()
+    .AddRazorRuntimeCompilation();
 
 builder.Services.AddDbContext<SportHubDBContext>(options =>
 {
@@ -22,9 +25,18 @@ builder.Services.AddDbContext<SportHubDBContext>(options =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
 builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
 
-builder.Services.AddRazorPages()
-    .AddRazorRuntimeCompilation();
+builder.Services
+    .AddFluentEmail("sporthub.mailservice@gmail.com", "SportHub Signup")
+    .AddRazorRenderer()
+    .AddSmtpSender(new SmtpClient("smtp.gmail.com")
+    {
+        UseDefaultCredentials = false,
+        Port = 587,
+        Credentials = new NetworkCredential("sporthub.mailservice@gmail.com", "steamisjustavaporizedwater123"),
+        EnableSsl = true
+    });
 
 builder.Services.AddAuthentication(options =>
 {
