@@ -1,11 +1,10 @@
-﻿using SportHub.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using SportHub.Domain;
 using SportHub.Domain.Models;
 using SportHub.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SportHub.Services.NavigationItemServices
@@ -13,43 +12,81 @@ namespace SportHub.Services.NavigationItemServices
     public class MainNavigationItemService : INavigationItemService
     {
         private readonly SportHubDBContext _context;
+        private string[] Type = { "Category", "Subcategory", "Team" };
 
         public MainNavigationItemService(SportHubDBContext context)
         {
             _context = context;
         }
-        private string[] Type = {"Category", "Subcategory", "Team"};
 
-        public int AddNewItem(NavigationItem Item)
-       {
-            /**/
-            _context.NavigationItems.Add(Item);
-            _context.SaveChanges();
+        public async Task<NavigationItem> AddNewItem(NavigationItem Item)
+        {
+            if (Type.Contains(Item.Name))
+            {
+                return null; 
+            }
+            try
+            {
+                _context.NavigationItems.Add(Item);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return Item;
+        }
+        public async Task<List<NavigationItem>> GetChildrenOfItem(int ItemId)
+        {
+            var listOfChildren = await _context.NavigationItems
+                .Where(navigationItem => navigationItem.ParentsItemId == ItemId)
+                .ToListAsync();
+            return listOfChildren;
+        }
+        public async Task<List<NavigationItem>> GetTopCategories()
+        {
+            var listOfChildren = await _context.NavigationItems
+            .Where(navigationItem => navigationItem.ParentsItemId == null)
+            .ToListAsync();
+            return listOfChildren;
+        }
+        public async Task<List<int>> GetRecusiveTree(int ItemId)
+        {
+            var resUnion = _context.NavigationItems.Select(navigationItem => new NavigationItem
+            {
+                Id = navigationItem.Id,
+                ParentsItemId = navigationItem.ParentsItemId,
+                Name = navigationItem.Name,
+                Type = navigationItem.Type
+            })
+            .Where(e => e.Id == ItemId);
 
-            return 0;
-       }
-        public int DeletItem(int id)
-        {
-            return 0;
+            int maxLevel = 3;
+            int level = 1;
+            var res = resUnion;
+            while (level <= maxLevel)
+            {
+                res = res.Join(_context.NavigationItems,
+                first => first.Id,
+                second => second.ParentsItemId,
+                (first, second) => new NavigationItem
+                {
+                    Id = second.Id,
+                    ParentsItemId = second.ParentsItemId,
+                    Name = second.Name,
+                    Type = second.Type,
+                });
+                level += 1;
+                resUnion = resUnion.Union(res);
+            }
+            return await resUnion.Select(navigationItem => navigationItem.Id).ToListAsync();
         }
-        public int MoveItem(NavigationItem Item, NavigationItem ItemToMove)
+        public async Task<List<Article>> GetArticlesofItem(int ItemId)
         {
-            return 0;
-        }
 
-        public List<NavigationItem> GetChildrenOfItem(int ItemId)
-        {
-            var listOfCheldren = _context.NavigationItems
-                .Where(NI => NI.FatherItemId == ItemId)
-                .ToList();
-            return listOfCheldren;
-        }
-        public List<NavigationItem> GetRoute()
-        {
-            var listOfCheldren = _context.NavigationItems
-                .Where(NI => NI.FatherItemId == null)
-                .ToList();
-            return listOfCheldren;
+            var navigationItemIdList =await GetRecusiveTree(ItemId);
+            var result = await _context.Articles.Where(articles => navigationItemIdList.Contains(articles.ReferenceItemId)).ToListAsync();
+            return result;
         }
     }
 }

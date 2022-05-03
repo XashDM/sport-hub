@@ -1,31 +1,7 @@
-﻿@page "/page"
-@model SportHub.Pages.Admin.ManageNavigationItems.IndexModel
-@{
-    ViewData["Title"] = "Manage";
-}
-
-<div id="screen">
-  <div class ='contener-for-adding' style ="display: none" id = 'formid'>
-
-    <form class= "form-to-add" id = 'form-for-adding'>
-        <div class = 'main-content'>
-        <span class="text-lable" id = 'labe-with-description'>Add</span>
-        <label for="Name"><b>Name</b></label>
-        <input type="text" placeholder="Name of your menu item" name="Name" required  id = 'item-name-input'>
-        <div class ='addbutton' id = 'add-button-id'>Add</div>
-        <div onclick="document.getElementById('formid').style.display='none'" class="cancelbtn">Cancel</div>
-        </div>
-    </form>
-
-  </div>
-</div>
-@section scripts {
-<script type="text/javascript">     
-const ContenerforNestedType = {
+﻿const ContenerforType = {
     Category: "Subcategory-Contener",
     Subcategory: "Team-Contener",
     Team: null,
-    global: "Category-Contener"
 };
 let activeItem = {
     Category: null,
@@ -38,7 +14,7 @@ let TeamDateList = null;
 
 let EctiveCategory = "";
 let EctiveSubCategory = "";
-let lastActiveItem = null;
+let LastEctiveItem = null;
 
 //Get list of Teams from server by ID of their father 
 function getTeamofSubcategory() {
@@ -60,15 +36,14 @@ function getTeamofSubcategory() {
         },
     }).done(function (date) {
         result = date;
-    });
+    );
     return result;
 }
 //Get list of Subcategory from server
 function getSubcategoryofCategory() {
     let result;
 
-    obj = fatherfor("Subcategory");
-    console.log(obj);
+    obj = activeItem["Category"];
     if (obj == null) {
         return [];
     }
@@ -110,38 +85,27 @@ function removeChildrenFromVisualTree(elementForDelete) {
     while (delet.length > 0) delet[0].remove();
 }
 function openTreeforItem(obj) {
-    let typeOfButton;
-    if(obj == null){
-        typeOfButton = "global";
-    }
-    else{
-        typeOfButton = obj.type;
-    }
 
-
-    let elementForDelete = getContenerforType(typeOfButton);
+    let tipeOfButton = obj.type;
+    let elementForDelete = getContenerforType(obj.type);
 
     if (elementForDelete == null) {
         return 0;
     }
     removeChildrenFromVisualTree(elementForDelete)
-    console.log(typeOfButton);
-    console.log(obj);
-    if (typeOfButton == "Category") {
-        activeItem[typeOfButton] = obj;
-        lastActiveItem = obj;
+
+    if (tipeOfButton == "Category") {
+        activeItem[tipeOfButton] = obj;
+        lastEctiveItem = obj;
         createSubcategory();
-    } else if (typeOfButton == "Subcategory") {
-        activeItem[typeOfButton] = obj;
-        lastActiveItem = obj;
+    } else if (tipeOfButton == "Subcategory") {
+        activeItem[tipeOfButton] = obj;
+        lastEctiveItem = obj;
         createTeam();
-    } else {
-        createCategory();
     }
 }
 //Get father element for item 'type' - [Category, Subcategory, Team]
 function fatherfor(type) {
-    console.log(type);
     if (type == "Category") {
         return null;
     } else if (type == "Subcategory") {
@@ -174,13 +138,13 @@ function openForm(type) {
 // function for adding new item and push to server called by add-button on form
 function createItem(type) {
     let name = document.getElementById("item-name-input").value;
-    let ParentsItemId = fatherIdfor(type);
+    let fatherItemId = fatherIdfor(type);
     $.ajax({
         url: '@Url.Page("Index","AddItem")',
         data: {
             Type: type,
             Name: name,
-            ParentsItemId: ParentsItemId,
+            FatherItemId: fatherItemId,
         },
     }).done(function (date) {
         openTreeforItem(fatherfor(type));
@@ -192,7 +156,7 @@ function createSideLine(type, SizeOfList) {
     let line = document.createElement("div");
     line.setAttribute("class", "SideLine");
     line.setAttribute("id", "SideLine-" + type);
-    line.style.height = 60.6 * (SizeOfList - 1) + "px";
+    line.style.height = 60 * (SizeOfList - 1) + "px";
     return line;
 }
 ///function for adding Button which open form. Called by all function to create Category/...
@@ -209,8 +173,6 @@ function createButton(type) {
 }
 //Create list of elemnt form 'Date' - array , ItamClass -css class for element  'ItemId' css id for element 
 function сreateList(date, itamClass, itemId, listElement) {
-    console.log(itamClass);
-     console.log(date);
     let sizeOfList = 0;
     for (let e in date) {
         let element = date[e];
@@ -232,23 +194,11 @@ function сreateList(date, itamClass, itemId, listElement) {
 }
 //Create Categorys list on screen 
 function createCategory() {
-
     let type = "Category";
     let categoryDate = getCategory();
     let nameofCategory = "Category";
-
-
-    let screan = document.getElementById("screen");
-
-    let categoryContener = document.createElement("div");
-    categoryContener.setAttribute("class", "Category-Contener");
-    categoryContener.setAttribute("id", "div-Category-Contener");
-    screan.appendChild(categoryContener);
-
-    let categoryList = document.createElement("ul");
-    categoryList.setAttribute("id", type);
-    categoryList.setAttribute("class", type);
-    categoryContener.appendChild(categoryList);
+    let categoryContener = document.getElementById("Category-Contener");
+    let categoryList = document.getElementById("Category");
 
     categoryContener.prepend(createButton(type));
 
@@ -324,5 +274,3 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 };
-</script>
-}

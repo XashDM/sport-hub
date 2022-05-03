@@ -12,8 +12,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    [Migration("20220420083132_initial")]
-    partial class initial
+    [Migration("20220503102221_ChangeArticleTableAddRefItem1")]
+    partial class ChangeArticleTableAddRefItem1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,24 +32,15 @@ namespace SportHub.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Subcategory")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Team")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -61,7 +52,35 @@ namespace SportHub.Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ItemId");
+
                     b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("FatherItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FatherItemId");
+
+                    b.ToTable("NavigationItems");
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.User", b =>
@@ -148,6 +167,26 @@ namespace SportHub.Domain.Migrations
                     b.ToTable("UserUserRole");
                 });
 
+            modelBuilder.Entity("SportHub.Domain.Models.Article", b =>
+                {
+                    b.HasOne("SportHub.Domain.Models.NavigationItem", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
+                {
+                    b.HasOne("SportHub.Domain.Models.NavigationItem", "FatherItem")
+                        .WithMany("Children")
+                        .HasForeignKey("FatherItemId");
+
+                    b.Navigation("FatherItem");
+                });
+
             modelBuilder.Entity("UserUserRole", b =>
                 {
                     b.HasOne("SportHub.Domain.Models.UserRole", null)
@@ -161,6 +200,11 @@ namespace SportHub.Domain.Migrations
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
+                {
+                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

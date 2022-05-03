@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportHub.Domain;
 
@@ -11,9 +12,10 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    partial class SportHubDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220503102625_ChangeArticleTableAddRefItem2")]
+    partial class ChangeArticleTableAddRefItem2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,11 +36,11 @@ namespace SportHub.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("ReferenceItemId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -50,7 +52,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReferenceItemId");
+                    b.HasIndex("ItemId");
 
                     b.ToTable("Articles");
                 });
@@ -63,12 +65,12 @@ namespace SportHub.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("FatherItemId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ParentsItemId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -76,7 +78,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentsItemId");
+                    b.HasIndex("FatherItemId");
 
                     b.ToTable("NavigationItems");
                 });
@@ -167,22 +169,22 @@ namespace SportHub.Domain.Migrations
 
             modelBuilder.Entity("SportHub.Domain.Models.Article", b =>
                 {
-                    b.HasOne("SportHub.Domain.Models.NavigationItem", "ReferenceItem")
+                    b.HasOne("SportHub.Domain.Models.NavigationItem", "Item")
                         .WithMany()
-                        .HasForeignKey("ReferenceItemId")
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ReferenceItem");
+                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
-                    b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentsItem")
+                    b.HasOne("SportHub.Domain.Models.NavigationItem", "FatherItem")
                         .WithMany("Children")
-                        .HasForeignKey("ParentsItemId");
+                        .HasForeignKey("FatherItemId");
 
-                    b.Navigation("ParentsItem");
+                    b.Navigation("FatherItem");
                 });
 
             modelBuilder.Entity("UserUserRole", b =>

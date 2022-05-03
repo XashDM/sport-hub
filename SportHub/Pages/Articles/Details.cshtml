@@ -21,10 +21,10 @@
     <div class="content">
         <div class="topInfo">
             <div class="categoryLink">
-                @Html.DisplayFor(model => model.Article.Category)
+                @Html.DisplayFor(model => model.Article.ReferenceItemId)
             </div>
             <div class="subcategoryLink">
-                 <b>>@Html.DisplayFor(model => model.Article.Subcategory)</b>
+                 <b>>@Html.DisplayFor(model => model.Article.ReferenceItemId)</b>
             </div>
         </div>
         
@@ -60,7 +60,7 @@
         News
     </div>
     <div class="backgroundTextNews">
-        @Html.DisplayFor(model => model.Article.Category)
+        @Html.DisplayFor(model => model.Article.ReferenceItemId)
     </div>
     <div class="comments">
         <div class="countComments">

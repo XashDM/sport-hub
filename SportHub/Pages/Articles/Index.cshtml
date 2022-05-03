@@ -14,13 +14,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Article[0].Category)
+                @Html.DisplayNameFor(model => model.Article[0].ReferenceItemId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Article[0].Subcategory)
+                @Html.DisplayNameFor(model => model.Article[0].ReferenceItemId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Article[0].Team)
+                @Html.DisplayNameFor(model => model.Article[0].ReferenceItemId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Article[0].Image)
@@ -41,13 +41,13 @@
 @foreach (var item in Model.Article) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Category)
+                @Html.DisplayFor(modelItem => item.ReferenceItemId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
+                @Html.DisplayFor(modelItem => item.ReferenceItemId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Team)
+                @Html.DisplayFor(modelItem => item.ReferenceItemId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Image)

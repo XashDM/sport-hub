@@ -3,7 +3,7 @@
       'Subcategory':'Team-Contener',
       'Team': null
     };
-    let EctiveItem = {
+    let activeItem = {
       'Category': null,
       'Subcategory':null,
       'Team': null
@@ -14,10 +14,10 @@
 
 let EctiveCategory = '';
 let EctiveSubCategory = '';
-let LastEctiveItem = null;
-function GetTeamofSubcategory(){
-    let  Date;
-    obj=EctiveItem['Subcategory'];
+let lastEctiveItem = null;
+function getTeamofSubcategory(){
+    let  result;
+    obj=activeItem['Subcategory'];
         console.log(obj);
     if(obj == null){
         return [];
@@ -33,13 +33,13 @@ function GetTeamofSubcategory(){
             }
        }).done(function(date) {
           console.log(date);
-          Date = date;
+          result = date;
        });
-    return Date;
+    return result;
 }
-function GetSubcategoryofCategory(){
-    let  Date;
-    obj=EctiveItem['Category'];
+function getSubcategoryofCategory(){
+    let  result;
+    obj=activeItem['Category'];
         console.log(obj);
     if(obj == null){
         return [];
@@ -52,134 +52,129 @@ function GetSubcategoryofCategory(){
           headers: {
                 RequestVerificationToken:
                     $('input:hidden[name="__RequestVerificationToken"]').val()
-            }
+          }
        }).done(function(date) {
           console.log(date);
-          Date = date;
+          result = date;
        });
 
-   return Date;
+   return result;
 }
-function GetCategory(){ 
-    let  Date;
+function getCategory(){ 
+    let  result;
     $.ajax({
           url: '@Url.Page("Index","Root")',
           data : $("#tab"),
           async: false
-       }).done(function(date) {
-          console.log(date);
-          Date = date;
-       });
-
-   return Date;
+    }).done(function(date) {
+        console.log(date);
+        result = date;
+    });
+    return result;
 }
 
 function pars(id){
   var partsArray = id.split('-');
   return partsArray
 }
-function translete(element){
+function getContenerforType(element){
   return h[element];
 }
+function removeChildrenFromVisualTree(elementForDelete) {
+    let delet = document.getElementsByClassName(elementForDelete);
+    while (delet.length > 0) delet[0].remove();
+}
 function Event(obj){
-  console.log(obj);
-  let TipeOfButton = obj.type;
-  let ElementForDelete =translete(obj.type);
+
+  let tipeOfButton = obj.type;
+  let elementForDelete =getContenerforType(obj.type);
  
-  if(ElementForDelete==null){
+  if(elementForDelete==null){
         console.log(obj.type);
     return 0;
   }
-  console.log(obj);
-  let delet = document.getElementsByClassName(ElementForDelete);
-  while (delet.length > 0) delet[0].remove();
+  removeChildrenFromVisualTree(elementForDelete);
   
   
-  if(TipeOfButton=='Category'){
-    EctiveItem[TipeOfButton] = obj;
-    LastEctiveItem = obj;
-    CreateSubcategory();
+  if(tipeOfButton=='Category'){
+    activeItem[tipeOfButton] = obj;
+    lastEctiveItem = obj;
+    createSubcategory();
 
   }
-  else if(TipeOfButton=='Subcategory'){
+  else if(tipeOfButton=='Subcategory'){
 
-    EctiveItem[TipeOfButton] = obj;
-    LastEctiveItem = obj;
-    CreateTeam();
+    activeItem[tipeOfButton] = obj;
+    lastEctiveItem = obj;
+    createTeam();
 
   }
   else
   {
-          console.log('None');
+    console.log('None');
   }
 }
-    function Fatherfor(type){
-        if (type == "Category")
-        {
-            return null;
-        }
-        else if(type == "Subcategory")
-        {
-            return EctiveItem["Category"];
-        }
-        else if(type == "Team")
-        {
-            return EctiveItem["Subcategory"];
-        }
+function fatherfor(type){
+    if (type == "Category"){
+        return null;
     }
-    function FatherIdfor(type){
-        alert(type); 
-        if (type == "Category")
-        {
-            return null;
-        }
-        else if(type == "Subcategory")
-        {
-            console.log(EctiveItem["Category"].id);
-             return EctiveItem["Category"].id;
+    else if(type == "Subcategory"){
+        return activeItem["Category"];
+    }
+    else if(type == "Team"){
+        return activeItem["Subcategory"];
+    }
+}
 
-        }
-        else if(type == "Team")
-        {
-            console.log(EctiveItem["Subcategory"].id);
-            return EctiveItem["Subcategory"].id;
-        }
-    } 
+function fatherIdfor(type){
+    if (type == "Category"){
+        return null;
+    }
+    else if(type == "Subcategory"){
+        console.log(activeItem["Category"].id);
+        return activeItem["Category"].id;
+    }
+    else if(type == "Team"){
+        console.log(activeItem["Subcategory"].id);
+        return activeItem["Subcategory"].id;
+    }
+} 
 
-    function OpenForm(type){
+function openForm(type) {
     let label = document.getElementById('labe-with-description');
     label.innerHTML= 'Add new '+type.toLowerCase();
     document.getElementById('formid').style = "display: fixed";
+
     let button = document.getElementById('add-button-id');
+
     button.onclick= function(e){
-        CreateItem(type);
+        createItem(type);
         e.stopPropagation();
-        }
     }
+}
     
-    function CreateItem(type){
+function createItem(type){
 
     let name = document.getElementById("item-name-input").value;
         alert(name); 
-    let FatherItemId = FatherIdfor(type);
+    let fatherItemId = fatherIdfor(type);
     $.ajax({
       url: '@Url.Page("Index","AddItem")',
       data: { 
           'Type': type,
           'Name':name,
-          'FatherItemId': FatherItemId
-           }
-   }).done(function(date) {
-      alert(date); 
+          'FatherItemId': fatherItemId
+      }
+    }).done(function(date) {
 
-      Event(Fatherfor(type));
-   });
+          Event(fatherfor(type));
+       });
    document.getElementById('formid').style.display='none';
 
 
-   }
+}
 
-    function CreateSideLine(type, SizeOfList){
+    function createSideLine(type, SizeOfList){
       let Line = document.createElement('div');
       Line.setAttribute('class','SideLine');
       Line.setAttribute('id','SideLine-'+type);
@@ -188,16 +183,16 @@ function Event(obj){
       return Line;
     }
 
-    function CreateButton(type){
+    function createButton(type){
       let Button = document.createElement('div');
       Button.setAttribute('class','button-open-form');
       Button.setAttribute('id','button-open-form-'+type);
       Button.innerHTML='+Add '+type;
-      Button.onclick = function(){OpenForm(type)};
+      Button.onclick = function(){openForm(type)};
       return Button;
     }
 
-    function CreateList(Date, ItamClass, ItemId, ListElement){
+    function сreateList(Date, ItamClass, ItemId, ListElement){
     console.log(Date); 
     let SizeOfList = 0;
       for (let e in Date) {
@@ -221,9 +216,9 @@ function Event(obj){
     
     
     
-    function CreateCategory(){
+    function createCategory(){
       let type = 'Category';
-      let CategoryDate =  GetCategory();
+      let CategoryDate =  getCategory();
           console.log(CategoryDate); 
       let NameofCategory = 'Category';
       let CategoryContener = document.getElementById('Category-Contener');
@@ -231,20 +226,20 @@ function Event(obj){
       
 
       
-      CategoryContener.prepend(CreateButton(type));
+      CategoryContener.prepend(createButton(type));
       
-      CreateList(CategoryDate, "item",NameofCategory,CategoryList);
+      сreateList(CategoryDate, "item",NameofCategory,CategoryList);
       
     }
     
     
-    function CreateSubcategory(){
+    function createSubcategory(){
       let type = 'Subcategory';
-      let CategoryName = EctiveItem['Category'].name
+      let CategoryName = activeItem['Category'].name
       let NameofSubcategory =CategoryName+'-Subcategory';
       
-      console.log( EctiveItem['Category']);
-      let SubcategoryDate = GetSubcategoryofCategory();
+      console.log( activeItem['Category']);
+      let SubcategoryDate = getSubcategoryofCategory();
       
       let Subcategory = document.getElementById('Category-'+CategoryName);
      
@@ -255,7 +250,7 @@ function Event(obj){
       SubcategoryContener.setAttribute('id','div-'+NameofSubcategory);
       Subcategory.appendChild(SubcategoryContener);
       
-      SubcategoryContener.prepend(CreateButton(type));
+      SubcategoryContener.prepend(createButton(type));
       
 
       
@@ -266,15 +261,15 @@ function Event(obj){
       SubcategoryContener.appendChild(SubcategoryList);
       
       
-      let SizeOfList = CreateList(SubcategoryDate, "item other",type,SubcategoryList);
+      let SizeOfList = сreateList(SubcategoryDate, "item other",type,SubcategoryList);
       
-      SubcategoryContener.append(CreateSideLine(type,SizeOfList));
+      SubcategoryContener.append(createSideLine(type,SizeOfList));
   }
   
-  function CreateTeam(){
+  function createTeam(){
       let type = 'Team';
-      let SubcategoryName = EctiveItem['Subcategory'].name;
-      let TeamDate = GetTeamofSubcategory();
+      let SubcategoryName = activeItem['Subcategory'].name;
+      let TeamDate = getTeamofSubcategory();
       let NamaofTeaminSubcategory = SubcategoryName + '-Team';
       let FullName = 'Subcategory'+'-'+SubcategoryName;
 
@@ -287,20 +282,20 @@ function Event(obj){
       Team.appendChild(TeamContener);
 
 
-      TeamContener.prepend(CreateButton(type));
+      TeamContener.prepend(createButton(type));
       
       let TeamList = document.createElement('ul');
       TeamList.setAttribute('id',NamaofTeaminSubcategory);
       TeamList.setAttribute('class','Team');
       TeamContener.appendChild(TeamList);
       
-      let SizeOfList = CreateList(TeamDate, "item other",NamaofTeaminSubcategory,TeamList);
+      let SizeOfList = сreateList(TeamDate, "item other",NamaofTeaminSubcategory,TeamList);
       
-      TeamContener.append(CreateSideLine(type,SizeOfList));
+      TeamContener.append(createSideLine(type,SizeOfList));
   }
 
 
-    CreateCategory();
+    createCategory();
     var modal = document.getElementById('formid');
 
     window.onclick = function(event) {

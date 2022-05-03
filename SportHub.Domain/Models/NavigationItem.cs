@@ -18,8 +18,8 @@ namespace SportHub.Domain.Models
         public string Name { get; set; }
         [Required]
         public string Type { get; set; }
-
-        public int? FatherItemId { get; set; }
-        public virtual NavigationItem? FatherItem { get; set; }
+        public int? ParentsItemId { get; set; }
+        public virtual NavigationItem? ParentsItem { get; set; }
+        public ICollection<NavigationItem> Children { get; } = new List<NavigationItem>();
     }
 }
