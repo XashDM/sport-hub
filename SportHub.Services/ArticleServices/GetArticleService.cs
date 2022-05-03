@@ -65,7 +65,7 @@ namespace SportHub.Services.ArticleServices
             }
             if (NavigationItem.Type == "Team")
             {
-                NavigationItem = _context.NavigationItems.First(Item => Item.Id == NavigationItem.FatherItemId);
+                NavigationItem = _context.NavigationItems.First(Item => Item.Id == NavigationItem.ParentItemId);
                 if (NavigationItem.Type != "Subcategory") return null;
             }
             return NavigationItem.Name;
@@ -89,7 +89,7 @@ namespace SportHub.Services.ArticleServices
             int count = 0;
             while (NavigationItem.Type != "Category" && count < 3)
             {
-                NavigationItem = _context.NavigationItems.First(Item => Item.Id == NavigationItem.FatherItemId);
+                NavigationItem = _context.NavigationItems.First(Item => Item.Id == NavigationItem.ParentItemId);
                 count++;
             }
             if (NavigationItem.Type != "Category") return null;
