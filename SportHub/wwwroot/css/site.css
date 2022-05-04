@@ -14,9 +14,9 @@
 }
 
 html {
-  position: relative;
-  font-size: 18px;
-  min-height: 100%;
+    position: relative;
+    font-size: 18px;
+    min-height: 100%;
 }
 
 body {
@@ -36,20 +36,19 @@ a {
     width: 108px;
     border-style: none;
     margin: auto;
-    margin-left:15px;
     color: white;
     font-family: 'Open Sans';
     font-style: normal;
     font-size: 14px;
 }
 
-.small-button:hover {
-    background-color: #e02232;
-}
+    .small-button:hover {
+        background-color: #e02232;
+    }
 
-.small-button:focus {
-    background-color: #c80515;
-}
+    .small-button:focus {
+        background-color: #c80515;
+    }
 
 .small-button-inversed {
     background-color: white;
@@ -72,10 +71,10 @@ select {
     cursor: pointer;
 }
 
-select:hover {
-    background-color: #fbe7e8;
-    color: #d72130;
-}
+    select:hover {
+        background-color: #fbe7e8;
+        color: #d72130;
+    }
 
 option {
     border: none;
@@ -90,11 +89,10 @@ option {
     color: #000000;
 }
 
-option:hover {
-    background-color: #fbe7e8;
-    color: #d72130;
-
-}
+    option:hover {
+        background-color: #fbe7e8;
+        color: #d72130;
+    }
 
 /*Text styles*/
 .h1-background-text {
@@ -190,318 +188,9 @@ option:hover {
     box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.110932);
 }
 
-/*login page*/
-.forgot-pass {
-    -webkit-transition: .3s all ease;
-    transition: .3s all ease;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 10px;
-    line-height: 14px;
-    text-decoration: none !important;
-    text-align: right;
-    color: #4A90E2 !important;
-}
-
-.forgot-pass:hover {
-    text-decoration: none !important;
-}
-
-.half, .half .container > .row {
-    height: 100vh;
-    min-height: 700px;
-}
-
-    .half .bg {
-        width: 100%;
-        max-width: 645px;
-    }
-
-    .half .contents {
-        width: 75%;
-    }
-
-        .half .contents .form-control, .half .bg .form-control {
-            height: 42px;
-        }
-
-            .half .contents .form-control:active, .half .contents .form-control:focus, .half .bg .form-control:active, .half .bg .form-control:focus {
-                -webkit-box-shadow: none;
-                box-shadow: none;
-            }
-
-    .half .bg {
-        background-size: cover;
-        background-position: center;
-    }
-
-    .half a {
-        color: #888;
-        text-decoration: underline;
-    }
-
-    .half .btn {
-        background-color: #D72130;
-        border-color: #D72130;
-        margin-top: 34px;
-        height: 42px;
-        padding-left: 30px;
-        padding-right: 30px;
-        width: 100%;
-        border-radius: 0;
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 12px;
-        line-height: 14px;
-        letter-spacing: 0.8px;
-        text-transform: uppercase;
-    }
-
-    .half .forgot-pass {
-        position: relative;
-        top: 2px;
-        font-size: 10px;
-    }
-
-.form-block {
-    background: white;
-    max-width: 390px;
-}
-
-.input_container {
-    display: flex;
-    align-items: center;
-    height: 42px;
-    width: 100%;
-    border: 1px solid #D4D9E2;
-}
-
-.input_field {
-    color: #434C5D;
-    width: 100%;
-    height: 100%;
-    border: #D4D9E2;
-    font-size: 12px;
-    font-weight: 400;
-    padding-left: 15px;
-}
-
-    .input_field:hover,
-    .input_field:focus {
-        outline: none;
-    }
-
-.loginLables {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 10px;
-    margin-top:19px;
-    line-height: 11px;
-    padding-bottom: 10px;
-    text-transform: uppercase;
-    color: #434C5D;
-}
-
-h3btn {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 33px;
-    color: #000000;
-    margin: 0 !important;
-}
-
-.forgot-pass {
-    padding-bottom: 10px;
-    padding-left: 240px;
-}
-
-::placeholder {
-    color: #C6CCD7;
-}
-
-.logo {
-    padding-right: 10px;
-}
-
-.title {
-    padding-bottom: 20px;
-}
-
-.rectang {
-    position: absolute;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 22px;
-    vertical-align: middle;
-    line-height: 85px;
-    text-align: center;
-    justify-content: center;
-    color: #FFFBFB;
-    position: absolute;
-    width: 255px;
-    height: 85px;
-    background-color: #D72130;
-}
-.GetStartedBtn {
-    height: 32px;
-    width: 130px;
-    margin-left: 35px;
-    border: 1px solid #D72130;
-    background-color: #FFFFFF;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 17px;
-    text-align: center;
-    color: #D72130;
-    transition: .5s;
-}
-
-    .GetStartedBtn:hover {
-        background-color: #D72130;
-        color: white;
-        transition: .5s;
-    }
-
-.topRightBtn {
-    position: absolute;
-    top: 25px;
-    right: 56px;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 17px;
-    color: #434C5D;
-}
-
-/*dropdown*/
-.dropbtn {
-    background-color: white;
-    color: black;
-    padding: 16px;
-    font-size: 15px;
-    border: none;
-    cursor: pointer;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    line-height: 24px;
-    color: #000000;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 180px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-    .dropdown-content a {
-        color: black;
-        /*padding: 12px 25px ;*/
-        padding-left: 25px;
-        padding-top: 11px;
-        padding-bottom: 11px;
-        text-decoration: none;
-        display: block;
-        width: 180px;
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 16px;
-    }
-
-        .dropdown-content a:hover {
-            background-color: rgba(215, 33, 48, 0.11);
-            color: #D72130;
-        }
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown:hover .dropbtn {
-    background-color: white;
-}
-
-.account-box {
-    display: flex;
-    justify-content: center;
-}
-
-.profile{
-    margin-top:12px;
-}
-.polygon {
-    margin: 2px;
-    padding-right: 0;
-    transition: .2s;
-}
-
-.avatar {
-    border-radius: 50%;
-    width: 34px;
-    height: 34px;
-    margin: -8px 0;
-    padding-right: 0;
-}
-
-#cont:hover + #pol {
-    transform: rotate(180deg);
-    transition: .5s;
-}
-
-hr.solid {
-    margin:0;
-    border-top: 1px solid #EDEDED;
-}
-
-.infoName {
-   
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.infoMail {
-    
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    color: #7F7B7B;
-}
-
-.userInfo {
-    margin-top: 14px;
-    margin-left: 25px;
-    margin-bottom:12px;
-}
-
-.error {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 19px;
-    color: #D72130;
-    margin:10px;
-    margin-left:0px;
+.buttons{
+    display:flex;
+    justify-content:space-between;
+    width: 90%;
+    align-items:center;
 }
