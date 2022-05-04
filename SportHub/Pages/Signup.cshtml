@@ -1,0 +1,55 @@
+﻿@page
+@model SportHub.Pages.SignupModel
+@{
+    ViewData["Title"] = "Sign Up";
+    Layout = "_SignUpLayout";
+}
+
+<div class="signup-page-container">
+    <div class="signup-header">
+        <div class="signup-logo">
+            <a href="../Index">Sports Hub</a>
+        </div>
+        <div class="signup-login-redirect">
+            <p>Already have an account?</p>
+            <input type="button" onclick="window.location.href='../Login'" value="Log In" />
+        </div>
+    </div>
+    <div class="left-container">
+        <img src="~/images/Rectangle.png" />
+    </div>
+    <div class="right-container">
+        <div class="signup-block">
+            <div class="signup-header-block">
+                <p class="menu-caption">Create Account</p>
+                <div class="signup-icons">
+                    <img src=~/images/Facebook.svg />
+                    <img src=~/images/Google.svg />
+                </div>
+                <p class="body-text">Or use your email for registration:</p>
+                <p id="signup-response">responce</p>
+            </div>
+            <form id="signup-form" method="post">
+                <div class="double-input-box">
+                    <div>
+                        <label asp-for="signupCredentials.FirstName"></label>
+                        <input type="text" id="firstname-input" placeholder="John" asp-for="signupCredentials.FirstName" />
+                    </div>
+                    <div>
+                        <label asp-for="signupCredentials.LastName"></label>
+                        <input type="text" id="lastname-input" placeholder="Doe" asp-for="signupCredentials.LastName" />
+                    </div>
+                </div>
+                <div class="single-input-box">
+                    <label asp-for="signupCredentials.Email"></label>
+                    <input type="text" id="email-input" placeholder="johndoe@@gmail.com" asp-for="signupCredentials.Email" />
+                </div>
+                <div class="single-input-box">
+                    <label asp-for="signupCredentials.PasswordHash"></label>
+                    <input type="password" id="password-input" placeholder="8+ characters (letters and numbers)" asp-for="signupCredentials.PasswordHash" />
+                </div>
+                <input type="submit" class="small-button" value="SIGN UP" />
+            </form>
+        </div>
+    </div>
+</div>
