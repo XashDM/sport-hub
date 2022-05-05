@@ -1,0 +1,317 @@
+﻿@page "/page"
+@model SportHub.Pages.Admin.ManageNavigationItems.IndexModel
+@{
+    ViewData["Title"] = "Manage";
+    Layout = "~/Pages/Shared/_UserSideLayout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/StyleSheet1.css" asp-append-version="true" />
+</head>
+<div id="screen">
+  <div class ='contener-for-adding' style ="display: none" id = 'formid'>
+
+    <form class= "form-to-add" id = 'form-for-adding'>
+        <div class = 'main-content'>
+        <span class="text-lable" id = 'labe-with-description'>Add</span>
+        <label for="Name"><b>Name</b></label>
+        <input type="text" placeholder="Name of your menu item" name="Name" required  id = 'item-name-input'>
+        <div class ='addbutton' id = 'add-button-id'>Add</div>
+        <div onclick="document.getElementById('formid').style.display='none'" class="cancelbtn">Cancel</div>
+        </div>
+    </form>
+
+  </div>
+<div class = 'Category-Contener' id = 'Category-Contener'>
+
+  <ul class='Category' id = 'Category'>
+      <li class="item">Neil</li>
+      <li class="item"><div>Alan Bean</div></li>
+      <li class="item">Peter Conrad</li>
+      <li class="item">Edgar Mitchell</li>
+      <li class="item">Alan Shepard</li>
+  </ul>
+</div>
+</div>
+@section scripts {
+<script type="text/javascript">     
+const h = {
+  Category: "Subcategory-Contener",
+  Subcategory: "Team-Contener",
+  Team: null,
+};
+let EctiveItem = {
+  Category: null,
+  Subcategory: null,
+  Team: null,
+};
+let CategoryFDateList = null;
+let SubcategoryDateList = null;
+let TeamDateList = null;
+
+let EctiveCategory = "";
+let EctiveSubCategory = "";
+let LastEctiveItem = null;
+
+//Get list of Teams from server by ID of their father 
+function GetTeamofSubcategory() {
+  let Date;
+
+  obj = Fatherfor('Team');
+  if (obj == null) {
+    return [];
+  }
+  $.ajax({
+    url: '@Url.Page("Index","Children")',
+    type: "GET",
+    data: { ItemId: obj.id },
+    async: false,
+    headers: {
+      RequestVerificationToken: $(
+        'input:hidden[name="__RequestVerificationToken"]'
+      ).val(),
+    },
+  }).done(function (date) {
+    Date = date;
+  });
+  return Date;
+}
+//Get list of Subcategory from server
+function GetSubcategoryofCategory() {
+  let Date;
+  obj = EctiveItem["Category"];
+  if (obj == null) {
+    return [];
+  }
+  $.ajax({
+    url: '@Url.Page("Index","Children")',
+    type: "GET",
+    data: { ItemId: obj.id },
+    async: false,
+    headers: {
+      RequestVerificationToken: $(
+        'input:hidden[name="__RequestVerificationToken"]'
+      ).val(),
+    },
+  }).done(function (date) {
+    Date = date;
+  });
+
+  return Date;
+}
+//Get list of Categorys from server
+function GetCategory() {
+  let Date;
+  $.ajax({
+    url: '@Url.Page("Index","Root")',
+    data: $("#tab"),
+    async: false,
+  }).done(function (date) {
+    Date = date;
+  });
+
+  return Date;
+}
+// When click on item this functon is called by that item and get parameter his info - 'obj'
+function translete(element){
+  return h[element];
+}
+
+function Event(obj) {
+
+  let TipeOfButton = obj.type;
+  let ElementForDelete = translete(obj.type);
+
+  if (ElementForDelete == null) {
+    return 0;
+  }
+  let delet = document.getElementsByClassName(ElementForDelete);
+  while (delet.length > 0) delet[0].remove();
+
+  if (TipeOfButton == "Category") {
+    EctiveItem[TipeOfButton] = obj;
+    LastEctiveItem = obj;
+    CreateSubcategory();
+  } else if (TipeOfButton == "Subcategory") {
+    EctiveItem[TipeOfButton] = obj;
+    LastEctiveItem = obj;
+    CreateTeam();
+  } else {
+  }
+}
+//Get father element for item 'type' - [Category, Subcategory, Team]
+function Fatherfor(type) {
+  if (type == "Category") {
+    return null;
+  } else if (type == "Subcategory") {
+    return EctiveItem["Category"];
+  } else if (type == "Team") {
+    return EctiveItem["Subcategory"];
+  }
+}
+//Get father ID element for item 'type' - [Category, Subcategory, Team]
+function FatherIdfor(type) {
+  if (type == "Category") {
+    return null;
+  } else if (type == "Subcategory") {
+
+    return EctiveItem["Category"].id;
+  } else if (type == "Team") {
+    return EctiveItem["Subcategory"].id;
+  }
+}
+// function for opening Form called from add_button 
+function OpenForm(type) {
+  let label = document.getElementById("labe-with-description");
+  label.innerHTML = "Add new " + type.toLowerCase();
+  document.getElementById("formid").style = "display: fixed";
+  let button = document.getElementById("add-button-id");
+  button.onclick = function (e) {
+    CreateItem(type);
+    e.stopPropagation();
+  };
+}
+// function for adding new item and push to server called by add-button on form
+function CreateItem(type) {
+  let name = document.getElementById("item-name-input").value;
+  let FatherItemId = FatherIdfor(type);
+  $.ajax({
+    url: '@Url.Page("Index","AddItem")',
+    data: {
+      Type: type,
+      Name: name,
+      FatherItemId: FatherItemId,
+    },
+  }).done(function (date) {
+
+    Event(Fatherfor(type));
+  });
+  document.getElementById("formid").style.display = "none";
+}
+//function for adding Side line on item list for tree view
+function CreateSideLine(type, SizeOfList) {
+  let Line = document.createElement("div");
+  Line.setAttribute("class", "SideLine");
+  Line.setAttribute("id", "SideLine-" + type);
+  Line.style.height = 60 * (SizeOfList - 1) + "px";
+  return Line;
+}
+///function for adding Button which open form. Called by all function to create Category/...
+function CreateButton(type) {
+  let Button = document.createElement("div");
+  Button.setAttribute("class", "button-open-form");
+  Button.setAttribute("id", "button-open-form-" + type);
+  Button.innerHTML = "+Add " + type;
+  Button.onclick = function (e) {
+    OpenForm(type);
+    e.stopPropagation();
+  };
+  return Button;
+}
+//Create list of elemnt form 'Date' - array , ItamClass -css class for element  'ItemId' css id for element 
+function CreateList(Date, ItamClass, ItemId, ListElement) {
+  let SizeOfList = 0;
+  for (let e in Date) {
+    let element = Date[e];
+    let name = element.name;
+    let CategoryListElement = document.createElement("li");
+    CategoryListElement.setAttribute("class", ItamClass);
+    CategoryListElement.setAttribute("id", ItemId + "-" + name);
+    ListElement.appendChild(CategoryListElement);
+
+    CategoryListElement.onclick = function (e) {
+      Event(element);
+      e.stopPropagation();
+    };
+
+    CategoryListElement.innerHTML = name;
+    SizeOfList += 1;
+  }
+  return SizeOfList;
+}
+//Create Categorys list on screen 
+function CreateCategory() {
+  let type = "Category";
+  let CategoryDate = GetCategory();
+  let NameofCategory = "Category";
+  let CategoryContener = document.getElementById("Category-Contener");
+  let CategoryList = document.getElementById("Category");
+
+  CategoryContener.prepend(CreateButton(type));
+
+  CreateList(CategoryDate, "item", NameofCategory, CategoryList);
+}
+//Create Subcategorys list on screen 
+function CreateSubcategory() {
+  let type = "Subcategory";
+  let CategoryName = EctiveItem["Category"].name;
+  let NameofSubcategory = CategoryName + "-Subcategory";
+  let SubcategoryDate = GetSubcategoryofCategory();
+
+  let Subcategory = document.getElementById("Category-" + CategoryName);
+
+  let SubcategoryContener = document.createElement("div");
+  SubcategoryContener.setAttribute("class", "Subcategory-Contener");
+  SubcategoryContener.setAttribute("id", "div-" + NameofSubcategory);
+  Subcategory.appendChild(SubcategoryContener);
+
+  SubcategoryContener.prepend(CreateButton(type));
+
+  let SubcategoryList = document.createElement("ul");
+  SubcategoryList.setAttribute("id", NameofSubcategory);
+  SubcategoryList.setAttribute("class", type);
+  SubcategoryContener.appendChild(SubcategoryList);
+
+  let SizeOfList = CreateList(
+    SubcategoryDate,
+    "item other",
+    type,
+    SubcategoryList
+  );
+
+  SubcategoryContener.append(CreateSideLine(type, SizeOfList));
+}
+//Create Teams list on screen 
+function CreateTeam() {
+  let type = "Team";
+  let SubcategoryName = EctiveItem["Subcategory"].name;
+  let TeamDate = GetTeamofSubcategory();
+  let NamaofTeaminSubcategory = SubcategoryName + "-Team";
+  let FullName = "Subcategory" + "-" + SubcategoryName;
+
+  let Team = document.getElementById(FullName);
+
+  let TeamContener = document.createElement("div");
+  TeamContener.setAttribute("class", "Team-Contener");
+  TeamContener.setAttribute("id", "div-" + NamaofTeaminSubcategory);
+  Team.appendChild(TeamContener);
+
+  TeamContener.prepend(CreateButton(type));
+
+  let TeamList = document.createElement("ul");
+  TeamList.setAttribute("id", NamaofTeaminSubcategory);
+  TeamList.setAttribute("class", "Team");
+  TeamContener.appendChild(TeamList);
+
+  let SizeOfList = CreateList(
+    TeamDate,
+    "item other",
+    NamaofTeaminSubcategory,
+    TeamList
+  );
+
+  TeamContener.append(CreateSideLine(type, SizeOfList));
+}
+
+
+
+CreateCategory();
+var modal = document.getElementById("formid");
+
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+</script>
+}

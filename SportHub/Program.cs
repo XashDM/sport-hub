@@ -10,6 +10,9 @@ using SportHub.Domain;
 using SportHub.Services;
 using System.Net;
 using System.Net.Mail;
+using SportHub.Services.ArticleServices;
+using SportHub.Services.Interfaces;
+using SportHub.Services.NavigationItemServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,14 +20,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 
+
 builder.Services.AddDbContext<SportHubDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDB"));
 });
-
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
 builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();
+builder.Services.AddScoped<INavigationItemService, MainNavigationItemService>();
+builder.Services.AddScoped<IGetArticleService, GetArticleService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 
 builder.Services

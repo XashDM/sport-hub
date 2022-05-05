@@ -1,0 +1,84 @@
+﻿@page
+@model SportHub.Pages.Articles.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SportHub</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/displayArticle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SportHub.styles.css" asp-append-version="true" />
+</head>
+
+
+<div class="get-article-main">   
+    <div class="get-article-content">
+        <div class="get-article-top-info">
+            <div class="get-article-category-link">
+                @Html.DisplayFor(model => model.category)
+            </div>
+            <div class="get-article-subcategory-link">
+                 <b>>@Html.DisplayFor(model => model.subcategory)</b>
+            </div>
+        </div>
+        <div class="get-article-image-content">
+            <div class="get-article-image-article">
+                <img src="@Html.DisplayFor(model => model.Article.ImageLink)" alt="Italian Trulli">
+            </div>
+          
+            <div class="get-article-info-image">
+                <div class="get-article-published">
+                    <b>
+                        Published / @Html.DisplayFor(model => model.Article.PostedDate)
+                    </b>
+                </div>
+                <div class="get-article-title-info">
+                    <b>
+                        @Html.DisplayFor(model => model.Article.Title)
+                    </b>
+                </div>
+                <div class="get-article-bottom-info">
+                    
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias aut, 
+                        repellat ipsum facere voluptate dicta obcaecati deserunt nobis suscipit eaque?
+                </div> 
+            </div>
+            <div class="get-article-text-under-image">
+                @Html.DisplayFor(model => model.Article.ContentText)
+            </div>
+        </div>
+    </div>
+    <div class="get-article-background-text">
+        News
+    </div>
+    <div class="get-article-background-text-news">
+        @Html.DisplayFor(model => model.category)
+    </div>
+    <div class="get-article-comments">
+        <div class="get-article-count-comments">
+            <b>COMMENTS (0)</b>
+        </div>
+        <div class="get-article-sort-by">
+            Sort by: 
+            <select>
+                <option>Most popular</option>
+                <option>Oldest first</option>
+                <option>Newest first</option>
+            </select>
+        </div>
+        <div class="get-article-your-commects">
+
+        </div>
+        <div class="get-article-body-commects">
+
+        </div>
+        <div class="get-article-bottom-comments">
+
+        </div>
+    </div>
+</div>
+
