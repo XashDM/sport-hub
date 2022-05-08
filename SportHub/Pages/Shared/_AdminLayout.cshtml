@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - courses</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/courses.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SportHub.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminpage.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -23,12 +27,12 @@
 
             <div class="user-container">
                 <div class="switch-button">
-                    <img src="~/switch.png" alt="" width="40" height="40">
+                    <img src="~/images/switch.png" alt="" width="40" height="40">
                 </div>
        
                 <div class="user-info">
                     <div class="user-ava">
-                        <img src="switch.png" alt="" width="40" height="40">
+                        <img src="~/images/switch.png" alt="" width="40" height="40">
                     </div>
 
                     <div class="user-desc">
@@ -140,7 +144,9 @@
                     <img src="IA-button.png" alt="" width="40" height="40">
                 </div>
             </section>
-                        @RenderBody()
+
+                @RenderBody()
+
         </main>
 
 
