@@ -1,0 +1,16 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace SportHub.Domain.Models
+{
+    public class Language
+    {
+        [Key]
+        public int Id { get; set; }
+
+        public string LanguageName { get; set; }
+
+        public bool IsEnabled { get; set; }
+    }
+}
+

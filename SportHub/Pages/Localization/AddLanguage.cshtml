@@ -1,0 +1,56 @@
+﻿@page "/addlanguage"
+@model SportHub.Pages.Localization.AddLanguageModel
+@{
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="~/css/AddLanguage.css" asp-append-version="true" />
+
+</head>
+
+<body>
+    <div class="container-fluid">
+
+
+      <div class="form-group col-sm-8">
+        <label for="dur">BS original select</label>
+        <select id="dur" class="form-select">
+          <option value="12" selected>One Year</option>
+          <option value="24">Two Year</option>
+          <option value="36">Three Year</option>
+          <option value="48">Four year</option>
+          <option value="60">Five Year</option>
+        </select>
+      </div>
+
+      <div class="form-group col-sm-8">
+        <label for="myMultiselect">BS custom multiselect</label>
+        <div id="myMultiselect" class="multiselect">
+          <div id="mySelectLabel" class="selectBox" onclick="toggleCheckboxArea()">
+            <select class="form-select">
+              <option>somevalue</option>
+            </select>
+            <div class="overSelect"></div>
+          </div>
+          <div id="mySelectOptions">
+            <label for="one"><input type="checkbox" id="one" onchange="checkboxStatusChange()" value="one" /> First checkbox</label>
+            <label for="two"><input type="checkbox" id="two" onchange="checkboxStatusChange()" value="two" /> Second checkbox</label>
+            <label for="three"><input type="checkbox" id="three" onchange="checkboxStatusChange()" value="three" /> Third checkbox</label>
+            <label for="four"><input type="checkbox" id="four" onchange="checkboxStatusChange()" value="four" /> Third checkbox</label>
+            <label for="five"><input type="checkbox" id="five" onchange="checkboxStatusChange()" value="five" /> First checkbox</label>
+            <label for="six"><input type="checkbox" id="six" onchange="checkboxStatusChange()" value="six" /> Second checkbox</label>
+            <label for="seven"><input type="checkbox" id="seven" onchange="checkboxStatusChange()" value="seven" /> Third checkbox</label>
+            <label for="eight"><input type="checkbox" id="eight" onchange="checkboxStatusChange()" value="eight" /> First checkbox</label>
+            <label for="nine"><input type="checkbox" id="nine" onchange="checkboxStatusChange()" value="nine" /> Second checkbox</label>
+            <label for="ten"><input type="checkbox" id="ten" onchange="checkboxStatusChange()" value="ten" /> Third checkbox</label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <script src="~/js/AddLanguage.js" asp-append-version="true"></script>
+</body>
+
+</html>

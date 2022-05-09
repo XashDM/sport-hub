@@ -13,6 +13,7 @@ using SportHub.Services.Interfaces;
 using SportHub.Services.NavigationItemServices;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore.Metadata;
+using SportHub.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,9 +31,9 @@ builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
 builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();
 builder.Services.AddScoped<INavigationItemService, MainNavigationItemService>();
 builder.Services.AddScoped<IGetArticleService, GetArticleService>();
-
-builder.Services.AddRazorPages()
-    .AddRazorRuntimeCompilation();
+builder.Services.AddScoped<ILanguageService, LanguageService>();
+builder.Services.AddControllers();
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -50,6 +51,12 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
