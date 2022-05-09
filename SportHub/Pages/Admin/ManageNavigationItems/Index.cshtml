@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/NavigationItem.css" asp-append-version="true" />
 </head>
 <div id="screen">
+    <button class = "addB" id = "addId">fff</button>
   <div class ='contener-for-adding' style ="display: none" id = 'formid'>
 
     <form class= "form-to-add" id = 'form-for-adding'>
@@ -211,6 +212,20 @@ function openForm(type) {
         e.stopPropagation();
     };
 }
+function saveItem(){
+    $.ajax({
+            url: '/page',
+            type: 'post',
+            data: JSON.stringify({ addedItem }),
+            async: false,
+            headers:
+            {
+            'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
+            },
+            }).done(function (date) {
+                openTreeforItem(fatherfor(type));
+            });
+}
 // function for adding new item and push to server called by add-button on form
 function createItem(type) {
     let name = document.getElementById("item-name-input").value;
@@ -220,7 +235,7 @@ function createItem(type) {
                 type: type,
                 name: name,
                 parentsItemId: ParentsItemId,
-                Children: []
+                children: []
             };
     if(SaveInMoment){
         $.ajax({
@@ -249,7 +264,6 @@ function createItem(type) {
             openTreeforItem(parent);
         }
     }
-
     document.getElementById("formid").style.display = "none";
 }
 //function for adding Side line on item list for tree view
@@ -383,10 +397,13 @@ function createTeam() {
 
 createCategory();
 var modal = document.getElementById("formid");
-
+let B= document.getElementById("addId");
 window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
+    }
+    if(event.target == B){
+        saveItem();
     }
 };
 </script>

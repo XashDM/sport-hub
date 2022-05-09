@@ -88,5 +88,16 @@ namespace SportHub.Services.NavigationItemServices
             var result = await _context.Articles.Where(articles => navigationItemIdList.Contains(articles.ReferenceItemId.Value)).ToListAsync();
             return result;
         }
+        public async Task<List<NavigationItem>> AddNewItems(List<NavigationItem> newItem)
+        {
+            foreach(var Item in newItem)
+            {
+                _context.NavigationItems.Add(Item);
+                await _context.SaveChangesAsync();
+            }
+
+
+            return null;
+        }
     }
 }

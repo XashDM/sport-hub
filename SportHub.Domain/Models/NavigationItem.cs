@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace SportHub.Domain.Models
 {
@@ -20,6 +17,7 @@ namespace SportHub.Domain.Models
         public string Type { get; set; }
         public int? ParentsItemId { get; set; }
         public virtual NavigationItem? ParentsItem { get; set; }
+        [JsonIgnore]
         public ICollection<NavigationItem> Children { get; } = new List<NavigationItem>();
     }
 }

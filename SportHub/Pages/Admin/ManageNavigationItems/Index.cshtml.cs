@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Domain.Models;
 using SportHub.Services.Interfaces;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SportHub.Pages.Admin.ManageNavigationItems
@@ -10,6 +11,8 @@ namespace SportHub.Pages.Admin.ManageNavigationItems
     {
         private readonly Domain.SportHubDBContext _context;
         private INavigationItemService _servise;
+
+
         public IndexModel(Domain.SportHubDBContext context, INavigationItemService servise)
         {
             _context = context;
@@ -46,11 +49,12 @@ namespace SportHub.Pages.Admin.ManageNavigationItems
             await _servise.AddNewItem(Item);
             return new OkObjectResult(Item);
         }
-        [HttpPost]
-        [Route("/save/page")]
-        public async Task<IActionResult> SaveItem([FromBody] dynamic data)
+        [BindProperty]
+        public dynamic newItem { get; set; }
+        public async Task<IActionResult> OnPost(dynamic newItem)
         {
-            return new ObjectResult("dfdf");
+            _servise.AddNewItems(newItem);
+            return new OkObjectResult(newItem);
         }
     }
 }
