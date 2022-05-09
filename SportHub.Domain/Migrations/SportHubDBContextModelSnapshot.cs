@@ -30,32 +30,19 @@ namespace SportHub.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-<<<<<<< HEAD
-                    b.Property<string>("Image")
-=======
                     b.Property<string>("ContentText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageLink")
->>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime2");
 
-<<<<<<< HEAD
-                    b.Property<int>("ReferenceItemId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-=======
                     b.Property<int?>("ReferenceItemId")
                         .HasColumnType("int");
->>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -80,11 +67,7 @@ namespace SportHub.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-<<<<<<< HEAD
                     b.Property<int?>("ParentsItemId")
-=======
-                    b.Property<int?>("ParentItemId")
->>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac
                         .HasColumnType("int");
 
                     b.Property<string>("Type")
@@ -93,11 +76,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasKey("Id");
 
-<<<<<<< HEAD
                     b.HasIndex("ParentsItemId");
-=======
-                    b.HasIndex("ParentItemId");
->>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac
 
                     b.ToTable("NavigationItems");
                 });
@@ -190,32 +169,18 @@ namespace SportHub.Domain.Migrations
                 {
                     b.HasOne("SportHub.Domain.Models.NavigationItem", "ReferenceItem")
                         .WithMany()
-<<<<<<< HEAD
-                        .HasForeignKey("ReferenceItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-=======
                         .HasForeignKey("ReferenceItemId");
->>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac
 
                     b.Navigation("ReferenceItem");
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
-<<<<<<< HEAD
                     b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentsItem")
                         .WithMany("Children")
                         .HasForeignKey("ParentsItemId");
 
                     b.Navigation("ParentsItem");
-=======
-                    b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentItem")
-                        .WithMany()
-                        .HasForeignKey("ParentItemId");
-
-                    b.Navigation("ParentItem");
->>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac
                 });
 
             modelBuilder.Entity("UserUserRole", b =>

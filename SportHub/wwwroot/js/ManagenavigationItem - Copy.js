@@ -1,56 +1,105 @@
-﻿const ContenerforType = {
+﻿@page "/page"
+@model SportHub.Pages.Admin.ManageNavigationItems.IndexModel
+@{
+    ViewData["Title"] = "Manage";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/NavigationItem.css" asp-append-version="true" />
+</head>
+<div id="screen">
+  <div class ='contener-for-adding' style ="display: none" id = 'formid'>
+
+    <form class= "form-to-add" id = 'form-for-adding'>
+        <div class = 'main-content'>
+        <span class="text-lable" id = 'labe-with-description'>Add</span>
+        <label for="Name"><b>Name</b></label>
+        <input type="text" placeholder="Name of your menu item" name="Name" required  id = 'item-name-input'>
+        <div class ='addbutton' id = 'add-button-id'>Add</div>
+        <div onclick="document.getElementById('formid').style.display='none'" class="cancelbtn">Cancel</div>
+        </div>
+    </form>
+
+  </div>
+</div>
+@section scripts {
+<script type="text/javascript">     
+const ContenerforNestedType = {
     Category: "Subcategory-Contener",
     Subcategory: "Team-Contener",
     Team: null,
+    global: "Category-Contener"
 };
 let activeItem = {
     Category: null,
     Subcategory: null,
     Team: null,
 };
-let CategoryFDateList = null;
-let SubcategoryDateList = null;
-let TeamDateList = null;
-
+let CategoryDateList = null;
+let SubcategoryDateList = {};
+let TeamDateList = {};
+let Tree = {};
 let EctiveCategory = "";
 let EctiveSubCategory = "";
-let LastEctiveItem = null;
-
+let lastActiveItem = null;
+let SaveInMoment = false; 
 //Get list of Teams from server by ID of their father 
+
+function parantFor(type) {
+    if (type == "Category") {
+        return null;
+    } else if (type == "Subcategory") {
+        return activeItem["Category"];
+    } else if (type == "Team") {
+        return activeItem["Subcategory"];
+    }
+}
 function getTeamofSubcategory() {
     let result;
 
-    obj = fatherfor('Team');
-    if (obj == null) {
+    parent = fatherfor('Team');
+    if (parent == null) {
         return [];
     }
-    $.ajax({
-        url: '@Url.Page("Index","Children")',
-        type: "GET",
-        data: { ItemId: obj.id },
-        async: false,
-        headers: {
-            RequestVerificationToken: $(
-                'input:hidden[name="__RequestVerificationToken"]'
-            ).val(),
-        },
-    }).done(function (date) {
-        result = date;
-    );
+    let parentsId = parent.id;
+    console.log(parent);
+    console.log(TeamDateList);
+    if(!(parent.Children == null)){
+        $.ajax({
+            url: '@Url.Page("Index","Children")',
+            type: "GET",
+            data: { ItemId: parentsId },
+            async: false,
+            headers: {
+                RequestVerificationToken: $(
+                    'input:hidden[name="__RequestVerificationToken"]'
+                ).val(),
+            },
+        }).done(function (date) {
+            TeamDateList[parent] = date; 
+            result = date;
+        });
+    }
+    else{
+        result = TeamDateList[parent]; 
+    }
     return result;
 }
 //Get list of Subcategory from server
 function getSubcategoryofCategory() {
     let result;
-
-    obj = activeItem["Category"];
-    if (obj == null) {
+    parent = fatherfor("Subcategory");
+    if (parent == null) {
         return [];
     }
+    console.log(parent);
+    console.log(SubcategoryDateList);
+    let parentsId = parent.id;
+    if(!(parent.name in SubcategoryDateList)){
     $.ajax({
         url: '@Url.Page("Index","Children")',
         type: "GET",
-        data: { ItemId: obj.id },
+        data: { ItemId: parentsId },
         async: false,
         headers: {
             RequestVerificationToken: $(
@@ -58,22 +107,32 @@ function getSubcategoryofCategory() {
             ).val(),
         },
     }).done(function (date) {
+
+        SubcategoryDateList[parent.name] = date;
         result = date;
     });
-
+    }
+    else{
+        result = SubcategoryDateList[parent.name];
+    }
     return result;
 }
 //Get list of Categorys from server
 function getCategory() {
     let result;
+    if(CategoryDateList == null){
     $.ajax({
         url: '@Url.Page("Index","Root")',
         data: $("#tab"),
         async: false,
     }).done(function (date) {
         result = date;
+        Tree = date;
     });
-
+    }
+    else{
+       result = CategoryDateList
+    }
     return result;
 }
 // When click on item this functon is called by that item and get parameter his info - 'obj'
@@ -85,27 +144,38 @@ function removeChildrenFromVisualTree(elementForDelete) {
     while (delet.length > 0) delet[0].remove();
 }
 function openTreeforItem(obj) {
+    let typeOfButton;
+    if(obj == null){
+        typeOfButton = "global";
+    }
+    else{
+        typeOfButton = obj.type;
+    }
 
-    let tipeOfButton = obj.type;
-    let elementForDelete = getContenerforType(obj.type);
+
+    let elementForDelete = getContenerforType(typeOfButton);
 
     if (elementForDelete == null) {
         return 0;
     }
     removeChildrenFromVisualTree(elementForDelete)
-
-    if (tipeOfButton == "Category") {
-        activeItem[tipeOfButton] = obj;
-        lastEctiveItem = obj;
+    console.log(typeOfButton);
+    console.log(obj);
+    if (typeOfButton == "Category") {
+        activeItem[typeOfButton] = obj;
+        lastActiveItem = obj;
         createSubcategory();
-    } else if (tipeOfButton == "Subcategory") {
-        activeItem[tipeOfButton] = obj;
-        lastEctiveItem = obj;
+    } else if (typeOfButton == "Subcategory") {
+        activeItem[typeOfButton] = obj;
+        lastActiveItem = obj;
         createTeam();
+    } else {
+        createCategory();
     }
 }
 //Get father element for item 'type' - [Category, Subcategory, Team]
 function fatherfor(type) {
+    console.log(type);
     if (type == "Category") {
         return null;
     } else if (type == "Subcategory") {
@@ -138,17 +208,27 @@ function openForm(type) {
 // function for adding new item and push to server called by add-button on form
 function createItem(type) {
     let name = document.getElementById("item-name-input").value;
-    let fatherItemId = fatherIdfor(type);
-    $.ajax({
-        url: '@Url.Page("Index","AddItem")',
-        data: {
-            Type: type,
-            Name: name,
-            FatherItemId: fatherItemId,
-        },
-    }).done(function (date) {
-        openTreeforItem(fatherfor(type));
-    });
+    let ParentsItemId = fatherIdfor(type);
+    let item = {
+                Type: type,
+                Name: name,
+                ParentsItemId: ParentsItemId,
+            };
+    if(SaveInMoment){
+        $.ajax({
+            url: '@Url.Page("Index","AddItem")',
+            data: item,
+        }).done(function (date) {
+            openTreeforItem(fatherfor(type));
+        });
+    }
+    else{
+        if(Type == "Category"){
+            CategoryDateList.push(item)
+        }
+            
+    }
+
     document.getElementById("formid").style.display = "none";
 }
 //function for adding Side line on item list for tree view
@@ -156,7 +236,7 @@ function createSideLine(type, SizeOfList) {
     let line = document.createElement("div");
     line.setAttribute("class", "SideLine");
     line.setAttribute("id", "SideLine-" + type);
-    line.style.height = 60 * (SizeOfList - 1) + "px";
+    line.style.height = 60.6 * (SizeOfList - 1) + "px";
     return line;
 }
 ///function for adding Button which open form. Called by all function to create Category/...
@@ -173,6 +253,8 @@ function createButton(type) {
 }
 //Create list of elemnt form 'Date' - array , ItamClass -css class for element  'ItemId' css id for element 
 function сreateList(date, itamClass, itemId, listElement) {
+    console.log(itamClass);
+     console.log(date);
     let sizeOfList = 0;
     for (let e in date) {
         let element = date[e];
@@ -194,11 +276,23 @@ function сreateList(date, itamClass, itemId, listElement) {
 }
 //Create Categorys list on screen 
 function createCategory() {
+
     let type = "Category";
     let categoryDate = getCategory();
     let nameofCategory = "Category";
-    let categoryContener = document.getElementById("Category-Contener");
-    let categoryList = document.getElementById("Category");
+
+
+    let screan = document.getElementById("screen");
+
+    let categoryContener = document.createElement("div");
+    categoryContener.setAttribute("class", "Category-Contener");
+    categoryContener.setAttribute("id", "div-Category-Contener");
+    screan.appendChild(categoryContener);
+
+    let categoryList = document.createElement("ul");
+    categoryList.setAttribute("id", type);
+    categoryList.setAttribute("class", type);
+    categoryContener.appendChild(categoryList);
 
     categoryContener.prepend(createButton(type));
 
@@ -274,3 +368,5 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 };
+</script>
+}

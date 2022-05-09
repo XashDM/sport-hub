@@ -85,7 +85,7 @@ namespace SportHub.Services.NavigationItemServices
         {
 
             var navigationItemIdList =await GetRecusiveTree(ItemId);
-            var result = await _context.Articles.Where(articles => navigationItemIdList.Contains(articles.ReferenceItemId)).ToListAsync();
+            var result = await _context.Articles.Where(articles => navigationItemIdList.Contains(articles.ReferenceItemId.Value)).ToListAsync();
             return result;
         }
     }

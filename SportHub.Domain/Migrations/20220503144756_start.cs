@@ -5,11 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SportHub.Domain.Migrations
 {
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.cs
-    public partial class ChangeArticleTableAddRefItem1 : Migration
-========
-    public partial class ArticleTableAndNavigationItemTogether : Migration
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220427174155_ArticleTableAndNavigationItemTogether.cs
+    public partial class start : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,14 +17,14 @@ namespace SportHub.Domain.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FatherItemId = table.Column<int>(type: "int", nullable: true)
+                    ParentsItemId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NavigationItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_NavigationItems_NavigationItems_FatherItemId",
-                        column: x => x.FatherItemId,
+                        name: "FK_NavigationItems_NavigationItems_ParentsItemId",
+                        column: x => x.ParentsItemId,
                         principalTable: "NavigationItems",
                         principalColumn: "Id");
                 });
@@ -68,35 +64,20 @@ namespace SportHub.Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.cs
-                    ItemId = table.Column<int>(type: "int", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-========
                     ReferenceItemId = table.Column<int>(type: "int", nullable: true),
                     ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContentText = table.Column<string>(type: "nvarchar(max)", nullable: false),
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220427174155_ArticleTableAndNavigationItemTogether.cs
                     PostedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Articles", x => x.Id);
                     table.ForeignKey(
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.cs
-                        name: "FK_Articles_NavigationItems_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "NavigationItems",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-========
                         name: "FK_Articles_NavigationItems_ReferenceItemId",
                         column: x => x.ReferenceItemId,
                         principalTable: "NavigationItems",
                         principalColumn: "Id");
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220427174155_ArticleTableAndNavigationItemTogether.cs
                 });
 
             migrationBuilder.CreateTable(
@@ -134,20 +115,14 @@ namespace SportHub.Domain.Migrations
                 values: new object[] { 2, "Admin" });
 
             migrationBuilder.CreateIndex(
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220503102221_ChangeArticleTableAddRefItem1.cs
-                name: "IX_Articles_ItemId",
-                table: "Articles",
-                column: "ItemId");
-========
                 name: "IX_Articles_ReferenceItemId",
                 table: "Articles",
                 column: "ReferenceItemId");
->>>>>>>> fe0d1efdd5152011ffe10601b37c916dd187c0ac:SportHub.Domain/Migrations/20220427174155_ArticleTableAndNavigationItemTogether.cs
 
             migrationBuilder.CreateIndex(
-                name: "IX_NavigationItems_FatherItemId",
+                name: "IX_NavigationItems_ParentsItemId",
                 table: "NavigationItems",
-                column: "FatherItemId");
+                column: "ParentsItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleName",

@@ -46,5 +46,11 @@ namespace SportHub.Pages.Admin.ManageNavigationItems
             await _servise.AddNewItem(Item);
             return new OkObjectResult(Item);
         }
+        [HttpPost]
+        [Route("/save/page")]
+        public async Task<IActionResult> SaveItem([FromBody] dynamic data)
+        {
+            return new ObjectResult("dfdf");
+        }
     }
 }
