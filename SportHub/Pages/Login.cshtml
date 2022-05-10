@@ -1,0 +1,63 @@
+﻿@page
+@model SportHub.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login User";
+}
+@{  
+    Layout = "~/Pages/Shared/_LoginLayout.cshtml";  
+}  
+<div class="topRightBtn">Don’t have an account?
+        <button class="GetStartedBtn" id="GetStartedBtn" onclick="window.location='/SignUp';">Get Started</button> 
+    </div>
+<div class="d-md-flex half">
+    <div class="rectang"><a href="../Index">Sports Hub</a></div>
+   <div class="bg" style="background-image: url('@Url.Content("~/images/photo.jpg")')">
+</div>
+<div class="contents">
+   <div class="container">
+      <div class="row align-items-center justify-content-center">
+         <div class="col-md-12">
+            <div class="form-block mx-auto">
+               <div class="title">
+                  <h3 class="h3btn">Log in to Sports Hub</h3>
+               </div>
+               <div class="icons">
+                  <img class="logo" src="@Url.Content("~/images/FB.png")" />
+                  <img class="logo" src="@Url.Content("~/images/Gmail.png")" />
+               </div>
+               <div id="form-result" class="error"></div>
+               <form method="post" id="loginForm">
+                  <label class="loginLables" asp-for="loginCredentials.Email">Email Address</label>
+                  <div class="input_container" data-error="Incorrect user ID or password. Try again.">
+                     <input
+                        class="input_field" 
+                        placeholder="Email@gmail.com"
+                        type="email"
+                        name="Email"
+                        id="field_email"
+                        asp-for="loginCredentials.Email"
+                        />
+                        <span class="text-dander" asp-validation-for="loginCredentials.Email"></span>
+                  </div>
+                  
+                  <label class="loginLables" asp-for="loginCredentials.PasswordHash">Password</label>
+                  <span class="ml-auto "><a href="#" class="forgot-pass">Forgot password?</a></span> 
+                  <div class="input_container" data-error="Incorrect user ID or password. Try again.">
+                     <input
+                        placeholder="8 + characters (letters and numbers)"
+                        type="password"
+                        name="Password"
+                        id="field_password"
+                        class="input_field"
+                        asp-for="loginCredentials.PasswordHash"
+                        />
+                        <span class="text-dander" asp-validation-for="loginCredentials.PasswordHash"></span>
+                  </div>
+                  <input type="submit" value="Log In" class="btn btn-block btn-primary"/>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
