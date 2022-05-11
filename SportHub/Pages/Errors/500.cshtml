@@ -1,0 +1,11 @@
+﻿@page
+@{
+    ViewBag.Title = "(500) An Error Occurred";
+}
+<link rel="stylesheet" href="~/css/errors.css" asp-append-version="true" />
+<div class="errorContent">
+    <h1 class="statusCode">(500) An Error Occurred.</h1>
+    <p class="details">There are some problems with your operation.</p>
+    <p class="details">Please, contact the support by emailing them this page error.</p>
+    <p class="details">To find the available contacts go to: @Html.ActionLink("Contacts", "Contact", "Home")</p>
+</div>
