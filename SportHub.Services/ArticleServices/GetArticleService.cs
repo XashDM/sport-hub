@@ -8,9 +8,11 @@ namespace SportHub.Services.ArticleServices
     public class GetArticleService: IGetArticleService
     {
         private readonly SportHubDBContext _context;
-        public GetArticleService(SportHubDBContext context)
+        private readonly IImageService _imageService;
+        public GetArticleService(SportHubDBContext context, IImageService imageService)
         {
             _context = context;
+            _imageService = imageService;
         }
 
         Article Article;
@@ -21,6 +23,7 @@ namespace SportHub.Services.ArticleServices
                 Article = _context.Articles.First(idArticle => idArticle.Id == id);
             }
             catch { return null; }
+            Article.ImageLink = _imageService.GetImageLinkByName(Article.ImageLink);
             return Article;
         }
         NavigationItem NavigationItem;

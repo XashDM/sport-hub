@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Domain.Models;
 using SportHub.Services.ArticleServices;
 using SportHub.Services.Interfaces;
+using SportHub.Services;
 
 namespace SportHub.Pages.Articles
 {
     public class DetailsModel : PageModel
     {
         private readonly IGetArticleService _service;
-        public DetailsModel(IGetArticleService service)
+        public DetailsModel(IGetArticleService service, IImageService imageService)
         {
             _service = service;
         }

@@ -348,3 +348,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/SportHub.Domain/Migrations
+/SportHub/Pages/ImageTest.cshtml
+/SportHub/Pages/ImageTest.cshtml.cs
