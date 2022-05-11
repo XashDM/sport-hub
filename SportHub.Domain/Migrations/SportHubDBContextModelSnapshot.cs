@@ -56,13 +56,11 @@ namespace SportHub.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("ParentItemId")
+                    b.Property<int?>("ParentsItemId")
                         .HasColumnType("int");
 
                     b.Property<string>("Type")
@@ -71,7 +69,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentItemId");
+                    b.HasIndex("ParentsItemId");
 
                     b.ToTable("NavigationItems");
                 });
@@ -171,11 +169,11 @@ namespace SportHub.Domain.Migrations
 
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
-                    b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentItem")
+                    b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentsItem")
                         .WithMany()
-                        .HasForeignKey("ParentItemId");
+                        .HasForeignKey("ParentsItemId");
 
-                    b.Navigation("ParentItem");
+                    b.Navigation("ParentsItem");
                 });
 
             modelBuilder.Entity("UserUserRole", b =>

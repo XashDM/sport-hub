@@ -2,30 +2,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400&subset=latin,latin-ext);
 
-html {
-    font-size: 14px;
-}
-
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-
-html {
-    position: relative;
-    min-height: 100%;
-}
-
 body {
     margin-bottom: 60px;
     font-family: "Open Sans", sans-serif;
     font-style: normal;
 }
 
+@media (min-width: 576px) and (max-width: 1368px) {
+    .get-article-main {
+        width: 70%;
+    }
+}
+
+@media (min-width: 1921px){
+    .get-article-main {
+        width: 70%;
+        margin: auto;
+    }
+}
+
 .get-article-main {
-    width: 100%;
-    margin: 0;
+    max-width: 1024px;
 }
 
 .get-article-top-info {

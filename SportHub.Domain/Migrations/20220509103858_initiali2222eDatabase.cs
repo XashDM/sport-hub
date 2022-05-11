@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.SqlServer;
 
 #nullable disable
 
 namespace SportHub.Domain.Migrations
 {
-    public partial class createMySqlDatabase : Migration
+    public partial class initiali2222eDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,14 +23,14 @@ namespace SportHub.Domain.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Type = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FatherItemId = table.Column<int>(type: "int", nullable: true)
+                    ParentsItemId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NavigationItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_NavigationItems_NavigationItems_FatherItemId",
-                        column: x => x.FatherItemId,
+                        name: "FK_NavigationItems_NavigationItems_ParentsItemId",
+                        column: x => x.ParentsItemId,
                         principalTable: "NavigationItems",
                         principalColumn: "Id");
                 })
@@ -142,9 +141,9 @@ namespace SportHub.Domain.Migrations
                 column: "ReferenceItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_NavigationItems_FatherItemId",
+                name: "IX_NavigationItems_ParentsItemId",
                 table: "NavigationItems",
-                column: "FatherItemId");
+                column: "ParentsItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleName",

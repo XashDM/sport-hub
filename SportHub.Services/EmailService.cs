@@ -20,7 +20,7 @@ namespace SportHub.Services
                 .Subject("Signup verification")
                 .UsingTemplate(emailBody, new { });
 
-            await email.SendAsync();
+            //await email.SendAsync();
         }
     }
 }
