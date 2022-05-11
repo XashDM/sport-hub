@@ -21,7 +21,7 @@ namespace SportHub.Services.Services
             _context = context;
         }
         
-
+        
         public async Task AddLanguage(Language language)
         {
             _context.Languages.Add(language);
@@ -36,6 +36,12 @@ namespace SportHub.Services.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteDisplayedLanguage(int? id)
+        {
+            var language = await GetDisplayedLanguageById(id);
+            _context.DisplayedLanguages.Remove(language);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task <List<LanguageViewModel>> GetAllLanguages()
         {
@@ -48,8 +54,21 @@ namespace SportHub.Services.Services
             }).ToList();
             return languages;
         }
+        
 
+        public async Task<List<DisplayedLanguageViewModel>> GetAllDisplayedLanguages()
+        {
+            var displanguages = (await _context.DisplayedLanguages.ToListAsync()).Select(x => {
+                var displanguageViewModel = new DisplayedLanguageViewModel();
+                displanguageViewModel.Id = x.Id;
+                displanguageViewModel.LanguageName = x.LanguageName;
+                displanguageViewModel.IsEnabled = x.IsEnabled;
+                return displanguageViewModel;
+            }).ToList();
+            return displanguages;
+        }
 
+        
         public async Task <LanguageViewModel> GetLanguage(int? id)
         {
             throw new NotImplementedException();
@@ -65,5 +84,16 @@ namespace SportHub.Services.Services
             }
             return language;
         }
+
+        private async Task<DisplayedLanguage> GetDisplayedLanguageById(int? id)
+        {
+            var language = (await _context.DisplayedLanguages.ToListAsync()).FirstOrDefault(x => x.Id == id);
+            if (language == null)
+            {
+                throw new ArgumentNullException(nameof(language));
+            }
+            return language;
+        }
+
     }
 }

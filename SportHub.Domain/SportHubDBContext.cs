@@ -16,6 +16,8 @@ namespace SportHub.Domain
         public DbSet<NavigationItem> NavigationItems { get; set; }
 
         public DbSet<Language> Languages { get; set; }
+        public DbSet<DisplayedLanguage> DisplayedLanguages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(entity => entity.HasAlternateKey(e => e.Email));

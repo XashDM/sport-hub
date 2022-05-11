@@ -7,15 +7,19 @@ namespace SportHub.Services.Interfaces
 {
     public interface ILanguageService
     {
-
+        
         public Task AddLanguage(Language language);
 
         public Task DeleteLanguage(int? id);
 
+        public Task DeleteDisplayedLanguage(int? id);
+
         public Task<List<LanguageViewModel>> GetAllLanguages();
+
+        public Task<List<DisplayedLanguageViewModel>> GetAllDisplayedLanguages();
 
         public Task<LanguageViewModel> GetLanguage(int? id);
 
-
+        
     }
 }

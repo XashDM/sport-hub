@@ -36,14 +36,22 @@
 
 .floating-icon {
     position: relative;
-    margin-bottom: 20px;
-    margin-right: 25px;
+    margin-bottom: auto;
+    margin-right: auto;
     margin-left: auto;
     margin-top: auto;
     opacity: 0;
 }
 
-
+.delete_button {
+    position: relative;
+    margin-top: 20px;
+    border: medium none;
+    background-image: none;
+    background: transparent;
+    float: left;
+    background-color: transparent;
+}
 /*Columns Title*/
 .column {
     float: left;
