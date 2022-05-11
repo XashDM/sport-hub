@@ -14,7 +14,7 @@ namespace SportHub.Pages.Localization
     {
         private ILanguageService languageService { get; set; }
 
-        public List<DisplayedLanguageViewModel> LangList { get; set; }
+        public List<DisplayedLanguageViewModel> DispLanguageList { get; set; }
 
         public LocalizationModel(ILanguageService Service)
         {
@@ -23,7 +23,7 @@ namespace SportHub.Pages.Localization
 
         public async Task OnGet()
         {
-            LangList = (await languageService.GetAllDisplayedLanguages()).ToList();
+            DispLanguageList = (await languageService.GetAllDisplayedLanguages()).ToList();
         }
 
         

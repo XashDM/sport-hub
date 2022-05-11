@@ -19,7 +19,7 @@
     </div>
 
     <div class="language-block">
-        @foreach(var language in Model.LangList)
+        @foreach(var language in Model.DispLanguageList)
         {
             if (language.IsEnabled)
             {
@@ -28,7 +28,7 @@
                         <div class="column_ttr left_ttr">@language.LanguageName</div>
                         <div class="column_ttr middle_ttr">
                             <label class="switch">
-                              <input type="checkbox">
+                              <input type="checkbox" checked="@language.IsEnabled">
                               <span class="slider round"></span>
                             </label>
                         </div>
@@ -48,7 +48,7 @@
                         <div class="column_ttr left_ttr">@language.LanguageName</div>
                         <div class="column_ttr middle_ttr">
                             <label class="switch">
-                              <input type="checkbox">
+                              <input type="checkbox" checked="@language.IsEnabled">
                               <span class="slider round"></span>
                             </label>
                         </div>

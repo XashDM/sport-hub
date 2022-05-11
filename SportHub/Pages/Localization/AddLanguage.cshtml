@@ -2,6 +2,7 @@
 @model SportHub.Pages.Localization.AddLanguageModel
 @{
 }
+
 <!DOCTYPE html>
 <html>
 
@@ -22,11 +23,25 @@
             <div class="overSelect"></div>
           </div>
           <div id="mySelectOptions">
-            <label for="en">English<input type="checkbox" id="en" onchange="checkboxStatusChange()" value="English" /></label>
-            <label for="gr">German<input type="checkbox" id="gr" onchange="checkboxStatusChange()" value="German" /></label>
-            <label for="fr">French<input type="checkbox" id="fr" onchange="checkboxStatusChange()" value="French" /></label>
+             @foreach(var language in Model.LanguageList)
+             {
+                    <label for="@language.LanguageName">
+                        @language.LanguageName
+                        <input type="checkbox" class="checkboxstyle" id="@language.LanguageName" onchange="checkboxStatusChange()" value="@language.LanguageName" checked="@language.IsEnabled" />
+                    </label>
+             }
           </div>
         </div>
+        <form asp-page-handler="add" method="post">
+            <button class="addbutton">
+                <div class="addbuttontext">Add</div>
+            </button>
+        </form>
+
+        <button class="cancelbutton">
+            <div class="cencelbuttontext">Cencel</div>
+        </button>
+
       </div>
 
     <script src="~/js/AddLanguage.js" asp-append-version="true"></script>

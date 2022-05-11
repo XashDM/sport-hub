@@ -28,11 +28,15 @@ namespace SportHub.Services.Services
             await _context.SaveChangesAsync();
         }
 
-
-        public async Task DeleteLanguage(int? id)
+        public async Task AddDisplayedLanguage(DisplayedLanguage language)
         {
-            var language = await GetLanguageById(id);
-            _context.Languages.Remove(language);
+            _context.DisplayedLanguages.Add(language);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddDisplayedLanguageRange(IEnumerable<DisplayedLanguage> languages)
+        {
+            await _context.DisplayedLanguages.AddRangeAsync(languages);
             await _context.SaveChangesAsync();
         }
 
