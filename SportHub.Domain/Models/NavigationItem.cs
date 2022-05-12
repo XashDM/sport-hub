@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-
 namespace SportHub.Domain.Models
 {
     public class NavigationItem
@@ -17,7 +16,7 @@ namespace SportHub.Domain.Models
         public string Type { get; set; }
         public int? ParentsItemId { get; set; }
         public virtual NavigationItem? ParentsItem { get; set; }
-        [JsonIgnore]
-        public ICollection<NavigationItem> Children { get; } = new List<NavigationItem>();
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public ICollection<NavigationItem>? Children { get; set; }
     }
 }

@@ -66,7 +66,7 @@ function getTeamofSubcategory() {
 
     console.log(parent);
     console.log(TeamDateList);
-    if(parent.Children == null){
+    if(parent.children == null){
         let parentsId = parent.id;
         $.ajax({
             url: '@Url.Page("Index","Children")',
@@ -79,12 +79,12 @@ function getTeamofSubcategory() {
                 ).val(),
             },
         }).done(function (date) {
-            parent.Children = date; 
+            parent.children = date; 
             result = date;
         });
     }
     else{
-        result = parent.Children
+        result = parent.children
     }
     console.log(Tree);
     return result;
@@ -99,10 +99,10 @@ function getSubcategoryofCategory() {
     console.log(parent);
     console.log(SubcategoryDateList);
 
-    if(parent.Children == null){
+    if(parent.children == null){
                     let parentsId = parent.id;
     $.ajax({
-        url: '@Url.Page("Index","Children")',
+        url: '@Url.Page("Index","children")',
         type: "GET",
         data: { ItemId: parentsId },
         async: false,
@@ -113,12 +113,12 @@ function getSubcategoryofCategory() {
         },
     }).done(function (date) {
 
-        parent.Children = date;
+        parent.children = date;
         result = date;
     });
     }
     else{
-        result = parent.Children
+        result = parent.children
     }
     console.log(Tree);
     return result;
@@ -214,13 +214,17 @@ function openForm(type) {
 }
 function saveItem(){
     $.ajax({
-            url: '/page',
+            url: '/save',
             type: 'post',
-            data: JSON.stringify({ addedItem }),
+            dataType: "json",
+            data: JSON.stringify({
+            date: addedItem}),//$.param({ data: addedItem}, true),//JSON.stringify({ addedItem }), // addedItem,
             async: false,
             headers:
             {
-            'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
             },
             }).done(function (date) {
                 openTreeforItem(fatherfor(type));
@@ -231,7 +235,6 @@ function createItem(type) {
     let name = document.getElementById("item-name-input").value;
     let ParentsItemId = fatherIdfor(type);
     let item = {
-                id: null,
                 type: type,
                 name: name,
                 parentsItemId: ParentsItemId,
@@ -255,7 +258,7 @@ function createItem(type) {
         }
         else{
             parent = fatherfor(type);
-            parent.Children.push(item);
+            parent.children.push(item);
             if(item.parentsItemId != null){
                 addedItem.push(item);
                 console.log("addedItem");

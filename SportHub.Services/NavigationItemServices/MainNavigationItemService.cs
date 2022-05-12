@@ -85,7 +85,8 @@ namespace SportHub.Services.NavigationItemServices
         {
 
             var navigationItemIdList =await GetRecusiveTree(ItemId);
-            var result = await _context.Articles.Where(articles => navigationItemIdList.Contains(articles.ReferenceItemId.Value)).ToListAsync();
+            var result = await _context.Articles.Where(articles => 
+                navigationItemIdList.Contains(articles.ReferenceItemId.Value)).ToListAsync();
             return result;
         }
         public async Task<List<NavigationItem>> AddNewItems(List<NavigationItem> newItem)
@@ -93,11 +94,10 @@ namespace SportHub.Services.NavigationItemServices
             foreach(var Item in newItem)
             {
                 _context.NavigationItems.Add(Item);
-                await _context.SaveChangesAsync();
+
             }
-
-
-            return null;
+            await _context.SaveChangesAsync();
+            return newItem;
         }
     }
 }

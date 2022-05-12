@@ -16,16 +16,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 builder.Services.AddDbContext<SportHubDBContext>(options =>
-<<<<<<< Updated upstream
-{
-=======
 {/*
     var connectionString = builder.Configuration.GetConnectionString("SportHubDB");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
     */
->>>>>>> Stashed changes
     options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDB"));
 });
 builder.Services.AddScoped<IUserService, UserService>();
@@ -58,7 +54,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.UseAuthentication();
 app.UseAuthorization();
 
