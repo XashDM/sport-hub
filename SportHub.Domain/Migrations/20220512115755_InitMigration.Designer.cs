@@ -11,8 +11,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    [Migration("20220503111131_createMySqlDatabase")]
-    partial class createMySqlDatabase
+    [Migration("20220512115755_InitMigration")]
+    partial class InitMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,18 +52,54 @@ namespace SportHub.Domain.Migrations
                     b.ToTable("Articles");
                 });
 
+            modelBuilder.Entity("SportHub.Domain.Models.DisplayedLanguage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LanguageName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DisplayedLanguages");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.Language", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LanguageName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Languages");
+                });
+
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("FatherItemId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int?>("ParentItemId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -71,7 +107,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FatherItemId");
+                    b.HasIndex("ParentItemId");
 
                     b.ToTable("NavigationItems");
                 });
@@ -171,11 +207,11 @@ namespace SportHub.Domain.Migrations
 
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
-                    b.HasOne("SportHub.Domain.Models.NavigationItem", "FatherItem")
+                    b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentItem")
                         .WithMany()
-                        .HasForeignKey("FatherItemId");
+                        .HasForeignKey("ParentItemId");
 
-                    b.Navigation("FatherItem");
+                    b.Navigation("ParentItem");
                 });
 
             modelBuilder.Entity("UserUserRole", b =>

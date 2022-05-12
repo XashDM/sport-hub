@@ -1,17 +1,48 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.SqlServer;
 
 #nullable disable
 
 namespace SportHub.Domain.Migrations
 {
-    public partial class createMySqlDatabase : Migration
+    public partial class InitMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "DisplayedLanguages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    LanguageName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DisplayedLanguages", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Languages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    LanguageName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Languages", x => x.Id);
+                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -24,14 +55,14 @@ namespace SportHub.Domain.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Type = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FatherItemId = table.Column<int>(type: "int", nullable: true)
+                    ParentItemId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NavigationItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_NavigationItems_NavigationItems_FatherItemId",
-                        column: x => x.FatherItemId,
+                        name: "FK_NavigationItems_NavigationItems_ParentItemId",
+                        column: x => x.ParentItemId,
                         principalTable: "NavigationItems",
                         principalColumn: "Id");
                 })
@@ -142,9 +173,9 @@ namespace SportHub.Domain.Migrations
                 column: "ReferenceItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_NavigationItems_FatherItemId",
+                name: "IX_NavigationItems_ParentItemId",
                 table: "NavigationItems",
-                column: "FatherItemId");
+                column: "ParentItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleName",
@@ -168,6 +199,12 @@ namespace SportHub.Domain.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Articles");
+
+            migrationBuilder.DropTable(
+                name: "DisplayedLanguages");
+
+            migrationBuilder.DropTable(
+                name: "Languages");
 
             migrationBuilder.DropTable(
                 name: "UserUserRole");
