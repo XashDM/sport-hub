@@ -14,6 +14,5 @@ namespace SportHub.Services
         Task<string> UploadImageAsync(IFormFile formFile);
         public Task<List<string>> GetImagesListAsync();
         public Task<string> GetImageLinkByNameAsync(string filename);
-        public string GetImageLinkByName(string filename);
     }
 }

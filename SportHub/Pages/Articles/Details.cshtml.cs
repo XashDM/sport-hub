@@ -27,7 +27,7 @@ namespace SportHub.Pages.Articles
             {
                 return NotFound();
             }
-            Article = _service.GetArticle(id);
+            Article = await _service.GetArticle(id);
             try
             {
                 team = _service.GetArticlesTeam(id);

@@ -1,7 +1,9 @@
 ﻿using SportHub.Domain;
 using SportHub.Domain.Models;
 using SportHub.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SportHub.Services.ArticleServices
 {
@@ -9,6 +11,7 @@ namespace SportHub.Services.ArticleServices
     {
         private readonly SportHubDBContext _context;
         private readonly IImageService _imageService;
+
         public GetArticleService(SportHubDBContext context, IImageService imageService)
         {
             _context = context;
@@ -16,14 +19,14 @@ namespace SportHub.Services.ArticleServices
         }
 
         Article Article;
-        public Article GetArticle(int? id)
+        public async Task<Article> GetArticle(int? id)
         {
             try
             {
-                Article = _context.Articles.First(idArticle => idArticle.Id == id);
+                Article = await _context.Articles.FirstOrDefaultAsync(idArticle => idArticle.Id == id);
             }
             catch { return null; }
-            Article.ImageLink = _imageService.GetImageLinkByName(Article.ImageLink);
+            Article.ImageLink = await _imageService.GetImageLinkByNameAsync(Article.ImageLink);
             return Article;
         }
         NavigationItem NavigationItem;

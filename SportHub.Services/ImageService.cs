@@ -76,27 +76,5 @@ namespace SportHub.Services
 
             return sasUri.ToString();  
         }
-
-        public string GetImageLinkByName(string imageName)
-        {
-            BlobClient fileClient = _blobContainerClient.GetBlobClient(imageName);
-            if (!(fileClient.Exists()))
-            {
-                return null;
-            }
-            //if blob was found, generate SAS link
-            BlobSasBuilder sasBuilder = new BlobSasBuilder()
-            {
-                BlobName = imageName,
-                BlobContainerName = _containerName,
-                Resource = "b",
-                StartsOn = DateTimeOffset.UtcNow,
-                ExpiresOn = DateTimeOffset.UtcNow.AddHours(1)
-            };
-            sasBuilder.SetPermissions(BlobSasPermissions.Read);
-            Uri sasUri = fileClient.GenerateSasUri(sasBuilder);
-
-            return sasUri.ToString();
-        }
     }
 }
