@@ -1,5 +1,5 @@
 ﻿$('#main-articles-block').on('click', '.add-new-button', () => {
-    let maxArticleCount = 6;
+    let maxArticleCount = 5;
     let currentArticleAmount = $('.configuration-body').length;
 
     if (currentArticleAmount === maxArticleCount) {
