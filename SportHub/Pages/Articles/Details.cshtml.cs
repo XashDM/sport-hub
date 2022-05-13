@@ -21,7 +21,7 @@ namespace SportHub.Pages.Articles
         public string subcategory;
         public string category;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             if (id == null)
             {

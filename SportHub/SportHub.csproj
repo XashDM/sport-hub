@@ -9,7 +9,6 @@
 
     <ImplicitUsings>disabled</ImplicitUsings>
 	<PreserveCompilationContext>true</PreserveCompilationContext>
-	<RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>

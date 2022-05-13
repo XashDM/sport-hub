@@ -11,6 +11,7 @@ namespace SportHub.Services.ArticleServices
     {
         private readonly SportHubDBContext _context;
         private readonly IImageService _imageService;
+        NavigationItem NavigationItem;
 
         public GetArticleService(SportHubDBContext context, IImageService imageService)
         {
@@ -18,21 +19,24 @@ namespace SportHub.Services.ArticleServices
             _imageService = imageService;
         }
 
-        Article Article;
-        public async Task<Article> GetArticle(int? id)
+
+        public async Task<Article> GetArticle(int id)
         {
             try
             {
-                Article = await _context.Articles.FirstOrDefaultAsync(idArticle => idArticle.Id == id);
+                var article = await _context.Articles.FirstOrDefaultAsync(idArticle => idArticle.Id == id);
+                if (article is not null)
+                {
+                    article.ImageLink = await _imageService.GetImageLinkByNameAsync(article.ImageLink);
+                }
+                return article;
             }
             catch { return null; }
-            Article.ImageLink = await _imageService.GetImageLinkByNameAsync(Article.ImageLink);
-            return Article;
         }
-        NavigationItem NavigationItem;
+
         public string GetArticlesTeam(int? id)
         {
-            Article = _context.Articles.First(Article => Article.Id == id);
+            var Article = _context.Articles.First(Article => Article.Id == id);
             if (Article.ReferenceItemId == null)
             {
                 return null;
@@ -51,7 +55,7 @@ namespace SportHub.Services.ArticleServices
 
         public string GetArticlesSubcategory(int? id)
         {
-            Article = _context.Articles.First(Article => Article.Id == id);
+            var Article = _context.Articles.First(Article => Article.Id == id);
             if (Article.ReferenceItemId == null)
             {
                 return null;
@@ -79,7 +83,7 @@ namespace SportHub.Services.ArticleServices
 
         public string GetArticlesCategory(int? id)
         {
-            Article = _context.Articles.First(Article => Article.Id == id);
+            var Article = _context.Articles.First(Article => Article.Id == id);
             if (Article.ReferenceItemId == null)
             {
                 return "All Category";
