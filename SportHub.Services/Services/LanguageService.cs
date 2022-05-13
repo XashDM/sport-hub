@@ -22,19 +22,6 @@ namespace SportHub.Services.Services
         }
 
 
-        public async Task AddLanguage(Language language)
-        {
-            _context.Languages.Add(language);
-            await _context.SaveChangesAsync();
-        }
-
-
-        public async Task ChangeLanguageDisplayValue(Language language)
-        {
-            _context.Languages.Attach(language);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task AddDisplayedLanguage(DisplayedLanguage language)
         {
             _context.DisplayedLanguages.Add(language);
@@ -47,20 +34,21 @@ namespace SportHub.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteDisplayedLanguage(int? id)
+        public async Task DeleteDisplayedLanguage(int id)
         {
             var language = await GetDisplayedLanguageById(id);
             _context.DisplayedLanguages.Remove(language);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateDisplayedLanguage(int? id, bool isEnable)
+        public async Task UpdateDisplayedLanguage(int id, bool isEnable)
         {
             var language = await GetDisplayedLanguageById(id);
             language.IsEnabled = isEnable;
             _context.DisplayedLanguages.Update(language);
             await _context.SaveChangesAsync();
         }
+
 
         public async Task<List<LanguageViewModel>> GetAllLanguages()
         {
@@ -75,7 +63,6 @@ namespace SportHub.Services.Services
             return languages;
         }
 
-
         public async Task<List<DisplayedLanguageViewModel>> GetAllDisplayedLanguages()
         {
             var displanguages = (await _context.DisplayedLanguages.ToListAsync()).Select(x =>
@@ -89,7 +76,7 @@ namespace SportHub.Services.Services
             return displanguages;
         }
 
-        private async Task<Language> GetLanguageById(int? id)
+        private async Task<Language> GetLanguageById(int id)
         {
             var language = (await _context.Languages.ToListAsync()).FirstOrDefault(x => x.Id == id);
             if (language == null)
@@ -99,7 +86,7 @@ namespace SportHub.Services.Services
             return language;
         }
 
-        private async Task<DisplayedLanguage> GetDisplayedLanguageById(int? id)
+        private async Task<DisplayedLanguage> GetDisplayedLanguageById(int id)
         {
             var language = (await _context.DisplayedLanguages.ToListAsync()).FirstOrDefault(x => x.Id == id);
             if (language == null)

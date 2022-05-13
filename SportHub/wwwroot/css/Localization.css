@@ -195,4 +195,29 @@ input:checked + .slider:before {
 
 }
 
+.addbutton {
+    position: absolute;
+    width: 82px;
+    height: 32px;
+    left: 342px;
+    top: 285px;
+    background: #D72130;
+    border: medium none;
+}
 
+.addbuttontext {
+    position: absolute;
+    width: 23px;
+    height: 16px;
+    left: 19px;
+    top: 8px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 130% */
+
+    text-align: center;
+    color: #FFFFFF;
+}

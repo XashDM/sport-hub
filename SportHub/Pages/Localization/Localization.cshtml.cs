@@ -29,9 +29,10 @@ namespace SportHub.Pages.Localization
 
         public async Task OnPost(int id, bool isEnable)
         {
-            DispLanguageList = (await languageService.GetAllDisplayedLanguages()).ToList();
             await languageService.UpdateDisplayedLanguage(id, isEnable);
+            await OnGet();
         }
+
 
         public async Task OnPostDelete(int id)
         {

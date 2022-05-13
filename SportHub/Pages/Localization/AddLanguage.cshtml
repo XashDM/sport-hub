@@ -12,25 +12,25 @@
 </head>
 
 <body>
-      <div class="form-group">
+    <div class="form-group">
         <div class="myMultiselectLable">Add language</div>
         <div id="myMultiselect" class="multiselect">
-          
-          <div id="mySelectLabel" class="selectBox" onclick="toggleCheckboxArea()">
-            <select class="form-select">
-              <option>somevalue</option>
-            </select>
-            <div class="overSelect"></div>
-          </div>
-          <div id="mySelectOptions">
-             @foreach(var language in Model.LanguageList)
-             {
+
+            <div id="mySelectLabel" class="selectBox" onclick="toggleCheckboxArea()">
+                <select class="form-select">
+                    <option>somevalue</option>
+                </select>
+                <div class="overSelect"></div>
+            </div>
+            <div id="mySelectOptions">
+                @foreach (var language in Model.LanguageList)
+                {
                     <label for="@language.LanguageName">
                         @language.LanguageName
                         <input type="checkbox" class="checkboxstyle" id="@language.LanguageName" onchange="checkboxStatusChange()" value="@language.LanguageName" checked="@language.IsEnabled" />
                     </label>
-             }
-          </div>
+                }
+            </div>
         </div>
         <form asp-page-handler="add" method="post">
             <button class="addbutton">
@@ -42,7 +42,7 @@
             <div class="cencelbuttontext">Cencel</div>
         </button>
 
-      </div>
+    </div>
 
     <script src="~/js/AddLanguage.js" asp-append-version="true"></script>
 

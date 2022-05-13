@@ -1,4 +1,5 @@
-﻿$(".language-box").on("click", 'input[type="checkbox"]', function (e) {
+﻿$(".language-block .language-box").on("click", 'input[type="checkbox"]', function (e) {
+    e.stopPropagation();
     let status = $(this).prop('checked');
     let languageId = $(this).prop('id');
     console.log(languageId)
@@ -12,8 +13,10 @@
         url: '/localization',
         type: 'post',
         data: {
-            'isEnabled': status,
             'id': languageId,
+            'isEnable': status,
         }
+      
     });
+    console.log(status)
 });
