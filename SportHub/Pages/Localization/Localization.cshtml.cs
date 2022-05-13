@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Domain.Models;
 using SportHub.Services.Interfaces;
+using SportHub.Services.Services;
 using SportHub.Services.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,12 @@ namespace SportHub.Pages.Localization
             DispLanguageList = (await languageService.GetAllDisplayedLanguages()).ToList();
         }
 
-        
+        public async Task OnPost(int id, bool isEnable)
+        {
+            DispLanguageList = (await languageService.GetAllDisplayedLanguages()).ToList();
+            await languageService.UpdateDisplayedLanguage(id, isEnable);
+        }
+
         public async Task OnPostDelete(int id)
         {
            await languageService.DeleteDisplayedLanguage(id);

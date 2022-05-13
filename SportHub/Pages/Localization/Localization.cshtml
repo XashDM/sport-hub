@@ -18,50 +18,56 @@
         </div>
     </div>
 
-    <div class="language-block">
-        @foreach(var language in Model.DispLanguageList)
-        {
-            if (language.IsEnabled)
+        <div class="language-block">
+            @foreach(var language in Model.DispLanguageList)
             {
-                <div class="language-box box-shadow language-box-front">
-                    <div class="row_ttr">
-                        <div class="column_ttr left_ttr">@language.LanguageName</div>
-                        <div class="column_ttr middle_ttr">
-                            <label class="switch">
-                              <input type="checkbox" checked="@language.IsEnabled">
-                              <span class="slider round"></span>
-                            </label>
+                if (language.IsEnabled)
+                {
+                    <div class="language-box box-shadow language-box-front">
+                        <div class="row_ttr">
+                            <div class="column_ttr left_ttr">@language.LanguageName</div>
+                            <div class="column_ttr middle_ttr">
+                                <label class="switch">
+                                  <input type="checkbox" checked="@language.IsEnabled" id=@language.Id>
+                                  <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="column_ttr right_ttr">Show</div>
+                            
                         </div>
-                        <div class="column_ttr right_ttr">Show</div>
+                        <form asp-page-handler="delete" method="post" asp-route-id=@language.Id>
+                            <button class="btn delete_button">
+                                <img class="floating-icon" src="/icons/waste_basket.png"/>
+                            </button>
+                        </form>
                     </div>
-                    <form asp-page-handler="delete" method="post" asp-route-id=@language.Id>
-                        <button class="btn delete_button">
-                            <img class="floating-icon" src="/icons/waste_basket.png"/>
-                        </button>
-                    </form>
-                </div>
-            }
-            else
-            {
-                <div class="language-box box-shadow language-box-front">
-                    <div class="row_ttr">
-                        <div class="column_ttr left_ttr">@language.LanguageName</div>
-                        <div class="column_ttr middle_ttr">
-                            <label class="switch">
-                              <input type="checkbox" checked="@language.IsEnabled">
-                              <span class="slider round"></span>
-                            </label>
+                }
+                else
+                {
+                    <div class="language-box box-shadow language-box-front">
+                        <div class="row_ttr">
+                            <div class="column_ttr left_ttr">@language.LanguageName</div>
+                            <div class="column_ttr middle_ttr">
+                                <label class="switch">
+                                  <input type="checkbox" checked="@language.IsEnabled" >
+                                  <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="column_ttr right_ttr">Hide</div>
                         </div>
-                        <div class="column_ttr right_ttr">Hide</div>
+                        <form asp-page-handler="delete" method="post" asp-route-id=@language.Id>
+                            <button class="btn delete_button">
+                                <img class="floating-icon" src="/icons/waste_basket.png"/>
+                            </button>
+                        </form>
                     </div>
-                    <form asp-page-handler="delete" method="post" asp-route-id=@language.Id>
-                        <button class="btn delete_button">
-                            <img class="floating-icon" src="/icons/waste_basket.png"/>
-                        </button>
-                    </form>
-                </div>
+                }
             }
-        }
-    </div>
+        </div>
+
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/Localization.js" asp-append-version="true"></script>
+        
     </body>
 </html>

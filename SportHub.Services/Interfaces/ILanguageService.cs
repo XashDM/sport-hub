@@ -12,15 +12,14 @@ namespace SportHub.Services.Interfaces
 
         public Task DeleteDisplayedLanguage(int? id);
 
+        public Task UpdateDisplayedLanguage(int? id, bool isEnable);
+
         public Task AddDisplayedLanguage(DisplayedLanguage language);
         public Task AddDisplayedLanguageRange(IEnumerable<DisplayedLanguage> language);
 
         public Task<List<LanguageViewModel>> GetAllLanguages();
-
         public Task<List<DisplayedLanguageViewModel>> GetAllDisplayedLanguages();
 
-        public Task<LanguageViewModel> GetLanguage(int? id);
 
-        
     }
 }

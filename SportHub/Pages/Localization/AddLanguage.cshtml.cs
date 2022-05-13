@@ -27,7 +27,7 @@ namespace SportHub.Pages.Localization
             LanguageList = (await languageService.GetAllLanguages()).ToList();
         }
 
-        public async Task OnPost()
+        public async Task OnPost(List<LanguageViewModel> SelectedLanguageList)
         {
             var languagesToAdd = SelectedLanguageList.Where(x => x.IsEnabled).Select(x =>
             {

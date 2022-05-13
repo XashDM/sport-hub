@@ -20,11 +20,18 @@ namespace SportHub.Services.Services
         {
             _context = context;
         }
-        
-        
+
+
         public async Task AddLanguage(Language language)
         {
             _context.Languages.Add(language);
+            await _context.SaveChangesAsync();
+        }
+
+
+        public async Task ChangeLanguageDisplayValue(Language language)
+        {
+            _context.Languages.Attach(language);
             await _context.SaveChangesAsync();
         }
 
@@ -47,9 +54,18 @@ namespace SportHub.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task <List<LanguageViewModel>> GetAllLanguages()
+        public async Task UpdateDisplayedLanguage(int? id, bool isEnable)
         {
-            var languages = (await _context.Languages.ToListAsync()).Select(x => {
+            var language = await GetDisplayedLanguageById(id);
+            language.IsEnabled = isEnable;
+            _context.DisplayedLanguages.Update(language);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<LanguageViewModel>> GetAllLanguages()
+        {
+            var languages = (await _context.Languages.ToListAsync()).Select(x =>
+            {
                 var languageViewModel = new LanguageViewModel();
                 languageViewModel.Id = x.Id;
                 languageViewModel.LanguageName = x.LanguageName;
@@ -58,11 +74,12 @@ namespace SportHub.Services.Services
             }).ToList();
             return languages;
         }
-        
+
 
         public async Task<List<DisplayedLanguageViewModel>> GetAllDisplayedLanguages()
         {
-            var displanguages = (await _context.DisplayedLanguages.ToListAsync()).Select(x => {
+            var displanguages = (await _context.DisplayedLanguages.ToListAsync()).Select(x =>
+            {
                 var displanguageViewModel = new DisplayedLanguageViewModel();
                 displanguageViewModel.Id = x.Id;
                 displanguageViewModel.LanguageName = x.LanguageName;
@@ -71,13 +88,6 @@ namespace SportHub.Services.Services
             }).ToList();
             return displanguages;
         }
-
-        
-        public async Task <LanguageViewModel> GetLanguage(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
 
         private async Task<Language> GetLanguageById(int? id)
         {
