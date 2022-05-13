@@ -11,7 +11,7 @@ namespace SportHub.Pages.Articles
     public class DetailsModel : PageModel
     {
         private readonly IGetArticleService _service;
-        public DetailsModel(IGetArticleService service, IImageService imageService)
+        public DetailsModel(IGetArticleService service)
         {
             _service = service;
         }
@@ -23,10 +23,6 @@ namespace SportHub.Pages.Articles
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
             Article = await _service.GetArticle(id);
             try
             {
