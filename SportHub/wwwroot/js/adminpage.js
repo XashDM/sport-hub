@@ -6,28 +6,28 @@
         return;
     }
 
-    let confBody = $('.configuration-body')
+    let configurationBody = $('.configuration-body')
         .last()
 
-    confBody
+    configurationBody
         .find('p.delete-button')
         .removeClass('disabled');
 
-    let confBodyClone = confBody
+    let configurationBodyClone = configurationBody
         .clone()
         .attr('id', 'configuration-body' + currentArticleAmount)
 
     if (currentArticleAmount === (maxArticleCount - 1)) {
-        confBodyClone
+        configurationBodyClone
             .find('p.add-new-button')
             .addClass('disabled');
     }
 
-    confBodyClone.appendTo('#main-articles-block');
+    configurationBodyClone.appendTo('#main-articles-block');
     $('.add-new-button').eq(-2).fadeOut(400);
 });
 
-$('#main-articles-block').on('click', '.delete-button', (e) => {
+$('#main-articles-block').on('click', '.delete-button', (el) => {
     if ($('.configuration-body').length < 2) {
         return;
     }
@@ -37,9 +37,9 @@ $('#main-articles-block').on('click', '.delete-button', (e) => {
             .removeClass('disabled');
     }
 
-    let el = e.currentTarget.parentElement.parentElement.parentElement;
-    $(el).fadeOut(400, () => {
-        $(el).remove();
+    let element = el.currentTarget.parentElement.parentElement.parentElement;
+    $(element).fadeOut(400, () => {
+        $(element).remove();
         if ($('.configuration-body').length === 1) {
             $('.delete-button')
                 .first()
