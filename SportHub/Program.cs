@@ -13,8 +13,14 @@ using System.Net.Mail;
 using SportHub.Services.ArticleServices;
 using SportHub.Services.Interfaces;
 using SportHub.Services.NavigationItemServices;
+using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
+
+BlobContainerClient blobContainerClient = new BlobContainerClient(
+    builder.Configuration.GetConnectionString("BLOBConnectionString"), 
+    builder.Configuration.GetSection("BLOBContainerName").Value
+    );
 
 // Add services to the container.
 builder.Services.AddRazorPages()
@@ -31,7 +37,7 @@ builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer
 builder.Services.AddScoped<INavigationItemService, MainNavigationItemService>();
 builder.Services.AddScoped<IGetArticleService, GetArticleService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
-
+builder.Services.AddSingleton<IImageService>(x => new ImageService(blobContainerClient));
 builder.Services
     .AddFluentEmail("sporthub.mailservice@gmail.com", "SportHub Signup")
     .AddRazorRenderer()
