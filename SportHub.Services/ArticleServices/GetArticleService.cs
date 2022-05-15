@@ -105,5 +105,44 @@ namespace SportHub.Services.ArticleServices
             if (NavigationItem.Type != "Category") return null;
             return NavigationItem.Name;
         }
+
+        public IQueryable<NavigationItem> GetAllCategoriesQueryable()
+        {
+            var categories = _context.NavigationItems
+                .Where(navigationItem => navigationItem.Type.Equals("Category"));
+
+            return categories;
+        }
+
+        public IQueryable<NavigationItem> GetAllSubcategoriesByCategoryIdQueryable(int categoryId)
+        {
+            var subcategories = _context.NavigationItems
+                .AsNoTracking()
+                .Where(navigationItem => navigationItem.Type.Equals("Subcategory"))
+                .Where(navigationItem => navigationItem.ParentsItemId.Equals(categoryId));
+
+            return subcategories;
+        }
+
+        public IQueryable<NavigationItem> GetAllTeamsBySubcategoryIdQueryable(int subcategoryId)
+        {
+            var teams = _context.NavigationItems
+                .AsNoTracking()
+                .Where(navigationItem => navigationItem.Type.Equals("Team"))
+                .Where(navigationItem => navigationItem.ParentsItemId.Equals(subcategoryId));
+
+            return teams;
+        }
+
+        public IQueryable<Article> GetAllArticlesByTeamIdQueryable(int teamId)
+        {
+            var articles = _context.Articles
+                .Include(article => article.ReferenceItem)
+                .ThenInclude(refItem => refItem.ParentsItem)
+                .ThenInclude(refItem => refItem.ParentsItem)
+                .Where(article => article.ReferenceItemId.Equals(teamId));
+
+            return articles;
+        }
     }
 }

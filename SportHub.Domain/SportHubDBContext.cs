@@ -14,7 +14,6 @@ namespace SportHub.Domain
         public DbSet<NavigationItem> NavigationItems { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
@@ -25,10 +24,6 @@ namespace SportHub.Domain
                 .HasData(new UserRole { Id = 1, RoleName = "User" });
             modelBuilder.Entity<UserRole>()
                 .HasData(new UserRole { Id = 2, RoleName = "Admin" });
-
         }
     }
-
-
-
 }

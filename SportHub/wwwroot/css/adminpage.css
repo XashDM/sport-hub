@@ -193,6 +193,7 @@ main {
 
 .main-articles_block .configuration-body {
     margin-top: 40px;
+    display: none;
 }
 
 .configuration-body label {
