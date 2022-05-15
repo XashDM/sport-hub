@@ -25,14 +25,21 @@ namespace SportHub.Services.ArticleServices
                 NavigationItem categoryItem = _context.NavigationItems.FirstOrDefault(item => item.Name.Equals(category) && item.Type.Equals("Category"));
                 if (categoryItem != null)
                 {
-                    if (team != null)
+                    if (team != null && subcategory != null)
                     {
-                        navigationItems = _context.NavigationItems.Where(item => item.Name.Equals(team) && item.Type.Equals("Team")).ToList();
-                        for (int i = 0; i < navigationItems.Count; i++)
+                        NavigationItem subcategoryItem = _context.NavigationItems.FirstOrDefault(item => item.Name.Equals(subcategory) && item.ParentsItemId.Equals(categoryItem.Id));
+                        if (subcategoryItem != null)
                         {
-                            articles.AddRange(_context.Articles.Where(article => article.ReferenceItemId.Equals(navigationItems[i].Id)).ToList());
-                        }
-                        return articles;
+                            navigationItems = _context.NavigationItems.Where(item => item.Name.Equals(team) && item.Type.Equals("Team") && item.ParentsItemId.Equals(subcategoryItem.Id)).ToList();
+                            if (subcategoryItem != null)
+                            {
+                                for (int i = 0; i < navigationItems.Count; i++)
+                                {
+                                    articles.AddRange(_context.Articles.Where(article => article.ReferenceItemId.Equals(navigationItems[i].Id)).ToList());
+                                }
+                                return articles;
+                            }
+                        }    
                     }
                     else
                     {
