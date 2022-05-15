@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Domain.Models;
 using SportHub.Services.Interfaces;
 using SportHub.Services.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace SportHub.Pages.Localization
 
         public List<LanguageViewModel> LanguageList { get; set; }
 
-        public List<LanguageViewModel> SelectedLanguageList { get; set; }
+        public List<Language> SelectedLanguageList { get; set; }
 
         public AddLanguageModel(ILanguageService Service)
         {
@@ -27,17 +28,11 @@ namespace SportHub.Pages.Localization
             LanguageList = (await languageService.GetAllLanguages()).ToList();
         }
 
-        public async Task OnPost(List<LanguageViewModel> SelectedLanguageList)
+        public async Task OnPost(List<int> checkboxIdSet, List<Language> SelectedLanguageList)
         {
-
-            var languagesToAdd = SelectedLanguageList.Where(x => x.IsEnabled).Select(x =>
-            {
-                var language = new DisplayedLanguage();
-                language.IsEnabled = x.IsEnabled;
-                language.LanguageName = x.LanguageName;
-                return language;
-            });
-            await languageService.AddDisplayedLanguageRange(languagesToAdd);
+            await languageService.GetLanguageRangeById(checkboxIdSet, SelectedLanguageList);
+            await languageService.AddDisplayedLanguageRange(SelectedLanguageList);
+            await OnGet();
         }
     }
 }

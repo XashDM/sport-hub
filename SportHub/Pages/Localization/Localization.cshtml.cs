@@ -39,8 +39,6 @@ namespace SportHub.Pages.Localization
            await languageService.DeleteDisplayedLanguage(id);
            await OnGet();
         }
-
-
     }
 }
 

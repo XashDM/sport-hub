@@ -1,6 +1,10 @@
 ﻿window.onload = (event) => {
     initMultiselect();
+
 };
+
+let checkboxIdAll = new Set();
+
 
 function initMultiselect() {
     checkboxStatusChange();
@@ -36,7 +40,9 @@ function checkboxStatusChange() {
 
     for (const item of checkedCheckboxes) {
         var checkboxValue = item.getAttribute('value');
+        checkboxId = item.getAttribute('id');
         values.push(checkboxValue);
+        checkboxIdAll.add(checkboxId)
     }
 
     var dropdownValue = "Nothing is selected";
@@ -59,3 +65,23 @@ function toggleCheckboxArea(onlyHide = false) {
         checkboxes.style.display = "none";
     }
 }
+
+
+function dispListId() {
+    var checkboxIdSet = Array.from(checkboxIdAll)
+    
+    $.ajax({
+        headers:
+        {
+            'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
+        },
+        async: true,
+        url: '/addlanguage',
+        type: 'post',
+        data: {checkboxIdSet}
+
+    });
+    console.log(checkboxIdSet)
+}
+
+

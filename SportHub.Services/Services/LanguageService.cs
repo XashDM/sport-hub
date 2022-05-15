@@ -28,11 +28,30 @@ namespace SportHub.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddDisplayedLanguageRange(IEnumerable<DisplayedLanguage> languages)
+        public async Task AddDisplayedLanguageRange(List<Language> languages)
         {
-            await _context.DisplayedLanguages.AddRangeAsync(languages);
+            var languagesToAdd = languages.Select(p => new DisplayedLanguage
+            {
+                
+                IsEnabled = p.IsEnabled,
+                LanguageName = p.LanguageName,
+            }).ToList();
+
+            await _context.DisplayedLanguages.AddRangeAsync(languagesToAdd);
             await _context.SaveChangesAsync();
         }
+
+        public async Task GetLanguageRangeById(List<int> languages, List<Language> SelectedLanguageList)
+        {
+            foreach (int element in languages)
+            {
+                SelectedLanguageList.Add(await GetLanguageById(element));
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+
 
         public async Task DeleteDisplayedLanguage(int id)
         {
@@ -48,6 +67,7 @@ namespace SportHub.Services.Services
             _context.DisplayedLanguages.Update(language);
             await _context.SaveChangesAsync();
         }
+
 
 
         public async Task<List<LanguageViewModel>> GetAllLanguages()
@@ -75,6 +95,8 @@ namespace SportHub.Services.Services
             }).ToList();
             return displanguages;
         }
+
+
 
         private async Task<Language> GetLanguageById(int id)
         {
