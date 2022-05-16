@@ -6,7 +6,30 @@
     margin-bottom: 5px;
     margin-top: 0px;
 }
-
+.save-button-contener {
+    width: 100%;
+    height: 100px;
+    border-width: 1px;
+    border-color: #ededed;
+}
+.Information-Architecture {
+    float: left;
+    margin: 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 40px;
+    color: black;
+}
+.SaveButton {
+    background: #D72130;
+    padding: 10px 30px;
+    float: right;
+    margin: 30px 40px 30px 0px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+}
 .Category-Contener, .Subcategory-Contene, .Team-Contener {
     position: absolute;
     -webkit-transform-origin: top;
@@ -72,8 +95,7 @@
     padding: 0;
     margin-bottom: 10px;
     text-align: center;
-    color: blue;
-    background: #eee;
+    color: #B2B2B2;
     opacity: 0.7;
     position: absolute;
     top: -56px;
@@ -85,15 +107,17 @@
     text-align: center;
     align-items: center;
 }
-
-.SideLine {
-    background: none;
-    position: absolute;
-    width: 5px;
-    top: 18px;
-    left: -32px;
-    border-left: 0.5px dashed #B2B2B2;
+.button-open-form:hover {
+    color: #D72130
 }
+    .SideLine {
+        background: none;
+        position: absolute;
+        width: 5px;
+        top: 18px;
+        left: -32px;
+        border-left: 0.5px dashed #B2B2B2;
+    }
 
     .SideLine:before {
         content: "";
@@ -120,8 +144,8 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(2px);
     padding-top: 60px;
 }
 
@@ -175,7 +199,6 @@ input[type=text] {
     background: #D72130;
     padding: 10px 20px;
     float: right;
-    background: #D72130;
     cursor: pointer;
     border: none;
     text-align: center;
