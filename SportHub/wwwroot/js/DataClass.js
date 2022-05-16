@@ -46,6 +46,7 @@
             else {
                 result = parent.children
             }
+            console.log(this.Tree);
             return result;
     }
     
@@ -130,6 +131,7 @@ class ExtendDateClass extends DateClass {
         else {
             result = parent.children
         }
+        console.log(this.Tree);
         return result;
     }
     
@@ -148,6 +150,7 @@ class ExtendDateClass extends DateClass {
     else {
         result = this.Tree
     }
+    console.log(this.Tree);
     return result;
     }
 
