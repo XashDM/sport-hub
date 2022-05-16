@@ -77,3 +77,48 @@ img {
     line-height: 19px;
     color: #7F7B7B;
 }
+
+.get-admins-articles-dropdown {
+    float: right;
+    position: relative;
+    display: inline-block;
+}
+
+.get-admins-articles-dropdown:focus {
+    min-width:107px;
+}
+
+.get-admins-articles-drop-btn {
+    float: right;
+    border: none;
+    outline: none;
+    background: white;
+    align-content: center;
+    margin: 0;
+    cursor: pointer;
+    padding: 0;
+}
+
+    .get-admins-articles-drop-btn img {
+        align-content: center;
+        align-items: center;
+    }
+
+.get-admins-articles-dropdown-content {
+    display: none;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    top: 50px;
+    right: 0;
+    z-index: 1;
+}
+
+    .get-admins-articles-dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+.show {
+    display: block;
+}

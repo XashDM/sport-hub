@@ -9,6 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="~/css/ManageAdminArticles.css" asp-append-version="true" />
+    <script type="text/javascript" src="~/js/hideAndShowDropdown.js"></script>
 </head>
 
 <h1>Index</h1>
@@ -40,6 +41,16 @@
                 </div>
                 <div class="get-admins-articles-subcategory-team">
                     @Html.DisplayFor(modelItem => item.ReferenceItem.Name)
+                </div>
+            </div>
+            <div class="get-admins-articles-dropdown">
+                <button onclick="openDropdownFunction(@Html.DisplayFor(modelItem => item.Id))" class="get-admins-articles-drop-btn">
+                    <img src="~/images/drop-down-botton.svg"/>
+                </button>
+                <div id="@Html.DisplayFor(modelItem => item.Id)" class="get-admins-articles-dropdown-content">
+                    <a href="#edit">Edit</a>
+                    <a href="#delete">Delete</a>
+                    <a href="#move">Move</a>
                 </div>
             </div>
         </div>

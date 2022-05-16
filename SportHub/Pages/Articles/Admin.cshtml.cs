@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SportHub.Domain;
 using SportHub.Domain.Models;
+using SportHub.Services;
 using SportHub.Services.ArticleServices;
 using SportHub.Services.Interfaces;
 
@@ -17,11 +18,12 @@ namespace SportHub.Pages.Articles
     public class IndexModel : PageModel
     {
         private readonly IGetAdminArticlesService _service;
-        private readonly SportHubDBContext _context;
-        public IndexModel(IGetAdminArticlesService service, SportHubDBContext context)
+        private readonly IImageService _imageService;
+        public IndexModel(IGetAdminArticlesService service, IImageService imageService)
         {
             _service = service;
-            _context = context;
+            _imageService = imageService;
+
         }
 
         public IList<Article> Article { get;set; }
@@ -36,6 +38,10 @@ namespace SportHub.Pages.Articles
         public async Task OnGetAsync(string? category)
         {
             Article = _service.GetArticles(category, SelectedSubcategory, SelectedTeam);
+            for(int i = 0; i < Article.Count; i++)
+            {
+                Article[i].ImageLink = await _imageService.GetImageLinkByNameAsync(Article[i].ImageLink);
+            }
             if (category != null)
             {
                 SubCategories = _service.GetSubcategories(category);
