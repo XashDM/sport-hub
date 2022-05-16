@@ -38,5 +38,33 @@ namespace SportHub.Controlles
             //var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<NavigationItem>>>(data);
             return new ObjectResult("");
         }
+        [HttpGet("/GetTree")]
+        public async Task<IActionResult> OnGetTree(int ItemId)
+        {
+            return new OkObjectResult(await _servise.GetRecusiveTree(ItemId));
+        }
+        [HttpGet("/GetRoot")]
+        public async Task<IActionResult> OnGetRoot()
+        {
+            return new OkObjectResult(await _servise.GetTopCategories());
+        }
+        [HttpGet("/GetChildren")]
+        public async Task<IActionResult> OnGetChildren(int ItemId)
+        {
+
+            return new OkObjectResult(await _servise.GetChildrenOfItem(ItemId));
+        }
+        [HttpGet("/GetAddItem")]
+        public async Task<IActionResult> OnGetAddItem(string name, int? ParentsItemId, string Type)
+        {
+            NavigationItem Item = new NavigationItem
+            {
+                Type = Type,
+                Name = name,
+                ParentsItemId = ParentsItemId,
+            };
+            await _servise.AddNewItem(Item);
+            return new OkObjectResult(Item);
+        }
     }
 }
