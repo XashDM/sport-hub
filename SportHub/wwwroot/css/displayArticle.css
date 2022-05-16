@@ -19,6 +19,10 @@ body {
         width: 70%;
         margin: auto;
     }
+body {
+    margin-bottom: 60px;
+    font-family: "Open Sans", sans-serif;
+    font-style: normal;
 }
 
 .get-article-main {
