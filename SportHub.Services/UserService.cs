@@ -2,6 +2,7 @@
 using SportHub.Domain;
 using SportHub.Domain.Models;
 using SportHub.Services.Exceptions.UserServiceExceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace SportHub.Services
 {
@@ -12,6 +13,15 @@ namespace SportHub.Services
         public UserService(SportHubDBContext context)
         {
             _context = context;
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            var user = _context.Users.Include(u => u.Roles)
+                                     .Where(u => u.Email.Equals(email))
+                                     .First();
+
+            return user;
         }
 
         public User CreateUser(string email, string passwordHash, string firstName, string lastName)
@@ -38,17 +48,17 @@ namespace SportHub.Services
             return user;
         }
 
-        private bool IsExistingEmail(string email)
+        public bool IsExistingEmail(string email)
         {
             return _context.Users.Where(u => u.Email == email).Any();
         }
 
         private UserRole[] GetUserRoleByName(string roleName)
-        {
+        { 
             var userRole = _context.UserRoles
                 .Where(r => r.RoleName == roleName)
                 .ToArray();
-
+           
             return userRole;
         }
     }

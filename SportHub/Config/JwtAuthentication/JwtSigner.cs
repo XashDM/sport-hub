@@ -46,6 +46,8 @@ namespace SportHub.Config.JwtAuthentication
         {
             List<Claim> claimsList = new List<Claim>();
             claimsList.Add(new Claim(ClaimTypes.Email, user.Email));
+            claimsList.Add(new Claim(ClaimTypes.Surname, user.LastName));
+            claimsList.Add(new Claim(ClaimTypes.Name, user.FirstName));
             foreach (var userRole in user.Roles)
             {
                 claimsList.Add(new Claim(ClaimTypes.Role, userRole.RoleName));

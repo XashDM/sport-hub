@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SportHub.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/_UserSideLayout.css" asp-append-version="true" />
 </head>
 <body>
@@ -34,8 +35,28 @@
                     </div>
                 </div>
                 <div class="account-box">
-                    <button class="small-button">Sign in</button>
-                    <button class="small-button-inversed">Sign up</button>
+                    <div class="buttons" id="buttons">
+                        <button class="small-button" onclick="window.location='/Login';">Sign in</button>
+                        <button class="small-button-inversed" onclick="window.location='/SignUp';" >Sign up</button>
+                    </div>
+                    <div class="profile" id="profile"> 
+                       <div class="dropdown" id="dropdown">
+                          <img src="https://www.tutorialrepublic.com/examples/images/avatar/2.jpg" class="avatar" alt="Avatar">
+                          <button class="dropbtn" id="fullName"></button>
+                          <div class="dropdown-content" id="cont">
+                              <div class=userInfo>
+                                  <span id="username" class="infoName"></span> <br /><span id="email" class="infoMail" ></span>
+                              </div>
+                          <a href="#">View profile </a>
+                          <a href="#">Change password</a>
+                          <a href="#">My surveys</a>
+                          <a href="#">Team hub</a>
+                          <hr class="solid">
+                          <a href="#">Log out</a>
+                          </div>
+                          <img class="polygon" id="pol" src="@Url.Content("~/images/Polygon.png")" />
+                        </div>
+                    </div>
                 </div>
                 <div class="language-box">
                     <form style="margin: auto" action="">
@@ -94,6 +115,12 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            displayLogInOut();
+            displayData();
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

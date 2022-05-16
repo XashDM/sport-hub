@@ -32,7 +32,7 @@ namespace SportHub.Pages.Admin.ManageNavigationItems
             NavigationItem Item = new NavigationItem {
                 Type = Type,
                 Name = name,
-                ParentItemId = fatherItemId,
+                ParentsItemId = fatherItemId,
             };
             _servise.AddNewItem(Item);
             return new OkObjectResult(Item);

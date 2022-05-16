@@ -1,32 +1,42 @@
 ﻿using SportHub.Domain;
 using SportHub.Domain.Models;
 using SportHub.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SportHub.Services.ArticleServices
 {
     public class GetArticleService: IGetArticleService
     {
         private readonly SportHubDBContext _context;
-        public GetArticleService(SportHubDBContext context)
+        private readonly IImageService _imageService;
+        NavigationItem NavigationItem;
+
+        public GetArticleService(SportHubDBContext context, IImageService imageService)
         {
             _context = context;
+            _imageService = imageService;
         }
 
-        Article Article;
-        public Article GetArticle(int? id)
+
+        public async Task<Article> GetArticle(int id)
         {
             try
             {
-                Article = _context.Articles.First(idArticle => idArticle.Id == id);
+                var article = await _context.Articles.FirstOrDefaultAsync(idArticle => idArticle.Id == id);
+                if (article is not null)
+                {
+                    article.ImageLink = await _imageService.GetImageLinkByNameAsync(article.ImageLink);
+                }
+                return article;
             }
             catch { return null; }
-            return Article;
         }
-        NavigationItem NavigationItem;
+
         public string GetArticlesTeam(int? id)
         {
-            Article = _context.Articles.First(Article => Article.Id == id);
+            var Article = _context.Articles.First(Article => Article.Id == id);
             if (Article.ReferenceItemId == null)
             {
                 return null;
@@ -45,7 +55,7 @@ namespace SportHub.Services.ArticleServices
 
         public string GetArticlesSubcategory(int? id)
         {
-            Article = _context.Articles.First(Article => Article.Id == id);
+            var Article = _context.Articles.First(Article => Article.Id == id);
             if (Article.ReferenceItemId == null)
             {
                 return null;
@@ -65,7 +75,7 @@ namespace SportHub.Services.ArticleServices
             }
             if (NavigationItem.Type == "Team")
             {
-                NavigationItem = _context.NavigationItems.First(Item => Item.Id == NavigationItem.ParentItemId);
+                NavigationItem = _context.NavigationItems.First(Item => Item.Id == NavigationItem.ParentsItemId);
                 if (NavigationItem.Type != "Subcategory") return null;
             }
             return NavigationItem.Name;
@@ -73,7 +83,7 @@ namespace SportHub.Services.ArticleServices
 
         public string GetArticlesCategory(int? id)
         {
-            Article = _context.Articles.First(Article => Article.Id == id);
+            var Article = _context.Articles.First(Article => Article.Id == id);
             if (Article.ReferenceItemId == null)
             {
                 return "All Category";
@@ -89,7 +99,7 @@ namespace SportHub.Services.ArticleServices
             int count = 0;
             while (NavigationItem.Type != "Category" && count < 3)
             {
-                NavigationItem = _context.NavigationItems.First(Item => Item.Id == NavigationItem.ParentItemId);
+                NavigationItem = _context.NavigationItems.First(Item => Item.Id == NavigationItem.ParentsItemId);
                 count++;
             }
             if (NavigationItem.Type != "Category") return null;
