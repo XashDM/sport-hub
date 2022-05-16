@@ -13,6 +13,8 @@ using System.Net.Mail;
 using SportHub.Services.ArticleServices;
 using SportHub.Services.Interfaces;
 using SportHub.Services.NavigationItemServices;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,7 +31,8 @@ builder.Services.AddRazorPages()
 
 builder.Services.AddDbContext<SportHubDBContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDB"));
+    var connectionString = builder.Configuration.GetConnectionString("SportHubDB");
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
