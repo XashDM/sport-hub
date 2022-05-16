@@ -1,0 +1,59 @@
+﻿@page "{category?}"
+@model SportHub.Pages.Articles.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    //get-admins-articles
+}
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/ManageAdminArticles.css" asp-append-version="true" />
+    <script type="text/javascript" src="~/js/hideAndShowDropdown.js"></script>
+</head>
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form method="get">
+    <select asp-for="SelectedSubcategory" asp-items="Model.SelectSubcategory" onchange="this.form.submit()">
+        <option value="">All Subcategories</option>
+    </select>
+
+    <select asp-for="SelectedTeam" asp-items="Model.SelectTeam" onchange="this.form.submit()">
+        <option value="">All Teams</option>
+    </select>
+</form>
+
+<div class="get-admins-articles-container-body">
+    @{
+    foreach (var item in Model.Article) {
+        <div class="get-admins-articles-elements">
+            <img src="@Html.DisplayFor(modelItem => item.ImageLink)" alt="Italian Trulli">
+            <div class="get-admins-articles-right-text">
+                <div class="get-admins-articles-title">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </div>
+                <div class="get-admins-articles-content-text">
+                    @Html.DisplayFor(modelItem => item.ContentText)
+                </div>
+                <div class="get-admins-articles-subcategory-team">
+                    @Html.DisplayFor(modelItem => item.ReferenceItem.Name)
+                </div>
+            </div>
+            <div class="get-admins-articles-dropdown">
+                <button onclick="openDropdownFunction(@Html.DisplayFor(modelItem => item.Id))" class="get-admins-articles-drop-btn">
+                    <img src="~/images/drop-down-botton.svg"/>
+                </button>
+                <div id="@Html.DisplayFor(modelItem => item.Id)" class="get-admins-articles-dropdown-content">
+                    <a href="#edit">Edit</a>
+                    <a href="#delete">Delete</a>
+                    <a href="#move">Move</a>
+                </div>
+            </div>
+        </div>
+    }
+}
+</div>

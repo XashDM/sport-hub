@@ -11,7 +11,7 @@
     "SportHub": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "Articles/Details?id=5",
+      "launchUrl": "",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

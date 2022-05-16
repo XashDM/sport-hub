@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400&subset=latin,latin-ext);
+
+body {
+    margin-bottom: 60px;
+    font-family: "Open Sans", sans-serif;
+    font-style: normal;
+}
+
+@media (min-width: 576px) and (max-width: 1368px) {
+    .get-admins-articles-container-body {
+        width: 70%;
+    }
+}
+
+@media (min-width: 1921px){
+    .get-admins-articles-container-body {
+        width: 70%;
+        margin: auto;
+    }
+}
+
+.get-article-main {
+    max-width: 1024px;
+}
+
+.get-admins-articles-elements {
+    display: flex;
+    width: 839px;
+    height: 208px;
+    background: #FFFFFF;
+    margin-bottom: 17px;
+}
+
+.get-admins-articles-elements:hover {
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.110932);
+}
+
+img {
+    float:right;
+    margin: 25px;
+    max-height: 158px;
+    width: auto;
+}
+
+.get-admins-articles-right-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 30px 71px 22px 7px;
+}
+
+.get-admins-articles-title {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    color: #2B2F43;
+}
+
+.get-admins-articles-content-text {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #7F7B7B;
+}
+
+.get-admins-articles-subcategory-team {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #7F7B7B;
+}
+
+.get-admins-articles-dropdown {
+    float: right;
+    position: relative;
+    display: inline-block;
+}
+
+.get-admins-articles-dropdown:focus {
+    min-width:107px;
+}
+
+.get-admins-articles-drop-btn {
+    float: right;
+    border: none;
+    outline: none;
+    background: white;
+    align-content: center;
+    margin: 0;
+    cursor: pointer;
+    padding: 0;
+}
+
+    .get-admins-articles-drop-btn img {
+        align-content: center;
+        align-items: center;
+    }
+
+.get-admins-articles-dropdown-content {
+    display: none;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    top: 50px;
+    right: 0;
+    z-index: 1;
+}
+
+    .get-admins-articles-dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+.show {
+    display: block;
+}
