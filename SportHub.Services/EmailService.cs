@@ -19,8 +19,8 @@ namespace SportHub.Services
                 .To(user.Email, user.FirstName)
                 .Subject("Signup verification")
                 .UsingTemplate(emailBody, new { });
-
-            //await email.SendAsync();
+            //I have problem with gmail
+            await email.SendAsync();
         }
     }
 }
