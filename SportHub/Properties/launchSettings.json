@@ -11,7 +11,7 @@
     "SportHub": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "addlanguage",
+      "launchUrl": "localization",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

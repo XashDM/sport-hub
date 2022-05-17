@@ -221,3 +221,30 @@ input:checked + .slider:before {
     text-align: center;
     color: #FFFFFF;
 }
+
+
+.new-language-button {
+    background-color: #d72130;
+    
+    height: 32px;
+    width: 134px;
+    border-style: none;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #FFFFFF;
+    box-sizing: border-box;
+    position: absolute;
+    left: 863px;
+    top: 282px;
+}
+
+    .new-language-button:hover {
+        background-color: #e02232;
+    }
+
+    .new-language-button:focus {
+        background-color: #c80515;
+    }

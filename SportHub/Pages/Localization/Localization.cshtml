@@ -31,7 +31,9 @@
                             <span class="slider round"></span>
                         </label>
                     </div>
-                    <div class="column_ttr right_ttr">@{var message = language.IsEnabled ? "Show" : "Hide";} @message </div>
+                    <div class="column_ttr right_ttr">@{
+                            var message = language.IsEnabled ? "Show" : "Hide";
+                        } @message </div>
                 </div>
                 <form asp-page-handler="delete" method="post" asp-route-id=@language.Id>
                     <button class="btn delete_button">
@@ -42,6 +44,9 @@
         }
     </div>
 
+    <div class="buttons" id="buttons">
+        <button class="new-language-button" onclick="window.location.href='../AddLanguage'">+ New Language</button>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/Localization.js" asp-append-version="true"></script>

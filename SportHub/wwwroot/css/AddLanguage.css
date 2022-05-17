@@ -1,12 +1,32 @@
-﻿.form-group {
-    position: absolute;
+﻿.bg-image {
+    filter: blur(8px);
+}
+
+header {
+    filter: blur(6px);
+    
+}
+
+.sidebar {
+    filter: blur(6px);
+}
+
+footer {
+    filter: blur(6px);
+}
+
+.form-group {
+    position: relative;
     width: 458px;
     height: 335px;
-    left: 491px;
-    top: 348px;
+    left: 25%;
+    top: 25%;
     background: #FFFFFF;
     box-shadow: 0px 4px 28px #393333;
+    filter: unset;
 }
+
+
 
 .myMultiselectLable {
     position: absolute;
@@ -136,10 +156,31 @@
     width: 82px;
     height: 32px;
     left: 342px;
-    top: 285px;
-    background: #D72130;
-    border: medium none;
+    top: 285px;  
+    background-color: #d72130;
+    border-style: none;
 }
+
+    .addbutton:hover {
+        background-color: #e02232;
+    }
+
+    .addbutton:focus {
+        background-color: #c80515;
+    }
+
+.addbuttontext {
+
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+
 
 .cancelbutton {
     position: absolute;
@@ -148,39 +189,27 @@
     left: 245px;
     top: 285px;
     background: white;
-    border: medium none;
+    border-style: none;
 }
 
-.addbuttontext {
-    position: absolute;
-    width: 23px;
-    height: 16px;
-    left: 30px;
-    top: 8px;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 16px;
-    /* identical to box height, or 130% */
+    .cancelbutton:hover {
+        background-color: #FFEEEE;
+    }
 
-    text-align: center;
-    color: #FFFFFF;
-}
+    .cancelbutton:focus {
+        background-color: #DFC0C0;
+    }
+
 
 .cencelbuttontext {
-    position: absolute;
-    width: 23px;
-    height: 16px;
-    left: 30px;
-    top: 8px;
+    
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
-    /* identical to box height, or 130% */
-
     text-align: center;
     color: #D72130;
 }
+
+
