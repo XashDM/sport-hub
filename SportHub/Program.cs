@@ -34,6 +34,7 @@ builder.Services.AddDbContext<SportHubDBContext>(options =>
     
     //options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDB"));
 });
+builder.Services.AddDbContext<SportHubDBContext>(ServiceLifetime.Transient);
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
 builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();

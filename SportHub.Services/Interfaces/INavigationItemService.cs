@@ -11,6 +11,6 @@ namespace SportHub.Services.Interfaces
         Task<List<NavigationItem>> GetTopCategories();
         Task<List<int>> GetRecusiveTree(int ItemId);
         Task<List<Article>> GetArticlesofItem(int ItemId);
-        Task<List<NavigationItem>> AddNewItems (List<NavigationItem> newItem);
+        Task<string> AddNewItems (List<NavigationItem> newItem);
     }
 }

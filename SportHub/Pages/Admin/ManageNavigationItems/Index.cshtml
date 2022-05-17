@@ -15,6 +15,16 @@
     <link rel="stylesheet" href="~/css/NavigationItem.css" asp-append-version="true" />
 </head>
 <div id="screen">
+   <div class="spawn" id="anim">
+       <div class="spawn-contener" >
+       <img src="~/Images/OK.png" alt=""class="ok-img">
+       <img src="~/Images/close.svg.png" alt=""  id="spawn-close" onclick="closespawn()">
+       <div class="text">
+           <p class="saved">Saved</p>
+           <p class="saved-m">The information architecture is successfuly saved!</p>
+       </div>
+       </div>
+   </div>
   <div class ='contener-for-adding' style ="display: none" id = 'formid'>
 
     <form class= "form-to-add" id = 'form-for-adding'>

@@ -1,5 +1,8 @@
 ﻿p {
     margin: 0;
+    background-color: #FFFFFF;
+    font-family: 'Open Sans';
+    color: #B2B2B2;
 }
 
 .logo-link {
@@ -95,6 +98,9 @@
 
 .bottom-header {
     height: 5vh;
+    border: 0.5px solid #D4D9E2;
+    height: 65px;
+    font: Open Sans;
 }
 
 .bot-blank-space {
@@ -129,7 +135,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    width: 3%;
+    width: 50px;
     height: 500px;
 }
 
@@ -142,7 +148,6 @@
 }
 
 main {
-    background-color: #F8F8F8;
     display: flex;
 }
 

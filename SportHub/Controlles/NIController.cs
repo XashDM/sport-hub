@@ -36,7 +36,7 @@ namespace SportHub.Controlles
             _servise.AddNewItems(data["date"]);
    
             //var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<NavigationItem>>>(data);
-            return new ObjectResult("");
+            return new ObjectResult(_servise.AddNewItems(data["date"]));
         }
         [HttpGet("/GetTree")]
         public async Task<IActionResult> OnGetTree(int ItemId)

@@ -8,7 +8,23 @@ const ContenerforNestedType = {
     Team: null,
     global: "Category-Contener"
 };
+
+function closespawn(){
+    $("#anim")
+        .css({
+            display: "none"
+        })
+}
+
 function saveItem() {
+    $("#anim")
+    .css({
+        display: "block"
+    })
+    $("#anim")
+        .css({
+            display: "fix"
+    })
     $.ajax({
         url: '/save',
         type: 'post',
@@ -24,6 +40,7 @@ function saveItem() {
             'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
         },
     }).done(function (date) {
+        addedItem = [];
         openTreeforItem(NIDateClass.parentFor("Category"));
     });
 }
@@ -125,7 +142,7 @@ function createSideLine(type, SizeOfList) {
     let line = document.createElement("div");
     line.setAttribute("class", "SideLine");
     line.setAttribute("id", "SideLine-" + type);
-    line.style.height = 60.6 * (SizeOfList - 1) + "px";
+    line.style.height = 60.7 * (SizeOfList - 1) + "px";
     return line;
 }
 ///function for adding Button which open form. Called by all function to create Category/...

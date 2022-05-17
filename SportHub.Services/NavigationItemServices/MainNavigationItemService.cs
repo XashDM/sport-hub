@@ -89,15 +89,23 @@ namespace SportHub.Services.NavigationItemServices
                 navigationItemIdList.Contains(articles.ReferenceItemId.Value)).ToListAsync();
             return result;
         }
-        public async Task<List<NavigationItem>> AddNewItems(List<NavigationItem> newItem)
+        public async Task<string> AddNewItems(List<NavigationItem> newItem)
         {
-            foreach(var Item in newItem)
+            try
             {
-                _context.NavigationItems.Add(Item);
+                foreach (var Item in newItem)
+                {
+                    _context.NavigationItems.Add(Item);
 
+                }
+                _context.SaveChanges();
             }
-            await _context.SaveChangesAsync();
-            return newItem;
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return e.Message;
+            }
+            return "Ok";
         }
     }
 }
