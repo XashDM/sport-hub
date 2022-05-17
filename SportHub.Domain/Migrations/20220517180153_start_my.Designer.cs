@@ -11,8 +11,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    [Migration("20220509103858_initiali2222eDatabase")]
-    partial class initiali2222eDatabase
+    [Migration("20220517180153_start_my")]
+    partial class start_my
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -172,7 +172,7 @@ namespace SportHub.Domain.Migrations
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
                     b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentsItem")
-                        .WithMany()
+                        .WithMany("Children")
                         .HasForeignKey("ParentsItemId");
 
                     b.Navigation("ParentsItem");
@@ -191,6 +191,11 @@ namespace SportHub.Domain.Migrations
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
+                {
+                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

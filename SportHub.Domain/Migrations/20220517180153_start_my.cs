@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SportHub.Domain.Migrations
 {
-    public partial class initiali2222eDatabase : Migration
+    public partial class start_my : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

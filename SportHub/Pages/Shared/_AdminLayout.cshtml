@@ -47,33 +47,7 @@
             </div>
         </div>
     </section>
-
-    <section class ="middle-header">
-        <div class="home">
-            <p>
-                Home
-            </p>
-        </div>
-
-        <div class="bot-blank-space">
-                
-            </div>
-
-        <div class="edit">
-            <div>
-                <p class ="cancel ">
-                    &nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;&nbsp;
-                </p>
-            </div>
-                <p class ="changes">
-                    Save all changes
-                </p>
-            <div>
-
-            </div>
-        </div>
-    </section>
-   
+    @RenderSection("SaveButton", required: false)
     <section class ="bottom-header">
         <div class="sports">
             <p class="h">
@@ -153,9 +127,9 @@
 
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/adminpage.js"></script>
-
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/DataClass.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

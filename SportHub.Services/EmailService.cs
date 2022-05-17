@@ -4,7 +4,8 @@ using SportHub.Domain.Models;
 using System;
 using System.Globalization;
 using System.IO;
-
+using SportHub.Services;
+using SportHub.Services.Interfaces;
 namespace SportHub.Services
 {
     public class EmailService : IEmailService

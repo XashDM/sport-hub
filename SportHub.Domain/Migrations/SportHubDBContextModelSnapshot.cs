@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportHub.Domain;
 
@@ -20,15 +19,11 @@ namespace SportHub.Domain.Migrations
                 .HasAnnotation("ProductVersion", "6.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
             modelBuilder.Entity("SportHub.Domain.Models.Article", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ContentText")
                         .IsRequired()
@@ -61,8 +56,6 @@ namespace SportHub.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -86,8 +79,6 @@ namespace SportHub.Domain.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -124,8 +115,6 @@ namespace SportHub.Domain.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("RoleName")
                         .IsRequired()
@@ -181,7 +170,7 @@ namespace SportHub.Domain.Migrations
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
                     b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentsItem")
-                        .WithMany()
+                        .WithMany("Children")
                         .HasForeignKey("ParentsItemId");
 
                     b.Navigation("ParentsItem");
