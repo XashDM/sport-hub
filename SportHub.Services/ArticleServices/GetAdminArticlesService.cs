@@ -85,7 +85,7 @@ namespace SportHub.Services.ArticleServices
                 }
                 else
                 {
-                    return null;
+                    return _context.Articles.ToList();
                 }
             }
             catch
