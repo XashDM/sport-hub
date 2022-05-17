@@ -1,5 +1,5 @@
 ﻿$('#main-articles-block').on('click', '.add-new-button', () => {
-    let maxArticleCount = 5;
+    let maxArticleCount = 4;
     let currentArticleAmount = $('.configuration-body').length;
 
     if (currentArticleAmount === maxArticleCount + 1) {
@@ -62,7 +62,8 @@ $('#main-articles-block').on('change', 'select[name="main-a-categories"]', funct
         return;
     }
 
-    let outerBox = $(this).parent().parent();
+    let outerBox = $(this).parent().parent().parent();
+    resetNextSelectElementsByContainer(outerBox, 0);
     let subcategoriesSelect = outerBox.find('select[name="main-a-subcategories"]');
     getAllSubcategoriesByCategoryId(subcategoriesSelect, categoryId);
 });
@@ -74,7 +75,8 @@ $('#main-articles-block').on('change', 'select[name="main-a-subcategories"]', fu
         return;
     }
 
-    let outerBox = $(this).parent().parent();
+    let outerBox = $(this).parent().parent().parent();
+    resetNextSelectElementsByContainer(outerBox, 1);
     let teamsSelect = outerBox.find('select[name="main-a-teams"]');
     getAllTeamsBySubcategoryId(teamsSelect, subcategoryId);
 });
@@ -87,9 +89,54 @@ $('#main-articles-block').on('change', 'select[name="main-a-teams"]', function (
     }
 
     let outerBox = $(this).parent().parent().parent();
+    resetNextSelectElementsByContainer(outerBox, 2);
     let articlesSelect = outerBox.find('select[name="main-a-articles"]');
-    getAllArticlesByTeamId(articlesSelect, teamId);
+
+    getAllArticlesByTeamId(articlesSelect, generatePageArguments(1, 20), teamId);
 });
+
+$('#save-changes-button').click(function () {
+    applyMainArticlesConfigurationChanges();
+});
+
+function generatePageArguments(pageNumber, pageSize) {
+    const pageArguments = { 'PageNumber': pageNumber, 'PageSize': pageSize }
+
+    return pageArguments;
+}
+
+function applyMainArticlesConfigurationChanges() {
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        async: true,
+        url: '/api/Articles/ApplyMainArticlesDisplayChanges',
+        type: 'post',
+        data: JSON.stringify(gatherMainArticlesInput()),
+        success: function () {
+            return;
+        },
+        error: function (response) {
+            console.error(response);
+        }
+    });
+}
+
+function getMainArticles() {
+    $.ajax({
+        async: true,
+        url: '/api/Articles/GetMainArticles',
+        type: 'get',
+        success: function (data) {
+            displayConfigurationBlocks(data);
+        },
+        error: function (response) {
+            console.error(response);
+        }
+    });
+}
 
 function getAllCategories() {
     $.ajax({
@@ -105,7 +152,7 @@ function getAllCategories() {
     });
 }
 
-function getAllSubcategoriesByCategoryId(elementToFill, categoryId) {
+function getAllSubcategoriesByCategoryId(elementToFill, categoryId, selectedItem = -1) {
     $.ajax({
         async: true,
         url: '/api/Articles/GetAllSubcategoriesByCategoryId?categoryId=' + categoryId,
@@ -113,6 +160,7 @@ function getAllSubcategoriesByCategoryId(elementToFill, categoryId) {
         success: function (response) {
             $(elementToFill).empty();
             insertOptions(elementToFill, response);
+            selectItemBySelectorAndSelectedItem(elementToFill, selectedItem);
         },
         error: function (response) {
             console.error(response);
@@ -120,16 +168,15 @@ function getAllSubcategoriesByCategoryId(elementToFill, categoryId) {
     });
 }
 
-function getAllTeamsBySubcategoryId(elementToFill, subcategoryId) {
+function getAllTeamsBySubcategoryId(elementToFill, subcategoryId, selectedItem = -1) {
     $.ajax({
         async: true,
         url: '/api/Articles/GetAllTeamsBySubcategoryId?subcategoryId=' + subcategoryId,
         type: 'get',
         success: function (response) {
-            console.log(response);
-            console.log(subcategoryId);
             $(elementToFill).empty();
             insertOptions(elementToFill, response);
+            selectItemBySelectorAndSelectedItem(elementToFill, selectedItem);
         },
         error: function (response) {
             console.error(response);
@@ -137,17 +184,32 @@ function getAllTeamsBySubcategoryId(elementToFill, subcategoryId) {
     });
 }
 
-function getAllArticlesByTeamId(elementToFill, teamId) {
+function getAllArticlesByTeamId(elementToFill, pageArguments, articleParentId, selectedItem = -1) {
     $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
         async: true,
-        url: '/api/Articles/GetAllArticlesByTeamId?teamId=' + teamId,
-        type: 'get',
+        url: '/api/Articles/GetAllArticlesByTeamIdPaginated',
+        type: 'post',
+        data: JSON.stringify({ 'PageArgs': pageArguments, 'ArticleParentId': articleParentId}),
         success: function (response) {
             $(elementToFill).empty();
             insertOptions(elementToFill, response, true);
+            selectItemBySelectorAndSelectedItem(elementToFill, selectedItem);
         },
         error: function (response) {
             console.error(response);
+        }
+    });
+}
+
+function resetNextSelectElementsByContainer(container, index) {
+    let selects = $(container).find('select');
+    $(selects).each(function (idx) {
+        if (idx > index) {
+            $(this).empty();
         }
     });
 }
@@ -166,19 +228,67 @@ function insertOptions(selectElement, dataArrayToInsert, areArticles = false) {
     }
 }
 
-function displayConfigurationBlocks() {
+function gatherMainArticlesInput() {
+    let mainArticlesInput = {}
+    $('.configuration-body').each(function (idx) {
+        if (idx != 0) {
+            const articleId = $(this).find('select[name="main-a-articles"]').val()
+            const isDisplayed = $(this).find('input[type="checkbox"]').prop('checked');
+
+            mainArticlesInput[articleId] = isDisplayed;
+        }
+    });
+
+    return mainArticlesInput;
+}
+
+function selectItemBySelectorAndSelectedItem(selector, selectedItem) {
+    selector.val(selectedItem);
+}
+
+function displayConfigurationBlocks(mainArticles) {
     let configurationBody = $('.configuration-body')
         .first()
 
-    let configurationBodyClone = configurationBody
-        .clone()
-        .attr('id', 'configuration-body' + 0);
+    $(mainArticles).each(function (idx) {
+        if (idx != 0) {
+            $('.add-new-button').eq(-1).hide();
+        }
 
-    configurationBodyClone.appendTo('#main-articles-block')
-        .show();;
+        if (idx === 3) {
+            $('p.add-new-button').eq(0).addClass('disabled');
+        }
+
+        $('p.delete-button').eq(0).removeClass('disabled');
+
+        let configurationBodyClone = configurationBody
+            .clone()
+
+        const currentArticle = $(this)[0].article
+        const currentTeam = currentArticle.referenceItem;
+        const currentSubcategory = currentTeam.parentsItem;
+        const currentCategory = currentSubcategory.parentsItem;
+        const currentIsDisplayedState = $(this)[0].isDisplayed;
+
+        const articleSelector = configurationBodyClone.find('select[name="main-a-articles"]');
+        const isDisplayedCheckbox = configurationBodyClone.find('input[type="checkbox"]');
+        const teamSelector = configurationBodyClone.find('select[name="main-a-teams"]');
+        const subcategorySelector = configurationBodyClone.find('select[name="main-a-subcategories"]');
+        const categorySelector = configurationBodyClone.find('select[name="main-a-categories"]');
+
+        selectItemBySelectorAndSelectedItem(categorySelector, currentCategory.id);
+        getAllSubcategoriesByCategoryId(subcategorySelector, currentCategory.id, currentSubcategory.id);
+        getAllTeamsBySubcategoryId(teamSelector, currentSubcategory.id, currentTeam.id);
+        getAllArticlesByTeamId(articleSelector, generatePageArguments(1, 20), currentTeam.id, currentArticle.id);
+
+        isDisplayedCheckbox.prop('checked', currentIsDisplayedState);
+
+        configurationBodyClone.appendTo('#main-articles-block')
+            .show();;
+    });
 }
 
 $(document).ready(() => {
     getAllCategories();
-    displayConfigurationBlocks();
+    getMainArticles();
 });

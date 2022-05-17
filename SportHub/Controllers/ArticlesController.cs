@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SportHub.Models;
 using SportHub.Services.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SportHub.Controllers
 {
@@ -49,15 +52,39 @@ namespace SportHub.Controllers
             return Ok(teams);
         }
 
-        [HttpGet(nameof(GetAllArticlesByTeamId))]
+        [HttpPost(nameof(GetAllArticlesByTeamIdPaginated))]
         [AllowAnonymous]
-        public IActionResult GetAllArticlesByTeamId(int teamId)
+        public IActionResult GetAllArticlesByTeamIdPaginated([FromBody] ArticleArgs articleArgs)
         {
-            var teams = _articleService
-                .GetAllArticlesByTeamIdQueryable(teamId)
+            var pageArgs = articleArgs.PageArgs;
+
+            var articles = _articleService
+                .GetAllArticlesByTeamIdQueryable(articleArgs.ArticleParentId);
+
+            var articlesPaginated = _articleService
+                .Paginate(articles, pageArgs.PageSize, pageArgs.PageNumber)
+                .Item1
                 .ToArray();
 
-            return Ok(teams);
+            return Ok(articlesPaginated);
+        }
+
+        [HttpPost(nameof(ApplyMainArticlesDisplayChanges))]
+        [AllowAnonymous]
+        public async Task<IActionResult> ApplyMainArticlesDisplayChanges(Dictionary<int, bool> articleIds)
+        {
+            await _articleService.ApplyMainArticlesDisplayChanges(articleIds);
+
+            return Ok();
+        }
+
+        [HttpGet(nameof(GetMainArticles))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetMainArticles()
+        {
+            var displayItems =  await _articleService.GetMainArticles();
+
+            return Ok(displayItems);
         }
     }
 }

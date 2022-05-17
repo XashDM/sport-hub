@@ -4,6 +4,9 @@ using SportHub.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using SportHub.Services.Exceptions.ArticleServiceExceptions;
+using System;
+using System.Collections.Generic;
 
 namespace SportHub.Services.ArticleServices
 {
@@ -143,6 +146,79 @@ namespace SportHub.Services.ArticleServices
                 .Where(article => article.ReferenceItemId.Equals(teamId));
 
             return articles;
+        }
+
+        public async Task ApplyMainArticlesDisplayChanges(Dictionary<int, bool> articlesToSave)
+        {
+            var itemsToReset = _context.DisplayItems
+                .Where(displayItem => displayItem.Type.Equals("Article"))
+                .Where(displayItem => displayItem.DisplayLocation.Equals("MainSection"));
+
+            _context.RemoveRange(itemsToReset);
+            await _context.SaveChangesAsync();
+
+            List<DisplayItem> itemsToSave = new List<DisplayItem>();
+            foreach (var item in articlesToSave)
+            {
+                DisplayItem displayItem = new DisplayItem()
+                {
+                    DisplayLocation = "MainSection",
+                    IsDisplayed = item.Value,
+                    Type = "Article",
+                    ArticleId = item.Key,
+                };
+
+                itemsToSave.Add(displayItem);
+            }
+
+            await _context.AddRangeAsync(itemsToSave);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<DisplayItem[]> GetMainArticles()
+        {
+            var articlesToReturn = _context.DisplayItems
+                .Where(displayItem => displayItem.Type.Equals("Article"))
+                .Where(displayItem => displayItem.DisplayLocation.Equals("MainSection"))
+                .Include(displayItem => displayItem.Article)
+                .ThenInclude(article => article.ReferenceItem)
+                .ThenInclude(team => team.ParentsItem)
+                .ThenInclude(subcategory => subcategory.ParentsItem);
+
+            foreach (var item in articlesToReturn)
+            {
+                item.Article.DisplayItems = null;
+            }
+
+            return await articlesToReturn.ToArrayAsync();
+        }
+
+        public (IQueryable<T>, int, int) Paginate<T>(IQueryable<T> items, int pageSize, int pageNumber)
+        {
+            (int toSkip, int toTake, int totalPages, int totalItemsAmount) = GetPaginationValues(items, pageSize, pageNumber);
+
+            items = items
+                .Skip(toSkip)
+                .Take(toTake);
+
+            return (items, totalPages, totalItemsAmount);
+        }
+
+        private (int, int, int, int) GetPaginationValues<T>(IQueryable<T> items, int pageSize, int pageNumber)
+        {
+            int totalItemsAmount = items.Count();
+
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                throw new InvalidPageArgumentsException();
+            }
+
+            int totalPages = (int)Math.Ceiling(totalItemsAmount / (double)pageSize);
+
+            int toSkip = (pageNumber - 1) * pageSize;
+            int toTake = pageSize;
+
+            return (toSkip, toTake, totalPages, totalItemsAmount);
         }
     }
 }
