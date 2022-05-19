@@ -1,0 +1,151 @@
+﻿.add-language-box {
+    max-width: 814px;
+    max-height: 55px;
+    margin: 0px auto;
+    margin-top: 31px;
+}
+
+    .add-language-box label {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 17px;
+        letter-spacing: 0.9px;
+        text-transform: uppercase;
+        color: #7F8899;
+    }
+
+.languages{
+    display: flex;
+    flex-direction: column;
+}
+
+.lgbuttons{
+    display: flex;
+    justify-content: left;
+}
+
+.plusbutton {
+    box-sizing: border-box;
+    width: 43px;
+    height: 36px;
+    border: 1px solid #D4D9E2;
+    background: #FFFFFF;
+}
+
+.button {
+    box-sizing: border-box;
+    width: 98px;
+    height: 36px;
+    border: 1px solid #D4D9E2;
+    background: #FFFFFF;
+    margin-left: 12px;
+}
+
+.add-article-box {
+    max-width: 814px;
+    max-height: 1269px;
+    margin: 0px auto;
+    margin-top: 46px;
+    margin-bottom: 302px;
+}
+
+    .add-article-box label {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 17px;    
+        letter-spacing: 0.9px;
+        text-transform: uppercase;
+        color: #7F8899;
+    }
+
+.picture {
+    display: flex;
+    flex-direction: column;
+}
+
+.area {
+    width: 813px;
+    height: 450px;
+    background: rgba(196, 196, 196, 0.08);
+    border: 1px dashed #D1D1D1;
+    background-image: url("/images/add-photo-button.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 293px 133px;
+}
+
+    .area input {
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+.drop-down-fields .select-box {
+    display: flex;
+    flex-direction: column;
+    margin-top: 24px;
+}
+
+.drop-down-fields {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .drop-down-fields select {
+        box-sizing: border-box;
+        width: 246px;
+        height: 36px;
+        border: 1px solid #D4D9E2;
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 18px;
+        color: #C6CCD7;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        background-image: url("../icons/Polygon.png");
+        background-repeat: no-repeat;
+        background-position: calc(100% - 15px) center;
+        background-size: 6px;
+        padding-left: 18px;
+    }
+
+        .drop-down-fields select option {
+            text-align: left;
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 18px;
+            color: #C6CCD7;
+        }
+
+.required-fields .input-box {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.required-fields input {
+    box-sizing: border-box;
+    width: 814px;
+    height: 42px;
+    border: 1px solid #D4D9E2;
+    margin-top: 2px;
+}
+
+.required-fields ::placeholder {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    color: #C6CCD7;
+    padding-left: 18px;
+}
