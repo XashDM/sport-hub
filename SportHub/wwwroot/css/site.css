@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Open Sans";
-    src: url("../fonts/OpenSans/OpenSans.woff") format('woff');
+    src: url("../fonts/OpenSans/OpenSans.ttf") format('truetype');
 }
 
 @font-face {
@@ -184,6 +184,8 @@ option {
     position: relative;
 }
 
+/*decorations for buttons, hovers etc.*/
+
 .box-shadow:hover {
     box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.110932);
 }
@@ -193,4 +195,12 @@ option {
     justify-content:space-between;
     width: 90%;
     align-items:center;
+}
+
+.red-accent {
+    color: #d72130 !important;
+}
+
+.red-hover:hover {
+    filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(355deg) brightness(86%) contrast(118%);
 }
