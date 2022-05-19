@@ -250,6 +250,13 @@ function displayConfigurationBlocks(mainArticles) {
     let configurationBody = $('.configuration-body')
         .first()
 
+    if (mainArticles.length == 0) {
+        let configurationBodyClone = configurationBody
+            .clone()
+        configurationBodyClone.appendTo('#main-articles-block')
+            .show();;
+    }
+
     $(mainArticles).each(function (idx) {
         if (idx != 0) {
             $('.add-new-button').eq(-1).hide();
@@ -259,7 +266,9 @@ function displayConfigurationBlocks(mainArticles) {
             $('p.add-new-button').eq(0).addClass('disabled');
         }
 
-        $('p.delete-button').eq(0).removeClass('disabled');
+        if (mainArticles.length > 1) {
+            $('p.delete-button').eq(0).removeClass('disabled');
+        }
 
         let configurationBodyClone = configurationBody
             .clone()

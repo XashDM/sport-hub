@@ -112,6 +112,7 @@ namespace SportHub.Services.ArticleServices
         public IQueryable<NavigationItem> GetAllCategoriesQueryable()
         {
             var categories = _context.NavigationItems
+                .AsNoTracking()
                 .Where(navigationItem => navigationItem.Type.Equals("Category"));
 
             return categories;
@@ -140,6 +141,7 @@ namespace SportHub.Services.ArticleServices
         public IQueryable<Article> GetAllArticlesByTeamIdQueryable(int teamId)
         {
             var articles = _context.Articles
+                .AsNoTracking()
                 .Include(article => article.ReferenceItem)
                 .ThenInclude(refItem => refItem.ParentsItem)
                 .ThenInclude(refItem => refItem.ParentsItem)

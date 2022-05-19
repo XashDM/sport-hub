@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SportHub.Models;
+using SportHub.Services.Exceptions.RootExceptions;
 using SportHub.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,70 +24,116 @@ namespace SportHub.Controllers
 
         [HttpGet(nameof(GetAllCategories))]
         [AllowAnonymous]
-        public IActionResult GetAllCategories()
+        public async Task<IActionResult> GetAllCategories()
         {
-            var categories = _articleService
+            try
+            {
+                var categories = await _articleService
                 .GetAllCategoriesQueryable()
-                .ToArray();
+                .ToArrayAsync();
 
-            return Ok(categories);
+                return Ok(categories);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet(nameof(GetAllSubcategoriesByCategoryId))]
         [AllowAnonymous]
-        public IActionResult GetAllSubcategoriesByCategoryId(int categoryId)
+        public async Task<IActionResult> GetAllSubcategoriesByCategoryId(int categoryId)
         {
-            var subcategories = _articleService
+            try
+            {
+                var subcategories = await _articleService
                 .GetAllSubcategoriesByCategoryIdQueryable(categoryId)
-                .ToArray();
+                .ToArrayAsync();
 
-            return Ok(subcategories);
+                return Ok(subcategories);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet(nameof(GetAllTeamsBySubcategoryId))]
         [AllowAnonymous]
-        public IActionResult GetAllTeamsBySubcategoryId(int subcategoryId)
+        public async Task<IActionResult> GetAllTeamsBySubcategoryId(int subcategoryId)
         {
-            var teams = _articleService
+            try
+            {
+                var teams = await _articleService
                 .GetAllTeamsBySubcategoryIdQueryable(subcategoryId)
-                .ToArray();
+                .ToArrayAsync();
 
-            return Ok(teams);
+                return Ok(teams);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost(nameof(GetAllArticlesByTeamIdPaginated))]
         [AllowAnonymous]
-        public IActionResult GetAllArticlesByTeamIdPaginated([FromBody] ArticleArgs articleArgs)
+        public async Task<IActionResult> GetAllArticlesByTeamIdPaginated([FromBody] ArticleArgs articleArgs)
         {
-            var pageArgs = articleArgs.PageArgs;
+            try
+            {
+                var pageArgs = articleArgs.PageArgs;
 
-            var articles = _articleService
-                .GetAllArticlesByTeamIdQueryable(articleArgs.ArticleParentId);
+                var articles = _articleService
+                    .GetAllArticlesByTeamIdQueryable(articleArgs.ArticleParentId);
 
-            var articlesPaginated = _articleService
-                .Paginate(articles, pageArgs.PageSize, pageArgs.PageNumber)
-                .Item1
-                .ToArray();
+                var articlesPaginated = await _articleService
+                    .Paginate(articles, pageArgs.PageSize, pageArgs.PageNumber)
+                    .Item1
+                    .ToArrayAsync();
 
-            return Ok(articlesPaginated);
+                return Ok(articlesPaginated);
+            }
+            catch (ArticleServiceException e)
+            {
+                return StatusCode(e.StatusCode, e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-        [HttpPost(nameof(ApplyMainArticlesDisplayChanges))]
+        [HttpPost(nameof(ApplyMainArticlesDisplayChanges))]  // admin-only
         [AllowAnonymous]
         public async Task<IActionResult> ApplyMainArticlesDisplayChanges(Dictionary<int, bool> articleIds)
         {
-            await _articleService.ApplyMainArticlesDisplayChanges(articleIds);
+            try
+            {
+                await _articleService.ApplyMainArticlesDisplayChanges(articleIds);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet(nameof(GetMainArticles))]
         [AllowAnonymous]
         public async Task<IActionResult> GetMainArticles()
         {
-            var displayItems =  await _articleService.GetMainArticles();
+            try
+            {
+                var displayItems = await _articleService.GetMainArticles();
 
-            return Ok(displayItems);
+                return Ok(displayItems);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }
