@@ -84,6 +84,33 @@ button#search-button {
     width: 220px;
     margin-top: 70px;
     margin-left: 50px;
+<<<<<<< Updated upstream
+=======
+}
+.nav-siderbar {
+    display: flex;
+    flex-direction: row;
+    flex-flow: row;
+    justify-content: left;
+    z-index: 2;
+}
+.menu-caption, .menu-new {
+    width: 180px;
+    font-size: 20px;
+}
+.menu-caption {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 600px;
+}
+.menu-caption::-webkit-scrollbar {
+        width: 5px;
+        height: 3px;
+    }
+.menu-caption::-webkit-scrollbar-thumb {
+        background: #d72130;
+        height: 3px;
+>>>>>>> Stashed changes
 }
 
 .sidebar li{
@@ -91,8 +118,42 @@ button#search-button {
   max-height: 28px;
   list-style-type: initial;
 }
+<<<<<<< Updated upstream
 
 .sidebar li:hover{
+=======
+.menu-new {
+    width: 100%;
+    margin-top: 90px;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+.sidebar li {
+    margin-top: 0px;
+    height: 50px;
+    padding-bottom: 5px;
+    list-style-type: initial;
+}
+.sidebar li:hover {
+    color: #d72130;
+}
+.menu-new li {
+    margin-top: 0px;
+    height: 50px;
+    list-style-type: initial;
+    margin-left: 0px;
+    list-style-type: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    -webkit-transform-origin: top;
+}
+.menu-new li {
+}
+.item-sidebar:hover {
+>>>>>>> Stashed changes
     color: #d72130;
 }
 
@@ -105,7 +166,7 @@ button#search-button {
 }
 
 .sidebar-socials {
-    margin-top: 50px;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
 }
