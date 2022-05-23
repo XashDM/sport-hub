@@ -34,5 +34,16 @@ namespace SportHub.Pages
             }
             return Page();
         }
+
+        public async Task<IActionResult> OnGetTest1()
+        {
+            Article article;
+            for (int i = 4; i <= Counter + 3; i++)
+            {
+                article = await _getArticleService.GetArticle(i);
+                articles.Add(article);
+            }
+            return new OkObjectResult(articles);
+        }
     }
 }

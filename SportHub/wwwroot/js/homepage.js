@@ -3,10 +3,26 @@ var mainArticles;
 var mainTeams;
 
 function setMainArticlesList(articles, teams) {
-    $("#num-0").toggleClass("red-accent");
     mainArticles = articles;
     mainTeams = teams;
     console.log(mainArticles);
+    var newsbox = $("#main-news-0");
+    for (i = 1; i < mainArticles.length; i++) {
+        newsbox.clone().appendTo($("#main-article-list")).attr("id", `main-news-${i}`);
+    }
+
+    for (i = 1; i <= mainArticles.length; i++) {
+        $("#right-button").before(`<p id="num-${i-1}">0${i}</p>`);
+    }
+    $("#num-0").toggleClass("red-accent");
+    for (i = 0; i < mainArticles.length; i++) {
+        var currentElement = $(`#main-news-${i}`)
+        currentElement.find("a").attr("href", `/Articles/Details?id=${mainArticles[i].id}`);
+        currentElement.find(".medium-news-img").attr("src", `${mainArticles[i].imageLink}`);
+        currentElement.find(".h3-heading-text").text(mainArticles[i].title);
+        currentElement.find(".caption").text(mainArticles[i].contentText.substring(0, 50));
+    }
+    setMainArticle();
 }
 
 function setMainArticle() {
