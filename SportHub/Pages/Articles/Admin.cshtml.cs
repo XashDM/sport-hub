@@ -35,9 +35,11 @@ namespace SportHub.Pages.Articles
         public string SelectedSubcategory { get; set; }
         [BindProperty(SupportsGet = true)]
         public string SelectedTeam { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string PublishField { get; set; }
         public async Task OnGetAsync(string? category)
         {
-            Article = _service.GetArticles(category, SelectedSubcategory, SelectedTeam);
+            Article = _service.GetArticlesRange(0,10,PublishField, category, SelectedSubcategory, SelectedTeam);
             for(int i = 0; i < Article.Count; i++)
             {
                 Article[i].ImageLink = await _imageService.GetImageLinkByNameAsync(Article[i].ImageLink);
@@ -63,7 +65,7 @@ namespace SportHub.Pages.Articles
         }
         public async Task OnPostAsync(string category)
         {
-            Article = _service.GetArticles(category, SelectedSubcategory, SelectedTeam);
+            //Article = _service.GetArticles(category, SelectedSubcategory, SelectedTeam, PublishField);
         }
     }
 }

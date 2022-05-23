@@ -18,17 +18,51 @@ body {
     margin: auto;
 }
 
+.get-admins-articles-container-body {
+    width: 960px;
+    height: 1058px;
+    overflow: scroll;
+    overflow-x: visible;
+    margin-bottom: 152px;
+    padding-top: 17px;
+    padding-left: 17px;
+}
+
+    .get-admins-articles-container-body::-webkit-scrollbar {
+        width: 4px;
+    }
+    .get-admins-articles-container-body::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        border-radius: 2px;
+    }
+
+
 .get-admins-articles-form-dropdown {
     margin: 25px;
 }
 
-.get-admins-articles-form-dropdown form {
-    display: flex;
-    justify-content: space-between;
+    .get-admins-articles-form-dropdown form {
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .get-admins-articles-form-dropdown form select {
+        }
+
+.get-admins-articles-preview-and-search {
+    display:flex;
+    justify-content:space-between;
+    margin:25px;
 }
 
-.get-admins-articles-form-dropdown form select{
-    
+.get-admins-articles-preview {
+    display: flex;
+    color: #D72130;
+    padding-left:20px;
+}
+
+.get-admins-articles-preview img{
+    padding-right: 5px;
 }
 
 .get-admins-articles-search-field {
@@ -37,11 +71,13 @@ body {
 
     .get-admins-articles-search-field input {
         border-style: none;
+        width: 100px
     }
 
     .get-admins-articles-search-field img {
         position: relative;
         margin: 0 0 0 10px;
+        width: 14px;
     }
 
 .get-admins-articles-elements {
@@ -52,9 +88,9 @@ body {
     margin: 0 0 17px 0;
 }
 
-.get-admins-articles-elements:hover {
-    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.110932);
-}
+    .get-admins-articles-elements:hover {
+        box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.110932);
+    }
 
 .get-admins-articles-image-container {
     display: block;
@@ -70,8 +106,8 @@ body {
     }
 
 .get-admins-articles-right-content {
-    display:flex;
-    flex-direction:row;
+    display: flex;
+    flex-direction: row;
 }
 
 .get-admins-articles-right-text {
@@ -102,6 +138,11 @@ body {
     overflow: hidden;
 }
 
+.get-admins-articles-right-content-bottom-info {
+    display:flex;
+    justify-content:space-between;
+}
+
 .get-admins-articles-subcategory-team {
     font-family: 'Open Sans';
     font-style: normal;
@@ -111,14 +152,38 @@ body {
     color: #7F7B7B;
 }
 
+.get-admins-articles-published-info {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #7F7B7B;
+    display:flex;
+}
+
+
+.get-admins-articles-published-info-green-circle {
+    width: 10px;
+    height: 10px;
+    background-color: #54dd16;
+    border-radius: 50%;
+    margin: auto;
+    margin-right: 5px;
+}
+
 .get-admins-articles-dropdown {
     float: right;
     position: relative;
     display: inline-block;
 }
 
-.get-admins-articles-dropdown:focus {
-    min-width:107px;
+    .get-admins-articles-dropdown:focus {
+        min-width: 107px;
+    }
+
+.get-admins-articles-content-btn {
+    width: 100%;
 }
 
 .get-admins-articles-drop-btn {
@@ -128,6 +193,7 @@ body {
     background: white;
     align-content: center;
     margin: 0;
+    margin-right: 100%;
     cursor: pointer;
     padding: 0;
 }
@@ -148,9 +214,11 @@ body {
 
     .get-admins-articles-dropdown-content a {
         color: black;
-        padding: 12px 16px;
+        padding: 8px 16px;
         text-decoration: none;
         display: block;
+        background-color: white;
+        width: 100px;
     }
 
 .show {

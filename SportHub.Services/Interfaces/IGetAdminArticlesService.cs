@@ -6,6 +6,8 @@ namespace SportHub.Services.Interfaces
     public interface IGetAdminArticlesService
     {
         IList<Article> GetArticles(string? category, string? subcategory, string? team);
+        IList<Article> GetArticlesByPublished(string? publishValue, string? category, string? subcategory, string? team);
+        IList<Article> GetArticlesRange(int start, int end, string? publishValue, string? category, string? subcategory, string? team);
         IList<NavigationItem> GetSubcategories(string category);
         IList<NavigationItem> GetTeams(string subcategory);
     }

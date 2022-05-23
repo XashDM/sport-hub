@@ -3,7 +3,8 @@
 
 @{
     ViewData["Title"] = "Index";
-    //get-admins-articles
+    //Layout = "_UserSideLayout";
+    Layout = "_AdminLayout";
 }
 
 <head>
@@ -12,7 +13,19 @@
     <script type="text/javascript" src="~/js/hideAndShowDropdown.js"></script>
 </head>
 
+
+
 <div class="get-admins-articles-main-body">
+    <div class="get-admins-articles-preview-and-search">
+        <div class="get-admins-articles-preview">
+            <img src="~/images/red-eye-preview.svg"/>
+            Preview
+        </div>
+        <div class="get-admins-articles-search-field">
+            <input />
+            <img src="~/images/SearchMagnifier.svg"/>
+        </div>
+    </div>
     <div class="get-admins-articles-form-dropdown">
         <form method="get">
             <select asp-for="SelectedSubcategory" asp-items="Model.SelectSubcategory" onchange="this.form.submit()">
@@ -22,49 +35,87 @@
             <select asp-for="SelectedTeam" asp-items="Model.SelectTeam" onchange="this.form.submit()">
                 <option value="">All Teams</option>
             </select>
-            <div class="get-admins-articles-search-field">
-                <input />
-                <img src="~/images/SearchMagnifier.svg"/>
-            </div>
+
+            <select asp-for="PublishField" onchange="this.form.submit()" id="publish-dropdown-list">
+                <option value="">All</option>
+                <option>Published</option>
+                <option>Unpublished</option>
+            </select>
         </form>
     </div>
-    
-    <a as>
 
-    </a>
     <div class="get-admins-articles-container-body">
         @{
-        foreach (var item in Model.Article) {
-            <div class="get-admins-articles-elements">
-                <div class="get-admins-articles-image-container">
-                    <img src="@Html.DisplayFor(modelItem => item.ImageLink)" alt="Italian Trulli">
-                </div>
-                <div class="get-admins-articles-right-content">
-                    <div class="get-admins-articles-right-text">
-                        <div class="get-admins-articles-title">
-                            @Html.DisplayFor(modelItem => item.Title)
+        for (int index = 0; index<Model.Article.Count; index++) {
+            //<a asp-page="./Details" asp-route-id="@item.Id">
+                <div class="get-admins-articles-elements" id="article-with-id-@Model.Article[index].Id">
+                    <div class="get-admins-articles-image-container">
+                    <a asp-page="./Details" asp-route-id="@Model.Article[index].Id">
+                        <img src="@Model.Article[index].ImageLink" alt="Italian Trulli" asp-page="./Details" asp-route-id="@Model.Article[index].Id">
+                    </a>
+                    </div>
+                    <div class="get-admins-articles-right-content">
+                        <div class="get-admins-articles-right-text">
+                            <div class="get-admins-articles-title">
+                                @Model.Article[index].Title
+                            </div>
+                            <div class="get-admins-articles-content-text">
+                                @Model.Article[index].ContentText
+                            </div>
+                            <div class="get-admins-articles-right-content-bottom-info">
+                                <div class="get-admins-articles-subcategory-team">
+                                    @Model.Article[index].ReferenceItemId
+                                </div>
+                                <div id="articlePublishFooter-@Model.Article[index].Id" class="get-admins-articles-published-info">
+                                    @if (Model.Article[index].IsPublished == true)
+                                    {
+                                        <div class="get-admins-articles-published-info">
+                                            <div class="get-admins-articles-published-info-green-circle"></div>    
+                                            Published
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div id="publishedForUnpublished-@Model.Article[index].Id" class="get-admins-articles-published-info" style="display:none;">
+                                            <div class="get-admins-articles-published-info-green-circle"></div>    
+                                            Published
+                                        </div>
+                                    }
+                                </div>
+                            </div>
                         </div>
-                        <div class="get-admins-articles-content-text">
-                            @Html.DisplayFor(modelItem => item.ContentText)
-                        </div>
-                        <div class="get-admins-articles-subcategory-team">
-                            @Html.DisplayFor(modelItem => item.ReferenceItem.Name)
+                        <div class="get-admins-articles-dropdown">
+                            <div class="get-admins-articles-content-btn">
+                                <button onclick="openDropdownFunction(@Model.Article[index].Id)" class="get-admins-articles-drop-btn">
+                                    <img src="~/images/drop-down-botton.svg"/>
+                                </button>
+                            </div>
+                            
+                            <div id="@Model.Article[index].Id" class="get-admins-articles-dropdown-content">
+                                <button id="isPublishedButton-@Model.Article[index].Id" onclick="publishUnpublish(@Model.Article[index].Id)">
+                                    @if (Model.Article[index].IsPublished == true)
+                                    {
+                                        <div>Unpublish</div>
+                                    }
+                                    else
+                                    {
+                                        <div>Publish</div>
+                                    }
+                                </button>    
+                                <a id="edit-@Model.Article[index].Id" asp-page="./Details" asp-route-id="@Model.Article[index].Id" style=@(Model.Article[index].IsPublished == true ? "display:none":"")>
+                                    Edit
+                                </a>
+                                <div>
+                                    <button onclick="deleteArticleFunction(@Model.Article[index].Id)">Delete</button>
+                                </div>
+                                <a href="#move">Move</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="get-admins-articles-dropdown">
-                        <button onclick="openDropdownFunction(@Html.DisplayFor(modelItem => item.Id))" class="get-admins-articles-drop-btn">
-                            <img src="~/images/drop-down-botton.svg"/>
-                        </button>
-                        <div id="@Html.DisplayFor(modelItem => item.Id)" class="get-admins-articles-dropdown-content">
-                            <a href="#edit">Edit</a>
-                            <a href="#delete">Delete</a>
-                            <a href="#move">Move</a>
-                        </div>
-                    </div>
-                </div>
                 
-            </div>
+                </div>
+            //</a>
+            }
         }
-    }
     </div>
 </div>
