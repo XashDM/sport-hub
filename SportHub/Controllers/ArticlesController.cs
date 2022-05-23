@@ -58,14 +58,14 @@ namespace SportHub.Controllers
             }
         }
 
-        [HttpGet(nameof(GetAllTeamsBySubcategoryId))]
+        [HttpGet(nameof(GetAllTeamsByParentId))]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAllTeamsBySubcategoryId(int subcategoryId)
+        public async Task<IActionResult> GetAllTeamsByParentId(int parentId)
         {
             try
             {
                 var teams = await _articleService
-                .GetAllTeamsBySubcategoryIdQueryable(subcategoryId)
+                .GetAllTeamsByParentIdQueryable(parentId)
                 .ToArrayAsync();
 
                 return Ok(teams);
@@ -76,16 +76,16 @@ namespace SportHub.Controllers
             }
         }
 
-        [HttpPost(nameof(GetAllArticlesByTeamIdPaginated))]
+        [HttpPost(nameof(GetAllArticlesByParentIdPaginated))]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAllArticlesByTeamIdPaginated([FromBody] ArticleArgs articleArgs)
+        public async Task<IActionResult> GetAllArticlesByParentIdPaginated([FromBody] ArticleArgs articleArgs)
         {
             try
             {
                 var pageArgs = articleArgs.PageArgs;
 
                 var articles = _articleService
-                    .GetAllArticlesByTeamIdQueryable(articleArgs.ArticleParentId);
+                    .GetAllArticlesByParentIdQueryable(articleArgs.ArticleParentId);
 
                 var articlesPaginated = await _articleService
                     .Paginate(articles, pageArgs.PageSize, pageArgs.PageNumber)
@@ -104,13 +104,13 @@ namespace SportHub.Controllers
             }
         }
 
-        [HttpPost(nameof(ApplyMainArticlesDisplayChanges))]  // admin-only
+        [HttpPost(nameof(SaveMainArticles))]  // admin-only
         [AllowAnonymous]
-        public async Task<IActionResult> ApplyMainArticlesDisplayChanges(Dictionary<int, bool> articleIds)
+        public async Task<IActionResult> SaveMainArticles(Dictionary<int, bool> articleIds)
         {
             try
             {
-                await _articleService.ApplyMainArticlesDisplayChanges(articleIds);
+                await _articleService.SaveMainArticles(articleIds);
 
                 return Ok();
             }

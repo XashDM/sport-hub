@@ -13,10 +13,10 @@ namespace SportHub.Services.Interfaces
         string GetArticlesCategory(int? id);
         IQueryable<NavigationItem> GetAllCategoriesQueryable();
         IQueryable<NavigationItem> GetAllSubcategoriesByCategoryIdQueryable(int categoryId);
-        IQueryable<NavigationItem> GetAllTeamsBySubcategoryIdQueryable(int subcategoryId);
-        IQueryable<Article> GetAllArticlesByTeamIdQueryable(int teamId);
+        IQueryable<NavigationItem> GetAllTeamsByParentIdQueryable(int subcategoryId);
+        IQueryable<Article> GetAllArticlesByParentIdQueryable(int teamId);
         (IQueryable<T>, int, int) Paginate<T>(IQueryable<T> items, int pageSize, int pageNumber);
-        Task ApplyMainArticlesDisplayChanges(Dictionary<int, bool> articlesToSave);
+        Task SaveMainArticles(Dictionary<int, bool> articlesToSave);
         Task<DisplayItem[]> GetMainArticles();
     }
 }

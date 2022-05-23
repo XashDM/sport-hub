@@ -128,29 +128,29 @@ namespace SportHub.Services.ArticleServices
             return subcategories;
         }
 
-        public IQueryable<NavigationItem> GetAllTeamsBySubcategoryIdQueryable(int subcategoryId)
+        public IQueryable<NavigationItem> GetAllTeamsByParentIdQueryable(int parentId)
         {
             var teams = _context.NavigationItems
                 .AsNoTracking()
                 .Where(navigationItem => navigationItem.Type.Equals("Team"))
-                .Where(navigationItem => navigationItem.ParentsItemId.Equals(subcategoryId));
+                .Where(navigationItem => navigationItem.ParentsItemId.Equals(parentId));
 
             return teams;
         }
 
-        public IQueryable<Article> GetAllArticlesByTeamIdQueryable(int teamId)
+        public IQueryable<Article> GetAllArticlesByParentIdQueryable(int parentId)
         {
             var articles = _context.Articles
                 .AsNoTracking()
                 .Include(article => article.ReferenceItem)
                 .ThenInclude(refItem => refItem.ParentsItem)
                 .ThenInclude(refItem => refItem.ParentsItem)
-                .Where(article => article.ReferenceItemId.Equals(teamId));
+                .Where(article => article.ReferenceItemId.Equals(parentId));
 
             return articles;
         }
 
-        public async Task ApplyMainArticlesDisplayChanges(Dictionary<int, bool> articlesToSave)
+        public async Task SaveMainArticles(Dictionary<int, bool> articlesToSave)
         {
             var itemsToReset = _context.DisplayItems
                 .Where(displayItem => displayItem.Type.Equals("Article"))

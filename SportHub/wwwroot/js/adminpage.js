@@ -64,8 +64,12 @@ $('#main-articles-block').on('change', 'select[name="main-a-categories"]', funct
 
     let outerBox = $(this).parent().parent().parent();
     resetNextSelectElementsByContainer(outerBox, 0);
-    let subcategoriesSelect = outerBox.find('select[name="main-a-subcategories"]');
+    const subcategoriesSelect = outerBox.find('select[name="main-a-subcategories"]');
+    const teamsSelect = outerBox.find('select[name="main-a-teams"]');
+    const articlesSelect = outerBox.find('.custom-selector-body');
     getAllSubcategoriesByCategoryId(subcategoriesSelect, categoryId);
+    getAllTeamsByParentId(teamsSelect, categoryId);
+    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, 20), categoryId);
 });
 
 $('#main-articles-block').on('change', 'select[name="main-a-subcategories"]', function () {
@@ -77,8 +81,10 @@ $('#main-articles-block').on('change', 'select[name="main-a-subcategories"]', fu
 
     let outerBox = $(this).parent().parent().parent();
     resetNextSelectElementsByContainer(outerBox, 1);
-    let teamsSelect = outerBox.find('select[name="main-a-teams"]');
-    getAllTeamsBySubcategoryId(teamsSelect, subcategoryId);
+    const teamsSelect = outerBox.find('select[name="main-a-teams"]');
+    const articlesSelect = outerBox.find('.custom-selector-body');
+    getAllTeamsByParentId(teamsSelect, subcategoryId);
+    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, 20), subcategoryId);
 });
 
 $('#main-articles-block').on('change', 'select[name="main-a-teams"]', function () {
@@ -90,9 +96,25 @@ $('#main-articles-block').on('change', 'select[name="main-a-teams"]', function (
 
     let outerBox = $(this).parent().parent().parent();
     resetNextSelectElementsByContainer(outerBox, 2);
-    let articlesSelect = outerBox.find('select[name="main-a-articles"]');
+    const articlesSelect = outerBox.find('.custom-selector-body');
 
-    getAllArticlesByTeamId(articlesSelect, generatePageArguments(1, 20), teamId);
+    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, 20), teamId);
+});
+
+$('#main-articles-block').on('click', '.main-a-articles-selector', function () {
+    const outerBox = $(this).parent();;
+    const selectorBody = outerBox.find('.custom-selector-body');
+    selectorBody.toggle();
+});
+
+$('#main-articles-block').on('click', '.custom-selector-body option', function () {
+    const selectedOption = $(this);
+    const outerBox = $(this).parent().parent();
+    const selectorBody = outerBox.find('.custom-selector-body');
+    const selector = outerBox.find('.main-a-articles-selector option');
+    selectorBody.hide();
+    selector.val(selectedOption.val());
+    selector.text(selectedOption.text());
 });
 
 $('#save-changes-button').click(function () {
@@ -112,7 +134,7 @@ function applyMainArticlesConfigurationChanges() {
             'Content-Type': 'application/json'
         },
         async: true,
-        url: '/api/Articles/ApplyMainArticlesDisplayChanges',
+        url: '/api/Articles/SaveMainArticles',
         type: 'post',
         data: JSON.stringify(gatherMainArticlesInput()),
         success: function () {
@@ -168,10 +190,10 @@ function getAllSubcategoriesByCategoryId(elementToFill, categoryId, selectedItem
     });
 }
 
-function getAllTeamsBySubcategoryId(elementToFill, subcategoryId, selectedItem = -1) {
+function getAllTeamsByParentId(elementToFill, parentId, selectedItem = -1) {
     $.ajax({
         async: true,
-        url: '/api/Articles/GetAllTeamsBySubcategoryId?subcategoryId=' + subcategoryId,
+        url: '/api/Articles/GetAllTeamsByParentId?parentId=' + parentId,
         type: 'get',
         success: function (response) {
             $(elementToFill).empty();
@@ -184,20 +206,30 @@ function getAllTeamsBySubcategoryId(elementToFill, subcategoryId, selectedItem =
     });
 }
 
-function getAllArticlesByTeamId(elementToFill, pageArguments, articleParentId, selectedItem = -1) {
+function getAllArticlesByParentId(elementToFill, pageArguments, articleParentId, selectedItem = -1) {
     $.ajax({
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         async: true,
-        url: '/api/Articles/GetAllArticlesByTeamIdPaginated',
+        url: '/api/Articles/GetAllArticlesByParentIdPaginated',
         type: 'post',
         data: JSON.stringify({ 'PageArgs': pageArguments, 'ArticleParentId': articleParentId}),
         success: function (response) {
+            selectorElementToFill = elementToFill.parent().find('.main-a-articles-selector option');
             $(elementToFill).empty();
             insertOptions(elementToFill, response, true);
-            selectItemBySelectorAndSelectedItem(elementToFill, selectedItem);
+            if (selectedItem != -1) {
+                console.log(selectedItem.title);
+                console.log(selectorElementToFill);
+                selectorElementToFill.val(selectedItem.id);
+                selectorElementToFill.text(selectedItem.title);
+            }
+            else {
+                selectorElementToFill.val(-1);
+                selectorElementToFill.text('Not Chosen');
+            }
         },
         error: function (response) {
             console.error(response);
@@ -212,6 +244,8 @@ function resetNextSelectElementsByContainer(container, index) {
             $(this).empty();
         }
     });
+    const customArticleSelector = container.find('.main-a-articles-selector option');
+    customArticleSelector.empty();
 }
 
 function insertOptions(selectElement, dataArrayToInsert, areArticles = false) {
@@ -232,7 +266,7 @@ function gatherMainArticlesInput() {
     let mainArticlesInput = {}
     $('.configuration-body').each(function (idx) {
         if (idx != 0) {
-            const articleId = $(this).find('select[name="main-a-articles"]').val()
+            const articleId = $(this).find('.main-a-articles-selector option').val();
             const isDisplayed = $(this).find('input[type="checkbox"]').prop('checked');
 
             mainArticlesInput[articleId] = isDisplayed;
@@ -274,12 +308,12 @@ function displayConfigurationBlocks(mainArticles) {
             .clone()
 
         const currentArticle = $(this)[0].article
-        const currentTeam = currentArticle.referenceItem;
-        const currentSubcategory = currentTeam.parentsItem;
-        const currentCategory = currentSubcategory.parentsItem;
+        const currentTeam = currentArticle.referenceItem; /*TO FIX*/
+        const currentSubcategory = currentTeam.parentsItem; /*TO FIX*/
+        const currentCategory = currentSubcategory.parentsItem; /*TO FIX*/
         const currentIsDisplayedState = $(this)[0].isDisplayed;
 
-        const articleSelector = configurationBodyClone.find('select[name="main-a-articles"]');
+        const articleSelector = configurationBodyClone.find('.custom-selector-body');
         const isDisplayedCheckbox = configurationBodyClone.find('input[type="checkbox"]');
         const teamSelector = configurationBodyClone.find('select[name="main-a-teams"]');
         const subcategorySelector = configurationBodyClone.find('select[name="main-a-subcategories"]');
@@ -287,13 +321,13 @@ function displayConfigurationBlocks(mainArticles) {
 
         selectItemBySelectorAndSelectedItem(categorySelector, currentCategory.id);
         getAllSubcategoriesByCategoryId(subcategorySelector, currentCategory.id, currentSubcategory.id);
-        getAllTeamsBySubcategoryId(teamSelector, currentSubcategory.id, currentTeam.id);
-        getAllArticlesByTeamId(articleSelector, generatePageArguments(1, 20), currentTeam.id, currentArticle.id);
+        getAllTeamsByParentId(teamSelector, currentSubcategory.id, currentTeam.id);
+        getAllArticlesByParentId(articleSelector, generatePageArguments(1, 20), currentTeam.id, currentArticle);
 
         isDisplayedCheckbox.prop('checked', currentIsDisplayedState);
 
         configurationBodyClone.appendTo('#main-articles-block')
-            .show();;
+            .show();
     });
 }
 
