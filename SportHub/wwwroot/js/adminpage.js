@@ -182,6 +182,9 @@ function getAllSubcategoriesByCategoryId(elementToFill, categoryId, selectedItem
         success: function (response) {
             $(elementToFill).empty();
             insertOptions(elementToFill, response);
+            if (response.length == 0) {
+                selectedItem = -1;
+            }
             selectItemBySelectorAndSelectedItem(elementToFill, selectedItem);
         },
         error: function (response) {
@@ -198,6 +201,9 @@ function getAllTeamsByParentId(elementToFill, parentId, selectedItem = -1) {
         success: function (response) {
             $(elementToFill).empty();
             insertOptions(elementToFill, response);
+            if (response.length == 0) {
+                selectedItem = -1;
+            }
             selectItemBySelectorAndSelectedItem(elementToFill, selectedItem);
         },
         error: function (response) {
@@ -220,9 +226,7 @@ function getAllArticlesByParentId(elementToFill, pageArguments, articleParentId,
             selectorElementToFill = elementToFill.parent().find('.main-a-articles-selector option');
             $(elementToFill).empty();
             insertOptions(elementToFill, response, true);
-            if (selectedItem != -1) {
-                console.log(selectedItem.title);
-                console.log(selectorElementToFill);
+            if (selectedItem != -1 && response.length != 0) {
                 selectorElementToFill.val(selectedItem.id);
                 selectorElementToFill.text(selectedItem.title);
             }
@@ -307,22 +311,38 @@ function displayConfigurationBlocks(mainArticles) {
         let configurationBodyClone = configurationBody
             .clone()
 
-        const currentArticle = $(this)[0].article
-        const currentTeam = currentArticle.referenceItem; /*TO FIX*/
-        const currentSubcategory = currentTeam.parentsItem; /*TO FIX*/
-        const currentCategory = currentSubcategory.parentsItem; /*TO FIX*/
-        const currentIsDisplayedState = $(this)[0].isDisplayed;
+        let parentsArray = []
+        const currentArticle = $(this)[0].article;
+        let currentParentElement = currentArticle.referenceItem;
+        parentsArray.push(currentParentElement);
+        while (currentParentElement.parentsItem != null) {
+            parentsArray.push(currentParentElement.parentsItem);
+            currentParentElement = currentParentElement.parentsItem;
+        }
 
+        const currentIsDisplayedState = $(this)[0].isDisplayed;
         const articleSelector = configurationBodyClone.find('.custom-selector-body');
         const isDisplayedCheckbox = configurationBodyClone.find('input[type="checkbox"]');
         const teamSelector = configurationBodyClone.find('select[name="main-a-teams"]');
         const subcategorySelector = configurationBodyClone.find('select[name="main-a-subcategories"]');
         const categorySelector = configurationBodyClone.find('select[name="main-a-categories"]');
 
-        selectItemBySelectorAndSelectedItem(categorySelector, currentCategory.id);
-        getAllSubcategoriesByCategoryId(subcategorySelector, currentCategory.id, currentSubcategory.id);
-        getAllTeamsByParentId(teamSelector, currentSubcategory.id, currentTeam.id);
-        getAllArticlesByParentId(articleSelector, generatePageArguments(1, 20), currentTeam.id, currentArticle);
+        selectItemBySelectorAndSelectedItem(categorySelector, parentsArray[parentsArray.length - 1].id);
+        if (parentsArray.length >= 2) {
+            if (parentsArray[parentsArray.length - 2].type === 'Team') {
+                getAllSubcategoriesByCategoryId(subcategorySelector, parentsArray[parentsArray.length - 1].id);
+                getAllTeamsByParentId(teamSelector, parentsArray[parentsArray.length - 1].id, parentsArray[0].id);
+            }
+            else {
+                getAllSubcategoriesByCategoryId(subcategorySelector, parentsArray[parentsArray.length - 1].id, parentsArray[parentsArray.length - 2].id);
+                getAllTeamsByParentId(teamSelector, parentsArray[parentsArray.length - 2].id);
+            }
+        }
+        else {
+            getAllSubcategoriesByCategoryId(subcategorySelector, parentsArray[parentsArray.length - 1].id);
+            getAllTeamsByParentId(teamSelector, parentsArray[parentsArray.length - 1].id, parentsArray[0].id);
+        }
+        getAllArticlesByParentId(articleSelector, generatePageArguments(1, 20), parentsArray[0].id, currentArticle);
 
         isDisplayedCheckbox.prop('checked', currentIsDisplayedState);
 
