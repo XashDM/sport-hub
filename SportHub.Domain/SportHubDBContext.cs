@@ -14,6 +14,8 @@ namespace SportHub.Domain
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<NavigationItem> NavigationItems { get; set; }
+        public DbSet<DisplayItem> DisplayItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(entity => entity.HasAlternateKey(e => e.Email));
@@ -28,10 +30,6 @@ namespace SportHub.Domain
                 .HasData(new UserRole { Id = 1, RoleName = "User" });
             modelBuilder.Entity<UserRole>()
                 .HasData(new UserRole { Id = 2, RoleName = "Admin" });
-
         }
     }
-
-
-
 }
