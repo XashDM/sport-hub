@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SportHub.Domain.Models;
 using System.Linq;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SportHub.Domain
 {
@@ -14,7 +16,8 @@ namespace SportHub.Domain
         public DbSet<NavigationItem> NavigationItems { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<User>(entity => entity.HasAlternateKey(e => e.Email));
+            modelBuilder.Entity<UserRole>(entity => entity.HasAlternateKey(er => er.RoleName));
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
                 .IsUnique();

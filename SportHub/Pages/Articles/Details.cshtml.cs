@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Domain.Models;
 using SportHub.Services.ArticleServices;
 using SportHub.Services.Interfaces;
+using SportHub.Services;
 
 namespace SportHub.Pages.Articles
 {
@@ -20,13 +21,9 @@ namespace SportHub.Pages.Articles
         public string subcategory;
         public string category;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            Article = _service.GetArticle(id);
+            Article = await _service.GetArticle(id);
             try
             {
                 team = _service.GetArticlesTeam(id);
