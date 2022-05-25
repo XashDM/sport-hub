@@ -4,8 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - courses</title>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/courses.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminpage.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -43,33 +45,7 @@
             </div>
         </div>
     </section>
-
-    <section class ="middle-header">
-        <div class="home">
-            <p>
-                Home
-            </p>
-        </div>
-
-        <div class="bot-blank-space">
-                
-            </div>
-
-        <div class="edit">
-            <div>
-                <p class ="cancel ">
-                    &nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;&nbsp;
-                </p>
-            </div>
-                <p class ="changes">
-                    Save all changes
-                </p>
-            <div>
-
-            </div>
-        </div>
-    </section>
-   
+     @RenderSection("SaveButton", required: false)
     <section class ="bottom-header">
         <div class="sports">
             <p class="h">
@@ -148,7 +124,8 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <script src="~/js/adminpage.js"></script>
+    <script src="~/js/DataClass.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

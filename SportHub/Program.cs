@@ -13,14 +13,16 @@ using System.Net.Mail;
 using SportHub.Services.ArticleServices;
 using SportHub.Services.Interfaces;
 using SportHub.Services.NavigationItemServices;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 // Add services to the container.
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 
-
+builder.Services.AddControllers();
 builder.Services.AddDbContext<SportHubDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDB"));
@@ -64,7 +66,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.UseAuthentication();
 app.UseAuthorization();
 
