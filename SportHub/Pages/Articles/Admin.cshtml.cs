@@ -27,6 +27,7 @@ namespace SportHub.Pages.Articles
         }
 
         public IList<Article> Article { get;set; }
+        public IList<NavigationItem> Categories { get; set; }
         public IList<NavigationItem> SubCategories { get; set; }
         public IList<NavigationItem> Teams { get;set; }
         public SelectList SelectSubcategory { get; set; }
@@ -39,6 +40,7 @@ namespace SportHub.Pages.Articles
         public string PublishField { get; set; }
         public async Task OnGetAsync(string? category)
         {
+            Categories = _service.GetCategories();
             Article = _service.GetArticlesRange(0,10,PublishField, category, SelectedSubcategory, SelectedTeam);
             for(int i = 0; i < Article.Count; i++)
             {
@@ -62,6 +64,7 @@ namespace SportHub.Pages.Articles
                     SelectTeam = new SelectList(Teams, nameof(NavigationItem.Name), nameof(NavigationItem.Name));
                 }
             }
+
         }
         public async Task OnPostAsync(string category)
         {

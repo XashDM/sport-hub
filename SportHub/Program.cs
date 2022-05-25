@@ -16,6 +16,7 @@ using SportHub.Services.NavigationItemServices;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Azure.Storage.Blobs;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

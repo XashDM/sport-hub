@@ -18,8 +18,8 @@ namespace SportHub.Services.ArticleServices
 
         public IList<Article> GetArticlesRange(int start, int end, string? publishValue, string? category, string? subcategory, string? team)
         {
-            IList<Article> articles = GetArticlesByPublished(publishValue, category, subcategory, team);
-            return articles.Skip(start).Take(end).ToList();
+            IList<Article> articles = GetArticlesByPublished(publishValue, category, subcategory, team).Skip(start).Take(end).ToList();
+            return articles;
         }
 
         public IList<Article> GetArticlesByPublished(string? publishValue, string? category, string? subcategory, string? team)
@@ -122,6 +122,11 @@ namespace SportHub.Services.ArticleServices
             {
                 return null;
             }
+        }
+
+        public IList<NavigationItem> GetCategories()
+        {
+            return _context.NavigationItems.Where(item => item.Type.Equals("Category")).ToList();
         }
 
         public IList<NavigationItem> GetSubcategories(string category)

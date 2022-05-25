@@ -1,5 +1,32 @@
-﻿function openDropdownFunction(articleId) {
+﻿let startElementPosition = 10;
+let amountOfElements = 5;
+
+function test() {
+    var template = $("#template")
+        .clone().removeAttr("id")
+        .removeClass("hidden")
+        .html();
+
+    console.log(template);
+
+    // re-define `template`
+    template = $(template).filter("#username")
+        .attr("id", "username-" + $("[id^=username]").length)
+        .html("new user");
+
+    console.log(template[0].outerHTML);
+
+    $("#container").prepend(template)
+}
+
+function openDropdownFunction(articleId) {
     document.getElementById(articleId.toString()).classList.toggle("show");
+}
+
+function findHideSearchField() {
+    console.log("Yes");
+    $("#search-field").toggle();
+    $("#search-field").focus();
 }
 
 function deleteArticleFunction(articleId) {

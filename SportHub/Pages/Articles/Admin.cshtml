@@ -13,17 +13,18 @@
     <script type="text/javascript" src="~/js/hideAndShowDropdown.js"></script>
 </head>
 
-
-
 <div class="get-admins-articles-main-body">
+    <button onclick="test()"></button>
     <div class="get-admins-articles-preview-and-search">
         <div class="get-admins-articles-preview">
             <img src="~/images/red-eye-preview.svg"/>
             Preview
         </div>
         <div class="get-admins-articles-search-field">
-            <input />
-            <img src="~/images/SearchMagnifier.svg"/>
+            <button onclick="findHideSearchField()">
+                <img src="~/images/SearchMagnifier.svg"/>
+            </button>
+            <input id="search-field" class="get-admins-articles-search-field-field" style="display:none"/>
         </div>
     </div>
     <div class="get-admins-articles-form-dropdown">
@@ -119,3 +120,11 @@
         }
     </div>
 </div>
+
+@section categoryList
+{
+    @for (int i = 0; i<Model.Categories.Count; i++)
+    {
+        <a id="category-element-@Model.Categories[i].Id" href="/Articles/Admin/@Model.Categories[i].Name">@Model.Categories[i].Name</a>
+    }
+}
