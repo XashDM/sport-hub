@@ -190,6 +190,7 @@ namespace SportHub.Services.ArticleServices
             foreach (var item in articlesToReturn)
             {
                 item.Article.DisplayItems = null;
+                item.Article.ImageLink = await _imageService.GetImageLinkByNameAsync(item.Article.ImageLink);
             }
 
             return await articlesToReturn.ToArrayAsync();

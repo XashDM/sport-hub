@@ -94,6 +94,23 @@ option {
         color: #d72130;
     }
 
+.more-button {
+    width: 175px;
+    height: 42px;
+    background-color: #d72130;
+    text-align: center;
+}
+
+.more-button p {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+    color: white;
+}
+
+
 /*Text styles*/
 .h1-background-text {
     font-family: 'Roboto Condensed';

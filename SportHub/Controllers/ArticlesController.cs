@@ -120,6 +120,7 @@ namespace SportHub.Controllers
             }
         }
 
+        //for admins only, returns hidden articles
         [HttpGet(nameof(GetMainArticles))]
         [AllowAnonymous]
         public async Task<IActionResult> GetMainArticles()
@@ -129,6 +130,24 @@ namespace SportHub.Controllers
                 var displayItems = await _articleService.GetMainArticles();
 
                 return Ok(displayItems);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        //for users, rerurns only displayed articles
+        [HttpGet(nameof(GetDisplayedMainArticles))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetDisplayedMainArticles()
+        {
+            try
+            {
+                var articles = await _articleService.GetMainArticles();
+                var displayItem = articles.Where(displayed => displayed.IsDisplayed.Equals(true));
+
+                return Ok(displayItem);
             }
             catch (Exception)
             {

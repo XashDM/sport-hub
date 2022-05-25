@@ -15,7 +15,7 @@
             <div class="main-column"> 
                 <div class="main-article">
                     <div class="main-section-crop">
-                        <div class="newstag" id="main-article-team-tag"></p></div>
+                        <div class="newstag" id="main-article-team-tag"></div>
                         <img src="" class="main-article-photo" alt="Main article" />
                     </div>
                     <div class="main-section-banner">
@@ -26,13 +26,14 @@
                                 </b>
                             </div>
                             <div class="main-title-info">
-                                <b id="banner-title">
-                                    
+                                <b id="banner-title">   
                                 </b>
                             </div>
                             <div class="main-bottom-info h3-heading-text">
-                                
                             </div>
+                            <a id="banner-more-button" class="more-button" href="#">
+                                <p>MORE</p>
+                            </a>
                         </div>
                         <div class="banner-nav-box">
                             <div class="button-box">
@@ -262,16 +263,7 @@
     <script>
         $(document).ready(function ()
         {
-            $.get(
-            {
-            type: 'GET',
-            url: '@Url.Page("index", "Test1")',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json"
-            })
-            .done(function (data) {
-                setMainArticlesList(data, @Json.Serialize(Model.teams));
-            });
+            getMainArticles();
             setInterval(nextImage, 3000);
         });
 

@@ -51,11 +51,10 @@
     width: 100%;
 }
 
-
 .main-section-banner {
     position: absolute;
     width: 540px;
-    height: 348px;
+    height: 390px;
     left: 65%;
     top: 414px;
 }
@@ -83,6 +82,10 @@
     color: #7b7b7b;
 }
 
+.main-title-info {
+    margin-bottom: 10px;
+}
+
 .main-title-info b {
     color: #C63638;
     font-family: 'Open Sans';
@@ -97,7 +100,11 @@
     line-height: 28px;
     margin-bottom: 25px;
     overflow: hidden;
-    max-height: 115px;
+    height: 127px;
+}
+
+#banner-more-button {
+    margin-left: -27px;
 }
 
 .banner-nav-box {
