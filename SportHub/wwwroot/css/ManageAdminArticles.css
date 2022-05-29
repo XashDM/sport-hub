@@ -18,6 +18,12 @@ body {
     margin: auto;
 }
 
+select {
+    width: 212px;
+    height: 36px;
+    border: 1px solid #D4D9E2;
+}
+
 .get-admins-articles-container-body {
     width: 960px;
     height: 1058px;
@@ -26,6 +32,8 @@ body {
     margin-bottom: 152px;
     padding-top: 17px;
     padding-left: 17px;
+    scrollbar-color: darkgrey transparent;
+    scrollbar-width: thin;
 }
 
     .get-admins-articles-container-body::-webkit-scrollbar {
@@ -70,16 +78,16 @@ body {
 }
 
     .get-admins-articles-search-field input {
-        border-style: none;
-        width: 100px;
+        border: solid 1px #D4D9E2;
         margin-left: 10px;
+        height: 28px;
     }
 
     .get-admins-articles-search-field button {
-        border:none;
+        border: none;
         cursor: pointer;
         padding: 0;
-        background-color: none;
+        background-color: transparent;
     }
 
     .get-admins-articles-search-field button img {
@@ -229,6 +237,38 @@ body {
         width: 100px;
     }
 
+.get-admins-articles-publish-button {
+    border: none;
+    background-color: white;
+    width: 100%;
+    text-align: inherit;
+    padding: 8px 16px;
+    color: black;
+    cursor: pointer;
+}
+
+    .get-admins-articles-publish-button div {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 19px;
+    }
+
+.get-admins-articles-delete {
+    border: none;
+    background-color: white;
+    width: 100%;
+    text-align: inherit;
+    padding: 8px 16px;
+    color: black;
+    cursor: pointer;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+}
+
 .show {
     display: block;
+    background-color: white;
 }

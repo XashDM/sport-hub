@@ -8,6 +8,7 @@ using SportHub.Services.ArticleServices;
 using SportHub.Services.Interfaces;
 using System.Collections.Generic;
 using SportHub.Domain.Views;
+using SportHub.Services;
 
 namespace SportHub.Controllers
 {
@@ -15,17 +16,24 @@ namespace SportHub.Controllers
     {
         SportHubDBContext _context;
         IGetAdminArticlesService _articleService;
-        public ArticleController(SportHubDBContext context, IGetAdminArticlesService articleService)
+        IImageService _imageService;
+
+        public ArticleController(SportHubDBContext context, IGetAdminArticlesService articleService, IImageService imageService)
         {
             _context = context;
             _articleService = articleService;
+            _imageService = imageService;
         }
+
         [HttpPost]
         [Route("/articles")]
-        public async Task<IActionResult> Articles([FromBody] ArticlesDisplayVariables info)
+        public async Task<IActionResult> Articles([FromQuery] int startPosition, [FromQuery] int amountArticles, [FromQuery] string? publishValue, [FromQuery] string? category, [FromQuery] string? subcategory, [FromQuery]  string? team)
         {
-            IList<Article> articles;
-            articles = _articleService.GetArticlesRange(info.startPosition, info.amountArticles, info.publishValue, info.category, info.subcategory, info.team);
+            IList<Article> articles = _articleService.GetArticlesRange(startPosition, amountArticles, publishValue, category, subcategory, team);
+            for (int i = 0; i < articles.Count; i++)
+            {
+                articles[i].ImageLink = await _imageService.GetImageLinkByNameAsync(articles[i].ImageLink);
+            }
             return new OkObjectResult(articles);
         }
 
