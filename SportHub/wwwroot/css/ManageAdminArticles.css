@@ -218,7 +218,12 @@ select {
         align-content: center;
         align-items: center;
         margin: 18px 20px;
+        opacity:0;
     }
+
+.get-admins-articles-elements:hover .get-admins-articles-drop-btn img{
+    opacity:1;
+}
 
 .get-admins-articles-dropdown-content {
     display: none;
