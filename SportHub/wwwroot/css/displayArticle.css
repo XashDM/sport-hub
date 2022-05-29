@@ -8,18 +8,6 @@ body {
     font-style: normal;
 }
 
-@media (min-width: 576px) and (max-width: 1368px) {
-    .get-article-main {
-        width: 70%;
-    }
-}
-
-@media (min-width: 1921px){
-    .get-article-main {
-        width: 70%;
-        margin: auto;
-    }
-}
 
 .get-article-main {
     max-width: 1024px;
