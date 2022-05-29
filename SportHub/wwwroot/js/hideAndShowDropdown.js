@@ -2,6 +2,14 @@
 let amountOfElements = 5;
 
 $(document).ready(function () {
+    let category = $(location).attr('pathname');
+    category = category.substring(16, category.length);
+    if (category != "") {
+        $('#displayed-category-name').text(decodeURI(category));
+    }
+    else {
+        $('#displayed-category-name').text("All categories");
+    }
     let hiddenDivSize = $('.get-admins-articles-scroll-position').height();
     let visibleDivSize = $('.get-admins-articles-container-body').height();
     let scrollHeight = hiddenDivSize - visibleDivSize;
