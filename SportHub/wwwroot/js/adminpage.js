@@ -84,7 +84,7 @@ $('#main-articles-block').on('change', 'select[name="main-a-subcategories"]', fu
     const teamsSelect = outerBox.find('select[name="main-a-teams"]');
     const articlesSelect = outerBox.find('.custom-selector-body');
     getAllTeamsByParentId(teamsSelect, subcategoryId);
-    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, 20), subcategoryId);
+    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, 15), subcategoryId);
 });
 
 $('#main-articles-block').on('change', 'select[name="main-a-teams"]', function () {
@@ -98,7 +98,7 @@ $('#main-articles-block').on('change', 'select[name="main-a-teams"]', function (
     resetNextSelectElementsByContainer(outerBox, 2);
     const articlesSelect = outerBox.find('.custom-selector-body');
 
-    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, 20), teamId);
+    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, 15), teamId);
 });
 
 $('#main-articles-block').on('click', '.main-a-articles-selector', function () {
@@ -116,6 +116,28 @@ $('#main-articles-block').on('click', '.custom-selector-body option', function (
     selector.val(selectedOption.val());
     selector.text(selectedOption.text());
 });
+
+var scrollLimit = 100;
+
+document.addEventListener('scroll', function (event) {
+    if ($(event.target).attr('class') === 'custom-selector-body') {
+        if ($(event.target).scrollTop() > scrollLimit) {
+            let currentScrollLimitValue = $(event.target).attr('value');
+            if (!currentScrollLimitValue) {
+                currentScrollLimitValue = scrollLimit;
+                $(event.target).attr('value', currentScrollLimitValue);
+            }
+            else {
+                currentScrollLimitValue = parseInt(currentScrollLimitValue) + 100;
+                $(event.target).attr('value', currentScrollLimitValue);
+            }
+
+            const page = (currentScrollLimitValue / 100) + 2;
+            const lastArticleLoadedReferenceId = $(event.target).parent().find('.custom-selector-body option').last().val().split(',')[1];
+            getAllArticlesByParentId($(event.target), generatePageArguments(page, 10), lastArticleLoadedReferenceId, -1, false, false);
+        }
+    }
+}, true);
 
 $('#save-changes-button').click(function () {
     applyMainArticlesConfigurationChanges();
@@ -212,7 +234,7 @@ function getAllTeamsByParentId(elementToFill, parentId, selectedItem = -1) {
     });
 }
 
-function getAllArticlesByParentId(elementToFill, pageArguments, articleParentId, selectedItem = -1) {
+function getAllArticlesByParentId(elementToFill, pageArguments, articleParentId, selectedItem = -1, allowErase = true, changeSelected = true) {
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -224,16 +246,20 @@ function getAllArticlesByParentId(elementToFill, pageArguments, articleParentId,
         data: JSON.stringify({ 'PageArgs': pageArguments, 'ArticleParentId': articleParentId}),
         success: function (response) {
             selectorElementToFill = elementToFill.parent().find('.main-a-articles-selector option');
-            $(elementToFill).empty();
-            insertOptions(elementToFill, response, true);
-            if (selectedItem != -1 && response.length != 0) {
-                selectorElementToFill.val(selectedItem.id);
-                selectorElementToFill.text(selectedItem.title);
+            if (allowErase) {
+                $(elementToFill).empty();
             }
-            else {
-                selectorElementToFill.val(-1);
-                selectorElementToFill.text('Not Chosen');
-            }
+            insertOptions(elementToFill, response, true, false);
+            if (changeSelected) {
+                if (selectedItem != -1 && response.length != 0) {
+                    selectorElementToFill.val([selectedItem.id, selectedItem.referenceItemId]);
+                    selectorElementToFill.text(selectedItem.title);
+                }
+                else {
+                    selectorElementToFill.val(-1);
+                    selectorElementToFill.text('Not Chosen');
+                }
+            }  
         },
         error: function (response) {
             console.error(response);
@@ -252,11 +278,13 @@ function resetNextSelectElementsByContainer(container, index) {
     customArticleSelector.empty();
 }
 
-function insertOptions(selectElement, dataArrayToInsert, areArticles = false) {
-    $(selectElement).append($('<option>', { value: -1, text: 'Not Chosen' }));
+function insertOptions(selectElement, dataArrayToInsert, areArticles = false, allowInsertDefault = true) {
+    if (allowInsertDefault) {
+        $(selectElement).append($('<option>', { value: -1, text: 'Not Chosen' }));
+    }
     if (areArticles) {
         for (var i = 0; i < dataArrayToInsert.length; i++) {
-            $(selectElement).append($('<option>', { value: dataArrayToInsert[i].id, text: dataArrayToInsert[i].title }));
+            $(selectElement).append($('<option>', { value: [dataArrayToInsert[i].id, dataArrayToInsert[i].referenceItemId], text: dataArrayToInsert[i].title }));
         }
     }
     else {
@@ -270,7 +298,7 @@ function gatherMainArticlesInput() {
     let mainArticlesInput = {}
     $('.configuration-body').each(function (idx) {
         if (idx != 0) {
-            const articleId = $(this).find('.main-a-articles-selector option').val();
+            const articleId = $(this).find('.main-a-articles-selector option').val().split(',')[0];
             const isDisplayed = $(this).find('input[type="checkbox"]').prop('checked');
 
             mainArticlesInput[articleId] = isDisplayed;
@@ -326,7 +354,6 @@ function displayConfigurationBlocks(mainArticles) {
         const teamSelector = configurationBodyClone.find('select[name="main-a-teams"]');
         const subcategorySelector = configurationBodyClone.find('select[name="main-a-subcategories"]');
         const categorySelector = configurationBodyClone.find('select[name="main-a-categories"]');
-
         selectItemBySelectorAndSelectedItem(categorySelector, parentsArray[parentsArray.length - 1].id);
         if (parentsArray.length >= 2) {
             if (parentsArray[parentsArray.length - 2].type === 'Team') {
@@ -335,14 +362,14 @@ function displayConfigurationBlocks(mainArticles) {
             }
             else {
                 getAllSubcategoriesByCategoryId(subcategorySelector, parentsArray[parentsArray.length - 1].id, parentsArray[parentsArray.length - 2].id);
-                getAllTeamsByParentId(teamSelector, parentsArray[parentsArray.length - 2].id);
+                getAllTeamsByParentId(teamSelector, parentsArray[parentsArray.length - 2].id, parentsArray[0].id);
             }
         }
         else {
             getAllSubcategoriesByCategoryId(subcategorySelector, parentsArray[parentsArray.length - 1].id);
             getAllTeamsByParentId(teamSelector, parentsArray[parentsArray.length - 1].id, parentsArray[0].id);
         }
-        getAllArticlesByParentId(articleSelector, generatePageArguments(1, 20), parentsArray[0].id, currentArticle);
+        getAllArticlesByParentId(articleSelector, generatePageArguments(1, 15), parentsArray[0].id, currentArticle);
 
         isDisplayedCheckbox.prop('checked', currentIsDisplayedState);
 
