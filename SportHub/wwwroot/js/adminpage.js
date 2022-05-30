@@ -298,7 +298,7 @@ function gatherMainArticlesInput() {
     let mainArticlesInput = {}
     $('.configuration-body').each(function (idx) {
         if (idx != 0) {
-            const articleId = $(this).find('.main-a-articles-selector option').val();
+            const articleId = $(this).find('.main-a-articles-selector option').val().split(',')[0];
             const isDisplayed = $(this).find('input[type="checkbox"]').prop('checked');
 
             mainArticlesInput[articleId] = isDisplayed;
