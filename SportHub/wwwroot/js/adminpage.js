@@ -354,7 +354,6 @@ function displayConfigurationBlocks(mainArticles) {
         const teamSelector = configurationBodyClone.find('select[name="main-a-teams"]');
         const subcategorySelector = configurationBodyClone.find('select[name="main-a-subcategories"]');
         const categorySelector = configurationBodyClone.find('select[name="main-a-categories"]');
-
         selectItemBySelectorAndSelectedItem(categorySelector, parentsArray[parentsArray.length - 1].id);
         if (parentsArray.length >= 2) {
             if (parentsArray[parentsArray.length - 2].type === 'Team') {
@@ -363,7 +362,7 @@ function displayConfigurationBlocks(mainArticles) {
             }
             else {
                 getAllSubcategoriesByCategoryId(subcategorySelector, parentsArray[parentsArray.length - 1].id, parentsArray[parentsArray.length - 2].id);
-                getAllTeamsByParentId(teamSelector, parentsArray[parentsArray.length - 2].id);
+                getAllTeamsByParentId(teamSelector, parentsArray[parentsArray.length - 2].id, parentsArray[0].id);
             }
         }
         else {
