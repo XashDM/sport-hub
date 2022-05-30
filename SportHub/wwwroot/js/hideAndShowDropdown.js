@@ -43,7 +43,7 @@ function updateArticlesAfterScrolling() {
     $.ajax({
         dataType: "json",
         method: "post",
-        url: `/articles?startPosition=${startElementPosition}&amountArticles=${amountOfElements}&publishValue=${selectedPublish}&category=${category}&subcategory=${selectedSubcategory}&team=${selectedTeam}`,
+        url: '/articles',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -51,7 +51,10 @@ function updateArticlesAfterScrolling() {
         data: {
             'startPosition': startElementPosition,
             'amountArticles': amountOfElements,
-            'publishValue': 'Published'
+            'publishValue': selectedPublish,
+            'category': category,
+            'subcategory': selectedSubcategory,
+            'team': selectedTeam
         },
         success: function (result) {
             amountOfArticles = result.length;
