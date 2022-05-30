@@ -196,6 +196,26 @@ namespace SportHub.Services.ArticleServices
             return await articlesToReturn.ToArrayAsync();
         }
 
+        public async Task<DisplayItem[]> GetDisplayedMainArticles()
+        {
+            var articlesToReturn = _context.DisplayItems
+                .Where(displayItem => displayItem.Type.Equals("Article"))
+                .Where(displayItem => displayItem.DisplayLocation.Equals("MainSection"))
+                .Where(displayItem => displayItem.IsDisplayed.Equals(true))
+                .Include(displayItem => displayItem.Article)
+                .ThenInclude(article => article.ReferenceItem)
+                .ThenInclude(team => team.ParentsItem)
+                .ThenInclude(subcategory => subcategory.ParentsItem);
+
+            foreach (var item in articlesToReturn)
+            {
+                item.Article.DisplayItems = null;
+                item.Article.ImageLink = await _imageService.GetImageLinkByNameAsync(item.Article.ImageLink);
+            }
+
+            return await articlesToReturn.ToArrayAsync();
+        }
+
         public (IQueryable<T>, int, int) Paginate<T>(IQueryable<T> items, int pageSize, int pageNumber)
         {
             (int toSkip, int toTake, int totalPages, int totalItemsAmount) = GetPaginationValues(items, pageSize, pageNumber);

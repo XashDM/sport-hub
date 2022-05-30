@@ -137,17 +137,16 @@ namespace SportHub.Controllers
             }
         }
 
-        //for users, rerurns only displayed articles
+        //for users, returns only displayed articles
         [HttpGet(nameof(GetDisplayedMainArticles))]
         [AllowAnonymous]
         public async Task<IActionResult> GetDisplayedMainArticles()
         {
             try
             {
-                var articles = await _articleService.GetMainArticles();
-                var displayItem = articles.Where(displayed => displayed.IsDisplayed.Equals(true));
+                var articles = await _articleService.GetDisplayedMainArticles();
 
-                return Ok(displayItem);
+                return Ok(articles);
             }
             catch (Exception)
             {

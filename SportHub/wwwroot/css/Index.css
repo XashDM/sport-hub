@@ -172,10 +172,8 @@
 }
 
 .main-article-photo {
-    height: 110%;
-    width: auto;
+    width: 130%;
     z-index: -1;
-    position: relative;
     margin-top: -5%;
 }
 
