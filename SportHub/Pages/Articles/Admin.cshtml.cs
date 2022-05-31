@@ -19,10 +19,12 @@ namespace SportHub.Pages.Articles
     {
         private readonly IGetAdminArticlesService _service;
         private readonly IImageService _imageService;
-        public IndexModel(IGetAdminArticlesService service, IImageService imageService)
+        private readonly IGetArticleService _articleService;
+        public IndexModel(IGetAdminArticlesService service, IImageService imageService, IGetArticleService articleService)
         {
             _service = service;
             _imageService = imageService;
+            _articleService = articleService;
 
         }
 
@@ -38,14 +40,13 @@ namespace SportHub.Pages.Articles
         public string SelectedTeam { get; set; }
         [BindProperty(SupportsGet = true)]
         public string PublishField { get; set; }
+        public List<string> SubCategoriesDisplayed = new List<string>();
+        public List<string> TeamsDisplayed = new List<string>();
         public async Task OnGetAsync(string? category)
         {
             Categories = _service.GetCategories();
             Article = _service.GetArticlesRange(0,10,PublishField, category, SelectedSubcategory, SelectedTeam);
-            for(int i = 0; i < Article.Count; i++)
-            {
-                Article[i].ImageLink = await _imageService.GetImageLinkByNameAsync(Article[i].ImageLink);
-            }
+            
             if (category != null)
             {
                 SubCategories = _service.GetSubcategories(category);
@@ -64,7 +65,12 @@ namespace SportHub.Pages.Articles
                     SelectTeam = new SelectList(Teams, nameof(NavigationItem.Name), nameof(NavigationItem.Name));
                 }
             }
-
+            for (int i = 0; i < Article.Count; i++)
+            {
+                Article[i].ImageLink = await _imageService.GetImageLinkByNameAsync(Article[i].ImageLink);
+                SubCategoriesDisplayed.Add(_articleService.GetArticlesSubcategory(Article[i].Id));
+                TeamsDisplayed.Add(_articleService.GetArticlesTeam(Article[i].Id));
+            }
         }
         public async Task OnPostAsync(string category)
         {

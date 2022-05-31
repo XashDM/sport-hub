@@ -69,7 +69,7 @@
                             </div>
                             <div class="get-admins-articles-right-content-bottom-info">
                                 <div class="get-admins-articles-subcategory-team">
-                                    @Model.Article[index].ReferenceItemId
+                                    @(Model.SubCategoriesDisplayed[index]+" / "+Model.TeamsDisplayed[index])
                                 </div>
                                 <div id="articlePublishFooter-@Model.Article[index].Id" class="get-admins-articles-published-info-outside">
 

@@ -166,6 +166,9 @@ select {
     font-size: 14px;
     line-height: 19px;
     color: #7F7B7B;
+    overflow: hidden;
+    max-width: 325px;
+    white-space: nowrap;
 }
 
 .get-admins-articles-published-info {

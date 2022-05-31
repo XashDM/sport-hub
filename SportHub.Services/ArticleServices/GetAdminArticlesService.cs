@@ -27,7 +27,7 @@ namespace SportHub.Services.ArticleServices
             IList<Article> articles = GetArticles(category, subcategory, team);
             //IList<Article> article = articles.Skip(0).Take(300).ToList();
             IList<Article> publishedArticles = new List<Article>();
-            if(publishValue != "All" && publishValue != null)
+            if(publishValue != "All" && publishValue != null && publishValue != "")
             {
                 for(int i = 0; i < articles.Count; i++)
                 {
@@ -115,7 +115,12 @@ namespace SportHub.Services.ArticleServices
                 }
                 else
                 {
-                    return _context.Articles.ToList();
+                    articles = _context.Articles.ToList();
+                    for (int i = 0; i<articles.Count; i++)
+                    {
+                        articles[i].ReferenceItem = _context.NavigationItems.FirstOrDefault(item => item.Id.Equals(articles[i].ReferenceItemId));
+                    }
+                    return articles;
                 }
             }
             catch
