@@ -39,7 +39,6 @@
 
 
  <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="wwwroot\fonts\" />
     <Folder Include="wwwroot\icons\" />
   </ItemGroup>

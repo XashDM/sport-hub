@@ -6,7 +6,6 @@ namespace SportHub.Services.Interfaces
 {
     public interface INavigationItemService
     {
-        Task<NavigationItem> AddNewItem(NavigationItem Item);
         Task<List<NavigationItem>> GetChildrenOfItem(int ItemId);
         Task<List<NavigationItem>> GetTopCategories();
         Task<List<int>> GetRecusiveTree(int ItemId);

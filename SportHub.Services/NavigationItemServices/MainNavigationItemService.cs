@@ -14,39 +14,19 @@ namespace SportHub.Services.NavigationItemServices
     {
         private readonly ILogger<MainNavigationItemService> _logger;
         private readonly SportHubDBContext _context;
-        private string[] Type = { "Category", "Subcategory", "Team" };
 
         public MainNavigationItemService(ILogger<MainNavigationItemService> logger, SportHubDBContext context)
         {
             _logger = logger;
             _context = context;
         }
-        public async Task<NavigationItem> AddNewItem(NavigationItem Item)
-        {
-            if (Type.Contains(Item.Name))
-            {
-                return null; 
-            }
-            try
-            {
-                _context.NavigationItems.Add(Item);
-                await _context.SaveChangesAsync();
-            }
-            catch(Exception e)
-            {
-                _logger.LogError($"Sad message. I could not AddNewItem. I tried, but it happened: {e.Message}");
-                return null;
-            }
-
-            return Item;
-        }
-        public async Task<List<NavigationItem>> GetChildrenOfItem(int ItemId)
+        public async Task<List<NavigationItem>> GetChildrenOfItem(int itemId)
         {
             List<NavigationItem> listOfChildren = null; 
             try
             {
                 listOfChildren = await _context.NavigationItems
-                .Where(navigationItem => navigationItem.ParentsItemId == ItemId)
+                .Where(navigationItem => navigationItem.ParentsItemId == itemId)
                 .ToListAsync();
             }
             catch(System.Exception e)
@@ -72,7 +52,7 @@ namespace SportHub.Services.NavigationItemServices
 
             return listOfChildren;
         }
-        public async Task<List<int>> GetRecusiveTree(int ItemId)
+        public async Task<List<int>> GetRecusiveTree(int itemId)
         {
             var resUnion = _context.NavigationItems.Select(navigationItem => new NavigationItem
             {
@@ -81,7 +61,7 @@ namespace SportHub.Services.NavigationItemServices
                 Name = navigationItem.Name,
                 Type = navigationItem.Type
             })
-            .Where(e => e.Id == ItemId);
+            .Where(e => e.Id == itemId);
 
             int maxLevel = 3;
             int level = 1;
@@ -104,12 +84,12 @@ namespace SportHub.Services.NavigationItemServices
 
             return await resUnion.Select(navigationItem => navigationItem.Id).ToListAsync();
         }
-        public async Task<List<Article>> GetArticlesofItem(int ItemId)
+        public async Task<List<Article>> GetArticlesofItem(int itemId)
         {
             List<Article> result = null; 
             try
             {
-                var navigationItemIdList = await GetRecusiveTree(ItemId);
+                var navigationItemIdList = await GetRecusiveTree(itemId);
                 result = await _context.Articles.Where(articles =>
                 navigationItemIdList.Contains(articles.ReferenceItemId.Value)).ToListAsync();
             }

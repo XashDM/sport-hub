@@ -34,20 +34,10 @@ namespace SportHub.Pages.Admin.ManageNavigationItems
         {
             return new OkObjectResult(await _servise.GetTopCategories());
         }
-        public async Task<IActionResult> OnGetChildren( int ItemId)
+        public async Task<IActionResult> OnGetChildren(int ItemId)
         {
-            
+
             return new OkObjectResult(await _servise.GetChildrenOfItem(ItemId));
-        }
-        public async Task<IActionResult> OnGetAddItem(string name, int? ParentsItemId, string Type)
-        {
-            NavigationItem Item = new NavigationItem {
-                Type = Type,
-                Name = name,
-                ParentsItemId = ParentsItemId,
-            };
-            await _servise.AddNewItem(Item);
-            return new OkObjectResult(Item);
         }
         [BindProperty]
         public dynamic newItem { get; set; }
