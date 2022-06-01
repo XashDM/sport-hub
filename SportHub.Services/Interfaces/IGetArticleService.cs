@@ -18,5 +18,6 @@ namespace SportHub.Services.Interfaces
         (IQueryable<T>, int, int) Paginate<T>(IQueryable<T> items, int pageSize, int pageNumber);
         Task SaveMainArticles(Dictionary<int, bool> articlesToSave);
         Task<DisplayItem[]> GetMainArticles();
+        Task<DisplayItem[]> GetDisplayedMainArticles();
     }
 }
