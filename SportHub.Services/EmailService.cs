@@ -22,5 +22,17 @@ namespace SportHub.Services
             //I have problem with gmail
             await email.SendAsync();
         }
+        public async void SendResetPasswordEmail(User user, [FromServices] IFluentEmail mailer, string token)
+        {
+            var emailBody = File.ReadAllText($"{Directory.GetCurrentDirectory()}/wwwroot/emails/resetPasswordEmail.html")
+                .Replace("{resetPasswordPage}", $"https://localhost:7128/ResetPassword?token={token}");
+
+            var email = mailer
+                .To(user.Email, user.FirstName)
+                .Subject("Reset Password")
+                .UsingTemplate(emailBody, new { });
+      
+            await email.SendAsync();
+        }
     }
 }
