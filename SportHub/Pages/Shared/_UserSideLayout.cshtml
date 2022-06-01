@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="~/css/_UserSideLayout.css" asp-append-version="true" />
 </head>
 <body>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     <header>
         <nav class="navbar">
             <div class="container">
@@ -21,8 +23,8 @@
                 </div>
                 <div class="search-box">
                     <form style="display: flex; margin: auto;">
-                        <button id="search-button"><img src="~/icons/search-icon.png" class="header-icons" alt="Search!"/></button>
-                        <input type="search" id="header-search-field" class="lable" placeholder="Search..."/>
+                        <button id="search-button"><img src="~/icons/search-icon.png" class="header-icons" alt="Search!" /></button>
+                        <input type="search" id="header-search-field" class="lable" placeholder="Search..." />
                     </form>
                 </div>
 
@@ -37,35 +39,35 @@
                 <div class="account-box">
                     <div class="buttons" id="buttons">
                         <button class="small-button" onclick="window.location='/Login';">Sign in</button>
-                        <button class="small-button-inversed" onclick="window.location='/SignUp';" >Sign up</button>
+                        <button class="small-button-inversed" onclick="window.location='/SignUp';">Sign up</button>
                     </div>
-                    <div class="profile" id="profile"> 
-                       <div class="dropdown" id="dropdown">
-                          <img src="https://www.tutorialrepublic.com/examples/images/avatar/2.jpg" class="avatar" alt="Avatar">
-                          <button class="dropbtn" id="fullName"></button>
-                          <div class="dropdown-content" id="cont">
-                              <div class=userInfo>
-                                  <span id="username" class="infoName"></span> <br /><span id="email" class="infoMail" ></span>
-                              </div>
-                          <a href="#">View profile </a>
-                          <a href="#">Change password</a>
-                          <a href="#">My surveys</a>
-                          <a href="#">Team hub</a>
-                          <hr class="solid">
-                          <a href="#">Log out</a>
-                          </div>
-                          <img class="polygon" id="pol" src="@Url.Content("~/images/Polygon.png")" />
+                    <div class="profile" id="profile">
+                        <div class="dropdown" id="dropdown">
+                            <img src="https://www.tutorialrepublic.com/examples/images/avatar/2.jpg" class="avatar" alt="Avatar">
+                            <button class="dropbtn" id="fullName"></button>
+                            <div class="dropdown-content" id="cont">
+                                <div class=userInfo>
+                                    <span id="username" class="infoName"></span> <br /><span id="email" class="infoMail"></span>
+                                </div>
+                                <a href="#">View profile </a>
+                                <a href="#">Change password</a>
+                                <a href="#">My surveys</a>
+                                <a href="#">Team hub</a>
+                                <hr class="solid">
+                                <a href="#">Log out</a>
+                            </div>
+                            <img class="polygon" id="pol" src="@Url.Content("~/images/Polygon.png")" />
                         </div>
                     </div>
                 </div>
                 <div class="language-box">
                     <form style="margin: auto" action="">
-                      <select id="language">
-                        <option value="EN">EN</option>
-                        <option value="UA">UA</option>
-                        <option value="FR">FR</option>
-                      </select>
-                   </form>
+                        <select id="language">
+                            <option value="EN">EN</option>
+                            <option value="UA">UA</option>
+                            <option value="FR">FR</option>
+                        </select>
+                    </form>
                 </div>
             </div>
         </nav>
@@ -110,7 +112,7 @@
     </div>
     <footer>
         <div class="navbar-logo">
-             <a class="logo-caption" asp-page="/Index">SportHub</a>
+            <a class="logo-caption" asp-page="/Index">SportHub</a>
         </div>
         <div class="copyright-box">
             <p class="regular-text">Copyright ©2022 SportHub</p>

@@ -190,6 +190,27 @@ namespace SportHub.Services.ArticleServices
             foreach (var item in articlesToReturn)
             {
                 item.Article.DisplayItems = null;
+                item.Article.ImageLink = await _imageService.GetImageLinkByNameAsync(item.Article.ImageLink);
+            }
+
+            return await articlesToReturn.ToArrayAsync();
+        }
+
+        public async Task<DisplayItem[]> GetDisplayedMainArticles()
+        {
+            var articlesToReturn = _context.DisplayItems
+                .Where(displayItem => displayItem.Type.Equals("Article"))
+                .Where(displayItem => displayItem.DisplayLocation.Equals("MainSection"))
+                .Where(displayItem => displayItem.IsDisplayed.Equals(true))
+                .Include(displayItem => displayItem.Article)
+                .ThenInclude(article => article.ReferenceItem)
+                .ThenInclude(team => team.ParentsItem)
+                .ThenInclude(subcategory => subcategory.ParentsItem);
+
+            foreach (var item in articlesToReturn)
+            {
+                item.Article.DisplayItems = null;
+                item.Article.ImageLink = await _imageService.GetImageLinkByNameAsync(item.Article.ImageLink);
             }
 
             return await articlesToReturn.ToArrayAsync();

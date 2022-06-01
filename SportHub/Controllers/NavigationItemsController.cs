@@ -17,7 +17,7 @@ namespace SportHub.Controlles
     {
         private readonly ILogger<NavigationItems> _logger;
         private readonly INavigationItemService _navigationService;
-        public NavigationItems(ILogger<NavigationItems> logger, Domain.SportHubDBContext context, INavigationItemService navigationService)
+        public NavigationItems(ILogger<NavigationItems> logger, INavigationItemService navigationService)
         {
             _logger = logger;
             _navigationService = navigationService;

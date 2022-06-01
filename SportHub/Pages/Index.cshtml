@@ -14,51 +14,49 @@
         <div class="primary-content-area">
             <div class="main-column"> 
                 <div class="main-article">
-                    <div class="newstag"><p>NBA</p></div>
-                    <img src="/temp.png" class="main-article-photo" alt="Main article"/>
+                    <div class="main-section-crop">
+                        <div class="newstag" id="main-article-team-tag"></div>
+                        <img src="" class="main-article-photo" alt="Main article" />
+                    </div>
+                    <div class="main-section-banner">
+                        <div class="image-info">
+                            <div class="main-published lable">
+                                <b id="banner-published-date">
+                                    Published 
+                                </b>
+                            </div>
+                            <div class="main-title-info">
+                                <b id="banner-title">   
+                                </b>
+                            </div>
+                            <div class="main-bottom-info h3-heading-text">
+                            </div>
+                            <a id="banner-more-button" class="more-button" href="#">
+                                <p>MORE</p>
+                            </a>
+                        </div>
+                        <div class="banner-nav-box">
+                            <div class="button-box">
+                                <img id="left-button" class="red-hover" onclick="prevImage()" src="~/icons/arrow-left.png" />
+                                <img id="right-button" class="red-hover" onclick="nextImage()" src="~/icons/arrow-right.png" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="medium-news-container">
-                    <ul>
-                        <li>
-                            <div class="medium-news-box box-shadow">
-                                <div class="medium-crop">
-                                    <img class="medium-news-img" src="/temp.png" alt="Medium image"/>
-                                </div>
-                                <h3 class="h3-heading-text">Title</h3>
-                                <p class="caption">Lorem ipsum donor sit amet</p>
-                                <img class="floating-icon" src="/icons/rightarrow.png" />
-                            </div>
-                        </li>
-                        <li>
-                            <div class="medium-news-box box-shadow">
-                                <div class="medium-crop">
-                                    <img class="medium-news-img" src="/temp.png" alt="Medium image"/>
-                                </div>
-                                <h3 class="h3-heading-text">Title Title</h3>
-                                <p class="caption">Lorem ipsum donor sit amet</p>
-                                <img class="floating-icon" src="/icons/rightarrow.png" />
-                            </div>
-                        </li>
-                        <li>
-                            <div class="medium-news-box box-shadow">
-                                <div class="medium-crop">
-                                    <img class="medium-news-img" src="/temp.png" alt="Medium image"/>
-                                </div>
-                                <h3 class="h3-heading-text">Title Title</h3>
-                                <p class="caption">Lorem ipsum donor sit amet</p>
-                                <img class="floating-icon" src="/icons/rightarrow.png" />
-                            </div>
-                        </li>
-                        <li>
-                            <div class="medium-news-box box-shadow">
-                                <div class="medium-crop">
-                                    <img class="medium-news-img" src="/temp.png" alt="Medium image"/>
-                                </div>
-                                <h3 class="h3-heading-text">Title Title</h3>
-                                <p class="caption">Lorem ipsum donor sit amet</p>
-                                <img class="floating-icon" src="/icons/rightarrow.png" />
-                            </div>
-                        </li>
+                    <ul id="main-article-list">
+                         <li id="main-news-0">
+                             <a href="">
+                                 <div id="main-section-news-0" class="medium-news-box box-shadow">
+                                     <div class="medium-crop">
+                                         <img class="medium-news-img" src="" alt="Medium image" />
+                                     </div>
+                                     <h3 class="h3-heading-text"></h3>
+                                     <p class="caption"></p>
+                                     <img class="floating-icon" src="/icons/rightarrow.png" />
+                                 </div>
+                             </a>
+                         </li>
                     </ul>
                 </div>
             </div>
@@ -260,6 +258,16 @@
                 
             </div>
         </div>
-    </div>    
+    </div>   
+    <script src="~/js/homepage.js"></script>
+    <script>
+        $(document).ready(function ()
+        {
+            getMainArticles();
+            setInterval(nextImage, 3000);
+        });
+
+    </script>
 </div>
+
 
