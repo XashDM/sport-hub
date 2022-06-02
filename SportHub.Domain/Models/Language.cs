@@ -12,11 +12,6 @@ namespace SportHub.Domain.Models
         public string LanguageName { get; set; }
 
         public bool IsEnabled { get; set; }
-
-        public static implicit operator List<object>(Language v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
 

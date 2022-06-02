@@ -76,6 +76,12 @@ select {
         color: #d72130;
     }
 
+    select#language-select{
+        position: absolute;
+        top: 40%;
+    }
+
+
 option {
     border: none;
     background-color: white;
@@ -94,15 +100,17 @@ option {
         color: #d72130;
     }
 
-/*Text styles*/
-.h1-background-text {
-    font-family: 'Roboto Condensed';
-    font-style: normal;
-    font-weight: bold;
-    font-size: 192px;
-    color: #f0f2f6;
-    transform: rotate(90deg);
-}
+
+
+        /*Text styles*/
+        .h1-background-text {
+            font-family: 'Roboto Condensed';
+            font-style: normal;
+            font-weight: bold;
+            font-size: 192px;
+            color: #f0f2f6;
+            transform: rotate(90deg);
+        }
 
 .h2-heading-text {
     text-align: left;

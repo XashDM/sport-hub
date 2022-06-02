@@ -2,8 +2,6 @@
     e.stopPropagation();
     let status = $(this).prop('checked');
     let languageId = $(this).prop('id');
-    console.log(languageId)
-    console.log(status)
     $.ajax({
         headers:
         {
@@ -18,5 +16,4 @@
         }
       
     });
-    console.log(status)
 });

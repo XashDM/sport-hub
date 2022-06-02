@@ -74,8 +74,6 @@
     clear: both;
 }
 
-
-
 /*Columns Main*/
 .column_ttr {
     float: left;
@@ -101,8 +99,6 @@
     display: table;
     clear: both;
 }
-
-
 /*Fronts*/
 
 .language-title-box-front {
@@ -127,7 +123,6 @@
 }
 
 /*Toggle Switch*/
-
 .switch {
     position: relative;
     display: inline-block;
@@ -221,7 +216,6 @@ input:checked + .slider:before {
     text-align: center;
     color: #FFFFFF;
 }
-
 
 .new-language-button {
     background-color: #d72130;

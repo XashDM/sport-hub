@@ -13,14 +13,12 @@ namespace SportHub.Services.Services
 {
     public class LanguageService : ILanguageService
     {
-
         private readonly SportHubDBContext _context;
 
         public LanguageService(SportHubDBContext context)
         {
             _context = context;
         }
-
 
         public async Task AddDisplayedLanguage(DisplayedLanguage language)
         {
@@ -51,8 +49,6 @@ namespace SportHub.Services.Services
             await _context.SaveChangesAsync();
         }
 
-
-
         public async Task DeleteDisplayedLanguage(int id)
         {
             var language = await GetDisplayedLanguageById(id);
@@ -67,8 +63,6 @@ namespace SportHub.Services.Services
             _context.DisplayedLanguages.Update(language);
             await _context.SaveChangesAsync();
         }
-
-
 
         public async Task<List<LanguageViewModel>> GetAllLanguages()
         {
@@ -95,8 +89,6 @@ namespace SportHub.Services.Services
             }).ToList();
             return displanguages;
         }
-
-
 
         private async Task<Language> GetLanguageById(int id)
         {
