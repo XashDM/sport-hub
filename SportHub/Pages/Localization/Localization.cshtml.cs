@@ -15,7 +15,7 @@ namespace SportHub.Pages.Localization
     {
         private ILanguageService languageService { get; set; }
 
-        public List<DisplayedLanguageViewModel> DispLanguageList { get; set; }
+        public List<LanguageViewModel> DispLanguageList { get; set; }
 
         public LocalizationModel(ILanguageService Service)
         {
@@ -24,7 +24,7 @@ namespace SportHub.Pages.Localization
 
         public async Task OnGet()
         {
-            DispLanguageList = (await languageService.GetAllDisplayedLanguages()).ToList();
+            DispLanguageList = await languageService.GetAllDisplayedLanguages();
         }
 
         public async Task OnPost(int id, bool isEnable)
@@ -32,7 +32,6 @@ namespace SportHub.Pages.Localization
             await languageService.UpdateDisplayedLanguage(id, isEnable);
             await OnGet();
         }
-
 
         public async Task OnPostDelete(int id)
         {

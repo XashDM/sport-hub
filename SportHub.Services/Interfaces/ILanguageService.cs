@@ -13,6 +13,6 @@ namespace SportHub.Services.Interfaces
         public Task AddDisplayedLanguageRange(List<Language> language);
         public Task GetLanguageRangeById(List<int> languages, List<Language> SelectedLanguageList);
         public Task<List<LanguageViewModel>> GetAllLanguages();
-        public Task<List<DisplayedLanguageViewModel>> GetAllDisplayedLanguages();
+        public Task<List<LanguageViewModel>> GetAllDisplayedLanguages();
     }
 }

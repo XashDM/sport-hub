@@ -30,7 +30,6 @@ namespace SportHub.Services.Services
         {
             var languagesToAdd = languages.Select(p => new DisplayedLanguage
             {
-                
                 IsEnabled = p.IsEnabled,
                 LanguageName = p.LanguageName,
             }).ToList();
@@ -45,8 +44,6 @@ namespace SportHub.Services.Services
             {
                 SelectedLanguageList.Add(await GetLanguageById(element));
             }
-
-            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteDisplayedLanguage(int id)
@@ -77,11 +74,11 @@ namespace SportHub.Services.Services
             return languages;
         }
 
-        public async Task<List<DisplayedLanguageViewModel>> GetAllDisplayedLanguages()
+        public async Task<List<LanguageViewModel>> GetAllDisplayedLanguages()
         {
             var displanguages = (await _context.DisplayedLanguages.ToListAsync()).Select(x =>
             {
-                var displanguageViewModel = new DisplayedLanguageViewModel();
+                var displanguageViewModel = new LanguageViewModel();
                 displanguageViewModel.Id = x.Id;
                 displanguageViewModel.LanguageName = x.LanguageName;
                 displanguageViewModel.IsEnabled = x.IsEnabled;

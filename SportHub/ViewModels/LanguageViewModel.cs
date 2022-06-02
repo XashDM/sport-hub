@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SportHub.Services.ViewModels
+namespace SportHub.ViewModels
 {
-    public class DisplayedLanguageViewModel
+    public class LanguageViewModel
     {
         public bool IsEnabled { get; set; }
 
