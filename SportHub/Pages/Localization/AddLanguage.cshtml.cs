@@ -15,9 +15,7 @@ namespace SportHub.Pages.Localization
         private ILanguageService languageService { get; set; }
 
         public List<LanguageViewModel> LanguageList { get; set; }
-
-        public List<Language> SelectedLanguageList { get; set; }
-
+        
         public AddLanguageModel(ILanguageService Service)
         {
             languageService = Service;
@@ -28,10 +26,12 @@ namespace SportHub.Pages.Localization
             LanguageList = (await languageService.GetAllLanguages()).ToList();
         }
 
-        public async Task OnPost(List<int> checkboxIdSet, List<Language> SelectedLanguageList)
+        public async Task OnPost(List<int> checkboxIdSet)
         {
-            await languageService.GetLanguageRangeById(checkboxIdSet, SelectedLanguageList);
-            await languageService.AddDisplayedLanguageRange(SelectedLanguageList);
+            List<Language> selectedLanguageList = await languageService.GetLanguageRangeById(checkboxIdSet);
+
+            await languageService.AddDisplayedLanguageRange(selectedLanguageList);
+
             await OnGet();
         }
     }
