@@ -72,9 +72,5 @@ namespace SportHub.Pages.Articles
                 TeamsDisplayed.Add(_articleService.GetArticlesTeam(Article[i].Id));
             }
         }
-        public async Task OnPostAsync(string category)
-        {
-            //Article = _service.GetArticles(category, SelectedSubcategory, SelectedTeam, PublishField);
-        }
     }
 }

@@ -44,7 +44,6 @@ select {
         border-radius: 2px;
     }
 
-
 .get-admins-articles-form-dropdown {
     margin: 25px;
 }
@@ -180,7 +179,6 @@ select {
     color: #7F7B7B;
     display:flex;
 }
-
 
 .get-admins-articles-published-info-green-circle {
     width: 10px;

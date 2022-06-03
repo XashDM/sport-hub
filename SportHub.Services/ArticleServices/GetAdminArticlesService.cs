@@ -25,7 +25,6 @@ namespace SportHub.Services.ArticleServices
         public IList<Article> GetArticlesByPublished(string? publishValue, string? category, string? subcategory, string? team)
         {
             IList<Article> articles = GetArticles(category, subcategory, team);
-            //IList<Article> article = articles.Skip(0).Take(300).ToList();
             IList<Article> publishedArticles = new List<Article>();
             if(publishValue != "All" && publishValue != null && publishValue != "")
             {

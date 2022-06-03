@@ -60,7 +60,6 @@ function updateArticlesAfterScrolling() {
         data: JSON.stringify(articleDisplayParameters),
         success: function (articles) {
             amountOfArticles = articles.length;
-            console.log(articles[0]);
             
             for (var i = 0; i < amountOfArticles; i++) {
                 var articleField = $('.get-admins-articles-elements:first')
@@ -98,6 +97,7 @@ function updateArticlesAfterScrolling() {
                 articleField.find('.get-admins-articles-published-info-outside').attr('id', `articlePublishFooter-${articles[i].id}`);
                 articleField.find('.get-admins-articles-published-info').attr('id', `publishedForUnpublished-${articles[i].id}`);
                 articleField.find('.get-admins-articles-delete').attr('onclick', `deleteArticleFunction(${articles[i].id})`);
+
                 if (articles[i].isPublished == false) {
                     articleField.find('.get-admins-articles-published-info').css("display", "none");
                     articleField.find('.get-admins-articles-publish-button div')
@@ -123,7 +123,6 @@ function openDropdownFunction(articleId) {
 }
 
 function findHideSearchField() {
-    console.log("Yes");
     $("#search-field").toggle();
     $("#search-field").focus();
 }
@@ -145,7 +144,6 @@ function publishUnpublish(articleId) {
         method: "put",
         url: `/article/publishunpublish/${articleId}`,
         success: function (result) {
-            console.log(result.isPublished);
             if (result.isPublished) {
                 $(`#isPublishedButton-${articleId}`).html("<div>Unpublish</div>");
                 $(`#articlePublishFooter-${articleId}`).show();
@@ -153,7 +151,6 @@ function publishUnpublish(articleId) {
                 $(`#edit-${articleId}`).hide();
                 var publishDropdown = document.getElementById("publish-dropdown-list");
                 var publishText = publishDropdown.options[publishDropdown.selectedIndex].text;
-                console.log(publishText);
                 if (publishText == "Unpublished") {
                     $(`#article-with-id-${articleId}`).hide();
                 }
@@ -167,7 +164,6 @@ function publishUnpublish(articleId) {
                 $(`#edit-${articleId}`).show();
                 var publishDropdown = document.getElementById("publish-dropdown-list");
                 var publishText = publishDropdown.options[publishDropdown.selectedIndex].text;
-                console.log(publishText);
                 if (publishText == "Published") {
                     $(`#article-with-id-${articleId}`).hide();
                 }

@@ -12,13 +12,13 @@ using SportHub.Services;
 
 namespace SportHub.Controllers
 {
-    public class ArticleController : Controller
+    public class AdminViewAndManageArticlesController : Controller
     {
         SportHubDBContext _context;
         IGetAdminArticlesService _articleService;
         IImageService _imageService;
 
-        public ArticleController(SportHubDBContext context, IGetAdminArticlesService articleService, IImageService imageService)
+        public AdminViewAndManageArticlesController(SportHubDBContext context, IGetAdminArticlesService articleService, IImageService imageService)
         {
             _context = context;
             _articleService = articleService;
@@ -37,7 +37,6 @@ namespace SportHub.Controllers
             return new OkObjectResult(articles);
         }
 
-        // Delete: /article/delete/{id}
         [HttpDelete]
         [Route("/article/delete/{id}")]
         public async Task<IActionResult> Delete(int id)

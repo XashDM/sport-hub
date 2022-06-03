@@ -3,7 +3,6 @@
 
 @{
     ViewData["Title"] = "Index";
-    //Layout = "_UserSideLayout";
     Layout = "_AdminLayout";
 }
 
@@ -11,7 +10,7 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="~/css/ManageAdminArticles.css" asp-append-version="true" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="~/js/hideAndShowDropdown.js"></script>
+    <script type="text/javascript" src="~/js/adminsManageAllArticles.js"></script>
 </head>
 
 <div class="get-admins-articles-main-body">
@@ -52,7 +51,6 @@
         <div class="get-admins-articles-scroll-position">
         @{
         for (int index = 0; index<Model.Article.Count; index++) {
-            //<a asp-page="./Details" asp-route-id="@item.Id">
                 <div class="get-admins-articles-elements" id="article-with-id-@Model.Article[index].Id">
                     <div class="get-admins-articles-image-container">
                     <a asp-page="./Details" asp-route-id="@Model.Article[index].Id" class="get-admins-articles-image-container-a">
@@ -110,7 +108,6 @@
                     </div>
                 
                 </div>
-            //</a>
             }
         }
         </div>
