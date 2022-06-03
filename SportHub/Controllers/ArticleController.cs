@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using SportHub.Services.ArticleServices;
 using SportHub.Services.Interfaces;
 using System.Collections.Generic;
-using SportHub.Domain.Views;
+using SportHub.Views;
 using SportHub.Services;
 
 namespace SportHub.Controllers

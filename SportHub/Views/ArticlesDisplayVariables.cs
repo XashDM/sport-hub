@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SportHub.Domain.Views
+namespace SportHub.Views
 {
     public class ArticlesDisplayVariables
     {
