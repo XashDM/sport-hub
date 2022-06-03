@@ -16,6 +16,7 @@ using SportHub.Services.NavigationItemServices;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Azure.Storage.Blobs;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,7 @@ BlobContainerClient blobContainerClient = new BlobContainerClient(
 // Add services to the container.
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
+builder.Services.AddControllers();
 
 
 builder.Services.AddDbContext<SportHubDBContext>(options =>
@@ -39,6 +41,7 @@ builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
 builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();
 builder.Services.AddScoped<INavigationItemService, MainNavigationItemService>();
 builder.Services.AddScoped<IGetArticleService, GetArticleService>();
+builder.Services.AddScoped<IGetAdminArticlesService, GetAdminArticlesService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddSingleton<IImageService>(x => new ImageService(blobContainerClient));
 builder.Services

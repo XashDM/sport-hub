@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,6 +20,8 @@ namespace SportHub.Domain.Models
         [DataType(DataType.Date)]
         public DateTime PostedDate { get; set; }
         public virtual ICollection<DisplayItem>? DisplayItems { get; set; }
+        [DefaultValue("false")]
+        public bool IsPublished { get; set; }
     }
 }
 

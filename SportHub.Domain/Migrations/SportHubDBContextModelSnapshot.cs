@@ -33,6 +33,9 @@ namespace SportHub.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime(6)");
 

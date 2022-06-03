@@ -11,8 +11,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    [Migration("20220520110015_GlobalRecovery")]
-    partial class GlobalRecovery
+    [Migration("20220530201517_initialize-database-in-10-times")]
+    partial class initializedatabasein10times
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,9 @@ namespace SportHub.Domain.Migrations
                     b.Property<string>("ImageLink")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime(6)");
@@ -89,8 +92,8 @@ namespace SportHub.Domain.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<int?>("ParentsItemId")
                         .HasColumnType("int");
