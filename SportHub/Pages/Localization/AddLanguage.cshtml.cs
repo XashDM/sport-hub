@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Domain.Models;
 using SportHub.Services.Interfaces;
-using SportHub.Services.ViewModels;
+using SportHub.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,18 @@ namespace SportHub.Pages.Localization
 
         public async Task OnGet()
         {
-            LanguageList = (await languageService.GetAllLanguages()).ToList();
+            var languages = await languageService.GetAllLanguages();
+
+            var languagesViewModels = languages.Select(x =>
+            {
+                var languageViewModel = new LanguageViewModel();
+                languageViewModel.Id = x.Id;
+                languageViewModel.LanguageName = x.LanguageName;
+                languageViewModel.IsEnabled = x.IsEnabled;
+                return languageViewModel;
+            }).ToList();
+
+            LanguageList = languagesViewModels;
         }
 
         public async Task OnPost(List<int> checkboxIdSet)

@@ -2,12 +2,14 @@
 using SportHub.Domain;
 using SportHub.Domain.Models;
 using SportHub.Services.Interfaces;
-using SportHub.Services.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+
+
 
 namespace SportHub.Services.Services
 {
@@ -44,6 +46,13 @@ namespace SportHub.Services.Services
             
             foreach (int element in languages)
             {
+                if (element == null) 
+                {
+
+                    throw new ArgumentNullException(nameof(element));
+
+                }
+                
                 SelectedLanguageList.Add(await GetLanguageById(element));
             }
 
@@ -65,49 +74,34 @@ namespace SportHub.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<LanguageViewModel>> GetAllLanguages()
+        public async Task<List<Language>> GetAllLanguages()
         {
-            var languages = (await _context.Languages.ToListAsync()).Select(x =>
-            {
-                var languageViewModel = new LanguageViewModel();
-                languageViewModel.Id = x.Id;
-                languageViewModel.LanguageName = x.LanguageName;
-                languageViewModel.IsEnabled = x.IsEnabled;
-                return languageViewModel;
-            }).ToList();
-            return languages;
+            return await _context.Languages.ToListAsync();
         }
 
-        public async Task<List<LanguageViewModel>> GetAllDisplayedLanguages()
+        public async Task<List<DisplayedLanguage>> GetAllDisplayedLanguages()
         {
-            var displanguages = (await _context.DisplayedLanguages.ToListAsync()).Select(x =>
-            {
-                var displanguageViewModel = new LanguageViewModel();
-                displanguageViewModel.Id = x.Id;
-                displanguageViewModel.LanguageName = x.LanguageName;
-                displanguageViewModel.IsEnabled = x.IsEnabled;
-                return displanguageViewModel;
-            }).ToList();
-            return displanguages;
+            return await _context.DisplayedLanguages.ToListAsync();
         }
 
         private async Task<Language> GetLanguageById(int id)
         {
-            var language = (await _context.Languages.ToListAsync()).FirstOrDefault(x => x.Id == id);
-            if (language == null)
-            {
-                throw new ArgumentNullException(nameof(language));
-            }
+            var languages = await _context.Languages.ToListAsync();
+
+            var language = languages.FirstOrDefault(x => x.Id == id);
+
             return language;
         }
 
         private async Task<DisplayedLanguage> GetDisplayedLanguageById(int id)
         {
             var language = (await _context.DisplayedLanguages.ToListAsync()).FirstOrDefault(x => x.Id == id);
+
             if (language == null)
             {
                 throw new ArgumentNullException(nameof(language));
             }
+
             return language;
         }
 
