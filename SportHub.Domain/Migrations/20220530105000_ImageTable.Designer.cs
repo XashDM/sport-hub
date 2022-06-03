@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportHub.Domain;
 
@@ -10,9 +11,10 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    partial class SportHubDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220530105000_ImageTable")]
+    partial class ImageTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,9 +67,6 @@ namespace SportHub.Domain.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("ImageItemId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDisplayed")
                         .HasColumnType("tinyint(1)");
 
@@ -79,8 +78,6 @@ namespace SportHub.Domain.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ArticleId");
-
-                    b.HasIndex("ImageItemId");
 
                     b.ToTable("DisplayItems");
                 });
@@ -253,13 +250,7 @@ namespace SportHub.Domain.Migrations
                         .WithMany("DisplayItems")
                         .HasForeignKey("ArticleId");
 
-                    b.HasOne("SportHub.Domain.Models.ImageItem", "ImageItem")
-                        .WithMany()
-                        .HasForeignKey("ImageItemId");
-
                     b.Navigation("Article");
-
-                    b.Navigation("ImageItem");
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>

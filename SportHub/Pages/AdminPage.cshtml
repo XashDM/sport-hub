@@ -53,4 +53,56 @@
             </div>
         </div>
     </div>
+    <div class="photo-of-the-day-block">
+        <div class="section-caption-block">
+            <div class="caption-line"></div>
+            <div class="caption-block">
+                <p>PHOTO OF THE DAY</p>
+            </div>
+            <div class="caption-line"></div>
+        </div>
+        <div class="image-upload-box">
+            <div class="day-photo-background-crop">
+                <img id="day-photo-background-img" src="" />
+            </div>
+            <div class="editing-tools-box">
+                <form class="add-photo-box" id="add-photo-form" enctype="multipart/form-data">
+                    <img class="add-photo-button" src="~/icons/photo-icon.svg"/>
+                    <p class="caption">
+                        <input id="photo-upload-input" name="imageFile" type="file" accept=".png, .jpg, .jpeg, .gif" />
+                        <label for="photo-upload-input">Choose a file</label>
+                        or drop it here
+                    </p>
+                    <p class="caption">You can add next formats: .png .jpg .jpeg .gif </p> 
+                </form>
+            </div>
+        </div>
+        <div class="photo-info-block">
+            <form id="photo-info-form" name="photo-info-form">
+                <div class="alt-input-section">
+                    <label for="alt-input">Alt*</label>
+                    <input id="alt-input" name="Alt" type="text" required />
+                </div>
+                <div class="title-input-section">
+                    <label for="title-input">Title*</label>
+                    <input id="title-input" name="PhotoTitle" type="text" required />
+                </div>
+                <div class="description-input-section">
+                    <label for="description-input">Short description*</label>
+                    <input id="description-input" name="ShortDescription" type="text" required />
+                </div>
+                <div class="author-input-section">
+                    <label for="author-input">Author*</label>
+                    <input id="author-input" name="Author" type="text" required />
+                </div>
+                <div class="show-hide-selector-box">
+                    <p>Show on the main page</p>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

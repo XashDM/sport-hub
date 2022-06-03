@@ -20,6 +20,12 @@ namespace SportHub.Services
             _containerName = _blobContainerClient.Name;
         }
 
+        public async void DeleteImageFromStorage(string imageName)
+        {
+            var blob = _blobContainerClient.GetBlobClient(imageName);
+            await blob.DeleteIfExistsAsync();
+        }
+
         public async Task<string> UploadImageAsync(IFormFile image)
         {
             try

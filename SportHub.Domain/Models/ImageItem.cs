@@ -8,22 +8,27 @@ using System.Threading.Tasks;
 
 namespace SportHub.Domain.Models
 {
-    public class DisplayItem
+    public class ImageItem
     {
+        [Key]
         public int Id { get; set; }
+        public string ImageLink { get; set; }
+        [Required]
+        [MaxLength(100)]
+        [Column(TypeName = "varchar(100)")]
+        public string Alt { get; set; }
+        [Required]
+        [MaxLength(60)]
+        [Column(TypeName = "varchar(60)")]
+        public string PhotoTitle { get; set; }
         [Required]
         [MaxLength(50)]
         [Column(TypeName = "varchar(50)")]
-        public string Type { get; set; } // hardcoded for now
+        public string ShortDescription { get; set; }
         [Required]
         [MaxLength(50)]
         [Column(TypeName = "varchar(50)")]
-        public string DisplayLocation { get; set; } // hardcoded for now
-        [Required]
-        public bool IsDisplayed { get; set; }
-        public int? ArticleId { get; set; }
-        public virtual Article? Article { get; set; }
-        public int? ImageItemId { get; set; }
-        public virtual ImageItem? ImageItem { get; set; }
+        public string Author { get; set; }
+
     }
 }
