@@ -22,16 +22,19 @@ namespace SportHub.Controllers
             _userService = userService;
             _jwtSigner = jwtSigner;
         }
+
         [HttpPost(nameof(ResetPassword))]
         [Authorize]
         public IActionResult ResetPassword([FromQuery] string passwordHash)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             string email = "";
+            
             if (identity != null)
             {
                 email = identity.Claims.ElementAt(0).Value;
             }
+            
             var user = _userService.ChangePassword(email, passwordHash);
 
             return Ok();

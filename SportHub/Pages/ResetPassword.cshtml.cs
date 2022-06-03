@@ -11,27 +11,15 @@ namespace SportHub.Pages
     public class ResetPasswordModel : PageModel
     {
         private readonly IUserService _userService;
+
         public ResetPasswordModel(IUserService userService)
         {
             _userService = userService;
         }
+
         public void OnGet()
         {
-        }
-        
-        //public IActionResult OnPost(ResetPassword resetPassword)
-        //{
-        //    var stream = "Token";
-        //    var handler = new JwtSecurityTokenHandler();
-        //    var token = handler.ReadToken(stream) as JwtSecurityToken;
-        //    if (token == null)
-        //    {
-        //        return BadRequest("Something wrong");
-        //    }
-        //    var email = token.Claims.First(claim => claim.Type == "email").Value;
-        //    var user = _userService.ChangePassword(email, resetPassword.PasswordHash);
 
-        //    return Content(email);
-        //}
+        }
     }
 }
