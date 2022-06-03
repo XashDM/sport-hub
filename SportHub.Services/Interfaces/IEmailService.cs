@@ -7,5 +7,6 @@ namespace SportHub.Services
     public interface IEmailService
     {
         void SendSignUpEmail(User user, [FromServices] IFluentEmail mailer);
+        void SendResetPasswordEmail(User user, [FromServices] IFluentEmail mailer, string token);
     }
 }

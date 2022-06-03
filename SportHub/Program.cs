@@ -45,7 +45,7 @@ builder.Services.AddScoped<IGetAdminArticlesService, GetAdminArticlesService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddSingleton<IImageService>(x => new ImageService(blobContainerClient));
 builder.Services
-    .AddFluentEmail("sporthub.mailservice@gmail.com", "SportHub Signup")
+    .AddFluentEmail("sporthub.mailservice@gmail.com", "SportHub")
     .AddRazorRenderer()
     .AddSmtpSender(new SmtpClient("smtp.gmail.com")
     {
