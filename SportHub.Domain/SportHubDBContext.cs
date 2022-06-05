@@ -30,6 +30,9 @@ namespace SportHub.Domain
                 .HasData(new UserRole { Id = 1, RoleName = "User" });
             modelBuilder.Entity<UserRole>()
                 .HasData(new UserRole { Id = 2, RoleName = "Admin" });
+            modelBuilder.Entity<Article>()
+                .Property(article => article.IsPublished)
+                .HasDefaultValue(false);
         }
     }
 }
