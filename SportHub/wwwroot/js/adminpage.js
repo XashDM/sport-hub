@@ -386,6 +386,28 @@ function GetPhotoOfTheDayPreview() {
         success: function (response) {
             console.log(response);
             $('#day-photo-background-img').attr('src', response.imageItem.imageLink);
+            $('#alt-input').val(response.imageItem.alt);
+            $('#title-input').val(response.imageItem.photoTitle);
+            $('#description-input').val(response.imageItem.shortDescription);
+            $('#author-input').val(response.imageItem.author);
+
+        }
+    });
+}
+
+function GetPhotoOfTheDay() {
+    $.ajax({
+        async: true,
+        url: "/api/Articles/GetPhotoOfTheDay",
+        type: "GET",
+        success: function (response) {
+            console.log(response);
+            $('#day-photo-background-img').attr('src', response.imageItem.imageLink);
+            $('#alt-input').val(response.imageItem.alt);
+            $('#title-input').val(response.imageItem.photoTitle);
+            $('#description-input').val(response.imageItem.shortDescription);
+            $('#author-input').val(response.imageItem.author);
+
         }
     });
 }
@@ -431,5 +453,5 @@ $('#photo-upload-input').on('change', function () {
 $(document).ready(() => {
     getAllCategories();
     getMainArticles();
-    GetPhotoOfTheDayPreview();
+    GetPhotoOfTheDay();
 });

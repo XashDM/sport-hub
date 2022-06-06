@@ -278,6 +278,38 @@ namespace SportHub.Services.ArticleServices
             await _context.SaveChangesAsync();
         }
 
+        public async Task UploadPhotoOfTheDay(ImageItem image)
+        {
+            await _context.AddAsync(image);
+            await _context.SaveChangesAsync();
+
+            var imagesToRemove = await _context.DisplayItems
+                .Where(displayItem => displayItem.DisplayLocation == "PhotoOfTheDayPreview"
+                || displayItem.DisplayLocation == "PhotoOfTheDay")
+                .Include(item => item.ImageItem)
+                .ToListAsync();
+
+            if (imagesToRemove is not null)
+            {
+                foreach (var item in imagesToRemove)
+                {
+                    _context.Remove<ImageItem>(item.ImageItem);
+                    _context.Remove(item);
+                }
+                await _context.SaveChangesAsync();
+            }
+
+            DisplayItem displayItem = new DisplayItem()
+            {
+                DisplayLocation = "PhotoOfTheDay",
+                IsDisplayed = false,
+                Type = "Image",
+                ImageItemId = image.Id
+            };
+            await _context.AddAsync(displayItem);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<DisplayItem> GetPhotoOfTheDayPreview()
         {
             var item = await _context.DisplayItems
@@ -293,6 +325,52 @@ namespace SportHub.Services.ArticleServices
                 item.ImageItem.ImageLink = await _imageService.GetImageLinkByNameAsync(item.ImageItem.ImageLink);
             }
             return item;
+        }
+
+        //admin only, returns hidden article 
+        public async Task<DisplayItem> GetPhotoOfTheDay()
+        {
+            var item = await _context.DisplayItems
+                .Where(displayItem => displayItem.DisplayLocation.Equals("PhotoOfTheDay"))
+                .Include(displayItem => displayItem.ImageItem).FirstOrDefaultAsync();
+            if (item is null)
+            {
+                return null;
+            }
+
+            if (item.ImageItem is not null)
+            {
+                item.ImageItem.ImageLink = await _imageService.GetImageLinkByNameAsync(item.ImageItem.ImageLink);
+            }
+            return item;
+        }
+        public async Task<DisplayItem> GetDisplayedPhotoOfTheDay()
+        {
+            var item = await _context.DisplayItems
+                .Where(displayItem => displayItem.DisplayLocation.Equals("PhotoOfTheDay"))
+                .Where(displayItem => displayItem.IsDisplayed.Equals(true))
+                .Include(displayItem => displayItem.ImageItem).FirstOrDefaultAsync();
+            if (item is null)
+            {
+                return null;
+            }
+
+            if (item.ImageItem is not null)
+            {
+                item.ImageItem.ImageLink = await _imageService.GetImageLinkByNameAsync(item.ImageItem.ImageLink);
+            }
+            return item;
+        }
+
+        public async Task DisplayPhotoOfTheDay()
+        {
+            var item = await _context.DisplayItems
+                .Where(displayItem => displayItem.DisplayLocation.Equals("PhotoOfTheDay")).FirstOrDefaultAsync();
+            if (!item.IsDisplayed)
+            {
+                item.IsDisplayed = true;
+                _context.SaveChanges();
+            }
         }
     }
 }
