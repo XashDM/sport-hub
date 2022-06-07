@@ -166,30 +166,34 @@
         </div>
         <div class="primary-content-area">
             <div class="main-column">
-            <div id="photo-of-the-day-section">
-                <hr />
-                <div class="separator-lable">
-                    <p>PHOTO OF THE DAY</p>
-                </div>
-                <div class="photo-of-the-day-tag">
-                    <img src="/icons/Triangle.png" />
-                     <p>PHOTO <br />OF THE <br />DAY</p>
-                </div>
-                <div class="photo-of-the-day-crop">
-                    <img src="@Model.PhotoOfTheDay.ImageItem.ImageLink" alt="@Model.PhotoOfTheDay.ImageItem.Alt"/>
-                    <div class="photo-of-the-day-textbox">
-                        <h2 class="h2-heading-text">@Model.PhotoOfTheDay.ImageItem.PhotoTitle</h2>
-                        <p class="regular-text">@Model.PhotoOfTheDay.ImageItem.ShortDescription</p>
+                @if (Model.PhotoOfTheDay is not null)
+                {
+                    <div id="photo-of-the-day-section">
+                        <hr />
+                        <div class="separator-lable">
+                            <p>PHOTO OF THE DAY</p>
+                        </div>
+                        <div class="photo-of-the-day-tag">
+                            <img src="/icons/Triangle.png" />
+                            <p>PHOTO <br />OF THE <br />DAY</p>
+                        </div>
+                        <div class="photo-of-the-day-crop">
+                            <img src="@Model.PhotoOfTheDay.ImageItem.ImageLink" alt="@Model.PhotoOfTheDay.ImageItem.Alt" />
+                            <div class="photo-of-the-day-textbox">
+                                <h2 class="h2-heading-text">@Model.PhotoOfTheDay.ImageItem.PhotoTitle</h2>
+                                <p class="regular-text">@Model.PhotoOfTheDay.ImageItem.ShortDescription</p>
+                                <p class="regular-text">@Model.PhotoOfTheDay.ImageItem.Author</p>                            
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                }
                 <div class="best-news">
                     <div class="most-popular-block">
                         <p class="most-popular-label">MOST POPULAR</p>
                         <div class="most-popular-box">
                             <div class="small-news-box box-shadow">
                                 <div class="small-news-crop">
-                                    <img src="/temp.png" alt="Accent image"/>
+                                    <img src="/temp.png" alt="Accent image" />
                                 </div>
                                 <div class="small-news-textbox">
                                     <h3 class="h3-heading-text">Title Title</h3>
@@ -199,7 +203,7 @@
                             </div>
                             <div class="small-news-box box-shadow">
                                 <div class="small-news-crop">
-                                    <img src="/temp.png" alt="Accent image"/>
+                                    <img src="/temp.png" alt="Accent image" />
                                 </div>
                                 <div class="small-news-textbox">
                                     <h3 class="h3-heading-text">Title Title</h3>
@@ -209,7 +213,7 @@
                             </div>
                             <div class="small-news-box box-shadow">
                                 <div class="small-news-crop">
-                                    <img src="/temp.png" alt="Accent image"/>
+                                    <img src="/temp.png" alt="Accent image" />
                                 </div>
                                 <div class="small-news-textbox">
                                     <h3 class="h3-heading-text">Title Title</h3>
@@ -224,7 +228,7 @@
                         <div class="most-commented-box">
                             <div class="small-news-box box-shadow">
                                 <div class="small-news-crop">
-                                    <img src="/temp.png" alt="Accent image"/>
+                                    <img src="/temp.png" alt="Accent image" />
                                 </div>
                                 <div class="small-news-textbox">
                                     <h3 class="h3-heading-text">Title Title</h3>
@@ -234,7 +238,7 @@
                             </div>
                             <div class="small-news-box box-shadow">
                                 <div class="small-news-crop">
-                                    <img src="/temp.png" alt="Accent image"/>
+                                    <img src="/temp.png" alt="Accent image" />
                                 </div>
                                 <div class="small-news-textbox">
                                     <h3 class="h3-heading-text">Title Title</h3>
@@ -244,7 +248,7 @@
                             </div>
                             <div class="small-news-box box-shadow">
                                 <div class="small-news-crop">
-                                    <img src="/temp.png" alt="Accent image"/>
+                                    <img src="/temp.png" alt="Accent image" />
                                 </div>
                                 <div class="small-news-textbox">
                                     <h3 class="h3-heading-text">Title Title</h3>
