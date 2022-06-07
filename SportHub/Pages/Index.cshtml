@@ -176,10 +176,10 @@
                      <p>PHOTO <br />OF THE <br />DAY</p>
                 </div>
                 <div class="photo-of-the-day-crop">
-                    <img src="/temp.png" alt="Photo of the day"/>
+                    <img src="@Model.PhotoOfTheDay.ImageItem.ImageLink" alt="@Model.PhotoOfTheDay.ImageItem.Alt"/>
                     <div class="photo-of-the-day-textbox">
-                        <h2 class="h2-heading-text">Photo of the day title</h2>
-                        <p class="regular-text">Photo of the day text text text text text text text text text text text </p>
+                        <h2 class="h2-heading-text">@Model.PhotoOfTheDay.ImageItem.PhotoTitle</h2>
+                        <p class="regular-text">@Model.PhotoOfTheDay.ImageItem.ShortDescription</p>
                     </div>
                 </div>
             </div>

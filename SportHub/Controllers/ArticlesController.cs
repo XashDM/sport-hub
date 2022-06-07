@@ -159,65 +159,16 @@ namespace SportHub.Controllers
             }
         }
 
-        [HttpPut(nameof(UploadPhotoOfTheDayPreview))]
-        [AllowAnonymous]
-        public async Task<IActionResult> UploadPhotoOfTheDayPreview([FromForm]PhotoOfTheDayModel photo)
-        {
-            var link = await _imageService.UploadImageAsync(photo.imageFile);
-            if (link == null)
-            {
-                return BadRequest("Whrong file extension!");
-            }
-            ImageItem imageItem = new ImageItem()
-            {
-                Alt = photo.Alt,
-                Author = photo.Author,
-                ShortDescription = photo.ShortDescription,
-                PhotoTitle = photo.PhotoTitle,
-                ImageLink = link
-            };
-
-            await _articleService.UploadPhotoOfTheDayPreview(imageItem);
-            return Ok();
-        }
-
-        [HttpGet(nameof(GetPhotoOfTheDayPreview))]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetPhotoOfTheDayPreview()
-        {
-            //image is DisplayItem
-            var image = await _articleService.GetPhotoOfTheDayPreview();
-            return Ok(image);
-        }
-
-        //admin only
-        [HttpGet(nameof(GetPhotoOfTheDay))]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetPhotoOfTheDay()
-        {
-            //image is DisplayItem
-            var image = await _articleService.GetDisplayedPhotoOfTheDay();
-            return Ok(image);
-        }
-
-        [HttpGet(nameof(GetDisplayedPhotoOfTheDay))]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetDisplayedPhotoOfTheDay()
-        {
-            //image is DisplayItem
-            var image = await _articleService.GetDisplayedPhotoOfTheDay();
-            return Ok(image);
-        }
-
         [HttpPut(nameof(UploadPhotoOfTheDay))]
         [AllowAnonymous]
-        public async Task<IActionResult> UploadPhotoOfTheDay([FromForm] PhotoOfTheDayModel photo)
+        public async Task<IActionResult> UploadPhotoOfTheDay([FromForm]PhotoOfTheDayModel photo)
         {
-            var link = await _imageService.UploadImageAsync(photo.imageFile);
-            if (link == null)
+            string link = null;
+            if (photo.imageFile is not null)
             {
-                return BadRequest("Whrong file extension!");
+                link = await _imageService.UploadImageAsync(photo.imageFile);
             }
+
             ImageItem imageItem = new ImageItem()
             {
                 Alt = photo.Alt,
@@ -232,6 +183,25 @@ namespace SportHub.Controllers
             return Ok();
         }
 
+
+        //admin only
+        [HttpGet(nameof(GetPhotoOfTheDay))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPhotoOfTheDay()
+        {
+            //image is DisplayItem
+            var image = await _articleService.GetPhotoOfTheDay();
+            return Ok(image);
+        }
+
+        [HttpGet(nameof(GetDisplayedPhotoOfTheDay))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetDisplayedPhotoOfTheDay()
+        {
+            //image is DisplayItem
+            var image = await _articleService.GetDisplayedPhotoOfTheDay();
+            return Ok(image);
+        }
 
     }
 }

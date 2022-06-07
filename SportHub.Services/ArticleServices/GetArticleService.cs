@@ -250,81 +250,60 @@ namespace SportHub.Services.ArticleServices
             return (toSkip, toTake, totalPages, totalItemsAmount);
         }
 
-        public async Task UploadPhotoOfTheDayPreview(ImageItem image)
-        {
-            await _context.AddAsync(image);
-            await _context.SaveChangesAsync();
-
-            var imageToRemove = await _context.DisplayItems
-                .Where(displayItem => displayItem.DisplayLocation.Equals("PhotoOfTheDayPreview"))
-                .Include(item => item.ImageItem)
-                .FirstOrDefaultAsync();
-
-            if (imageToRemove is not null)
-            {
-                _context.Remove<ImageItem>(imageToRemove.ImageItem);
-                _context.Remove(imageToRemove);
-                await _context.SaveChangesAsync();
-            }
-
-            DisplayItem displayItem = new DisplayItem()
-            {
-                DisplayLocation = "PhotoOfTheDayPreview",
-                IsDisplayed = true,
-                Type = "Image",
-                ImageItemId = image.Id
-            };
-            await _context.AddAsync(displayItem);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task UploadPhotoOfTheDay(ImageItem image)
         {
-            await _context.AddAsync(image);
-            await _context.SaveChangesAsync();
+            
 
-            var imagesToRemove = await _context.DisplayItems
-                .Where(displayItem => displayItem.DisplayLocation == "PhotoOfTheDayPreview"
-                || displayItem.DisplayLocation == "PhotoOfTheDay")
+            var itemToUpdate = await _context.DisplayItems
+                .Where(displayItem => displayItem.DisplayLocation.Equals("PhotoOfTheDay"))
                 .Include(item => item.ImageItem)
-                .ToListAsync();
-
-            if (imagesToRemove is not null)
+                .FirstOrDefaultAsync();
+            //creating a new photo of the day, if doesn't exist
+            if (itemToUpdate is null)
             {
-                foreach (var item in imagesToRemove)
+                itemToUpdate = new DisplayItem()
                 {
-                    _context.Remove<ImageItem>(item.ImageItem);
-                    _context.Remove(item);
+                    DisplayLocation = "PhotoOfTheDay",
+                    IsDisplayed = false,
+                    Type = "PhotoOfTheDay"
+                };
+
+                if (image.ImageLink is null)
+                {
+                    return;
                 }
+                else
+                {
+                    itemToUpdate.ImageItem = image;
+                }
+
+                await _context.AddAsync(itemToUpdate);
                 await _context.SaveChangesAsync();
+                return;
             }
 
-            DisplayItem displayItem = new DisplayItem()
+            if (image.ImageLink != null)
             {
-                DisplayLocation = "PhotoOfTheDay",
-                IsDisplayed = false,
-                Type = "Image",
-                ImageItemId = image.Id
-            };
-            await _context.AddAsync(displayItem);
+                if (itemToUpdate.ImageItem is not null)
+                {
+                    _context.Remove<ImageItem>(itemToUpdate.ImageItem);
+                    await _context.SaveChangesAsync();
+                }
+                itemToUpdate.ImageItem = image;
+                await _context.SaveChangesAsync();
+                return;
+            }
+            else
+            {
+                image.ImageLink = itemToUpdate.ImageItem.ImageLink;
+            }
+
+            itemToUpdate.ImageItem.Alt = image.Alt;
+            itemToUpdate.ImageItem.PhotoTitle = image.PhotoTitle;
+            itemToUpdate.ImageItem.ShortDescription = image.ShortDescription;
+            itemToUpdate.ImageItem.Author = image.Author;
+            //await _context.AddAsync(itemToUpdate);
             await _context.SaveChangesAsync();
-        }
-
-        public async Task<DisplayItem> GetPhotoOfTheDayPreview()
-        {
-            var item = await _context.DisplayItems
-                .Where(displayItem => displayItem.DisplayLocation.Equals("PhotoOfTheDayPreview"))
-                .Include(displayItem => displayItem.ImageItem).FirstOrDefaultAsync();
-            if (item is null)
-            {
-                return null;
-            }
-
-            if (item.ImageItem is not null)
-            {
-                item.ImageItem.ImageLink = await _imageService.GetImageLinkByNameAsync(item.ImageItem.ImageLink);
-            }
-            return item;
         }
 
         //admin only, returns hidden article 
