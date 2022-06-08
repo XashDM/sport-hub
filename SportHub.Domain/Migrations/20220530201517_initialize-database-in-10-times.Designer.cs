@@ -11,8 +11,13 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
+<<<<<<<< HEAD:SportHub.Domain/Migrations/20220516220716_AddedLanguageTables.Designer.cs
     [Migration("20220516220716_AddedLanguageTables")]
     partial class AddedLanguageTables
+========
+    [Migration("20220530201517_initialize-database-in-10-times")]
+    partial class initializedatabasein10times
+>>>>>>>> origin/main:SportHub.Domain/Migrations/20220530201517_initialize-database-in-10-times.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +40,9 @@ namespace SportHub.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime(6)");
 
@@ -52,12 +60,17 @@ namespace SportHub.Domain.Migrations
                     b.ToTable("Articles");
                 });
 
+<<<<<<<< HEAD:SportHub.Domain/Migrations/20220516220716_AddedLanguageTables.Designer.cs
             modelBuilder.Entity("SportHub.Domain.Models.DisplayedLanguage", b =>
+========
+            modelBuilder.Entity("SportHub.Domain.Models.DisplayItem", b =>
+>>>>>>>> origin/main:SportHub.Domain/Migrations/20220530201517_initialize-database-in-10-times.Designer.cs
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+<<<<<<<< HEAD:SportHub.Domain/Migrations/20220516220716_AddedLanguageTables.Designer.cs
                     b.Property<bool>("IsEnabled")
                         .HasColumnType("tinyint(1)");
 
@@ -86,6 +99,29 @@ namespace SportHub.Domain.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Languages");
+========
+                    b.Property<int?>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DisplayLocation")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<bool>("IsDisplayed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("DisplayItems");
+>>>>>>>> origin/main:SportHub.Domain/Migrations/20220530201517_initialize-database-in-10-times.Designer.cs
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
@@ -96,14 +132,16 @@ namespace SportHub.Domain.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<int?>("ParentsItemId")
                         .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
@@ -205,6 +243,15 @@ namespace SportHub.Domain.Migrations
                     b.Navigation("ReferenceItem");
                 });
 
+            modelBuilder.Entity("SportHub.Domain.Models.DisplayItem", b =>
+                {
+                    b.HasOne("SportHub.Domain.Models.Article", "Article")
+                        .WithMany("DisplayItems")
+                        .HasForeignKey("ArticleId");
+
+                    b.Navigation("Article");
+                });
+
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
                     b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentsItem")
@@ -227,6 +274,11 @@ namespace SportHub.Domain.Migrations
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.Article", b =>
+                {
+                    b.Navigation("DisplayItems");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,6 +4,9 @@ using SportHub.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using SportHub.Services.Exceptions.ArticleServiceExceptions;
+using System;
+using System.Collections.Generic;
 
 namespace SportHub.Services.ArticleServices
 {
@@ -36,74 +39,223 @@ namespace SportHub.Services.ArticleServices
 
         public string GetArticlesTeam(int? id)
         {
-            var Article = _context.Articles.First(Article => Article.Id == id);
-            if (Article.ReferenceItemId == null)
+            var Article = _context.Articles.FirstOrDefault(Article => Article.Id == id);
+            if (Article is not null)
             {
-                return null;
+                if (Article.ReferenceItem is not null)
+                {
+                    NavigationItem = _context.NavigationItems.FirstOrDefault(Item => Item.Id == Article.ReferenceItemId);
+                    if (NavigationItem is not null)
+                    {
+                        if (NavigationItem.Type != "Team")
+                        {
+                            return "";
+                        }
+                        return NavigationItem.Name;
+                    }
+                    //return error_page, idk how, but return
+                    return "error_page";
+                }
+                return "";
             }
-            try
-            {
-                NavigationItem = _context.NavigationItems.First(Item => Item.Id == Article.ReferenceItemId);
-            }
-            catch
-            {
-                return null;
-            }
-            if (NavigationItem.Type != "Team") return null;
-            return NavigationItem.Name;
+            return "error_page_404";
         }
 
         public string GetArticlesSubcategory(int? id)
         {
-            var Article = _context.Articles.First(Article => Article.Id == id);
-            if (Article.ReferenceItemId == null)
+            var Article = _context.Articles.FirstOrDefault(article => article.Id == id);
+            if (Article is not null)
             {
-                return null;
+                if (Article.ReferenceItemId is not null)
+                {
+                    NavigationItem itemReference = _context.NavigationItems.FirstOrDefault(item => item.Id == Article.ReferenceItemId);
+                    int count = 0;
+                    while (itemReference.Type != "Subcategory" && count < 3)
+                    {
+                        itemReference = _context.NavigationItems.FirstOrDefault(item => item.Id == itemReference.ParentsItemId);
+                        if (itemReference is null)
+                        {
+                            return "item reference wasn't found(no subcategory)";
+                        }
+                        if (itemReference.Type == "Category")
+                        {
+                            return "All subcategory";
+                        }
+                        count++;
+                    }
+                    if (itemReference.Type == "Subcategory")
+                    {
+                        return itemReference.Name;
+                    }
+                    return "subcategory wasn't found";
+                }
+                return "articles reference id is null";
             }
-            try
-            {
-                NavigationItem = _context.NavigationItems.First(Item => Item.Id == Article.ReferenceItemId);
-                if (NavigationItem.Type == "Subcategory") return NavigationItem.Name;
-            }
-            catch
-            {
-                return null;
-            }
-            if (NavigationItem.Type == "Category")
-            {
-                return null;
-            }
-            if (NavigationItem.Type == "Team")
-            {
-                NavigationItem = _context.NavigationItems.First(Item => Item.Id == NavigationItem.ParentsItemId);
-                if (NavigationItem.Type != "Subcategory") return null;
-            }
-            return NavigationItem.Name;
+            return "error_page_404";
         }
 
         public string GetArticlesCategory(int? id)
         {
-            var Article = _context.Articles.First(Article => Article.Id == id);
-            if (Article.ReferenceItemId == null)
+            var Article = _context.Articles.FirstOrDefault(article => article.Id == id);
+            if (Article is not null)
             {
-                return "All Category";
+                if (Article.ReferenceItemId is not null)
+                {
+                    NavigationItem itemReference = _context.NavigationItems.FirstOrDefault(item => item.Id == Article.ReferenceItemId);
+                    int count = 0;
+                    while (itemReference.Type != "Category" && count < 3)
+                    {
+                        itemReference = _context.NavigationItems.FirstOrDefault(item => item.Id == itemReference.ParentsItemId);
+                        if (itemReference is null)
+                        {
+                            return "item reference wasn't found";
+                        }
+                        count++;
+                    }
+                    if (itemReference.Type == "Category")
+                    {
+                        return itemReference.Name;
+                    }
+                    return "category wasn't found";
+                }
+                return "articles reference id is null";
             }
-            try
+            return "error_page_404";
+        }
+
+        public IQueryable<NavigationItem> GetAllCategoriesQueryable()
+        {
+            var categories = _context.NavigationItems
+                .AsNoTracking()
+                .Where(navigationItem => navigationItem.Type.Equals("Category"));
+
+            return categories;
+        }
+
+        public IQueryable<NavigationItem> GetAllSubcategoriesByCategoryIdQueryable(int categoryId)
+        {
+            var subcategories = _context.NavigationItems
+                .AsNoTracking()
+                .Where(navigationItem => navigationItem.Type.Equals("Subcategory"))
+                .Where(navigationItem => navigationItem.ParentsItemId.Equals(categoryId));
+
+            return subcategories;
+        }
+
+        public IQueryable<NavigationItem> GetAllTeamsByParentIdQueryable(int parentId)
+        {
+            var teams = _context.NavigationItems
+                .AsNoTracking()
+                .Where(navigationItem => navigationItem.Type.Equals("Team"))
+                .Where(navigationItem => navigationItem.ParentsItemId.Equals(parentId));
+
+            return teams;
+        }
+
+        public IQueryable<Article> GetAllArticlesByParentIdQueryable(int parentId)
+        {
+            var articles = _context.Articles
+                .AsNoTracking()
+                .Include(article => article.ReferenceItem)
+                .ThenInclude(refItem => refItem.ParentsItem)
+                .ThenInclude(refItem => refItem.ParentsItem)
+                .Where(article => article.ReferenceItemId.Equals(parentId));
+
+            return articles;
+        }
+
+        public async Task SaveMainArticles(Dictionary<int, bool> articlesToSave)
+        {
+            var itemsToReset = _context.DisplayItems
+                .Where(displayItem => displayItem.Type.Equals("Article"))
+                .Where(displayItem => displayItem.DisplayLocation.Equals("MainSection"));
+
+            _context.RemoveRange(itemsToReset);
+            await _context.SaveChangesAsync();
+
+            List<DisplayItem> itemsToSave = new List<DisplayItem>();
+            foreach (var item in articlesToSave)
             {
-                NavigationItem = _context.NavigationItems.First(Item => Item.Id == Article.ReferenceItemId);
+                DisplayItem displayItem = new DisplayItem()
+                {
+                    DisplayLocation = "MainSection",
+                    IsDisplayed = item.Value,
+                    Type = "Article",
+                    ArticleId = item.Key,
+                };
+
+                itemsToSave.Add(displayItem);
             }
-            catch
+
+            await _context.AddRangeAsync(itemsToSave);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<DisplayItem[]> GetMainArticles()
+        {
+            var articlesToReturn = _context.DisplayItems
+                .Where(displayItem => displayItem.Type.Equals("Article"))
+                .Where(displayItem => displayItem.DisplayLocation.Equals("MainSection"))
+                .Include(displayItem => displayItem.Article)
+                .ThenInclude(article => article.ReferenceItem)
+                .ThenInclude(team => team.ParentsItem)
+                .ThenInclude(subcategory => subcategory.ParentsItem);
+
+            foreach (var item in articlesToReturn)
             {
-                return null;
+                item.Article.DisplayItems = null;
+                item.Article.ImageLink = await _imageService.GetImageLinkByNameAsync(item.Article.ImageLink);
             }
-            int count = 0;
-            while (NavigationItem.Type != "Category" && count < 3)
+
+            return await articlesToReturn.ToArrayAsync();
+        }
+
+        public async Task<DisplayItem[]> GetDisplayedMainArticles()
+        {
+            var articlesToReturn = _context.DisplayItems
+                .Where(displayItem => displayItem.Type.Equals("Article"))
+                .Where(displayItem => displayItem.DisplayLocation.Equals("MainSection"))
+                .Where(displayItem => displayItem.IsDisplayed.Equals(true))
+                .Include(displayItem => displayItem.Article)
+                .ThenInclude(article => article.ReferenceItem)
+                .ThenInclude(team => team.ParentsItem)
+                .ThenInclude(subcategory => subcategory.ParentsItem);
+
+            foreach (var item in articlesToReturn)
             {
-                NavigationItem = _context.NavigationItems.First(Item => Item.Id == NavigationItem.ParentsItemId);
-                count++;
+                item.Article.DisplayItems = null;
+                item.Article.ImageLink = await _imageService.GetImageLinkByNameAsync(item.Article.ImageLink);
             }
-            if (NavigationItem.Type != "Category") return null;
-            return NavigationItem.Name;
+
+            return await articlesToReturn.ToArrayAsync();
+        }
+
+        public (IQueryable<T>, int, int) Paginate<T>(IQueryable<T> items, int pageSize, int pageNumber)
+        {
+            (int toSkip, int toTake, int totalPages, int totalItemsAmount) = GetPaginationValues(items, pageSize, pageNumber);
+
+            items = items
+                .Skip(toSkip)
+                .Take(toTake);
+
+            return (items, totalPages, totalItemsAmount);
+        }
+
+        private (int, int, int, int) GetPaginationValues<T>(IQueryable<T> items, int pageSize, int pageNumber)
+        {
+            int totalItemsAmount = items.Count();
+
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                throw new InvalidPageArgumentsException();
+            }
+
+            int totalPages = (int)Math.Ceiling(totalItemsAmount / (double)pageSize);
+
+            int toSkip = (pageNumber - 1) * pageSize;
+            int toTake = pageSize;
+
+            return (toSkip, toTake, totalPages, totalItemsAmount);
         }
     }
 }

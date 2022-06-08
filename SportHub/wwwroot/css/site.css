@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Open Sans";
-    src: url("../fonts/OpenSans/OpenSans.woff") format('woff');
+    src: url("../fonts/OpenSans/OpenSans.ttf") format('truetype');
 }
 
 @font-face {
@@ -100,17 +100,32 @@ option {
         color: #d72130;
     }
 
+.more-button {
+    width: 175px;
+    height: 42px;
+    background-color: #d72130;
+    text-align: center;
+}
+
+.more-button p {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+    color: white;
+}
 
 
-        /*Text styles*/
-        .h1-background-text {
-            font-family: 'Roboto Condensed';
-            font-style: normal;
-            font-weight: bold;
-            font-size: 192px;
-            color: #f0f2f6;
-            transform: rotate(90deg);
-        }
+/*Text styles*/
+.h1-background-text {
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 192px;
+    color: #f0f2f6;
+    transform: rotate(90deg);
+}
 
 .h2-heading-text {
     text-align: left;
@@ -192,6 +207,8 @@ option {
     position: relative;
 }
 
+/*decorations for buttons, hovers etc.*/
+
 .box-shadow:hover {
     box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.110932);
 }
@@ -201,4 +218,12 @@ option {
     justify-content:space-between;
     width: 90%;
     align-items:center;
+}
+
+.red-accent {
+    color: #d72130 !important;
+}
+
+.red-hover:hover {
+    filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(355deg) brightness(86%) contrast(118%);
 }

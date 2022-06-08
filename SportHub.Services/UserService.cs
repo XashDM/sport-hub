@@ -61,5 +61,14 @@ namespace SportHub.Services
            
             return userRole;
         }
+
+        public User ChangePassword(string email, string passwordHash)
+        {
+            var user = GetUserByEmail(email);
+            user.PasswordHash = passwordHash;
+            _context.SaveChanges();
+
+            return user;
+        }
     }
 }

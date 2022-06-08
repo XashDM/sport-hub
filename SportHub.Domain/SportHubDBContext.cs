@@ -14,6 +14,8 @@ namespace SportHub.Domain
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<NavigationItem> NavigationItems { get; set; }
+        public DbSet<DisplayItem> DisplayItems { get; set; }
+
 
         public DbSet<Language> Languages { get; set; }
         public DbSet<DisplayedLanguage> DisplayedLanguages { get; set; }
@@ -32,10 +34,6 @@ namespace SportHub.Domain
                 .HasData(new UserRole { Id = 1, RoleName = "User" });
             modelBuilder.Entity<UserRole>()
                 .HasData(new UserRole { Id = 2, RoleName = "Admin" });
-
         }
     }
-
-
-
 }
