@@ -53,6 +53,24 @@ namespace SportHub.Domain.Migrations
                     b.ToTable("Articles");
                 });
 
+            modelBuilder.Entity("SportHub.Domain.Models.DisplayedLanguage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LanguageName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DisplayedLanguages");
+                });
+
             modelBuilder.Entity("SportHub.Domain.Models.DisplayItem", b =>
                 {
                     b.Property<int>("Id")
@@ -80,6 +98,24 @@ namespace SportHub.Domain.Migrations
                     b.HasIndex("ArticleId");
 
                     b.ToTable("DisplayItems");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.Language", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LanguageName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>

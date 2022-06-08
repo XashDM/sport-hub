@@ -15,6 +15,7 @@ using SportHub.Services.Interfaces;
 using SportHub.Services.NavigationItemServices;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore.Metadata;
+using SportHub.Services.Services;
 using Azure.Storage.Blobs;
 using System.Configuration;
 
@@ -54,6 +55,9 @@ builder.Services
         Credentials = new NetworkCredential("sporthub.mailservice@gmail.com", "steamisjustavaporizedwater123"),
         EnableSsl = true
     });
+builder.Services.AddScoped<ILanguageService, LanguageService>();
+builder.Services.AddControllers();
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddControllers();
 
@@ -74,6 +78,12 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
