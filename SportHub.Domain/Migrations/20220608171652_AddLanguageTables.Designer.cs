@@ -11,13 +11,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220516220716_AddedLanguageTables.Designer.cs
-    [Migration("20220516220716_AddedLanguageTables")]
-    partial class AddedLanguageTables
-========
-    [Migration("20220530201517_initialize-database-in-10-times")]
-    partial class initializedatabasein10times
->>>>>>>> origin/main:SportHub.Domain/Migrations/20220530201517_initialize-database-in-10-times.Designer.cs
+    [Migration("20220608171652_AddLanguageTables")]
+    partial class AddLanguageTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,17 +55,12 @@ namespace SportHub.Domain.Migrations
                     b.ToTable("Articles");
                 });
 
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220516220716_AddedLanguageTables.Designer.cs
             modelBuilder.Entity("SportHub.Domain.Models.DisplayedLanguage", b =>
-========
-            modelBuilder.Entity("SportHub.Domain.Models.DisplayItem", b =>
->>>>>>>> origin/main:SportHub.Domain/Migrations/20220530201517_initialize-database-in-10-times.Designer.cs
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220516220716_AddedLanguageTables.Designer.cs
                     b.Property<bool>("IsEnabled")
                         .HasColumnType("tinyint(1)");
 
@@ -83,23 +73,12 @@ namespace SportHub.Domain.Migrations
                     b.ToTable("DisplayedLanguages");
                 });
 
-            modelBuilder.Entity("SportHub.Domain.Models.Language", b =>
+            modelBuilder.Entity("SportHub.Domain.Models.DisplayItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("LanguageName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Languages");
-========
                     b.Property<int?>("ArticleId")
                         .HasColumnType("int");
 
@@ -121,7 +100,24 @@ namespace SportHub.Domain.Migrations
                     b.HasIndex("ArticleId");
 
                     b.ToTable("DisplayItems");
->>>>>>>> origin/main:SportHub.Domain/Migrations/20220530201517_initialize-database-in-10-times.Designer.cs
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.Language", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LanguageName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
