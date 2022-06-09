@@ -30,6 +30,7 @@ namespace SportHub.Pages.Articles
 
         public IList<Article> Article { get;set; }
         public IList<NavigationItem> Categories { get; set; }
+        public IList<NavigationItem> CategoriesToMove { get; set; }
         public IList<NavigationItem> SubCategories { get; set; }
         public IList<NavigationItem> Teams { get;set; }
         public SelectList SelectSubcategory { get; set; }
@@ -45,6 +46,7 @@ namespace SportHub.Pages.Articles
         public async Task OnGetAsync(string? category)
         {
             Categories = _service.GetCategories();
+            CategoriesToMove = _service.GetCategoriesToMove(category);
             Article = _service.GetArticlesRange(0,10,PublishField, category, SelectedSubcategory, SelectedTeam);
             
             if (category != null)

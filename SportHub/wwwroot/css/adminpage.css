@@ -1,4 +1,8 @@
-﻿p {
+﻿header {
+    box-shadow: 0px 0px 37px rgba(0, 0, 0, 0.09);
+}
+
+p {
     margin: 0;
 }
 
@@ -91,6 +95,10 @@ hr.href-between-sections {
     margin:0;
 }
 
+.href-between-sections-bottom {
+    border:none;
+}
+
 .edit {
     display: flex;
     flex-direction: row;
@@ -98,7 +106,7 @@ hr.href-between-sections {
 }
 
 .bottom-header {
-    height: 55px;
+    
 }
 
 .bot-blank-space {
@@ -123,7 +131,7 @@ hr.href-between-sections {
 
 .sports {
     display: flex;
-    margin-top: 30px;
+    margin: 17px 0 19px 0;
     flex-direction: row;
     justify-content: space-around;
     font-family: 'Open Sans', sans-serif;

@@ -1,11 +1,16 @@
 ﻿let startElementPosition = 10;
-let amountOfElements = 5;
+let amountOfElements = 5; 
 
 $(document).ready(function () {
     let category = $(location).attr('pathname');
     category = category.substring(16, category.length);
+    category = decodeURI(category);
+    console.log(category);
     if (category != "") {
-        $('#displayed-category-name').text(decodeURI(category));
+        categoryWithoutSpaces = category.replace(' ', '-');
+        $('#displayed-category-name').text(category);
+        $(`#category-element-${categoryWithoutSpaces}lower`).css('color', '#D72130');
+        console.log($(`#category-element-${categoryWithoutSpaces}lower`).text());
     }
     else {
         $('#displayed-category-name').text("All categories");
@@ -23,10 +28,10 @@ $(document).ready(function () {
     });
 });
 
-
 function updateArticlesAfterScrolling() {
     let category = $(location).attr('pathname');
     category = category.substring(16, category.length);
+    category = decodeURI(category);
     if (category == "") {
         category = null;
     }
@@ -77,7 +82,7 @@ function updateArticlesAfterScrolling() {
                     if (articleNavigation.type == "Team") {
                         articleInfo = articleInfo + articleNavigation.name;
                         let referenceItem1 = articleNavigation.parentsItem;
-                        if (referenceItem1.type == "Subcategory") {
+                        if (referenceItem1 != null && referenceItem1.type == "Subcategory") {
                             articleInfo = referenceItem1.name + articleInfo;
                         }
                     }
@@ -98,11 +103,14 @@ function updateArticlesAfterScrolling() {
                 articleField.find('.get-admins-articles-published-info').attr('id', `publishedForUnpublished-${articles[i].id}`);
                 articleField.find('.get-admins-articles-delete').attr('onclick', `deleteArticleFunction(${articles[i].id})`);
 
+                articleField.find('.get-admins-articles-move-button').attr('onclick', `openMove(${articles[i].id})`);
+                articleField.find('.get-admins-articles-dropdown-move-content').attr('id', `article-move-${articles[i].id}`);
                 if (articles[i].isPublished == false) {
                     articleField.find('.get-admins-articles-published-info').css("display", "none");
                     articleField.find('.get-admins-articles-publish-button div')
                         .text('Publish');
                     articleField.find('.get-admins-articles-edit').attr('id', `edit-${articles[i].id}`);
+                    articleField.find('.get-admins-articles-edit').attr('href', `/Articles/Details?id=${articles[i].id}`);
                     articleField.find('.get-admins-articles-edit').css("display", "");
                 }
                 else {
@@ -110,6 +118,7 @@ function updateArticlesAfterScrolling() {
                     articleField.find('.get-admins-articles-publish-button div')
                         .text('Unpublish');
                     articleField.find('.get-admins-articles-edit').attr('id', `edit-${articles[i].id}`);
+                    articleField.find('.get-admins-articles-edit').attr('href', `/Articles/Details?id=${articles[i].id}`);
                     articleField.find('.get-admins-articles-edit').css("display", "none");
                 }  
             } 
@@ -120,6 +129,7 @@ function updateArticlesAfterScrolling() {
 
 function openDropdownFunction(articleId) {
     document.getElementById(articleId.toString()).classList.toggle("show");
+    $(`#article-move-${articleId}`).hide();
 }
 
 function findHideSearchField() {
@@ -171,6 +181,29 @@ function publishUnpublish(articleId) {
                     $(`#article-with-id-${articleId}`).show();
                 }
             }
+            $(`#article-move-${articleId}`).hide();
         }
     });
+}
+
+function openMove(articleId) {
+    $(`#article-move-${articleId}`).toggle();
+    if ($(`#edit-${articleId}`).css('display') == 'none') {
+        $(`#article-move-${articleId}`).css("top", "120px");
+    }
+    else {
+        $(`#article-move-${articleId}`).css("top", "154px");
+    }
+}
+
+function changeArticleCategory(articleId, categoryId) {
+    $.ajax({
+        method: "put",
+        url: `/article/move/${articleId}/${categoryId}`,
+        success: function (result) {
+            $(`#article-with-id-${articleId}`).hide();
+            console.log(result);
+        }
+    });
+    console.log("working(no)");
 }

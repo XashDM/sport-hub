@@ -133,6 +133,16 @@ namespace SportHub.Services.ArticleServices
             return _context.NavigationItems.Where(item => item.Type.Equals("Category")).ToList();
         }
 
+        public IList<NavigationItem> GetCategoriesToMove(string? category)
+        {
+            IList<NavigationItem> categoriesToMove = GetCategories();
+            if (category != null)
+            {
+                categoriesToMove.Remove(categoriesToMove.First(item => item.Name.ToLower() == category.ToLower()));
+            }
+            return categoriesToMove;
+        }
+
         public IList<NavigationItem> GetSubcategories(string category)
         {
             try

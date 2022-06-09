@@ -102,7 +102,21 @@
                                 <div>
                                     <button onclick="deleteArticleFunction(@Model.Article[index].Id)" class="get-admins-articles-delete">Delete</button>
                                 </div>
-                                <a href="#move">Move</a>
+                                <div class="get-admins-articles-dropdown-move">
+                                    <button class="get-admins-articles-move-button" onclick="openMove(@Model.Article[index].Id)">
+                                        Move
+                                        <img src="~/images/Polygon-red-rotate-to-right.svg" class="get-admins-articles-move-image"/>
+                                    </button>
+                                    <div class="get-admins-articles-dropdown-move-content" id="article-move-@Model.Article[index].Id">
+                                        @{
+                                            for(int categoryId = 0; categoryId<Model.CategoriesToMove.Count; categoryId++){
+                                                <button onclick="changeArticleCategory(@Model.Article[index].Id, @Model.CategoriesToMove[categoryId].Id)" class="get-admins-articles-dropdown-move-content-item" id="dropdown-move-@Model.CategoriesToMove[categoryId].Id">
+                                                    @Model.CategoriesToMove[categoryId].Name
+                                                </button>
+                                            }
+                                        }
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -118,6 +132,6 @@
 {
     @for (int i = 0; i<Model.Categories.Count; i++)
     {
-        <a id="category-element-@Model.Categories[i].Id" href="/Articles/Admin/@Model.Categories[i].Name">@Model.Categories[i].Name</a>
+        <a id="category-element-@(Model.Categories[i].Name.Replace(' ','-'))lower" class="get-admins-articles-category-list" href="/Articles/Admin/@Model.Categories[i].Name">@Model.Categories[i].Name</a>
     }
 }
