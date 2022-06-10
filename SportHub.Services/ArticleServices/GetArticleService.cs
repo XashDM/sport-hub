@@ -252,8 +252,6 @@ namespace SportHub.Services.ArticleServices
 
         public async Task UploadPhotoOfTheDay(ImageItem image)
         {
-            
-
             var itemToUpdate = await _context.DisplayItems
                 .Where(displayItem => displayItem.DisplayLocation.Equals("PhotoOfTheDay"))
                 .Include(item => item.ImageItem)
@@ -286,6 +284,7 @@ namespace SportHub.Services.ArticleServices
             {
                 if (itemToUpdate.ImageItem is not null)
                 {
+                    _imageService.DeleteImageFromStorage(itemToUpdate.ImageItem.ImageLink);
                     _context.Remove<ImageItem>(itemToUpdate.ImageItem);
                     await _context.SaveChangesAsync();
                 }
@@ -345,10 +344,27 @@ namespace SportHub.Services.ArticleServices
         {
             var item = await _context.DisplayItems
                 .Where(displayItem => displayItem.DisplayLocation.Equals("PhotoOfTheDay")).FirstOrDefaultAsync();
-            if (!item.IsDisplayed)
+            if (item is not null)
             {
-                item.IsDisplayed = true;
-                _context.SaveChanges();
+                if (!item.IsDisplayed)
+                {
+                    item.IsDisplayed = true;
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        public async Task HidePhotoOfTheDay()
+        {
+            var item = await _context.DisplayItems
+                .Where(displayItem => displayItem.DisplayLocation.Equals("PhotoOfTheDay")).FirstOrDefaultAsync();
+            if (item is not null)
+            {
+                if (item.IsDisplayed)
+                {
+                    item.IsDisplayed = false;
+                    _context.SaveChanges();
+                }
             }
         }
     }

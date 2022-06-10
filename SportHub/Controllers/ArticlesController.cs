@@ -179,7 +179,21 @@ namespace SportHub.Controllers
             };
 
             await _articleService.UploadPhotoOfTheDay(imageItem);
-            await _articleService.DisplayPhotoOfTheDay();
+            if (photo.isDisplayed is not null)
+            {
+                if (photo.isDisplayed == true)
+                {
+                    await _articleService.DisplayPhotoOfTheDay();
+                }
+                else
+                {
+                    await _articleService.HidePhotoOfTheDay();
+                }
+            }
+            else
+            {
+                await _articleService.HidePhotoOfTheDay();
+            }
             return Ok();
         }
 

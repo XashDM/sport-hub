@@ -23,5 +23,6 @@ namespace SportHub.Services.Interfaces
         public Task<DisplayItem> GetPhotoOfTheDay();
         public Task<DisplayItem> GetDisplayedPhotoOfTheDay();
         public Task DisplayPhotoOfTheDay();
+        public Task HidePhotoOfTheDay();
     }
 }

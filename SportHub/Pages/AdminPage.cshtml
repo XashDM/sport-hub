@@ -67,9 +67,11 @@
             </div>
             <div class="editing-tools-box">
                 <form class="add-photo-box" id="add-photo-form" enctype="multipart/form-data">
-                    <img class="add-photo-button" src="~/icons/photo-icon.svg"/>
+                    <label class="add-photo-button" for="photo-upload-input">
+                        <img src="~/icons/photo-icon.svg" />
+                    </label>
                     <p class="caption">
-                        <input id="photo-upload-input" name="imageFile" type="file" accept=".png, .jpg, .jpeg, .gif" />
+                        <input id="photo-upload-input" name="imageFile" type="file" accept="image/png, image/jpg, image/jpeg, image/gif" />
                         <label for="photo-upload-input">Choose a file</label>
                         or drop it here
                     </p>
@@ -98,7 +100,7 @@
                 <div class="show-hide-selector-box">
                     <p>Show on the main page</p>
                     <label class="switch">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" id="photo-of-day-isDisplayed">
                         <span class="slider round"></span>
                     </label>
                 </div>

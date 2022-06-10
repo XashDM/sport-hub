@@ -468,6 +468,7 @@ input:checked + .slider:before {
     overflow: hidden;
 }
 .day-photo-background-crop {
+    background-color: lightgray;
     width: 100%;
     height: 600px;
     overflow: hidden;
@@ -475,6 +476,7 @@ input:checked + .slider:before {
 
 #day-photo-background-img {
     width: 120%;
+    transition: 0.3s;
 }
 
 .editing-tools-box {
@@ -486,11 +488,14 @@ input:checked + .slider:before {
     display: none;
 }
 
-.image-upload-box:hover #day-photo-background-img {
-    filter: blur(8px) brightness(70%);
+.image-upload-box:hover #day-photo-background-img,
+.image-upload-box.isDragover #day-photo-background-img {
+    filter: blur(8px) brightness(60%);
+    transition: 0.6s;
 }
 
-.image-upload-box:hover .editing-tools-box {
+.image-upload-box:hover .editing-tools-box,
+.image-upload-box.isDragover .editing-tools-box {
     display: flex;
 }
 
@@ -513,6 +518,7 @@ input:checked + .slider:before {
 
 .add-photo-box .caption label{
     color: #d72130;
+    cursor: pointer;
 }
 
 .add-photo-box .caption input {
@@ -523,10 +529,7 @@ input:checked + .slider:before {
 .add-photo-button {
     height: 63px;
     width: 63px;
-}
-
-#photo-upload-form {
-
+    cursor: pointer;
 }
 
 #photo-upload-form {
