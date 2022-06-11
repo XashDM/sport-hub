@@ -63,7 +63,24 @@ button#search-button {
     width: 20%;
     border-width: 1px;
 }
+#subcategory-side {
+    display: none;
+}
 
+#team-side {
+    display: none;
+}
+
+#blureid {
+    display: none;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(2px);
+    padding-top: 60px;
+    position: absolute;
+}
 .icon-keeper {
     display: flex;
     margin: auto;
@@ -82,26 +99,109 @@ button#search-button {
 .sidebar {
     display: block;
     width: 220px;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    flex-flow: row;
+    justify-content: left;
+}
+
+.real-sidebar {
     margin-top: 70px;
     margin-left: 50px;
+    height: 500px;
+}
+.nav-siderbar {
+    display: flex;
+    flex-direction: row;
+    flex-flow: row;
+    justify-content: left;
+    z-index: 2;
+}
+.menu-caption, .menu-new {
+    width: 180px;
+    font-size: 20px;
+}
+.menu-caption {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 600px;
+}
+.menu-caption::-webkit-scrollbar {
+        width: 5px;
+        height: 3px;
+    }
+.menu-caption::-webkit-scrollbar-thumb {
+        background: #d72130;
+        height: 3px;
+
 }
 
-.sidebar li{
-  margin-top: 17px;
-  max-height: 28px;
-  list-style-type: initial;
+.sidebar {
+    display: block;
+    width: 220px;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    flex-flow: row;
+    justify-content: left;
+}
+.subcategory-side {
+    background-color: white;
+    width: 300px;
 }
 
-.sidebar li:hover{
+.team-side {
+    background: rgb(248, 248, 248);
+    width: 200px;
+}
+.real-sidebar {
+    margin-top: 70px;
+    margin-left: 50px;
+    height: 500px;
+}
+
+.menu-new {
+    width: 100%;
+    margin-top: 90px;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+.sidebar li {
+    margin-top: 0px;
+    height: 50px;
+    padding-bottom: 5px;
+    list-style-type: initial;
+}
+.sidebar li:hover {
     color: #d72130;
 }
-
-.sidebar li::marker {
-  color: rgba(255, 255, 255, 0);
+.menu-new li {
+    margin-top: 0px;
+    height: 50px;
+    list-style-type: initial;
+    margin-left: 0px;
+    list-style-type: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    -webkit-transform-origin: top;
+}
+.menu-new li {
+}
+.item-sidebar:hover {
+    color: #d72130;
+    background: rgba( 215, 33, 48, 0.4);
 }
 
-.sidebar li:hover::marker {
-  color: #d72130;
+.menu-caption li::marker {
+    color: rgba(255, 255, 255, 0);
+}
+
+.menu-caption li:hover::marker {
+    color: #d72130;
 }
 
 .sidebar-socials {

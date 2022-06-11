@@ -15,7 +15,9 @@
         text-transform: uppercase;
         color: #7F8899;
     }
-
+.content{
+    margin: auto;
+}
 .languages{
     display: flex;
     flex-direction: column;

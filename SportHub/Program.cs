@@ -13,9 +13,14 @@ using System.Net.Mail;
 using SportHub.Services.ArticleServices;
 using SportHub.Services.Interfaces;
 using SportHub.Services.NavigationItemServices;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 BlobContainerClient blobContainerClient = new BlobContainerClient(
     builder.Configuration.GetConnectionString("BLOBConnectionString"), 
@@ -26,10 +31,11 @@ BlobContainerClient blobContainerClient = new BlobContainerClient(
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 
-
+builder.Services.AddControllers();
 builder.Services.AddDbContext<SportHubDBContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDB"));
+    var connectionString = builder.Configuration.GetConnectionString("SportHubDB");
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
@@ -48,6 +54,8 @@ builder.Services
         Credentials = new NetworkCredential("sporthub.mailservice@gmail.com", "steamisjustavaporizedwater123"),
         EnableSsl = true
     });
+
+builder.Services.AddControllers();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -71,10 +79,17 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Run();

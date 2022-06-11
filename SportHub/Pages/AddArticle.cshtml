@@ -1,4 +1,5 @@
 ﻿@page
+@using SportHub.Domain.Models
 @model SportHub.Pages.AddArticleModel
 @{
     ViewData["Title"] = "Add Article";
@@ -7,11 +8,14 @@
 <head>
     <link rel="stylesheet" href="~/css/AddArticle.css" asp-append-version="true" />
 </head>
+@{
+    int p = 1;
+}
 @section SaveButton {
         <section class ="middle-header">
         <div class="home">
             <p>
-                Home
+                @Html.DisplayFor(model => model.Category.Name)
             </p>
         </div>
         <div class="edit">
@@ -33,7 +37,7 @@
     </section>
     
 }
-<div class="content">
+<from class="content" id="form1">
     <div class="add-language-box">
         <div class="languages">
             <label>PAGE LANGUAGES</label>
@@ -51,29 +55,30 @@
         <div class="picture">        
             <label>PICTURE</label>
             <div class="area">
-                <input type="file" id="upload">       
+                <input type="file" id="upload" name="ImageLink">       
             </div>  
         </div>
     
         <div class="drop-down-fields">      
             <div class="select-box">            
                 <label for="main-a-subcategories">SUBCATEGORY</label>           
-                <select name="main-a-subcutegories" id="main-a-subcutegories" placeholder="Not Selected">
-                    <option disabled selected>Not Selected</option>
+                <select name="subcutegories" id="main-a-subcutegories" placeholder="Not Selected">
+                    <option value="">Not Selected</option>
+    
                 </select>        
             </div>
       
             <div class="select-box">            
                 <label for="main-a-teams">TEAM</label>            
-                <select name="main-a-teams" id="main-a-teams" placeholder="Not Selected">
-                    <option disabled selected>Not Selected</option>
+                <select name="teams" id="main-a-teams" placeholder="Not Selected">
+                    <option value="">Not Selected</option>
                 </select>               
             </div>
        
             <div class="select-box">            
                 <label for="main-a-locations">LOCATION</label>           
                 <select name="main-a-locations" id="main-a-locations" placeholder="Not Selected">
-                    <option disabled selected>Not Selected</option>
+                    <option value="">Not Selected</option>
                 </select>        
             </div>    
         </div>
@@ -81,49 +86,100 @@
         <div class="required-fields">
             <div class="input-box">
                 <label class="alt_label">ALT.</label>
-                <input class="alt_input" type="text" placeholder="Alternative text for picture" />
+                <input class="alt_input" type="text" placeholder="Alternative text for picture" name="AlternativeText" required>
             </div>
 
             <div class="input-box">
                 <label class="artheadline_label">ARTICLE HEADLINE</label>
-                <input class="artheadline_input" type="text" placeholder="Name" />
+                <input class="artheadline_input" type="text" placeholder="Name" name="Title" required>
             </div>
 
             <div class="input-box">
                 <label class="captiontext_label">CAPTION</label>
-                <input class="captiontext_input" type="text" placeholder="Write caption text here" />
-            </div>
-
-             <div class="input-box">
-                <label class="captiontext_label">CAPTION</label>
-                <input class="captiontext_input" type="text" placeholder="Write caption text here" />
+                <input class="captiontext_input" type="text" placeholder="Write caption text here"  name="caption" required>
             </div>
             <div id="editor1" class="texteditor">
             </div>
 
         </div>
     </div>   
-</div>
+</from>
+
 @section scripts {
-   <script src="~/lib/ckeditor/ckeditor.js"></script>
-   <script>
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <script>
 
-    var editor = CKEDITOR.replace( 'editor1' );
-
-    editor.on( 'change', function( evt ) {
-    console.log( 'Total bytes: ' + evt.editor.getData() );
-    });
-
-
+    let editor = CKEDITOR.replace( 'editor1' );
 
     function save() {
-		var  formData = [];
-        console.log("as");
-        $('form input[type=text]').each(function() {
-            console.log(this.name, this.value);
+        let category = {"id":@p };
+        let data = {};
+        // переберём все элементы input, textarea и select формы с id="myForm "
+        $('#form1').find ('input, textearea, select').each(function() {
+
+          data[this.name] = $(this).val();
+        });
+        console.log(data);
+        let ReferenceItemId = @p;
+        if (data["subcutegories"] != "") {
+            ReferenceItemId = parseInt(data["subcutegories"]);
+        }
+        if (data["teams"] != "") {
+            ReferenceItemId = parseInt(data["teams"]);
+        }
+        data["ReferenceItemId"] = ReferenceItemId;
+        data["ContentText"] = editor.getData();
+        data["ImageLink"] = "1";
+        console.log(data);
+        $.ajax({
+        url: '/SaveNewArticle',
+        type: 'post',
+        dataType: "json",
+        data: JSON.stringify(data),
+        async: false,
+        headers:
+        {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
+        },
+        }).done(function (date) {
+             console.log("fff");
         });
 
-			
-		}
+    }       
+    DateGetClass = new ExtendDateClass();
+
+    function createSubcategory() {
+    
+        let sel = $('#main-a-subcutegories');
+        let res = DateGetClass.getSubcategoryofCategory(category);
+        $(res).each(function() {
+            sel.append($("<option>").attr('value', this.id).text(this.name));
+        });
+    }
+    $("#main-a-subcutegories").change(function(){
+
+        let id = $(this).find(":selected").val();
+        console.log(id);
+        if (id == "") {
+            $('#main-a-teams').empty();
+            $('#main-a-teams').prop('disabled', true);
+            return 0;
+        }
+        $('#main-a-teams').prop('disabled', false);
+        createTeam({ "id": parseInt(id) });
+    });
+    createSubcategory();
+    function createTeam(subcategory) {
+        console.log(subcategory);
+        let sel = $('#main-a-teams');
+        sel.empty()
+        sel.append($("<option>").attr('value', "").text("Not Selected"));
+        let res = DateGetClass.getTeamofSubcategory(subcategory);
+        $(res).each(function() {
+            sel.append($("<option>").attr('value', this.id).text(this.name));
+        });
+    }
   </script>
 }
