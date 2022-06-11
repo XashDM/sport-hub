@@ -2,12 +2,37 @@
 @model SportHub.Pages.AddArticleModel
 @{
     ViewData["Title"] = "Add Article";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
-
 <head>
     <link rel="stylesheet" href="~/css/AddArticle.css" asp-append-version="true" />
 </head>
+@section SaveButton {
+        <section class ="middle-header">
+        <div class="home">
+            <p>
+                Home
+            </p>
+        </div>
+        <div class="edit">
+            <div>
+                <p class ="cancel ">
+                    &nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;&nbsp;
+                </p>
+            </div >
+                <p class ="changes"  onclick="save()">
+                    Save all changes
+                </p>
+            <div>
 
+            </div>
+        </div>
+        <div class="bot-blank-space">
+                
+        </div>
+    </section>
+    
+}
 <div class="content">
     <div class="add-language-box">
         <div class="languages">
@@ -68,6 +93,37 @@
                 <label class="captiontext_label">CAPTION</label>
                 <input class="captiontext_input" type="text" placeholder="Write caption text here" />
             </div>
+
+             <div class="input-box">
+                <label class="captiontext_label">CAPTION</label>
+                <input class="captiontext_input" type="text" placeholder="Write caption text here" />
+            </div>
+            <div id="editor1" class="texteditor">
+            </div>
+
         </div>
     </div>   
 </div>
+@section scripts {
+   <script src="~/lib/ckeditor/ckeditor.js"></script>
+   <script>
+
+    var editor = CKEDITOR.replace( 'editor1' );
+
+    editor.on( 'change', function( evt ) {
+    console.log( 'Total bytes: ' + evt.editor.getData() );
+    });
+
+
+
+    function save() {
+		var  formData = [];
+        console.log("as");
+        $('form input[type=text]').each(function() {
+            console.log(this.name, this.value);
+        });
+
+			
+		}
+  </script>
+}

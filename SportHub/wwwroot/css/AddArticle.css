@@ -61,7 +61,6 @@
         text-transform: uppercase;
         color: #7F8899;
     }
-
 .picture {
     display: flex;
     flex-direction: column;
@@ -148,4 +147,9 @@
     line-height: 18px;
     color: #C6CCD7;
     padding-left: 18px;
+}
+
+#cke_editor1 {
+    font-family: 'Open Sans';
+    margin-top: 20px;
 }
