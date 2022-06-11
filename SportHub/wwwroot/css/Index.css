@@ -4,6 +4,10 @@
     width: 100%;
 }
 
+.hidden {
+    display: none;
+}
+
 .category-name {
     margin-left: -100px;
     margin-top: 78px;
@@ -47,6 +51,101 @@
     width: 100%;
 }
 
+.main-section-banner {
+    position: absolute;
+    width: 540px;
+    height: 390px;
+    left: 65%;
+    top: 414px;
+}
+
+.image-info {
+    display: flex;
+    flex-direction: column;
+    background: #f6f6f6;
+    height: 80%;
+    margin: auto;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.main-published {
+    display: flex;
+    height: 25%;
+    margin-bottom: 5%;
+}
+
+.main-published b {
+    margin-bottom: 0;
+    margin-top: auto;
+    margin-left: 0;
+    color: #7b7b7b;
+}
+
+.main-title-info {
+    margin-bottom: 10px;
+}
+
+.main-title-info b {
+    color: #C63638;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 29px;
+}
+
+.main-bottom-info {
+    font-size: 22px;
+    line-height: 28px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    height: 127px;
+}
+
+#banner-more-button {
+    margin-left: -27px;
+}
+
+.banner-nav-box {
+    display: flex;
+    height: 20%;
+    justify-content: end;
+}
+
+.button-box {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-box p {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: #B2B2B2;
+}
+
+#left-button, #right-button {
+    width: 50px;
+    height: 50px;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: #B2B2B2;
+}
+
+.main-section-crop {
+    position: relative;
+    margin-top: 30px;
+    width: 100%;
+    height: 700px;
+    overflow: hidden;
+}
+
 .feedback-column {
     width: 28%;
 }
@@ -73,10 +172,9 @@
 }
 
 .main-article-photo {
-    width: 100%;
-    height: auto;
+    width: 130%;
     z-index: -1;
-    position: relative;
+    margin-top: -5%;
 }
 
 .medium-news-container {
@@ -94,14 +192,15 @@
     width: 100%;
     padding: 0;
     flex-direction: row;
-    flex-direction: row;
-    justify-content: space-between;
+    justify-content: start;
+    gap: 3%;
 }
 
 .medium-news-box {
     display: flex;
     flex-direction: column;
-    height: 335px;
+    height: 360px;
+    max-width: 270px;
 }
 
 .medium-news-img{
@@ -136,6 +235,7 @@
     margin-left: 7%;
     margin-right: 7%;
     margin-top: 7%;
+    min-height: 170px;
 }
 
 .secondary-news-box {

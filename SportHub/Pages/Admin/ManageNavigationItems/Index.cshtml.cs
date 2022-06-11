@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Domain.Models;
 using SportHub.Services.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SportHub.Pages.Admin.ManageNavigationItems
 {
@@ -9,33 +11,40 @@ namespace SportHub.Pages.Admin.ManageNavigationItems
     {
         private readonly Domain.SportHubDBContext _context;
         private INavigationItemService _servise;
+
+
         public IndexModel(Domain.SportHubDBContext context, INavigationItemService servise)
         {
             _context = context;
             _servise = servise;
         }
+        public async Task<IActionResult> OnGetArticle(int ItemId)
+        {
+            return new OkObjectResult(await _servise.GetArticlesofItem(ItemId));
+        }
+        public async Task<IActionResult> OnGetTree(int ItemId)
+        {
+            return new OkObjectResult(await _servise.GetRecusiveTree(ItemId));
+        }
         public IActionResult OnGet()
         {
             return Page();
         }
-        public IActionResult OnGetRoot()
+        public async Task<IActionResult> OnGetRoot()
         {
-            return new OkObjectResult(_servise.GetRoute());
+            return new OkObjectResult(await _servise.GetTopCategories());
         }
-        public IActionResult OnGetChildren( int ItemId)
+        public async Task<IActionResult> OnGetChildren(int ItemId)
         {
-            
-            return new OkObjectResult(_servise.GetChildrenOfItem(ItemId));
+
+            return new OkObjectResult(await _servise.GetChildrenOfItem(ItemId));
         }
-        public IActionResult OnGetAddItem(string name, int? fatherItemId, string Type)
+        [BindProperty]
+        public dynamic newItem { get; set; }
+        public async Task<IActionResult> OnPost(List<NavigationItem> newItem)
         {
-            NavigationItem Item = new NavigationItem {
-                Type = Type,
-                Name = name,
-                ParentsItemId = fatherItemId,
-            };
-            _servise.AddNewItem(Item);
-            return new OkObjectResult(Item);
+            await _servise.AddNewItems(newItem);
+            return new OkObjectResult(newItem);
         }
     }
 }

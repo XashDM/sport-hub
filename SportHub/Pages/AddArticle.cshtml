@@ -7,11 +7,14 @@
 <head>
     <link rel="stylesheet" href="~/css/AddArticle.css" asp-append-version="true" />
 </head>
+@{
+    int p = @Model.itemId;
+}
 @section SaveButton {
         <section class ="middle-header">
         <div class="home">
             <p>
-                Home
+                @p
             </p>
         </div>
         <div class="edit">
@@ -59,21 +62,22 @@
             <div class="select-box">            
                 <label for="main-a-subcategories">SUBCATEGORY</label>           
                 <select name="main-a-subcutegories" id="main-a-subcutegories" placeholder="Not Selected">
-                    <option disabled selected>Not Selected</option>
+                    <option>Not Selected</option>
+    
                 </select>        
             </div>
       
             <div class="select-box">            
                 <label for="main-a-teams">TEAM</label>            
                 <select name="main-a-teams" id="main-a-teams" placeholder="Not Selected">
-                    <option disabled selected>Not Selected</option>
+                    <option>Not Selected</option>
                 </select>               
             </div>
        
             <div class="select-box">            
                 <label for="main-a-locations">LOCATION</label>           
                 <select name="main-a-locations" id="main-a-locations" placeholder="Not Selected">
-                    <option disabled selected>Not Selected</option>
+                    <option value="none">Not Selected</option>
                 </select>        
             </div>    
         </div>
@@ -104,26 +108,49 @@
         </div>
     </div>   
 </div>
+
 @section scripts {
-   <script src="~/lib/ckeditor/ckeditor.js"></script>
-   <script>
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <script>
 
     var editor = CKEDITOR.replace( 'editor1' );
-
     editor.on( 'change', function( evt ) {
     console.log( 'Total bytes: ' + evt.editor.getData() );
     });
 
-
-
     function save() {
-		var  formData = [];
+	    var  formData = [];
         console.log("as");
         $('form input[type=text]').each(function() {
             console.log(this.name, this.value);
         });
+    }
+    DateGetClass = new ExtendDateClass();
+    let category = {"id":@p };
+    function createSubcategory() {
+    
+        let sel = $('#main-a-subcutegories');
+        let res = DateGetClass.getSubcategoryofCategory(category);
+        $(res).each(function() {
+            sel.append($("<option>").attr('value', this.id).text(this.name));
+        });
+    }
+    $("#main-a-subcutegories").change(function(){
 
-			
-		}
+        let id = $(this).find(":selected").val();
+        console.log(id);
+        createTeam({ "id": parseInt(id) });
+    });
+    createSubcategory();
+    function createTeam(subcategory) {
+        console.log(subcategory);
+        let sel = $('#main-a-teams');
+        sel.empty()
+        sel.append($("<option>").attr('value', "").text("Not Selected"));
+        let res = DateGetClass.getTeamofSubcategory(subcategory);
+        $(res).each(function() {
+            sel.append($("<option>").attr('value', this.id).text(this.name));
+        });
+    }
   </script>
 }

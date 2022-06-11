@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
     <header>
@@ -99,25 +100,25 @@
         <main>
             <section class="local-navigation">
                 <div class = "navigation-picture">
-                <img src="surveys-button.png" alt="" width="50" height="40">
+                <img src="~/images/surveys-button.png" alt="" width="50" height="40">
                 </div>
                 <div class = "navigation-picture">
-                <img src="banners-button.png" alt="" width="40" height="40">
+                <img src="~/images/banners-button.png" alt="" width="40" height="40">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="languages-button.png" alt="" width="40" height="40">
+                    <img src="~/images/languages-button.png" alt="" width="40" height="40">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="footer-button.png" alt="" width="40" height="40">
+                    <img src="~/images/footer-button.png" alt="" width="40" height="40">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="social_networks-button.png" alt="" width="40" height="40">
+                    <img src="~/images/social_networks-button.png" alt="" width="40" height="40">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="ussers-button.png" alt="" width="40" height="40">
+                    <img src="~/images/ussers-button.png" alt="" width="40" height="40">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="IA-button.png" alt="" width="40" height="40">
+                    <img src="~/images/IA-button.png" alt="" width="40" height="40">
                 </div>
             </section>
 
@@ -127,11 +128,9 @@
 
 
 
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/adminpage.js"></script>
-
+    <script src="~/js/DataClass.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
