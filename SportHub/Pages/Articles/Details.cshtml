@@ -1,4 +1,5 @@
 ﻿@page
+@using Microsoft.AspNetCore.Html
 @model SportHub.Pages.Articles.DetailsModel
 
 @{
@@ -23,6 +24,9 @@
             <div class="get-article-subcategory-link">
                  <b>>@Html.DisplayFor(model => model.subcategory)</b>
             </div>
+            <div class="get-article-subcategory-link">
+                 <b>/@Html.DisplayFor(model => model.Article.Title)</b>
+            </div>
         </div>
         <div class="get-article-image-content">
             <div class="get-article-image-article">
@@ -41,14 +45,10 @@
                     </b>
                 </div>
                 <div class="get-article-bottom-info">
-                    
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias aut, 
-                        repellat ipsum facere voluptate dicta obcaecati deserunt nobis suscipit eaque?
+                    @Html.DisplayFor(model => model.Article.ShortDescriptionOfThePicture)
                 </div> 
             </div>
-            <div class="get-article-text-under-image">
-                @Html.DisplayFor(model => model.Article.ContentText)
-            </div>
+            <text class="get-article-text-under-image" id="main-article-text">@Html.Raw(Model.Article.ContentText)</text>
         </div>
     </div>
     <div class="get-article-background-text">
@@ -80,4 +80,13 @@
         </div>
     </div>
 </div>
-
+@section scripts {
+<script>
+    //let html =  "<p>1111</p>";
+    //let div = document.getElementById("main-article-text");
+    //div.innerHTML = html;
+    //console.log("@(Model.Article.ContentText)");
+    //var text = div.textContent || div.innerText || "";
+    //alert(div.innerText);
+</script>
+}

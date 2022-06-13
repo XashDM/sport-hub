@@ -109,8 +109,8 @@
 
 .other:before {
     content: "";
-    width: 30px;
-    height: 1px;
+    width: 32px;
+    height: 0px;
     right: 100%;
     top: 50%;
     position: absolute;
@@ -181,7 +181,7 @@
         background: none;
         position: absolute;
         width: 5px;
-        top: 19px;
+        top: 18px;
         left: -32px;
         border-left: 0.5px dashed #B2B2B2;
     }

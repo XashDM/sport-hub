@@ -160,8 +160,8 @@ function createButton(type) {
 //Create list of elemnt form 'Data' - array , ItamClass -css class for element  'ItemId' css id for element 
 function сreateList(data, itamClass, itemId, listElement) {
     let sizeOfList = 0;
-    for (let e in data]) {
-        let element = data][e];
+    for (let e in data) {
+        let element = data[e];
         let name = element.name;
         let categoryListElement = document.createElement("li");
         categoryListElement.setAttribute("class", itamClass);

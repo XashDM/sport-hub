@@ -31,9 +31,6 @@
 
             </div>
         </div>
-        <div class="bot-blank-space">
-                
-        </div>
     </section>
     
 }
@@ -85,20 +82,27 @@
 
         <div class="required-fields">
             <div class="input-box">
-                <label class="alt_label">ALT.</label>
+                <label class="alt_label">ALT.*</label>
                 <input class="alt_input" type="text" placeholder="Alternative text for picture" name="AlternativeText" required>
+            </div>
+            <div class="input-box">
+                <label class="alt_label">Short Description Of The Picture.*</label>
+                <input class="alt_input" type="text" placeholder="Short description of the picture" name="ShortDescriptionOfThePicture" required>
             </div>
 
             <div class="input-box">
-                <label class="artheadline_label">ARTICLE HEADLINE</label>
+                <label class="artheadline_label">ARTICLE HEADLINE*</label>
                 <input class="artheadline_input" type="text" placeholder="Name" name="Title" required>
             </div>
 
             <div class="input-box">
-                <label class="captiontext_label">CAPTION</label>
+                <label class="captiontext_label">CAPTION*</label>
                 <input class="captiontext_input" type="text" placeholder="Write caption text here"  name="caption" required>
             </div>
+            <div class="input-box">
+                <label class="captiontext_label">CONTEN*</label>
             <div id="editor1" class="texteditor">
+            </div>
             </div>
 
         </div>
@@ -107,12 +111,17 @@
 
 @section scripts {
     <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <!--<script src="//cdn.ckeditor.com/4.19.0/full/ckeditor.js"></script>-->
     <script>
 
-    let editor = CKEDITOR.replace( 'editor1' );
+    let editor = CKEDITOR.replace('editor1', {
+        uiColor: '#AADC6E',
+        height:300,
+        autoGrow_maxHeight:1000
+    });
 
+    let category = {"id":@p };
     function save() {
-        let category = {"id":@p };
         let data = {};
         // переберём все элементы input, textarea и select формы с id="myForm "
         $('#form1').find ('input, textearea, select').each(function() {
@@ -129,7 +138,7 @@
         }
         data["ReferenceItemId"] = ReferenceItemId;
         data["ContentText"] = editor.getData();
-        data["ImageLink"] = "1";
+        data["ImageLink"] = "nyashka.png";
         console.log(data);
         $.ajax({
         url: '/SaveNewArticle',
