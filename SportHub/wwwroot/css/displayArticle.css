@@ -11,6 +11,7 @@ body {
 
 .get-article-main {
     max-width: 1024px;
+    position: relative;
 }
 
 .get-article-top-info {
@@ -61,14 +62,14 @@ body {
     letter-spacing: 1.25893px;
     color: rgba(204, 211, 224, 0.301628);
     z-index: -1;
+    white-space: normal;
 }
 
 .get-article-background-text-news {
     transform: rotate(90deg);
     transform-origin: left;
     position: absolute;
-    left: 21%;
-    top: 275px;
+    left: 6%;
     font-family: 'Roboto Condensed';
     font-style: normal;
     font-weight: 700;
@@ -77,6 +78,7 @@ body {
     letter-spacing: 1.25893px;
     color: rgba(204, 211, 224, 0.301628);
     z-index: -1;
+    white-space: nowrap;
 }
 
 .get-article-content {
@@ -105,8 +107,8 @@ body {
     background-color: #F6F6F6;
     margin: auto;
     position: absolute;
-    top: 285px;
-    left: 68%;
+    top: 120px;
+    left: 75%;
     text-align: left;
     padding: 20px;
 }

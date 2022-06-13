@@ -18,7 +18,7 @@
         <div class="header-container">
             <div class="logo">
                 <div class="link-container">
-                    <a href="" class="logo-link">Sports Hub</a>
+                    <a href="/" class="logo-link">Sports Hub</a>
                 </div>             
             </div>
 
@@ -51,48 +51,10 @@
      @RenderSection("SaveButton", required: false)
     <section class ="bottom-header">
         <div class="sports">
-            <p class="h">
-                Home
-            </p>
-            
-            <p>
-                NBA
-            </p>
-            <p>
-                NFL
-            </p>
-            <p>
-                MLB
-            </p>
-            <p>
-                CBB
-            </p>
-            
-            <p>
-                CFB
-            </p>
-            
-            <p>
-                NASCAR
-            </p>
-            
-            <p>
-                GOLF
-            </p>
-            
-            <p>
-                SOCCER
-            </p>
-            
-            <p>
-                VIDEO
-            </p>
-            
-            <p>
-                LIFESTYLE
-            </p>
+            @RenderSection("categoryList",false)
         </div>
     </section>
+    <hr class="href-between-sections">
     </header>
 
         <main>

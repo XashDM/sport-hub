@@ -41,32 +41,32 @@
                         <button class="small-button" onclick="window.location='/Login';">Sign in</button>
                         <button class="small-button-inversed" onclick="window.location='/SignUp';">Sign up</button>
                     </div>
-                    <div class="profile" id="profile">
-                        <div class="dropdown" id="dropdown">
-                            <img src="https://www.tutorialrepublic.com/examples/images/avatar/2.jpg" class="avatar" alt="Avatar">
-                            <button class="dropbtn" id="fullName"></button>
-                            <div class="dropdown-content" id="cont">
-                                <div class=userInfo>
-                                    <span id="username" class="infoName"></span> <br /><span id="email" class="infoMail"></span>
-                                </div>
-                                <a href="#">View profile </a>
-                                <a href="#">Change password</a>
-                                <a href="#">My surveys</a>
-                                <a href="#">Team hub</a>
-                                <hr class="solid">
-                                <a href="#">Log out</a>
-                            </div>
-                            <img class="polygon" id="pol" src="@Url.Content("~/images/Polygon.png")" />
+                    <div class="profile" id="profile"> 
+                       <div class="dropdown" id="dropdown">
+                          <img src="https://www.tutorialrepublic.com/examples/images/avatar/2.jpg" class="avatar" alt="Avatar">
+                          <button class="dropbtn" id="fullName"></button>
+                          <div class="dropdown-content" id="cont">
+                              <div class=userInfo>
+                                  <span id="username" class="infoName"></span> <br /><span id="email" class="infoMail" ></span>
+                              </div>
+                          <a href="#">View profile </a>
+                          <a href="#">Change password</a>
+                          <a href="#">My surveys</a>
+                          <a href="#">Team hub</a>
+                          <hr class="solid">
+                          <a href="#" class="logoutUser" onclick="logoutUser();">Log out </a>
+                          </div>
+                          <img class="polygon" id="pol" src="@Url.Content("~/images/Polygon.png")" />
                         </div>
                     </div>
                 </div>
-                <div class="language-box">
+                <div class="language-picker">
                     <form style="margin: auto" action="">
-                        <select id="language">
-                            <option value="EN">EN</option>
-                            <option value="UA">UA</option>
-                            <option value="FR">FR</option>
-                        </select>
+                      <select id="language-select">
+                        <option id="language-select" value="EN">EN</option>
+                        <option id="language-select" value="UA">UA</option>
+                        <option id="language-select" value="FR">FR</option>
+                      </select>
                     </form>
                 </div>
             </div>

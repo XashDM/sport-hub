@@ -11,8 +11,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    [Migration("20220520110015_GlobalRecovery")]
-    partial class GlobalRecovery
+    [Migration("20220608171652_AddLanguageTables")]
+    partial class AddLanguageTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,9 @@ namespace SportHub.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime(6)");
 
@@ -50,6 +53,24 @@ namespace SportHub.Domain.Migrations
                     b.HasIndex("ReferenceItemId");
 
                     b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.DisplayedLanguage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LanguageName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DisplayedLanguages");
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.DisplayItem", b =>
@@ -81,6 +102,24 @@ namespace SportHub.Domain.Migrations
                     b.ToTable("DisplayItems");
                 });
 
+            modelBuilder.Entity("SportHub.Domain.Models.Language", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LanguageName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Languages");
+                });
+
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
                     b.Property<int>("Id")
@@ -89,8 +128,8 @@ namespace SportHub.Domain.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<int?>("ParentsItemId")
                         .HasColumnType("int");

@@ -11,8 +11,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    [Migration("20220520110155_MoreMemoryAllocatedForNavigationItemNameProperty")]
-    partial class MoreMemoryAllocatedForNavigationItemNameProperty
+    [Migration("20220605143136_Fixed_Articles_IsPublished_DefaultValue")]
+    partial class Fixed_Articles_IsPublished_DefaultValue
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,11 @@ namespace SportHub.Domain.Migrations
                     b.Property<string>("ImageLink")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("IsPublished")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime(6)");

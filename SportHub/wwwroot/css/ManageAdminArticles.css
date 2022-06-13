@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400&subset=latin,latin-ext);
+
+body {
+    font-family: "Open Sans", sans-serif;
+    font-style: normal;
+}
+
+@media (min-width: 576px) and (max-width: 1198px) {
+    .get-admins-articles-main-body {
+        width: 70%;
+    }
+}
+
+.get-admins-articles-main-body {
+    max-width: 839px;
+    margin: auto;
+}
+
+select {
+    width: 212px;
+    height: 36px;
+    border: 1px solid #D4D9E2;
+}
+
+.get-admins-articles-container-body {
+    width: 960px;
+    height: 1058px;
+    overflow: scroll;
+    overflow-x: visible;
+    margin-bottom: 152px;
+    padding-top: 17px;
+    padding-left: 17px;
+    scrollbar-color: darkgrey transparent;
+    scrollbar-width: thin;
+}
+
+    .get-admins-articles-container-body::-webkit-scrollbar {
+        width: 4px;
+    }
+    .get-admins-articles-container-body::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        border-radius: 2px;
+    }
+
+.get-admins-articles-form-dropdown {
+    margin: 25px;
+}
+
+    .get-admins-articles-form-dropdown form {
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .get-admins-articles-form-dropdown form select {
+        }
+
+.get-admins-articles-preview-and-search {
+    display:flex;
+    justify-content:space-between;
+    margin:25px;
+}
+
+.get-admins-articles-preview {
+    display: flex;
+    color: #D72130;
+    padding-left:20px;
+}
+
+.get-admins-articles-preview img{
+    padding-right: 5px;
+}
+
+.get-admins-articles-search-field {
+    display: flex;
+}
+
+    .get-admins-articles-search-field input {
+        border: solid 1px #D4D9E2;
+        margin-left: 10px;
+        height: 28px;
+    }
+
+    .get-admins-articles-search-field button {
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        background-color: transparent;
+    }
+
+    .get-admins-articles-search-field button img {
+        position: relative;
+        margin: 0 5px;
+        width: 14px;
+    }
+
+.get-admins-articles-elements {
+    display: flex;
+    width: 839px;
+    height: 208px;
+    background: #FFFFFF;
+    margin: 0 0 17px 0;
+}
+
+    .get-admins-articles-elements:hover {
+        box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.110932);
+    }
+
+.get-admins-articles-image-container {
+    display: block;
+    width: 334px;
+}
+
+    .get-admins-articles-image-container img {
+        float: right;
+        margin: 25px;
+        max-height: 158px;
+        width: 284px;
+        height: 158px;
+    }
+
+.get-admins-articles-right-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.get-admins-articles-right-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 30px 12px 22px 7px;
+    width: 424px;
+}
+
+.get-admins-articles-title {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    color: #2B2F43;
+}
+
+.get-admins-articles-content-text {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #7F7B7B;
+    height: 50%;
+    overflow: hidden;
+}
+
+.get-admins-articles-right-content-bottom-info {
+    display:flex;
+    justify-content:space-between;
+}
+
+.get-admins-articles-subcategory-team {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #7F7B7B;
+    overflow: hidden;
+    max-width: 325px;
+    white-space: nowrap;
+}
+
+.get-admins-articles-published-info {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #7F7B7B;
+    display:flex;
+}
+
+.get-admins-articles-published-info-green-circle {
+    width: 10px;
+    height: 10px;
+    background-color: #54dd16;
+    border-radius: 50%;
+    margin: auto;
+    margin-right: 5px;
+}
+
+.get-admins-articles-dropdown {
+    float: right;
+    position: relative;
+    display: inline-block;
+}
+
+    .get-admins-articles-dropdown:focus {
+        min-width: 107px;
+    }
+
+.get-admins-articles-content-btn {
+    width: 100%;
+}
+
+.get-admins-articles-drop-btn {
+    float: left;
+    border: none;
+    outline: none;
+    background: white;
+    align-content: center;
+    margin: 0;
+    margin-right: 100%;
+    cursor: pointer;
+    padding: 0;
+}
+
+    .get-admins-articles-drop-btn img {
+        align-content: center;
+        align-items: center;
+        margin: 18px 20px;
+        opacity:0;
+    }
+
+.get-admins-articles-elements:hover .get-admins-articles-drop-btn img{
+    opacity:1;
+}
+
+.get-admins-articles-dropdown-content {
+    display: none;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    top: 50px;
+    right: 0;
+    z-index: 1;
+}
+
+    .get-admins-articles-dropdown-content a {
+        color: black;
+        padding: 8px 16px;
+        text-decoration: none;
+        display: block;
+        background-color: white;
+        width: 100px;
+    }
+
+.get-admins-articles-publish-button {
+    border: none;
+    background-color: white;
+    width: 100%;
+    text-align: inherit;
+    padding: 8px 16px;
+    color: black;
+    cursor: pointer;
+}
+
+    .get-admins-articles-publish-button div {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 19px;
+    }
+
+.get-admins-articles-delete {
+    border: none;
+    background-color: white;
+    width: 100%;
+    text-align: inherit;
+    padding: 8px 16px;
+    color: black;
+    cursor: pointer;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+}
+
+.show {
+    display: block;
+    background-color: white;
+}
