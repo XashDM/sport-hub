@@ -40,10 +40,10 @@
             <label>PAGE LANGUAGES</label>
             <div class="lgbuttons">
                 <button class="plusbutton"> + </button>   
-                <button class="button"> English </button>    
-                <button class="button"> French </button>            
-                <button class="button"> German </button>
-                <button class="button"> Spanish </button>
+                <button class="button"> <img class="languages-icon" src="~/icons/languages/English.png" alt="">English</button>    
+                <button class="button"> <img class="languages-icon" src="~/icons/languages/French.png"  alt="">French</button>            
+                <button class="button"> <img class="languages-icon" src="~/icons/languages/German.png"  alt="">German</button>
+                <button class="button"> <img class="languages-icon" src="~/icons/languages/Spanish.png" alt="">Spanish</button>
             </div>                
         </div>
     </div> 
@@ -83,7 +83,7 @@
         <div class="required-fields">
             <div class="input-box">
                 <label class="alt_label">ALT.*</label>
-                <input class="alt_input" type="text" placeholder="Alternative text for picture" name="AlternativeText" required>
+                <input class="alt_input" type="text" placeholder="Alternative text for picture" name="AlternativeTextForThePicture" required>
             </div>
             <div class="input-box">
                 <label class="alt_label">Short Description Of The Picture.*</label>
@@ -139,6 +139,7 @@
         data["ReferenceItemId"] = ReferenceItemId;
         data["ContentText"] = editor.getData();
         data["ImageLink"] = "nyashka.png";
+        data["IsPublished"] = true;
         console.log(data);
         $.ajax({
         url: '/SaveNewArticle',

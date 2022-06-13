@@ -127,7 +127,11 @@
             line-height: 18px;
             color: #C6CCD7;
         }
-
+.languages-icon {
+    width:14px;
+    height:9px;
+    margin:0px 6px;
+}
 .required-fields .input-box {
     display: flex;
     flex-direction: column;
@@ -140,6 +144,7 @@
     height: 42px;
     border: 1px solid #D4D9E2;
     margin-top: 2px;
+    padding: 12px 20px;
 }
 
 .required-fields ::placeholder {
@@ -149,5 +154,4 @@
     font-size: 12px;
     line-height: 18px;
     color: #C6CCD7;
-    padding-left: 18px;
 }

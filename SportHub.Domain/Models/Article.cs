@@ -11,6 +11,7 @@ namespace SportHub.Domain.Models
         public int Id { get; set; }
         public int? ReferenceItemId { get; set; }
         public virtual NavigationItem? ReferenceItem { get; set; }
+        public string AlternativeTextForThePicture { get; set; }
         public string ImageLink { get; set; }
         [Required]
         public string Title { get; set; }
