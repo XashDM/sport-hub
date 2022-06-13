@@ -1,0 +1,244 @@
+﻿.language-block {
+    position: absolute;
+    width: 348px;
+    height: 55px;
+    left: 455px;
+    top: 322px;
+}
+
+.language-title-box {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    width: 348px;
+    height: 48px;
+    line-height: 48px;
+    left: 455px;
+    top: 274px;
+    background: #F2F2F2;
+    border-color: #D4D9E2;
+}
+
+.language-box {
+    display: flex;
+    flex-direction: row;
+    height: 55px;
+    line-height: 55px;
+    border-style: solid;
+    border-top: none;
+    border-width: 1px;
+    border-color: #D4D9E2;
+}
+
+.language-box:hover .floating-icon {
+    opacity: 1;
+}
+
+.floating-icon {
+    position: relative;
+    margin-bottom: auto;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: auto;
+    opacity: 0;
+}
+
+.delete_button {
+    position: relative;
+    margin-top: 20px;
+    border: medium none;
+    background-image: none;
+    background: transparent;
+    float: left;
+    background-color: transparent;
+}
+/*Columns Title*/
+.column {
+    float: left;
+}
+
+.left {
+    width: 40%;
+    padding-left: 10%;
+}
+
+.right {
+    width: 30%;
+    padding-left: 10%;
+}
+
+.row:after {
+    width: 308px;
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/*Columns Main*/
+.column_ttr {
+    float: left;
+}
+
+.left_ttr {
+    width: 50%;
+    padding-left: 10%;
+}
+
+.right_ttr {
+    width: 25%;
+    padding-left: 2%;
+}
+
+.middle_ttr {
+    width: 10%;
+}
+
+.row_ttr:after {
+    width: 308px;
+    content: "";
+    display: table;
+    clear: both;
+}
+/*Fronts*/
+
+.language-title-box-front {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 48px;
+
+    text-transform: uppercase;
+    color: #434C5D;
+}
+
+.language-box-front {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 55px;
+
+    color: #2B2F43;
+}
+
+/*Toggle Switch*/
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 26px;
+    height: 14px;
+    vertical-align: middle;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+
+    border-style: solid;
+    border-width: 1px;
+    border-color: #D4D9E2;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 8px;
+    width: 8px;
+    left: 3px;
+    bottom: 2px;
+    background-color: #D4D9E2;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: white;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(8px);
+    -ms-transform: translateX(8px);
+    transform: translateX(11px);
+    background-color: #C80515;
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 14px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+.hiddenLanguageId{
+
+}
+
+.addbutton {
+    position: absolute;
+    width: 82px;
+    height: 32px;
+    left: 342px;
+    top: 285px;
+    background: #D72130;
+    border: medium none;
+}
+
+.addbuttontext {
+    position: absolute;
+    width: 23px;
+    height: 16px;
+    left: 19px;
+    top: 8px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 130% */
+
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.new-language-button {
+    background-color: #d72130;
+    
+    height: 32px;
+    width: 134px;
+    border-style: none;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #FFFFFF;
+    box-sizing: border-box;
+    position: absolute;
+    left: 863px;
+    top: 282px;
+}
+
+    .new-language-button:hover {
+        background-color: #e02232;
+    }
+
+    .new-language-button:focus {
+        background-color: #c80515;
+    }

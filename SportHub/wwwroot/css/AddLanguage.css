@@ -1,0 +1,211 @@
+﻿header {
+    filter: blur(6px);
+    
+}
+
+.sidebar {
+    filter: blur(6px);
+}
+
+footer {
+    filter: blur(6px);
+}
+
+.form-group {
+    position: relative;
+    width: 458px;
+    height: 335px;
+    left: 25%;
+    top: 25%;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 28px #393333;
+    filter: unset;
+}
+
+
+
+.myMultiselectLable {
+    position: absolute;
+    width: 158px;
+    height: 33px;
+    left: 150px;
+    top: 22px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+    /* identical to box height */
+    color: #000000;
+}
+
+.multiselect {
+    box-sizing: border-box;
+    position: absolute;
+    width: 246px;
+    height: 36px;
+    left: 106px;
+    top: 104px;
+}
+
+.selectBox {
+    box-sizing: border-box;
+    position: absolute;
+    width: 246px;
+    height: 36px;
+}
+
+.selectBox select {
+    box-sizing: border-box;
+    position: absolute;
+    width: 246px;
+    height: 36px;
+    background: #FFFFFF;
+    border: 1px solid #D4D9E2;
+}
+
+.overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+#mySelectOptions {
+    position: absolute;
+    width: 246px;
+    height: 135px;
+
+    top: 36px;
+    background: #FFFFFF;
+
+    display: none;
+    border: 0.5px #7c7c7c solid;
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+#mySelectOptions label {
+    width: 100%;
+    height: 33px;
+    display: block;
+    white-space: nowrap;
+    background-color: #ffffff00;
+    /* padding: .375rem 2.25rem .375rem .75rem; */
+
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height */
+
+
+    color: #2B2F43;
+}
+
+#mySelectOptions label:hover {
+    background: rgba(215, 33, 48, 0.11);
+}
+
+.checkboxstyle {
+    box-sizing: border-box;
+    position: absolute;
+    width: 14px;
+    height: 14px;
+
+    border: 5px solid red;
+    border-radius: 2px;
+}
+
+
+.custom-checkbox {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+    .custom-checkbox + label {
+        display: inline-flex;
+        align-items: center;
+        user-select: none;
+    }
+
+        .custom-checkbox + label::before {
+            content: '';
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            flex-shrink: 0;
+            flex-grow: 0;
+            border: 1px solid #adb5bd;
+            border-radius: 0.25em;
+            margin-right: 0.5em;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 50% 50%;
+        }
+
+.addbutton {
+    position: absolute;
+    width: 82px;
+    height: 32px;
+    left: 342px;
+    top: 285px;  
+    background-color: #d72130;
+    border-style: none;
+}
+
+    .addbutton:hover {
+        background-color: #e02232;
+    }
+
+    .addbutton:focus {
+        background-color: #c80515;
+    }
+
+.addbuttontext {
+
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+
+
+.cancelbutton {
+    position: absolute;
+    width: 82px;
+    height: 32px;
+    left: 245px;
+    top: 285px;
+    background: white;
+    border-style: none;
+}
+
+    .cancelbutton:hover {
+        background-color: #FFEEEE;
+    }
+
+    .cancelbutton:focus {
+        background-color: #DFC0C0;
+    }
+
+
+.cencelbuttontext {
+    
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    color: #D72130;
+}
+
+
