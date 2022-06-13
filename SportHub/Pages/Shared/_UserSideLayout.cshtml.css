@@ -69,9 +69,7 @@ button#search-button {
     width: 20%;
 }
 
-.language-box {
-    display: flex;
-}
+
 
 .profile {
     display: none;
@@ -141,5 +139,10 @@ footer {
 
 main {
     width: 100%;
-
 }
+
+
+.language-picker {
+    display: flex;
+}
+

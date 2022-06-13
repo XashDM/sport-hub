@@ -1,0 +1,55 @@
+﻿@page "/localization"
+@model SportHub.Pages.Localization.LocalizationModel
+@{
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="~/css/Localization.css" asp-append-version="true" />
+</head>
+<body>
+
+    <div class="language-title-box language-title-box-front">
+        <div class="row">
+            <div class="column left">Languages</div>
+            <div class="column right">Show/Hide</div>
+        </div>
+    </div>
+
+    <div class="language-block">
+        @foreach (var language in Model.DispLanguageList)
+        {
+
+            <div class="language-box box-shadow language-box-front">
+                <div class="row_ttr">
+                    <div class="column_ttr left_ttr">@language.LanguageName</div>
+                    <div class="column_ttr middle_ttr">
+                        <label class="switch">
+                            <input type="checkbox" checked="@language.IsEnabled" id=@language.Id>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="column_ttr right_ttr">@{
+                            var message = language.IsEnabled ? "Show" : "Hide";
+                        } @message </div>
+                </div>
+                <form asp-page-handler="delete" method="post" asp-route-id=@language.Id>
+                    <button class="btn delete_button">
+                        <img class="floating-icon" src="/icons/waste_basket.png" />
+                    </button>
+                </form>
+            </div>
+        }
+    </div>
+
+    <div class="buttons" id="buttons">
+        <button class="new-language-button" onclick="window.location.href='../AddLanguage'">+ New Language</button>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/Localization.js" asp-append-version="true"></script>
+
+</body>
+</html>

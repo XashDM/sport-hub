@@ -46,7 +46,6 @@ function Login(email, passwordHash) {
     });
 };
 
-
 function userData() {
     var token = localStorage.getItem('Jwt Token');
     if (token) {
@@ -66,7 +65,7 @@ function displayLogInOut() {
     var token = localStorage.getItem('Jwt Token');
     if (token) {
         var parseToken = JSON.parse(atob(token.split('.')[1]));
-        if (Date.now() < parseToken['exp']* 1000) {
+        if (Date.now() < parseToken['exp'] * 1000) {
             $("#buttons").hide();
             $("#profile").show();
         }
