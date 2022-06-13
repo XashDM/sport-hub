@@ -32,7 +32,7 @@ namespace SportHub.Controllers
             IList<Article> articles = _articleService.GetArticlesRange(articleInfo.startPosition, articleInfo.amountArticles, articleInfo.publishValue, articleInfo.category, articleInfo.subcategory, articleInfo.team);
             for (int i = 0; i < articles.Count; i++)
             {
-                articles[i].ImageLink = await _imageService.GetImageLinkByNameAsync(articles[i].ImageLink);
+                articles[i].ImageItem.ImageLink = await _imageService.GetImageLinkByNameAsync(articles[i].ImageItem.ImageLink);
             }
             return new OkObjectResult(articles);
         }

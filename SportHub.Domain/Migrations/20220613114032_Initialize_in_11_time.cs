@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SportHub.Domain.Migrations
 {
-    public partial class AddLanguageTables : Migration
+    public partial class Initialize_in_11_time : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,6 +26,29 @@ namespace SportHub.Domain.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DisplayedLanguages", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ImageItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ImageLink = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Alt = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PhotoTitle = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ShortDescription = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Author = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ImageItems", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -113,18 +136,23 @@ namespace SportHub.Domain.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ReferenceItemId = table.Column<int>(type: "int", nullable: true),
-                    ImageLink = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImageItemId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ContentText = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PostedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    IsPublished = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsPublished = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Articles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Articles_ImageItems_ImageItemId",
+                        column: x => x.ImageItemId,
+                        principalTable: "ImageItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Articles_NavigationItems_ReferenceItemId",
                         column: x => x.ReferenceItemId,
@@ -169,7 +197,8 @@ namespace SportHub.Domain.Migrations
                     DisplayLocation = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IsDisplayed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ArticleId = table.Column<int>(type: "int", nullable: true)
+                    ArticleId = table.Column<int>(type: "int", nullable: true),
+                    ImageItemId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -178,6 +207,11 @@ namespace SportHub.Domain.Migrations
                         name: "FK_DisplayItems_Articles_ArticleId",
                         column: x => x.ArticleId,
                         principalTable: "Articles",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_DisplayItems_ImageItems_ImageItemId",
+                        column: x => x.ImageItemId,
+                        principalTable: "ImageItems",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -193,6 +227,11 @@ namespace SportHub.Domain.Migrations
                 values: new object[] { 2, "Admin" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Articles_ImageItemId",
+                table: "Articles",
+                column: "ImageItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Articles_ReferenceItemId",
                 table: "Articles",
                 column: "ReferenceItemId");
@@ -201,6 +240,11 @@ namespace SportHub.Domain.Migrations
                 name: "IX_DisplayItems_ArticleId",
                 table: "DisplayItems",
                 column: "ArticleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DisplayItems_ImageItemId",
+                table: "DisplayItems",
+                column: "ImageItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_NavigationItems_ParentsItemId",
@@ -247,6 +291,9 @@ namespace SportHub.Domain.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "ImageItems");
 
             migrationBuilder.DropTable(
                 name: "NavigationItems");
