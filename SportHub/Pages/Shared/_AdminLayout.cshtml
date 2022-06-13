@@ -18,7 +18,7 @@
         <div class="header-container">
             <div class="logo">
                 <div class="link-container">
-                    <a href="" class="logo-link">Sports Hub</a>
+                    <a href="/" class="logo-link">Sports Hub</a>
                 </div>             
             </div>
 
@@ -49,76 +49,30 @@
         </div>
     </section>
 
-    <section class ="middle-header">
-        <div class="home">
-            <p>
-                Home
-            </p>
+    <section class="middle-header">
+        <div class="home" id="displayed-category-name">
+            
         </div>
 
-        <div class="bot-blank-space">
-                
-            </div>
 
         <div class="edit">
             <div>
                 <p class ="cancel ">
-                    &nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;&nbsp;
+                    Cancel
                 </p>
             </div>
                 <p class ="changes" id="save-changes-button">
                     Save all changes
                 </p>
-            <div>
-
-            </div>
         </div>
     </section>
-   
+    <hr class="href-between-sections">
     <section class ="bottom-header">
         <div class="sports">
-            <p class="h">
-                Home
-            </p>
-            
-            <p>
-                NBA
-            </p>
-            <p>
-                NFL
-            </p>
-            <p>
-                MLB
-            </p>
-            <p>
-                CBB
-            </p>
-            
-            <p>
-                CFB
-            </p>
-            
-            <p>
-                NASCAR
-            </p>
-            
-            <p>
-                GOLF
-            </p>
-            
-            <p>
-                SOCCER
-            </p>
-            
-            <p>
-                VIDEO
-            </p>
-            
-            <p>
-                LIFESTYLE
-            </p>
+            @RenderSection("categoryList",false)
         </div>
     </section>
+    <hr class="href-between-sections">
     </header>
 
         <main>

@@ -15,7 +15,9 @@ using SportHub.Services.Interfaces;
 using SportHub.Services.NavigationItemServices;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore.Metadata;
+using SportHub.Services.Services;
 using Azure.Storage.Blobs;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,7 @@ BlobContainerClient blobContainerClient = new BlobContainerClient(
 // Add services to the container.
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
+builder.Services.AddControllers();
 
 
 builder.Services.AddDbContext<SportHubDBContext>(options =>
@@ -39,10 +42,11 @@ builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
 builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();
 builder.Services.AddScoped<INavigationItemService, MainNavigationItemService>();
 builder.Services.AddScoped<IGetArticleService, GetArticleService>();
+builder.Services.AddScoped<IGetAdminArticlesService, GetAdminArticlesService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddSingleton<IImageService>(x => new ImageService(blobContainerClient));
 builder.Services
-    .AddFluentEmail("sporthub.mailservice@gmail.com", "SportHub Signup")
+    .AddFluentEmail("sporthub.mailservice@gmail.com", "SportHub")
     .AddRazorRenderer()
     .AddSmtpSender(new SmtpClient("smtp.gmail.com")
     {
@@ -51,6 +55,9 @@ builder.Services
         Credentials = new NetworkCredential("sporthub.mailservice@gmail.com", "steamisjustavaporizedwater123"),
         EnableSsl = true
     });
+builder.Services.AddScoped<ILanguageService, LanguageService>();
+builder.Services.AddControllers();
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddControllers();
 
@@ -71,6 +78,12 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

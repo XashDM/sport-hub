@@ -1,0 +1,123 @@
+﻿@page "{category?}"
+@model SportHub.Pages.Articles.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_AdminLayout";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/ManageAdminArticles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/js/adminsManageAllArticles.js"></script>
+</head>
+
+<div class="get-admins-articles-main-body">
+    <div class="get-admins-articles-preview-and-search">
+        <a href="#">
+            <div class="get-admins-articles-preview">
+                <img src="~/images/red-eye-preview.svg"/>
+                Preview
+            </div>
+        </a>
+        
+        <div class="get-admins-articles-search-field">
+            <button onclick="findHideSearchField()">
+                <img src="~/images/SearchMagnifier.svg"/>
+            </button>
+            <input id="search-field" class="get-admins-articles-search-field-field" style="display:none"/>
+        </div>
+    </div>
+    <div class="get-admins-articles-form-dropdown">
+        <form method="get">
+            <select asp-for="SelectedSubcategory" asp-items="Model.SelectSubcategory" onchange="this.form.submit()" class="get-admins-articles-subcategory-select">
+                <option value="">All Subcategories</option>
+            </select>
+
+            <select asp-for="SelectedTeam" asp-items="Model.SelectTeam" onchange="this.form.submit()" class="get-admins-articles-team-select">
+                <option value="">All Teams</option>
+            </select>
+
+            <select asp-for="PublishField" onchange="this.form.submit()" id="publish-dropdown-list" class="get-admins-articles-publish-unpublish-select">
+                <option value="">All</option>
+                <option>Published</option>
+                <option>Unpublished</option>
+            </select>
+        </form>
+    </div>
+
+    <div class="get-admins-articles-container-body">
+        <div class="get-admins-articles-scroll-position">
+        @{
+        for (int index = 0; index<Model.Article.Count; index++) {
+                <div class="get-admins-articles-elements" id="article-with-id-@Model.Article[index].Id">
+                    <div class="get-admins-articles-image-container">
+                    <a asp-page="./Details" asp-route-id="@Model.Article[index].Id" class="get-admins-articles-image-container-a">
+                        <img class="get-admins-articles-image" src="@Model.Article[index].ImageLink" alt="Italian Trulli">
+                    </a>
+                    </div>
+                    <div class="get-admins-articles-right-content">
+                        <div class="get-admins-articles-right-text">
+                            <div class="get-admins-articles-title">
+                                @Model.Article[index].Title
+                            </div>
+                            <div class="get-admins-articles-content-text">
+                                @Model.Article[index].ContentText
+                            </div>
+                            <div class="get-admins-articles-right-content-bottom-info">
+                                <div class="get-admins-articles-subcategory-team">
+                                    @(Model.SubCategoriesDisplayed[index]+" / "+Model.TeamsDisplayed[index])
+                                </div>
+                                <div id="articlePublishFooter-@Model.Article[index].Id" class="get-admins-articles-published-info-outside">
+
+                                    <div id="publishedForUnpublished-@Model.Article[index].Id" class="get-admins-articles-published-info" style=@(Model.Article[index].IsPublished == false ? "display:none":"")>
+                                        <div class="get-admins-articles-published-info-green-circle"></div>    
+                                        Published
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="get-admins-articles-dropdown">
+                            <div class="get-admins-articles-content-btn">
+                                <button onclick="openDropdownFunction(@Model.Article[index].Id)" class="get-admins-articles-drop-btn">
+                                    <img src="~/images/drop-down-botton.svg"/>
+                                </button>
+                            </div>
+                            
+                            <div id="@Model.Article[index].Id" class="get-admins-articles-dropdown-content">
+                                <button id="isPublishedButton-@Model.Article[index].Id" onclick="publishUnpublish(@Model.Article[index].Id)" class="get-admins-articles-publish-button">
+                                    @if (Model.Article[index].IsPublished == true)
+                                    {
+                                        <div>Unpublish</div>
+                                    }
+                                    else
+                                    {
+                                        <div>Publish</div>
+                                    }
+                                </button>    
+                                <a id="edit-@Model.Article[index].Id" class="get-admins-articles-edit" asp-page="./Details" asp-route-id="@Model.Article[index].Id" style=@(Model.Article[index].IsPublished == true ? "display:none":"")>
+                                    Edit
+                                </a>
+                                <div>
+                                    <button onclick="deleteArticleFunction(@Model.Article[index].Id)" class="get-admins-articles-delete">Delete</button>
+                                </div>
+                                <a href="#move">Move</a>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+            }
+        }
+        </div>
+    </div>
+</div>
+
+@section categoryList
+{
+    @for (int i = 0; i<Model.Categories.Count; i++)
+    {
+        <a id="category-element-@Model.Categories[i].Id" href="/Articles/Admin/@Model.Categories[i].Name">@Model.Categories[i].Name</a>
+    }
+}

@@ -76,6 +76,12 @@ select:hover {
     color: #d72130;
 }
 
+    select#language-select{
+        position: absolute;
+        top: 40%;
+    }
+
+
 option {
     border: none;
     background-color: white;

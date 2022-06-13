@@ -1,0 +1,53 @@
+﻿@page "/addlanguage"
+@model SportHub.Pages.Localization.AddLanguageModel
+@{
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="~/css/AddLanguage.css" asp-append-version="true" />
+</head>
+
+<body>
+    <div class="bg-image"></div>
+
+    <div class="form-group">
+        <div class="myMultiselectLable">Add language</div>
+        <div id="myMultiselect" class="multiselect">
+
+            <div id="mySelectLabel" class="selectBox" onclick="toggleCheckboxArea()">
+                <select class="form-select">
+                    <option>somevalue</option>
+                </select>
+                <div class="overSelect"></div>
+            </div>
+            <div id="mySelectOptions">
+                @foreach (var language in Model.LanguageList)
+                {
+                    <label for="@language.Id">
+                    @language.LanguageName 
+                    <input type="checkbox" id="@language.Id"
+                           onchange="checkboxStatusChange()"
+                           value="@language.LanguageName" />
+                    </label>
+                }
+            </div>
+        </div>
+        <form asp-page-handler="add" method="post">
+            <button class="addbutton" onclick=dispListId()>
+                <div class="addbuttontext">Add</div>
+            </button>
+        </form>
+
+        <button class="cancelbutton" onclick="window.location.href='../Localization'">
+            <div class="cencelbuttontext">Cancel</div>
+        </button>
+
+    </div>
+    <script src="~/js/AddLanguage.js" asp-append-version="true"></script>
+
+</body>
+
+</html>

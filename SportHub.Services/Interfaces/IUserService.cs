@@ -8,6 +8,8 @@ namespace SportHub.Services
 
         User GetUserByEmail(string email);
 
+        User ChangePassword(string email, string passwordHash);
+
         bool IsExistingEmail(string email);
     }
 }
