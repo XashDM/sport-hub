@@ -565,3 +565,7 @@ input:checked + .slider:before {
 #photo-info-form .show-hide-selector-box p {
     margin: 0 7px 0 7px;
 }
+
+.show-on-draggedover {
+    display: none;
+}

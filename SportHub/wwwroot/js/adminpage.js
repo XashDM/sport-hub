@@ -407,22 +407,19 @@ $('.image-upload-box').on('dragover dragenter dragleave drop', function (evt) {
     evt.preventDefault();
 });
 
-$('.image-upload-box').on('dragover', function (evt) {
+$('.image-upload-box').on('dragenter dragover', function (evt) {
+    $('.hide-on-draggedover').hide();
+    $('.show-on-draggedover').show();
     $('.image-upload-box').addClass('isDragover');
-    console.log("Drag over!");
 });
 
-$('.image-upload-box').on('dragenter', function (evt) {
-    console.log("Drag enter!");
-});
-
-$('.image-upload-box').on('dragleave', function (evt) {
+$('.image-upload-box').on('dragleave dragend drop', function (evt) {
     $('.image-upload-box').removeClass('isDragover');
-    console.log("Drag leave!");
+    $('.hide-on-draggedover').show();
+    $('.show-on-draggedover').hide();
 });
 
 $('.image-upload-box').on('drop', function (evt) {
-    $('.image-upload-box').removeClass('isDragover');
     let dt = evt.originalEvent.dataTransfer;
     let files = dt.files;
     $('input[name="imageFile"]').prop('files', files);
@@ -430,7 +427,6 @@ $('.image-upload-box').on('drop', function (evt) {
     if (file) {
         $('#day-photo-background-img').attr('src', URL.createObjectURL(file));
     }
-    console.log("Drop!");
 });
 
 function uploadPhotoOfTheDay() {
@@ -439,8 +435,6 @@ function uploadPhotoOfTheDay() {
     fd.append('imageFile', $('input[name="imageFile"]').prop('files')[0]);
     isDisplayed = $('#photo-of-day-isDisplayed').prop('checked')
     fd.append('isDisplayed', isDisplayed);
-    console.log(isDisplayed);
-    console.log(fd);
     $.ajax({
         async: true,
         url: "/api/Articles/UploadPhotoOfTheDay",
