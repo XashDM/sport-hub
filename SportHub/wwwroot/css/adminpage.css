@@ -1,5 +1,10 @@
-﻿p {
+﻿
+p
+{
     margin: 0;
+    background-color: #FFFFFF;
+    font-family: 'Open Sans';
+    color: #B2B2B2;
 }
 
 main {
@@ -102,7 +107,10 @@ hr.href-between-sections {
 }
 
 .bottom-header {
-    height: 55px;
+    height: 5vh;
+    border: 0.5px solid #D4D9E2;
+    height: 65px;
+    font: Open Sans;
 }
 
 .bot-blank-space {
@@ -139,7 +147,7 @@ hr.href-between-sections {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    width: 3%;
+    width: 50px;
     height: 500px;
 }
 

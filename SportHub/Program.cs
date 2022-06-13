@@ -17,9 +17,12 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore.Metadata;
 using SportHub.Services.Services;
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Logging;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 BlobContainerClient blobContainerClient = new BlobContainerClient(
     builder.Configuration.GetConnectionString("BLOBConnectionString"), 
@@ -31,7 +34,7 @@ builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 builder.Services.AddControllers();
 
-
+builder.Services.AddControllers();
 builder.Services.AddDbContext<SportHubDBContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("SportHubDB");
@@ -89,7 +92,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.UseAuthentication();
 app.UseAuthorization();
 
