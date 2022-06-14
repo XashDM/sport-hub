@@ -146,12 +146,13 @@
     color: black;
 }
 .saved {
-    margin-bottom: 5px;
     font-weight: bold;
     font-size: 20px;
+    margin:5px 0px;
 }
 .saved-m {
     font-size: 12px;
+    margin: 5px 0px;
 }
 .item:hover {
     border: 0.5px solid #FFFFFF;

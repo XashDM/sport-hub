@@ -1,4 +1,4 @@
-﻿
+﻿/*
 p
 {
     margin: 0;
@@ -6,6 +6,8 @@ p
     font-family: 'Open Sans';
     color: #B2B2B2;
 }
+//Ламає частину текту на сторінці, залишаю, щоб підправили (тоиу, кому треба цей стиль)
+*/
 
 main {
     padding-bottom: 60px;
@@ -104,6 +106,9 @@ hr.href-between-sections {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: right;
+    margin-right: 25px;
+    margin-left: 25px;
 }
 
 .bottom-header {
@@ -526,6 +531,7 @@ input:checked + .slider:before {
     font-weight: 800;
     text-align: center;
     font-size: 16px;
+    margin: 0;
 }
 
 .add-photo-box .caption label{
@@ -580,4 +586,42 @@ input:checked + .slider:before {
 
 .show-on-draggedover {
     display: none;
+}
+
+.pop-up-banner {
+    position: absolute;
+    left: 80%;
+    top: 250px;
+    width: 360px;
+    box-shadow: 0px 4px 28px #818181;
+    display: flex;
+    flex-direction: row;
+    display: none;
+}
+
+.pop-up-banner p {
+    color: black;
+    margin: 4px;
+}
+
+.pop-up-banner .status-icon {
+    height: 46px;
+    width: 46px;
+    margin: auto 15px auto 15px;
+}
+
+.banner-text {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 265px;
+}
+
+.banner-text .bold-text {
+    font-weight: 700;
+}
+
+.close-button {
+    margin-top: 9px;
+    width: 13px;
+    height: 13px;
 }

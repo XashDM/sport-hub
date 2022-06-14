@@ -5,6 +5,21 @@
     ViewData["Title"] = "Admin page";
 }
 
+@section SaveButton {
+    <div class="edit">
+        <div>
+            <p class="cancel ">
+                Cancel
+            </p>
+        </div>
+        <p class="changes" id="save-changes-button">
+            Save all
+        </p>
+    </div>
+}
+
+
+
 <div class="admin-configuration-block">
     <div class="main-articles_block" id="main-articles-block">
         <div class="section-caption-block">
@@ -77,7 +92,7 @@
                     </p>
                     <p class="caption hide-on-draggedover">You can add next formats: .png .jpg .jpeg .gif </p>
                     <p class="caption show-on-draggedover">
-                        Drop it here!!!!
+                        Drop it here!!
                     </p>
                 </form>
             </div>
@@ -109,5 +124,21 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div class="pop-up-banner" id="success-banner">
+        <img class="status-icon" src="~/Images/ok-result.png" />
+        <div class=" banner-text">
+            <p class="caption bold-text">Published!</p>
+            <p class="caption">Home page is successfully published.</p>
+        </div>
+        <img class="close-button" src="~/Images/close-button.png" />
+    </div>
+    <div class="pop-up-banner" id="error-banner">
+        <img class="status-icon" src="~/Images/ok-result.png" />
+        <div class=" banner-text">
+            <p class="caption bold-text">Not published!</p>
+            <p class="caption">Check your input and try again.</p>
+        </div>
+        <img class="close-button" src="~/Images/close-button.png" />
     </div>
 </div>
