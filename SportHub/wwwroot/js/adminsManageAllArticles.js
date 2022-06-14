@@ -1,6 +1,19 @@
 ﻿let startElementPosition = 10;
 let amountOfElements = 5;
 
+$(document).ready(function () {
+    let hiddenDivSize = $('.get-admins-articles-scroll-position').height();
+    let visibleDivSize = $('.get-admins-articles-container-body').height();
+    let scrollHeight = hiddenDivSize - visibleDivSize;
+    $(".get-admins-articles-container-body").scroll(function () {
+        let scrollPosition = $(".get-admins-articles-container-body").scrollTop();
+        if ((scrollHeight + scrollPosition) / hiddenDivSize > 0.95) {
+            updateArticlesAfterScrolling();
+            hiddenDivSize = $(".get-admins-articles-scroll-position").height();
+            scrollHeight = visibleDivSize / hiddenDivSize * visibleDivSize;
+        }
+    });
+});
 
 function updateArticlesAfterScrolling() {
     let category = $(location).attr('pathname');
