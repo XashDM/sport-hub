@@ -264,59 +264,67 @@ namespace SportHub.Services.ArticleServices
             return (toSkip, toTake, totalPages, totalItemsAmount);
         }
 
-        public async Task UploadPhotoOfTheDay(ImageItem image)
+        public async Task<bool> UploadPhotoOfTheDay(ImageItem image)
         {
-            var itemToUpdate = await _context.DisplayItems
-                .Where(displayItem => displayItem.DisplayLocation.Equals("PhotoOfTheDay"))
-                .Include(item => item.ImageItem)
-                .FirstOrDefaultAsync();
-            //creating a new photo of the day, if doesn't exist
-            if (itemToUpdate is null)
+            try
             {
-                itemToUpdate = new DisplayItem()
+                var itemToUpdate = await _context.DisplayItems
+                    .Where(displayItem => displayItem.DisplayLocation.Equals("PhotoOfTheDay"))
+                    .Include(item => item.ImageItem)
+                    .FirstOrDefaultAsync();
+                //creating a new photo of the day, if doesn't exist
+                if (itemToUpdate is null)
                 {
-                    DisplayLocation = "PhotoOfTheDay",
-                    IsDisplayed = false,
-                    Type = "PhotoOfTheDay"
-                };
+                    itemToUpdate = new DisplayItem()
+                    {
+                        DisplayLocation = "PhotoOfTheDay",
+                        IsDisplayed = false,
+                        Type = "PhotoOfTheDay"
+                    };
 
-                if (image.ImageLink is null)
+                    if (image.ImageLink is null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        itemToUpdate.ImageItem = image;
+                    }
+
+                    await _context.AddAsync(itemToUpdate);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+
+                if (image.ImageLink != null)
                 {
-                    return;
+                    if (itemToUpdate.ImageItem is not null)
+                    {
+                        _imageService.DeleteImageFromStorage(itemToUpdate.ImageItem.ImageLink);
+                        _context.Remove<ImageItem>(itemToUpdate.ImageItem);
+                        await _context.SaveChangesAsync();
+                    }
+                    itemToUpdate.ImageItem = image;
+                    await _context.SaveChangesAsync();
+                    return true;
                 }
                 else
                 {
-                    itemToUpdate.ImageItem = image;
+                    image.ImageLink = itemToUpdate.ImageItem.ImageLink;
                 }
 
-                await _context.AddAsync(itemToUpdate);
+                itemToUpdate.ImageItem.Alt = image.Alt;
+                itemToUpdate.ImageItem.PhotoTitle = image.PhotoTitle;
+                itemToUpdate.ImageItem.ShortDescription = image.ShortDescription;
+                itemToUpdate.ImageItem.Author = image.Author;
+                //await _context.AddAsync(itemToUpdate);
                 await _context.SaveChangesAsync();
-                return;
+                return true;
             }
-
-            if (image.ImageLink != null)
+            catch
             {
-                if (itemToUpdate.ImageItem is not null)
-                {
-                    _imageService.DeleteImageFromStorage(itemToUpdate.ImageItem.ImageLink);
-                    _context.Remove<ImageItem>(itemToUpdate.ImageItem);
-                    await _context.SaveChangesAsync();
-                }
-                itemToUpdate.ImageItem = image;
-                await _context.SaveChangesAsync();
-                return;
+                return false;
             }
-            else
-            {
-                image.ImageLink = itemToUpdate.ImageItem.ImageLink;
-            }
-
-            itemToUpdate.ImageItem.Alt = image.Alt;
-            itemToUpdate.ImageItem.PhotoTitle = image.PhotoTitle;
-            itemToUpdate.ImageItem.ShortDescription = image.ShortDescription;
-            itemToUpdate.ImageItem.Author = image.Author;
-            //await _context.AddAsync(itemToUpdate);
-            await _context.SaveChangesAsync();
         }
 
         //admin only, returns hidden article 

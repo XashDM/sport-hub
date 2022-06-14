@@ -7,13 +7,13 @@ namespace SportHub.Models
     {
         
         public IFormFile? imageFile { get; set; }
-        [MaxLength(100)]
+        [MaxLength(70)]
         public string Alt { get; set; }
         [Required]
-        [MaxLength(50)]
+        [MaxLength(60)]
         public string PhotoTitle { get; set; }
         [Required]
-        [MaxLength(50)]
+        [MaxLength(150)]
         public string ShortDescription { get; set; }
         [Required]
         [MaxLength(50)]

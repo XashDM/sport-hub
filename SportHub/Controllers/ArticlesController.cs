@@ -178,7 +178,13 @@ namespace SportHub.Controllers
                 ImageLink = link
             };
 
-            await _articleService.UploadPhotoOfTheDay(imageItem);
+            var uploadResult = await _articleService.UploadPhotoOfTheDay(imageItem);
+            
+            if (!uploadResult)
+            {
+                return new BadRequestResult();
+            }
+
             if (photo.isDisplayed is not null)
             {
                 if (photo.isDisplayed == true)

@@ -26,7 +26,7 @@
         </div>
         <div class="get-article-image-content">
             <div class="get-article-image-article">
-                <img src="@Html.DisplayFor(model => model.Article.ImageItem.ImageLink)" alt="Italian Trulli">
+                <img src="@Html.DisplayFor(model => model.Article.ImageItem.ImageLink)" alt="@Html.DisplayFor(model => model.Article.ImageItem.Alt)">
             </div>
           
             <div class="get-article-info-image">
@@ -41,9 +41,7 @@
                     </b>
                 </div>
                 <div class="get-article-bottom-info">
-                    
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias aut, 
-                        repellat ipsum facere voluptate dicta obcaecati deserunt nobis suscipit eaque?
+                    @Html.DisplayFor(model => model.Article.ImageItem.PhotoTitle)
                 </div> 
             </div>
             <div class="get-article-text-under-image">
