@@ -48,6 +48,9 @@
 
 p {
     margin: 0;
+    background-color: #FFFFFF;
+    font-family: 'Open Sans';
+    color: #B2B2B2;
 }
 
 .logo-link {

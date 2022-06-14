@@ -50,26 +50,8 @@
             </div>
         </div>
     </section>
-
-    <section class="middle-header">
-        <div class="home" id="displayed-category-name">
-            
-        </div>
-
-
-        <div class="edit">
-            <div>
-                <button class="cancel">
-                    Cancel
-                </button>
-            </div>
-                <button class="changes" id="save-changes-button">
-                    Save all changes
-                </button>
-            </div>
-    </section>
-    
-    <section class="bottom-header">
+     @RenderSection("SaveButton", required: false)
+    <section class ="bottom-header">
         <div class="sports">
             <button onclick="moveCategoryListLeft()" class="category-list-left-category-button">
                 <img src="~/images/Left-arrow-header-categories-gray.svg" class="category-list-left-category-button-img" id="left-button-image">
@@ -134,7 +116,7 @@
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/adminpage.js"></script>
-
+    <script src="~/js/DataClass.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -16,6 +16,10 @@ namespace SportHub.Domain
         public DbSet<NavigationItem> NavigationItems { get; set; }
         public DbSet<DisplayItem> DisplayItems { get; set; }
 
+
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<DisplayedLanguage> DisplayedLanguages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(entity => entity.HasAlternateKey(e => e.Email));
@@ -30,6 +34,9 @@ namespace SportHub.Domain
                 .HasData(new UserRole { Id = 1, RoleName = "User" });
             modelBuilder.Entity<UserRole>()
                 .HasData(new UserRole { Id = 2, RoleName = "Admin" });
+            modelBuilder.Entity<Article>()
+                .Property(article => article.IsPublished)
+                .HasDefaultValue(false);
         }
     }
 }

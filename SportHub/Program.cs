@@ -15,10 +15,14 @@ using SportHub.Services.Interfaces;
 using SportHub.Services.NavigationItemServices;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore.Metadata;
+using SportHub.Services.Services;
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Logging;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 BlobContainerClient blobContainerClient = new BlobContainerClient(
     builder.Configuration.GetConnectionString("BLOBConnectionString"), 
@@ -30,7 +34,7 @@ builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 builder.Services.AddControllers();
 
-
+builder.Services.AddControllers();
 builder.Services.AddDbContext<SportHubDBContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("SportHubDB");
@@ -54,6 +58,9 @@ builder.Services
         Credentials = new NetworkCredential("sporthub.mailservice@gmail.com", "steamisjustavaporizedwater123"),
         EnableSsl = true
     });
+builder.Services.AddScoped<ILanguageService, LanguageService>();
+builder.Services.AddControllers();
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddControllers();
 
@@ -75,11 +82,20 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.UseAuthentication();
 app.UseAuthorization();
 
