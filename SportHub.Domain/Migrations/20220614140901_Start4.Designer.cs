@@ -11,8 +11,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    [Migration("20220614104548_Start3")]
-    partial class Start3
+    [Migration("20220614140901_Start4")]
+    partial class Start4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,9 @@ namespace SportHub.Domain.Migrations
                     b.Property<string>("ContentText")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("ImageItemId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageLink")
                         .IsRequired()
@@ -59,6 +62,8 @@ namespace SportHub.Domain.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageItemId");
 
                     b.HasIndex("ReferenceItemId");
 
@@ -97,6 +102,9 @@ namespace SportHub.Domain.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<int?>("ImageItemId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDisplayed")
                         .HasColumnType("tinyint(1)");
 
@@ -109,7 +117,44 @@ namespace SportHub.Domain.Migrations
 
                     b.HasIndex("ArticleId");
 
+                    b.HasIndex("ImageItemId");
+
                     b.ToTable("DisplayItems");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.ImageItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Alt")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("ImageLink")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PhotoTitle")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ImageItems");
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.Language", b =>
@@ -242,9 +287,17 @@ namespace SportHub.Domain.Migrations
 
             modelBuilder.Entity("SportHub.Domain.Models.Article", b =>
                 {
+                    b.HasOne("SportHub.Domain.Models.ImageItem", "ImageItem")
+                        .WithMany()
+                        .HasForeignKey("ImageItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SportHub.Domain.Models.NavigationItem", "ReferenceItem")
                         .WithMany()
                         .HasForeignKey("ReferenceItemId");
+
+                    b.Navigation("ImageItem");
 
                     b.Navigation("ReferenceItem");
                 });
@@ -255,7 +308,13 @@ namespace SportHub.Domain.Migrations
                         .WithMany("DisplayItems")
                         .HasForeignKey("ArticleId");
 
+                    b.HasOne("SportHub.Domain.Models.ImageItem", "ImageItem")
+                        .WithMany()
+                        .HasForeignKey("ImageItemId");
+
                     b.Navigation("Article");
+
+                    b.Navigation("ImageItem");
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>

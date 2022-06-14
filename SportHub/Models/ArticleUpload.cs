@@ -1,19 +1,17 @@
-﻿using System;
-using System.ComponentModel;
+﻿using SportHub.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SportHub.Domain.Models
+namespace SportHub.Models
 {
-    public class Article
-    {
-        [Key]
+    public class ArticleUpload
+    {   
         public int Id { get; set; }
         public int? ReferenceItemId { get; set; }
         public virtual NavigationItem? ReferenceItem { get; set; }
         public string AlternativeTextForThePicture { get; set; }
         public int ImageItemId { get; set; }
-        public virtual ImageItem ImageItem { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
@@ -23,7 +21,6 @@ namespace SportHub.Domain.Models
         [Required]
         [DataType(DataType.Date)]
         public DateTime PostedDate { get; set; }
-        public virtual ICollection<DisplayItem>? DisplayItems { get; set; }
         public bool IsPublished { get; set; }
     }
 }

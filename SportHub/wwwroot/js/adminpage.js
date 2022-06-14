@@ -141,6 +141,7 @@ document.addEventListener('scroll', function (event) {
 
 $('#save-changes-button').click(function () {
     applyMainArticlesConfigurationChanges();
+    uploadPhotoOfTheDay();
 });
 
 function generatePageArguments(pageNumber, pageSize) {
@@ -378,7 +379,79 @@ function displayConfigurationBlocks(mainArticles) {
     });
 }
 
+function GetPhotoOfTheDay() {
+    $.ajax({
+        async: true,
+        url: "/api/Articles/GetPhotoOfTheDay",
+        type: "GET",
+        success: function (response) {
+            console.log(response);
+            $('#day-photo-background-img').attr('src', response.imageItem.imageLink);
+            $('#alt-input').val(response.imageItem.alt);
+            $('#title-input').val(response.imageItem.photoTitle);
+            $('#description-input').val(response.imageItem.shortDescription);
+            $('#author-input').val(response.imageItem.author);
+            $('#photo-of-day-isDisplayed').prop('checked', response.isDisplayed);
+        }
+    });
+}
+
+$('#photo-upload-input').on('change', function () {
+    const file = $('input[name="imageFile"]').prop('files')[0];
+    if (file) {
+        $('#day-photo-background-img').attr('src', URL.createObjectURL(file));
+    }
+});
+
+$('.image-upload-box').on('dragover dragenter dragleave drop', function (evt) {
+    evt.preventDefault();
+});
+
+$('.image-upload-box').on('dragenter dragover', function (evt) {
+    $('.hide-on-draggedover').hide();
+    $('.show-on-draggedover').show();
+    $('.image-upload-box').addClass('isDragover');
+});
+
+$('.image-upload-box').on('dragleave dragend drop', function (evt) {
+    $('.image-upload-box').removeClass('isDragover');
+    $('.hide-on-draggedover').show();
+    $('.show-on-draggedover').hide();
+});
+
+$('.image-upload-box').on('drop', function (evt) {
+    let dt = evt.originalEvent.dataTransfer;
+    let files = dt.files;
+    $('input[name="imageFile"]').prop('files', files);
+    const file = files[0];
+    if (file) {
+        $('#day-photo-background-img').attr('src', URL.createObjectURL(file));
+    }
+});
+
+function uploadPhotoOfTheDay() {
+    infoForm = $('#photo-info-form')[0];
+    var fd = new FormData(infoForm);
+    fd.append('imageFile', $('input[name="imageFile"]').prop('files')[0]);
+    isDisplayed = $('#photo-of-day-isDisplayed').prop('checked')
+    fd.append('isDisplayed', isDisplayed);
+    $.ajax({
+        async: true,
+        url: "/api/Articles/UploadPhotoOfTheDay",
+        type: "PUT",
+        processData: false,
+        contentType: false,
+        data: fd,
+
+        success: function (response) {
+            console.log(response);
+        }
+    });
+}
+
+
 $(document).ready(() => {
     getAllCategories();
     getMainArticles();
+    GetPhotoOfTheDay();
 });

@@ -23,5 +23,7 @@ namespace SportHub.Domain.Models
         public bool IsDisplayed { get; set; }
         public int? ArticleId { get; set; }
         public virtual Article? Article { get; set; }
+        public int? ImageItemId { get; set; }
+        public virtual ImageItem? ImageItem { get; set; }
     }
 }

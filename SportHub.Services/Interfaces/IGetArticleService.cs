@@ -19,6 +19,11 @@ namespace SportHub.Services.Interfaces
         Task SaveMainArticles(Dictionary<int, bool> articlesToSave);
         Task<DisplayItem[]> GetMainArticles();
         Task<DisplayItem[]> GetDisplayedMainArticles();
+        Task UploadPhotoOfTheDay(ImageItem image);
+        public Task<DisplayItem> GetPhotoOfTheDay();
+        public Task<DisplayItem> GetDisplayedPhotoOfTheDay();
+        public Task DisplayPhotoOfTheDay();
+        public Task HidePhotoOfTheDay();
         Task<bool> SaveArticle(Article article);
     }
 }
