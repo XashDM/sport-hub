@@ -444,10 +444,20 @@ function uploadPhotoOfTheDay() {
         data: fd,
 
         success: function (response) {
-            console.log(response);
+            $('#success-banner').css('display', 'flex');
+            $('#success-banner').delay(5000).fadeOut();
+        },
+        
+        error: function () {
+            $('#error-banner').css('display', 'flex');
+            $('#error-banner').delay(5000).fadeOut();
         }
     });
 }
+
+$('.close-button').on('click', function () {
+    $(this).parent().hide();
+})
 
 
 $(document).ready(() => {
