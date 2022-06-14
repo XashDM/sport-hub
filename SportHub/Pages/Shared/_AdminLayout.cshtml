@@ -75,10 +75,10 @@
                 <img src="~/images/Left-arrow-header-categories-gray.svg" class="category-list-left-category-button-img" id="left-button-image">
             </button>
             <div class="category-list-category-list-all-items">
-                <a id="category-element-home" class="category-list-category-list" href="/Articles/Admin/">Home</a>
+                <a id="category-element-home" class="category-list-category-list" href="/">Home</a>
                 @for (int i = 0; i<Model.Categories.Count; i++)
                 {
-                    <a id="category-element-@(Model.Categories[i].Name.Replace(' ','-'))lower" class="category-list-category-list" href="/Articles/Admin/@Model.Categories[i].Name">@Model.Categories[i].Name</a>
+                    <a id="category-element-@(Model.Categories[i].Name.Replace(' ','-'))lower" class="category-list-category-list" href="/@Model.Categories[i].Name">@Model.Categories[i].Name</a>
                 }
             </div>
             <button onclick="moveCategoryListRight()" class="category-list-right-category-button">
@@ -124,7 +124,10 @@
             </section>
 
                 @RenderBody()
-
+            
+                <div id="category-link" style="display:none">
+                    @RenderSection("categoryList",false)
+                </div>
         </main>
 
 
@@ -141,6 +144,13 @@
     let grayColorFilter = 'invert(77%) sepia(22%) saturate(6%) hue-rotate(323deg) brightness(96%) contrast(96%)';
 
     $(document).ready(function () {
+        let allCategories = $('.category-list-category-list');
+        allCategories.map(function () {
+            let newLink = $(this).attr('href');
+            let categoryLink = `${$("#category-link").text().trim()}${newLink}`;
+            $(this).attr('href', categoryLink);
+        });
+        
         let category = $(location).attr('pathname');
 
         category = category.split("/").pop();
@@ -173,7 +183,7 @@
     });
 
     function moveCategoryListLeft() {
-        let scrollWidth = $('category-list-category-list-all-items')[0].scrollWidth;
+        let scrollWidth = $('.category-list-category-list-all-items')[0].scrollWidth;
         let visibleWidth = $('.category-list-category-list-all-items')[0].clientWidth;
         if (visibleWidth < scrollWidth) {
             $("#right-button-image").css('filter', redColorFilter);

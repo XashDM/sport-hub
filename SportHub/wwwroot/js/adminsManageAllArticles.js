@@ -84,7 +84,7 @@ function updateArticlesAfterScrolling() {
                 articleField.find('.get-admins-articles-dropdown-move-content-item').map(function () {
                     let idWithCategory = this.id.split("-").pop();
                     articleField.find(`#${this.id}`).attr('onclick', `changeArticleCategory(${articles[i].id}, ${idWithCategory})`);
-                })
+                });
                 if (articles[i].isPublished == false) {
                     articleField.find('.get-admins-articles-published-info').css("display", "none");
                     articleField.find('.get-admins-articles-publish-button div')
