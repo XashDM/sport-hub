@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,6 +15,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
+    
     <header>
         <section class="header">
         <div class="header-container">
@@ -22,18 +25,14 @@
                 </div>             
             </div>
 
-            <div class="blank-space">
-                
-            </div>
-
             <div class="user-container">
                 <div class="switch-button">
-                    <img src="~/images/switch.png" alt="" width="40" height="40">
+                    <img src="~/images/left-right-admin-arrow.svg" alt="">
                 </div>
        
                 <div class="user-info">
                     <div class="user-ava">
-                        <img src="~/images/switch.png" alt="" width="40" height="40">
+                        <img src="~/images/left-right-admin-arrow.svg" alt="">
                     </div>
 
                     <div class="user-desc">
@@ -43,7 +42,10 @@
                         <p class="user-role">
                             Administrator
                         </p>
-                    </div>                 
+                    </div>  
+                    <button class="image-polygon-dropdown">
+                        <img src="~/images/Polygon.png">
+                    </button>
                 </div>
             </div>
         </div>
@@ -57,46 +59,67 @@
 
         <div class="edit">
             <div>
-                <p class ="cancel ">
+                <button class="cancel ">
                     Cancel
-                </p>
+                </button>
             </div>
-                <p class ="changes" id="save-changes-button">
+                <button class="changes" id="save-changes-button">
                     Save all changes
-                </p>
+                </button>
         </div>
     </section>
-    <hr class="href-between-sections">
-    <section class ="bottom-header">
+    
+    <section class="bottom-header">
         <div class="sports">
-            @RenderSection("categoryList",false)
+            <button onclick="moveCategoryListLeft()" class="category-list-left-category-button">
+                <img src="~/images/Left-arrow-header-categories-gray.svg" class="category-list-left-category-button-img" id="left-button-image">
+            </button>
+            <div class="category-list-category-list-all-items">
+                <a id="category-element-home" class="category-list-category-list" href="/Articles/Admin/">Home</a>
+                @for (int i = 0; i<Model.Categories.Count; i++)
+                {
+                    <a id="category-element-@(Model.Categories[i].Name.Replace(' ','-'))lower" class="category-list-category-list" href="/Articles/Admin/@Model.Categories[i].Name">@Model.Categories[i].Name</a>
+                }
+            </div>
+            <button onclick="moveCategoryListRight()" class="category-list-right-category-button">
+                <img src="~/images/Left-arrow-header-categories-gray.svg" class="category-list-right-category-button-img" id="right-button-image">
+            </button>
         </div>
     </section>
-    <hr class="href-between-sections-bottom">
+
     </header>
 
         <main>
             <section class="local-navigation">
                 <div class = "navigation-picture">
-                <img src="~/images/surveys-button.png" alt="" width="50" height="40">
+                <img src="~/images/Surveys.svg" alt="">
                 </div>
                 <div class = "navigation-picture">
-                <img src="~/images/banners-button.png" alt="" width="40" height="40">
+                <img src="~/images/Banners.svg" alt="">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="~/images/languages-button.png" alt="" width="40" height="40">
+                    <img src="~/images/Langueges.svg" alt="">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="~/images/footer-button.png" alt="" width="40" height="40">
+                    <img src="~/images/Footer.svg" alt="">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="~/images/social_networks-button.png" alt="" width="40" height="40">
+                    <img src="~/images/Shares.svg" alt="">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="~/images/ussers-button.png" alt="" width="40" height="40">
+                    <img src="~/images/My_users.svg" alt="">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="~/images/IA-button.png" alt="" width="40" height="40">
+                    <img src="~/images/IA.svg" alt="">
+                </div>
+                <div class = "navigation-picture">
+                    <img src="~/images/teams.svg" alt="">
+                </div>
+                <div class = "navigation-picture">
+                    <img src="~/images/News_partnerds.svg" alt="">
+                </div>
+                <div class = "navigation-picture">
+                    <img src="~/images/triangle_and_circle.svg" alt="">
                 </div>
             </section>
 
@@ -112,3 +135,71 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    let redColorFilter = 'invert(1%) sepia(91%) saturate(1000%) hue-rotate(300deg) brightness(85%)';
+    let grayColorFilter = 'invert(77%) sepia(22%) saturate(6%) hue-rotate(323deg) brightness(96%) contrast(96%)';
+
+    $(document).ready(function () {
+        let category = $(location).attr('pathname');
+
+        category = category.split("/").pop();
+        category = category.replace("1", "a");
+        category = decodeURI(category);
+        console.log(category);
+        console.log(encodeURIComponent(category));
+        if (category != "") {
+            categoryWithoutSpaces = category.replace(' ', '-');
+            $('#displayed-category-name').text(category);
+            $(`#category-element-${categoryWithoutSpaces}lower`).css('color', '#D72130');
+            console.log($(`#category-element-${categoryWithoutSpaces}lower`).text());
+        }
+        else {
+            $('#displayed-category-name').text("All categories");
+            $(`#category-element-home`).css('color', '#D72130');
+        }
+
+        //change button color is needed
+        let scrollWidth = $('.category-list-category-list-all-items')[0].scrollWidth;
+        let visibleWidth = $('.category-list-category-list-all-items')[0].clientWidth;
+        if (scrollWidth > visibleWidth) {
+            $("#right-button-image").css('filter', redColorFilter);
+            console.log("yes");
+        }
+        else {
+            $("#right-button-image").css('fill', 'blue');
+        }
+
+    });
+
+    function moveCategoryListLeft() {
+        let scrollWidth = $('category-list-category-list-all-items')[0].scrollWidth;
+        let visibleWidth = $('.category-list-category-list-all-items')[0].clientWidth;
+        if (visibleWidth < scrollWidth) {
+            $("#right-button-image").css('filter', redColorFilter);
+        }
+        $('.category-list-category-list-all-items').animate({ scrollLeft: '-=100' }, 200, function () {
+            if ($('.category-list-category-list-all-items')[0].scrollLeft == 0) {
+                // gray color from figma(filter to svg)
+                // grayColorFilter = 'invert(77%) sepia(22%) saturate(6%) hue-rotate(323deg) brightness(96%) contrast(96%)'
+                $("#left-button-image").css('filter', grayColorFilter);
+            }
+        }); 
+    }
+
+    function moveCategoryListRight() {
+        let scrollWidth = $('.category-list-category-list-all-items')[0].scrollWidth;
+        let visibleWidth = $('.category-list-category-list-all-items')[0].clientWidth;
+        let scrollPosition = $('.category-list-category-list-all-items')[0].scrollLeft;
+        if (visibleWidth < scrollWidth) {
+            $("#left-button-image").css('filter', redColorFilter);
+        }
+
+        $('.category-list-category-list-all-items').animate({ scrollLeft: '+=100' }, 200, function () {
+            if (visibleWidth + scrollPosition >= scrollWidth || (visibleWidth + scrollPosition) / scrollWidth > 0.95) {
+                $("#right-button-image").css('filter', grayColorFilter);
+            }
+        });  
+    }
+
+</script>

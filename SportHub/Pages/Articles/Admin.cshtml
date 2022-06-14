@@ -127,11 +127,3 @@
         </div>
     </div>
 </div>
-
-@section categoryList
-{
-    @for (int i = 0; i<Model.Categories.Count; i++)
-    {
-        <a id="category-element-@(Model.Categories[i].Name.Replace(' ','-'))lower" class="get-admins-articles-category-list" href="/Articles/Admin/@Model.Categories[i].Name">@Model.Categories[i].Name</a>
-    }
-}

@@ -1,36 +1,10 @@
 ﻿let startElementPosition = 10;
-let amountOfElements = 5; 
+let amountOfElements = 5;
 
-$(document).ready(function () {
-    let category = $(location).attr('pathname');
-    category = category.substring(16, category.length);
-    category = decodeURI(category);
-    console.log(category);
-    if (category != "") {
-        categoryWithoutSpaces = category.replace(' ', '-');
-        $('#displayed-category-name').text(category);
-        $(`#category-element-${categoryWithoutSpaces}lower`).css('color', '#D72130');
-        console.log($(`#category-element-${categoryWithoutSpaces}lower`).text());
-    }
-    else {
-        $('#displayed-category-name').text("All categories");
-    }
-    let hiddenDivSize = $('.get-admins-articles-scroll-position').height();
-    let visibleDivSize = $('.get-admins-articles-container-body').height();
-    let scrollHeight = hiddenDivSize - visibleDivSize;
-    $(".get-admins-articles-container-body").scroll(function () {
-        let scrollPosition = $(".get-admins-articles-container-body").scrollTop();
-        if ((scrollHeight + scrollPosition) / hiddenDivSize > 0.95) {
-            updateArticlesAfterScrolling();
-            hiddenDivSize = $(".get-admins-articles-scroll-position").height();
-            scrollHeight = visibleDivSize / hiddenDivSize * visibleDivSize;
-        }
-    });
-});
 
 function updateArticlesAfterScrolling() {
     let category = $(location).attr('pathname');
-    category = category.substring(16, category.length);
+    category = category.split("/").pop();
     category = decodeURI(category);
     if (category == "") {
         category = null;
@@ -105,6 +79,12 @@ function updateArticlesAfterScrolling() {
 
                 articleField.find('.get-admins-articles-move-button').attr('onclick', `openMove(${articles[i].id})`);
                 articleField.find('.get-admins-articles-dropdown-move-content').attr('id', `article-move-${articles[i].id}`);
+                
+                // move buttons
+                articleField.find('.get-admins-articles-dropdown-move-content-item').map(function () {
+                    let idWithCategory = this.id.split("-").pop();
+                    articleField.find(`#${this.id}`).attr('onclick', `changeArticleCategory(${articles[i].id}, ${idWithCategory})`);
+                })
                 if (articles[i].isPublished == false) {
                     articleField.find('.get-admins-articles-published-info').css("display", "none");
                     articleField.find('.get-admins-articles-publish-button div')
@@ -126,6 +106,8 @@ function updateArticlesAfterScrolling() {
         }
     });
 }
+
+
 
 function openDropdownFunction(articleId) {
     document.getElementById(articleId.toString()).classList.toggle("show");

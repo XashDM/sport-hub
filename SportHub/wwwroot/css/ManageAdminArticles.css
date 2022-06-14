@@ -304,6 +304,7 @@ select {
 }
 
 .get-admins-articles-dropdown-move-content-item {
+    
     border-style: none;
     background-color: white;
     width: 100%;
@@ -322,6 +323,39 @@ select {
         color: #D72130;
     }
 
+.get-admins-articles-left-category-button {
+    border: none;
+    background-color: white;
+    box-shadow: 20px 0px 15px #fff;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.get-admins-articles-right-category-button {
+    border: none;
+    background-color: white;
+    box-shadow: -20px 0px 15px #fff;
+    cursor: pointer;
+}
+
+.get-admins-articles-left-category-button-img {
+    filter: invert(77%) sepia(22%) saturate(6%) hue-rotate(323deg) brightness(96%) contrast(96%);
+}
+
+.get-admins-articles-right-category-button-img {
+    transform: scale(-1, 1);
+    filter: invert(77%) sepia(22%) saturate(6%) hue-rotate(323deg) brightness(96%) contrast(96%);
+}
+
+.get-admins-articles-category-list-all-items {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    font-family: 'Open Sans', sans-serif;
+    color: #7F7B7B;
+    margin: 17px 0 19px 0;
+}
+
 .get-admins-articles-category-list {
     font-family: 'Open Sans';
     font-style: normal;
@@ -329,6 +363,8 @@ select {
     font-size: 14px;
     line-height: 19px;
     color: #B2B2B2;
+    margin: 0 31px;
+    white-space: nowrap;
 }
 
 .show {
