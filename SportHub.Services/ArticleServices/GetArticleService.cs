@@ -132,6 +132,11 @@ namespace SportHub.Services.ArticleServices
             return categories;
         }
 
+        public Task<NavigationItem[]> GetAllCategoriesArrayAsync()
+        {
+            return GetAllCategoriesQueryable().ToArrayAsync();
+        }
+
         public IQueryable<NavigationItem> GetAllSubcategoriesByCategoryIdQueryable(int categoryId)
         {
             var subcategories = _context.NavigationItems
@@ -142,6 +147,11 @@ namespace SportHub.Services.ArticleServices
             return subcategories;
         }
 
+        public Task<NavigationItem[]> GetAllSubcategoriesByCategoryIdArrayAsync(int categoryId)
+        {
+            return GetAllSubcategoriesByCategoryIdQueryable(categoryId).ToArrayAsync();
+        }
+
         public IQueryable<NavigationItem> GetAllTeamsByParentIdQueryable(int parentId)
         {
             var teams = _context.NavigationItems
@@ -150,6 +160,11 @@ namespace SportHub.Services.ArticleServices
                 .Where(navigationItem => navigationItem.ParentsItemId.Equals(parentId));
 
             return teams;
+        }
+
+        public Task<NavigationItem[]> GetAllTeamsByParentIdArrayAsync(int parentId)
+        {
+            return GetAllTeamsByParentIdQueryable(parentId).ToArrayAsync();
         }
 
         public IQueryable<Article> GetAllArticlesByParentIdQueryable(int parentId)
@@ -228,6 +243,17 @@ namespace SportHub.Services.ArticleServices
             }
 
             return await articlesToReturn.ToArrayAsync();
+        }
+
+        public async Task<Article[]> GetArticlesByParentIdPaginatedArrayAsync(int parentId, int pageSize, int pageNumber)
+        {
+            var allArticles = GetAllArticlesByParentIdQueryable(parentId);
+
+            var paginatedArticles = await Paginate(allArticles, pageSize, pageNumber)
+                .Item1
+                .ToArrayAsync();
+
+            return paginatedArticles;
         }
 
         public (IQueryable<T>, int, int) Paginate<T>(IQueryable<T> items, int pageSize, int pageNumber)
