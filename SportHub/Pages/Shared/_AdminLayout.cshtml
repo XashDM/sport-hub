@@ -136,13 +136,13 @@
         let category = $(location).attr('pathname');
 
         category = category.split("/").pop();
-        category = category.replace("1", "a");
         category = decodeURI(category);
         console.log(category);
-        console.log(encodeURIComponent(category));
         if (category != "") {
-            categoryWithoutSpaces = category.replace(' ', '-');
+            categoryWithoutSpaces = category.replace(/ /g,"-");
+            console.log(categoryWithoutSpaces);
             $('#displayed-category-name').text(category);
+            console.log($('#displayed-category-name').html());
             $(`#category-element-${categoryWithoutSpaces}lower`).css('color', '#D72130');
             console.log($(`#category-element-${categoryWithoutSpaces}lower`).text());
         }

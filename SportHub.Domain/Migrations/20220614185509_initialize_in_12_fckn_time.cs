@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SportHub.Domain.Migrations
 {
-    public partial class AddLanguageTables : Migration
+    public partial class initialize_in_12_fckn_time : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -120,7 +120,7 @@ namespace SportHub.Domain.Migrations
                     ContentText = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PostedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    IsPublished = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsPublished = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {

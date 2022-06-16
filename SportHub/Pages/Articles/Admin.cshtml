@@ -13,11 +13,6 @@
     <script type="text/javascript" src="~/js/adminsManageAllArticles.js"></script>
 </head>
 
-<!-- Create the markup for the dialog -->
-<div id="dialog-form" title="Create new user">
-    <p>Do you want to delete this entry?</p>
-</div>
-
 <div class="get-admins-articles-main-body">
     <div class="get-admins-articles-preview-and-search">
         <a href="#">
@@ -105,7 +100,7 @@
                                     Edit
                                 </a>
                                 <div>
-                                    <button onclick="deleteArticleFunction(@Model.Article[index].Id)" class="get-admins-articles-delete">Delete</button>
+                                    <button onclick="openDeletePopUp(@Model.Article[index].Id)" class="get-admins-articles-delete">Delete</button>
                                 </div>
                                 <div class="get-admins-articles-dropdown-move">
                                     <button class="get-admins-articles-move-button" onclick="openMove(@Model.Article[index].Id)">
@@ -131,6 +126,30 @@
         }
         </div>
     </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="get-admins-articles-delete-confirmation" id="delete-confirm">
+    <div class="get-admins-articles-delete-content">
+        <img src="~/images/delete-image.svg" class="get-admins-articles-delete-image" />
+        <div class="get-admins-articles-detele-window-title">You are about to delete this subcategory!</div>
+        <div class="get-admins-articles-detele-window-info">Are you sure?</div>
+    </div>
+    <div class="get-admins-articles-delete-bottom-section">
+        <button class="get-admins-articles-delete-cancel-button" onclick="closeDeletePopUp()">Cancel</button>
+        <button class="get-admins-articles-delete-delete-button" id="cancel-delete-button">Delete</button>
+    </div>
+</div>
+
+<div class="get-admins-articles-publish-pop-up" id="publish-banner">
+    <div class="get-admins-articles-content-publish">
+        <img src="~/images/success-button.svg" class="get-admins-articles-publish-image" />
+        <div class="get-admins-articles-content-text-publish">
+            <div class="get-admins-articles-publish-window-title" id="message-title">Published!</div>
+            <div class="get-admins-articles-publish-window-info" id="message-info">The Home page is successfully published.</div>
+        </div>     
+    </div>        
 </div>
 
 @section categoryList{

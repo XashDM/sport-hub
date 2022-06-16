@@ -367,6 +367,144 @@ select {
     white-space: nowrap;
 }
 
+.get-admins-articles-delete-confirmation {
+    position: fixed;
+    top: 40%;
+    left: 40%;
+    width: 458px;
+    height: 247px;
+    box-shadow: 0px 4px 28px #818181;
+    background-color: white;
+    display: none;
+    z-index: 3;
+    filter: none !important;
+}
+
+.get-admins-articles-delete-content {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.get-admins-articles-delete-image {
+    width: 81px;
+    height: 81px;
+    margin: auto;
+    position: relative;
+    top: -40px;
+}
+
+.get-admins-articles-detele-window-title {
+    margin: auto;
+    margin-top: -4px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+    text-align: center;
+}
+
+.get-admins-articles-detele-window-info {
+    margin: auto;
+    margin-top: 10px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    text-align: center;
+}
+
+.get-admins-articles-delete-bottom-section {
+    margin-top: 51px;
+    border-top: 1px solid #F4F5F8;
+    height: 69px;
+    float: right;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.get-admins-articles-delete-cancel-button {
+    color: red;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    height: 16px;
+    margin-top: 26px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+}
+
+.get-admins-articles-delete-delete-button {
+    width: 107px;
+    height: 32px;
+    background-color: #D72130;
+    border: 1px solid #C63638;
+    color: white;
+    margin: 19px 34px 18px 32px;
+    cursor: pointer;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+}
+
+.get-admins-articles-publish-pop-up {
+    position: fixed;
+    top: 50px;
+    right: 350px;
+    width: 472px;
+    height: 85px;
+    box-shadow: 0px 4px 28px #818181;
+    background-color: white;
+    display: none;
+}
+
+.get-admins-articles-publish-window-title {
+    margin: 19px 0 4px 0;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+}
+
+.get-admins-articles-publish-window-info {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+}
+
+.get-admins-articles-content-publish {
+    display: flex;
+    flex-direction: row;
+}
+
+.get-admins-articles-content-text-publish {
+    display: flex;
+    flex-direction: column;
+}
+
+.get-admins-articles-publish-window-info {
+    width: 382px;
+}
+
+.get-admins-articles-publish-image {
+    width: 46px;
+    height: 46px;
+    margin: 17px 13px 22px 19px;
+}
+
 .show {
     display: block;
     background-color: white;

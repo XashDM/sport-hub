@@ -124,12 +124,20 @@ function updateArticlesAfterScrolling() {
 
 function openDropdownFunction(articleId) {
     document.getElementById(articleId.toString()).classList.toggle("show");
-    $(`#article-move-${articleId}`).hide();
+    $(`#article-move-${articleId}`).fadeOut();
 }
 
 function findHideSearchField() {
     $("#search-field").toggle();
     $("#search-field").focus();
+}
+
+function openDeletePopUp(articleId) {
+    $("#delete-confirm").fadeIn();
+    $("#overlay").fadeIn();
+    if ($("#delete-confirm").css("display") == "block") {
+        $("#cancel-delete-button").attr("onclick", `deleteArticleFunction(${articleId})`)
+    }
 }
 
 function deleteArticleFunction(articleId) {
@@ -139,8 +147,18 @@ function deleteArticleFunction(articleId) {
         url: `/article/delete/${articleId}`,
         success: function (result) {
             document.getElementById(`article-with-id-${articleId}`).style.display = "none";
+            $("#delete-confirm").fadeOut();
+            $("#overlay").fadeOut();
+            $("#message-title").text("Deleted!");
+            $("#message-info").text("The article is removed from the list");
+            $('#publish-banner').fadeIn().delay(1000).fadeOut(500);
         }
     });
+}
+
+function closeDeletePopUp() {
+    $("#delete-confirm").fadeOut();
+    $("#overlay").fadeOut();
 }
 
 function publishUnpublish(articleId) {
@@ -162,6 +180,9 @@ function publishUnpublish(articleId) {
                 if (publishText == "Published") {
                     $(`#article-with-id-${articleId}`).show();
                 }
+                $("#message-title").text("Published");
+                $("#message-info").text("The article is successfully published");
+                $('#publish-banner').fadeIn().delay(1000).fadeOut(500);
             }
             else {
                 $(`#isPublishedButton-${articleId}`).html("<div>Publish</div>");
@@ -175,6 +196,9 @@ function publishUnpublish(articleId) {
                 if (publishText == "Unpublished") {
                     $(`#article-with-id-${articleId}`).show();
                 }
+                $("#message-title").text("Unpublished");
+                $("#message-info").text("The article is successfully unpublished");
+                $('#publish-banner').fadeIn().delay(1000).fadeOut(500);
             }
             $(`#article-move-${articleId}`).hide();
         }
@@ -198,6 +222,10 @@ function changeArticleCategory(articleId, categoryId) {
         success: function (result) {
             $(`#article-with-id-${articleId}`).hide();
             console.log(result);
+            $("#message-title").text("Moved");
+            $("#message-info").text("The article is successfully moved");
+            $('#publish-banner').fadeIn();
+            $("#publish-banner").delay(1000).fadeOut(500);
         }
     });
     console.log("working(no)");

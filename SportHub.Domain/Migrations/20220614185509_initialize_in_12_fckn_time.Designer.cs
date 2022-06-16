@@ -11,8 +11,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    [Migration("20220608171652_AddLanguageTables")]
-    partial class AddLanguageTables
+    [Migration("20220614185509_initialize_in_12_fckn_time")]
+    partial class initialize_in_12_fckn_time
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,7 +36,9 @@ namespace SportHub.Domain.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsPublished")
-                        .HasColumnType("tinyint(1)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime(6)");
