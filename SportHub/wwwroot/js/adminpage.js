@@ -1,4 +1,6 @@
-﻿$('#main-articles-block').on('click', '.add-new-button', () => {
+﻿let allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+
+$('#main-articles-block').on('click', '.add-new-button', () => {
     let maxArticleCount = 4;
     let currentArticleAmount = $('.configuration-body').length;
 
@@ -392,6 +394,8 @@ function GetPhotoOfTheDay() {
             $('#description-input').val(response.imageItem.shortDescription);
             $('#author-input').val(response.imageItem.author);
             $('#photo-of-day-isDisplayed').prop('checked', response.isDisplayed);
+            $('input[name="imageFile"]').val('');
+            console.log($('input[name="imageFile"]').prop('files'));
         }
     });
 }
@@ -403,29 +407,41 @@ $('#photo-upload-input').on('change', function () {
     }
 });
 
-$('.image-upload-box').on('dragover dragenter dragleave drop', function (evt) {
+$('.image-upload-box').on('drag dragover dragenter dragleave drop', function (evt) {
     evt.preventDefault();
+    evt.stopPropagation();
 });
 
-$('.image-upload-box').on('dragenter dragover', function (evt) {
+$('.image-upload-box').on('dragenter', function (evt) {
     $('.hide-on-draggedover').hide();
     $('.show-on-draggedover').show();
     $('.image-upload-box').addClass('isDragover');
 });
 
-$('.image-upload-box').on('dragleave dragend drop', function (evt) {
+$('.image-upload-box').on('dragleave', function (evt) {
     $('.image-upload-box').removeClass('isDragover');
     $('.hide-on-draggedover').show();
     $('.show-on-draggedover').hide();
 });
 
 $('.image-upload-box').on('drop', function (evt) {
+    $('.image-upload-box').removeClass('isDragover');
+    $('.hide-on-draggedover').show();
+    $('.show-on-draggedover').hide();
+
     let dt = evt.originalEvent.dataTransfer;
     let files = dt.files;
-    $('input[name="imageFile"]').prop('files', files);
     const file = files[0];
+
     if (file) {
-        $('#day-photo-background-img').attr('src', URL.createObjectURL(file));
+        let fileExtension = file.name.split(".").pop();
+        if (allowedExtensions.includes(fileExtension)) {
+            $('#day-photo-background-img').attr('src', URL.createObjectURL(file));
+            $('input[name="imageFile"]').prop('files', files);
+        }
+        else {
+            alert("Wrong file extension!");
+        }
     }
 });
 

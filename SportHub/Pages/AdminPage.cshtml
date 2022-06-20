@@ -76,14 +76,14 @@
             </div>
             <div class="caption-line"></div>
         </div>
-        <div class="image-upload-box">
+        <div class="image-upload-box" id="drop-section">
             <div class="day-photo-background-crop">
                 <img id="day-photo-background-img" src="" />
             </div>
             <div class="editing-tools-box">
                 <form class="add-photo-box" id="add-photo-form" enctype="multipart/form-data">
                     <label class="add-photo-button" for="photo-upload-input">
-                        <img src="~/icons/photo-icon.svg" />
+                        <img class="hide-on-draggedover add-photo-img" src="~/icons/photo-icon.svg" />
                     </label>
                     <p class="caption hide-on-draggedover">
                         <input id="photo-upload-input" name="imageFile" type="file" accept="image/png, image/jpg, image/jpeg, image/gif" />
@@ -91,6 +91,8 @@
                         or drop it here
                     </p>
                     <p class="caption hide-on-draggedover">You can add next formats: .png .jpg .jpeg .gif </p>
+                    
+                    <img class="show-on-draggedover add-photo-img" src="~/icons/photo-icon.svg" />
                     <p class="caption show-on-draggedover">
                         Drop it here!!
                     </p>
