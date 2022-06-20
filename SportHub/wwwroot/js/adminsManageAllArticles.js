@@ -2,6 +2,21 @@
 let amountOfElements = 5;
 
 $(document).ready(function () {
+    //змінюю текст у полі посеред header
+    let category = $(location).attr('pathname');
+    category = category.split("/").pop();
+    category = decodeURI(category);
+    console.log(category);
+    if (category != "") {
+        categoryWithoutSpaces = category.replace(/ /g, "-");
+        $('#page-header-name').text(category);
+        console.log(categoryWithoutSpaces);
+    }
+    else {
+        $('#page-header-name').text("All categories");
+    }
+
+    // відслюдковую позицію скролера
     let hiddenDivSize = $('.get-admins-articles-scroll-position').height();
     let visibleDivSize = $('.get-admins-articles-container-body').height();
     let scrollHeight = hiddenDivSize - visibleDivSize;

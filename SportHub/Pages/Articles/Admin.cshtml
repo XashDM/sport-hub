@@ -6,6 +6,17 @@
     Layout = "_AdminLayout";
 }
 
+@section SaveButton {
+    <div class="middle-header">
+        <p class="info-title" id="page-header-name"></p>
+        <div class="red-button-object">
+            <a class="new-article" id="new-article-route" href="/addarticle">
+                + New Article
+            </a>
+        </div>
+    </div>
+}
+
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="~/css/ManageAdminArticles.css" asp-append-version="true" />
@@ -151,7 +162,3 @@
         </div>     
     </div>        
 </div>
-
-@section categoryList{
-    /Articles/Admin
-}

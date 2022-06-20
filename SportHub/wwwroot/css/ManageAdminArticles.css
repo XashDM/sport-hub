@@ -13,6 +13,41 @@ body {
     }
 }
 
+.middle-header {
+    height: 78px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 101px;
+}
+
+.info-title {
+    margin: 25px 0 12px 0;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 41px;
+    color: #000000;
+}
+
+.red-button-object {
+    height: 32px;
+    width: 134px;
+    background-color: #D72130;
+    margin: 24px 0 22px 0;
+}
+
+.new-article {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    color: white;
+    margin: 8px 28px 8px 29px;
+}
+
 .get-admins-articles-main-body {
     max-width: 839px;
     margin: auto;

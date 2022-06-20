@@ -1,6 +1,4 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -50,18 +48,18 @@
             </div>
         </div>
     </section>
-     @RenderSection("SaveButton", required: false)
+    @RenderSection("SaveButton", required: false)
     <section class ="bottom-header">
         <div class="sports">
             <button onclick="moveCategoryListLeft()" class="category-list-left-category-button">
                 <img src="~/images/Left-arrow-header-categories-gray.svg" class="category-list-left-category-button-img" id="left-button-image">
             </button>
             <div class="category-list-category-list-all-items">
-                <a id="category-element-home" class="category-list-category-list" href="/">Home</a>
-                @for (int i = 0; i<Model.Categories.Count; i++)
+                <a id="category-element-home" class="category-list-category-list" href="/adminpage">Home</a>
+                @*@for (int i = 0; i<Model.Categories.Count; i++)
                 {
                     <a id="category-element-@(Model.Categories[i].Name.Replace(' ','-'))lower" class="category-list-category-list" href="/@Model.Categories[i].Name">@Model.Categories[i].Name</a>
-                }
+                }*@
             </div>
             <button onclick="moveCategoryListRight()" class="category-list-right-category-button">
                 <img src="~/images/Left-arrow-header-categories-gray.svg" class="category-list-right-category-button-img" id="right-button-image">
@@ -106,13 +104,8 @@
             </section>
 
                 @RenderBody()
-            
-                <div id="category-link" style="display:none">
-                    @RenderSection("categoryList",false)
-                </div>
+
         </main>
-
-
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/adminpage.js"></script>
@@ -126,30 +119,39 @@
     let grayColorFilter = 'invert(77%) sepia(22%) saturate(6%) hue-rotate(323deg) brightness(96%) contrast(96%)';
 
     $(document).ready(function () {
-        let allCategories = $('.category-list-category-list');
-        allCategories.map(function () {
-            let newLink = $(this).attr('href');
-            let categoryLink = `${$("#category-link").text().trim()}${newLink}`;
-            $(this).attr('href', categoryLink);
-        });
-        
-        let category = $(location).attr('pathname');
 
+        let category = $(location).attr('pathname');
         category = category.split("/").pop();
         category = decodeURI(category);
-        console.log(category);
-        if (category != "") {
-            categoryWithoutSpaces = category.replace(/ /g,"-");
-            console.log(categoryWithoutSpaces);
-            $('#displayed-category-name').text(category);
-            console.log($('#displayed-category-name').html());
-            $(`#category-element-${categoryWithoutSpaces}lower`).css('color', '#D72130');
-            console.log($(`#category-element-${categoryWithoutSpaces}lower`).text());
-        }
-        else {
-            $('#displayed-category-name').text("All categories");
-            $(`#category-element-home`).css('color', '#D72130');
-        }
+        let checkCategory = false;
+
+        $.ajax({
+            method: 'get',
+            url: '/allcategories',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (categories) {
+                amountOfCategories = categories.length;
+                for (var i = 0; i < amountOfCategories; i++) {
+                    console.log(categories[i].name);
+                    var categoryElement = $('#category-element-home').clone().appendTo('.category-list-category-list-all-items');
+                    categoryElement.attr('href',`/Articles/Admin/${categories[i].name}`);
+                    categoryElement.text(categories[i].name);
+                    categoryElement.attr('id', `category-element-${categories[i].name.replace(/ /g,"-")}lower`);
+                    if (categories[i].name.replace(/ /g,"-") == category.replace(/ /g,"-")) {
+                        checkCategory = true;
+                    }
+                }
+                if (checkCategory == true) {
+                    categoryWithoutSpaces = category.replace(/ /g,"-");
+                    $(`#category-element-${categoryWithoutSpaces}lower`).css('color', '#D72130');
+                    console.log($(`#category-element-${categoryWithoutSpaces}lower`).text());
+                }
+                else {
+                    $(`#category-element-home`).css('color', '#D72130');
+                }
+            }
+        });
 
         //change button color is needed
         let scrollWidth = $('.category-list-category-list-all-items')[0].scrollWidth;
@@ -161,7 +163,6 @@
         else {
             $("#right-button-image").css('fill', 'blue');
         }
-
     });
 
     function moveCategoryListLeft() {
