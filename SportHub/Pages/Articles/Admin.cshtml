@@ -54,7 +54,7 @@
                 <div class="get-admins-articles-elements" id="article-with-id-@Model.Article[index].Id">
                     <div class="get-admins-articles-image-container">
                     <a asp-page="./Details" asp-route-id="@Model.Article[index].Id" class="get-admins-articles-image-container-a">
-                        <img class="get-admins-articles-image" src="@Model.Article[index].ImageLink" alt="Italian Trulli">
+                        <img class="get-admins-articles-image" src="@Model.Article[index].ImageItem.ImageLink" alt="Italian Trulli">
                     </a>
                     </div>
                     <div class="get-admins-articles-right-content">

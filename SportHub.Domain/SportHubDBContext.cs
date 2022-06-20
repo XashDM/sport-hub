@@ -15,6 +15,7 @@ namespace SportHub.Domain
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<NavigationItem> NavigationItems { get; set; }
         public DbSet<DisplayItem> DisplayItems { get; set; }
+        public DbSet<ImageItem> ImageItems { get; set; }
 
 
         public DbSet<Language> Languages { get; set; }

@@ -67,7 +67,7 @@ namespace SportHub.Pages.Articles
             }
             for (int i = 0; i < Article.Count; i++)
             {
-                Article[i].ImageLink = await _imageService.GetImageLinkByNameAsync(Article[i].ImageLink);
+                Article[i].ImageItem.ImageLink = await _imageService.GetImageLinkByNameAsync(Article[i].ImageItem.ImageLink);
                 SubCategoriesDisplayed.Add(_articleService.GetArticlesSubcategory(Article[i].Id));
                 TeamsDisplayed.Add(_articleService.GetArticlesTeam(Article[i].Id));
             }

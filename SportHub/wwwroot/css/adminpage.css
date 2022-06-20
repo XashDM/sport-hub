@@ -1,10 +1,16 @@
-﻿
+﻿/*
 p
 {
     margin: 0;
     background-color: #FFFFFF;
     font-family: 'Open Sans';
     color: #B2B2B2;
+}
+//Ламає частину текту на сторінці, залишаю, щоб підправили (той, кому треба цей стиль)
+*/
+
+main {
+    padding-bottom: 60px;
 }
 
 .logo-link {
@@ -100,6 +106,9 @@ hr.href-between-sections {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: right;
+    margin-right: 25px;
+    margin-left: 25px;
 }
 
 .bottom-header {
@@ -165,9 +174,16 @@ main {
     max-width: 815px;
     margin: 0 auto;
     margin-top: 50px;
+    flex-direction: column;
 }
 
 .admin-configuration-block .main-articles_block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.photo-of-the-day-block {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -177,6 +193,13 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.photo-of-the-day-block .section-caption-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 25px 0 25px 0;
 }
 
 .section-caption-block .caption-line {
@@ -209,7 +232,7 @@ main {
     display: none;
 }
 
-.configuration-body label {
+.configuration-body label, #photo-info-form label {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 500;
@@ -455,4 +478,168 @@ input:checked + .slider:before {
 
 .disabled:hover {
     cursor: default;
+}
+
+.image-upload-box {
+    height: 600px;
+    overflow: hidden;
+}
+
+/*
+    Removes flickering when dragged over, for moz and webkit;
+    Also disable some buttons (important)
+*/
+#drop-section * {
+    pointer-events: none;
+}
+
+.day-photo-background-crop {
+    background-color: lightgray;
+    width: 100%;
+    height: 600px;
+    overflow: hidden;
+}
+
+#day-photo-background-img {
+    width: 120%;
+    transition: 0.3s;
+}
+
+.editing-tools-box {
+    width: 100%;
+    height: 600px;
+    position: relative;
+    top: -600px;
+    display: flex;
+    display: none;
+}
+
+.editing-tools-box label {
+    /*need some active buttons*/
+    pointer-events: initial !important;
+}
+
+.image-upload-box:hover #day-photo-background-img,
+.image-upload-box.isDragover #day-photo-background-img {
+    filter: blur(8px) brightness(60%);
+    transition: 0.6s;
+}
+
+.image-upload-box:hover .editing-tools-box,
+.image-upload-box.isDragover .editing-tools-box {
+    display: flex;
+}
+
+.add-photo-box {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-photo-box .add-photo-button {
+    margin: auto;
+}
+
+.add-photo-box .caption {
+    color: white;
+    font-weight: 800;
+    text-align: center;
+    font-size: 16px;
+    margin: 0;
+}
+
+.add-photo-box .caption label{
+    color: #d72130;
+    cursor: pointer;
+}
+
+.add-photo-box .caption input {
+    height: 0.1px;
+    width: 0.1px;
+}
+
+.add-photo-button {
+    cursor: pointer;
+}
+
+.add-photo-img {
+    margin: auto;
+    height: 63px;
+    width: 63px;
+}
+
+#photo-upload-form {
+
+}
+
+.photo-info-block, #photo-info-form {
+    width: 100%;
+}
+
+#photo-info-form input {
+    width: 100%;
+    border: 1px solid #D4D9E2;
+    box-sizing: border-box;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    height: 36px;
+}
+
+.alt-input-section, .title-input-section, .description-input-section, author-input-section {
+    margin: 25px 0 25px 0;
+}
+
+#photo-info-form .show-hide-selector-box {
+    justify-content: right;
+    width: 100%;
+    margin: 10px 0 10px 0;
+}
+
+#photo-info-form .show-hide-selector-box p {
+    margin: 0 7px 0 7px;
+}
+
+.show-on-draggedover {
+    display: none;
+}
+
+.pop-up-banner {
+    position: absolute;
+    left: 80%;
+    top: 250px;
+    width: 360px;
+    box-shadow: 0px 4px 28px #818181;
+    display: flex;
+    flex-direction: row;
+    display: none;
+}
+
+.pop-up-banner p {
+    color: black;
+    margin: 4px;
+}
+
+.pop-up-banner .status-icon {
+    height: 46px;
+    width: 46px;
+    margin: auto 15px auto 15px;
+}
+
+.banner-text {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 265px;
+}
+
+.banner-text .bold-text {
+    font-weight: 700;
+}
+
+.close-button {
+    margin-top: 9px;
+    width: 13px;
+    height: 13px;
 }
