@@ -22,6 +22,7 @@ function getMainArticles() {
 }
 
 function setMainArticlesList(articles) {
+    console.log(articles);
     displayItems = articles;
     var newsbox = $("#main-news-0");
     for (i = 1; i < displayItems.length; i++) {
@@ -35,7 +36,7 @@ function setMainArticlesList(articles) {
     for (i = 0; i < displayItems.length; i++) {
         var currentElement = $(`#main-news-${i}`)
         currentElement.find("a").attr("href", `/Articles/Details?id=${displayItems[i].article.id}`);
-        currentElement.find(".medium-news-img").attr("src", `${displayItems[i].article.imageLink}`);
+        currentElement.find(".medium-news-img").attr("src", `${displayItems[i].article.imageItem.imageLink}`);
         currentElement.find(".h3-heading-text").text(displayItems[i].article.title);
         currentElement.find(".caption").text(displayItems[i].article.contentText.substring(0, 50));
     }
@@ -44,7 +45,7 @@ function setMainArticlesList(articles) {
 
 function setMainArticle() {
     $(".main-article-photo").finish().fadeOut("5", function () {
-        $(this).attr("src", displayItems[counter].article.imageLink)
+        $(this).attr("src", displayItems[counter].article.imageItem.imageLink)
     }).fadeIn("5");
     $("#main-article-team-tag").html("<p>" + displayItems[counter].article.referenceItem.name + "</p>");
     $("#banner-published-date").text(displayItems[counter].article.postedDate);

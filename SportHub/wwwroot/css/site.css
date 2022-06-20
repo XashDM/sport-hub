@@ -42,13 +42,13 @@ a {
     font-size: 14px;
 }
 
-    .small-button:hover {
-        background-color: #e02232;
-    }
+.small-button:hover {
+    background-color: #e02232;
+}
 
-    .small-button:focus {
-        background-color: #c80515;
-    }
+.small-button:focus {
+    background-color: #c80515;
+}
 
 .small-button-inversed {
     background-color: white;
@@ -71,10 +71,10 @@ select {
     cursor: pointer;
 }
 
-    select:hover {
-        background-color: #fbe7e8;
-        color: #d72130;
-    }
+select:hover {
+    background-color: #fbe7e8;
+    color: #d72130;
+}
 
     select#language-select{
         position: absolute;

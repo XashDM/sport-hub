@@ -4,6 +4,7 @@ using NUnit.Framework;
 using SportHub.Controllers;
 using SportHub.Domain.Models;
 using SportHub.Models;
+using SportHub.Services;
 using SportHub.Services.Exceptions.ArticleServiceExceptions;
 using SportHub.Services.Interfaces;
 using System;
@@ -21,6 +22,7 @@ namespace SportHub.Tests
         private NavigationItem[] teams;
         private Article[] articles;
         private DisplayItem[] mainArticles;
+        private ImageItem[] images;
 
         [SetUp]
         public void Setup()
@@ -44,11 +46,18 @@ namespace SportHub.Tests
                 new NavigationItem { Id = 9, Name = "Storm", ParentsItem = null, ParentsItemId = 3, Type = "Team" },
             };
 
+            images = new ImageItem[]
+            {
+                new ImageItem {Id = 1, Alt = "Alt", Author = "Author", ImageLink = "link", PhotoTitle = "title", ShortDescription = "description"},
+                new ImageItem {Id = 2, Alt = "Alt", Author = "Author", ImageLink = "link", PhotoTitle = "title", ShortDescription = "description"},
+                new ImageItem {Id = 3, Alt = "Alt", Author = "Author", ImageLink = "link", PhotoTitle = "title", ShortDescription = "description"}
+            };
+
             articles = new Article[]
             {
-                new Article { Id = 1, ContentText = "Text", ImageLink = "link", PostedDate = DateTime.Now, ReferenceItem = teams[0], ReferenceItemId = teams[0].Id, Title = "None1"},
-                new Article { Id = 2, ContentText = "Text", ImageLink = "link", PostedDate = DateTime.Now, ReferenceItem = teams[0], ReferenceItemId = teams[0].Id, Title = "None2"},
-                new Article { Id = 3, ContentText = "Text", ImageLink = "link", PostedDate = DateTime.Now, ReferenceItem = teams[0], ReferenceItemId = teams[0].Id, Title = "None3"},
+                new Article { Id = 1, ContentText = "Text", ImageItem = images[0], ImageItemId = images[0].Id, PostedDate = DateTime.Now, ReferenceItem = teams[0], ReferenceItemId = teams[0].Id, Title = "None1"},
+                new Article { Id = 2, ContentText = "Text", ImageItem = images[1], ImageItemId = images[1].Id, PostedDate = DateTime.Now, ReferenceItem = teams[0], ReferenceItemId = teams[0].Id, Title = "None2"},
+                new Article { Id = 3, ContentText = "Text", ImageItem = images[2], ImageItemId = images[2].Id, PostedDate = DateTime.Now, ReferenceItem = teams[0], ReferenceItemId = teams[0].Id, Title = "None3"},
             };
 
             mainArticles = new DisplayItem[]
@@ -67,7 +76,9 @@ namespace SportHub.Tests
             articleService.Setup(articleService => articleService.GetAllCategoriesArrayAsync())
                 .Returns(Task.FromResult(categories));
 
-            var articleController = new ArticlesController(articleService.Object);
+            var imageService = new Mock<IImageService>();
+
+            var articleController = new ArticlesController(articleService.Object, imageService.Object);
 
             // act
 
@@ -91,7 +102,8 @@ namespace SportHub.Tests
             articleService.Setup(articleService => articleService.GetAllSubcategoriesByCategoryIdArrayAsync(categoryId))
                 .Returns(Task.FromResult(subcategoriesToReturn));
 
-            var articleController = new ArticlesController(articleService.Object);
+            var imageService = new Mock<IImageService>();
+            var articleController = new ArticlesController(articleService.Object, imageService.Object);
 
             // act
 
@@ -114,8 +126,9 @@ namespace SportHub.Tests
             var articleService = new Mock<IGetArticleService>();
             articleService.Setup(articleService => articleService.GetAllTeamsByParentIdArrayAsync(parentId))
                 .Returns(Task.FromResult(teamsToReturn));
-
-            var articleController = new ArticlesController(articleService.Object);
+            
+            var imageService = new Mock<IImageService>();
+            var articleController = new ArticlesController(articleService.Object, imageService.Object);
 
             // act
 
@@ -138,7 +151,8 @@ namespace SportHub.Tests
             articleService.Setup(articleService => articleService.GetArticlesByParentIdPaginatedArrayAsync(articleArgs.ArticleParentId, pageArgs.PageSize, pageArgs.PageNumber))
                 .Returns(Task.FromResult(articles));
 
-            var articleController = new ArticlesController(articleService.Object);
+            var imageService = new Mock<IImageService>();
+            var articleController = new ArticlesController(articleService.Object, imageService.Object);
 
             // act
 
@@ -162,7 +176,8 @@ namespace SportHub.Tests
             articleService.Setup(articleService => articleService.GetArticlesByParentIdPaginatedArrayAsync(articleArgs.ArticleParentId, pageArgs.PageSize, pageArgs.PageNumber))
                 .ThrowsAsync(new InvalidPageArgumentsException());
 
-            var articleController = new ArticlesController(articleService.Object);
+            var imageService = new Mock<IImageService>();
+            var articleController = new ArticlesController(articleService.Object, imageService.Object);
 
             // act
 
@@ -187,8 +202,9 @@ namespace SportHub.Tests
             };
 
             var articleService = new Mock<IGetArticleService>();
+            var imageService = new Mock<IImageService>();
 
-            var articleController = new ArticlesController(articleService.Object);
+            var articleController = new ArticlesController(articleService.Object, imageService.Object);
 
             // act
 
@@ -208,7 +224,8 @@ namespace SportHub.Tests
             var articleService = new Mock<IGetArticleService>();
             articleService.Setup(articleService => articleService.GetMainArticles()).Returns(Task.FromResult(mainArticles));
 
-            var articleController = new ArticlesController(articleService.Object);
+            var imageService = new Mock<IImageService>();
+            var articleController = new ArticlesController(articleService.Object, imageService.Object);
 
             // act
 
@@ -229,7 +246,8 @@ namespace SportHub.Tests
             var articleService = new Mock<IGetArticleService>();
             articleService.Setup(articleService => articleService.GetDisplayedMainArticles()).Returns(Task.FromResult(articlesToReturn));
 
-            var articleController = new ArticlesController(articleService.Object);
+            var imageService = new Mock<IImageService>();
+            var articleController = new ArticlesController(articleService.Object, imageService.Object);
 
             // act
 

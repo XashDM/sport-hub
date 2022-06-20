@@ -20,6 +20,11 @@ namespace SportHub.Services.Interfaces
         Task SaveMainArticles(Dictionary<int, bool> articlesToSave);
         Task<DisplayItem[]> GetMainArticles();
         Task<DisplayItem[]> GetDisplayedMainArticles();
+        Task<bool> UploadPhotoOfTheDay(ImageItem image);
+        Task<DisplayItem> GetPhotoOfTheDay();
+        Task<DisplayItem> GetDisplayedPhotoOfTheDay();
+        Task DisplayPhotoOfTheDay();
+        Task HidePhotoOfTheDay();
         Task<NavigationItem[]> GetAllCategoriesArrayAsync();
         Task<NavigationItem[]> GetAllSubcategoriesByCategoryIdArrayAsync(int categoryId);
         Task<NavigationItem[]> GetAllTeamsByParentIdArrayAsync(int parentId);

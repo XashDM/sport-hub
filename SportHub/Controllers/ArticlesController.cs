@@ -2,12 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SportHub.Models;
+using SportHub.Services;
 using SportHub.Services.Exceptions.RootExceptions;
 using SportHub.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SportHub.Domain.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace SportHub.Controllers
 {
@@ -16,10 +19,12 @@ namespace SportHub.Controllers
     public class ArticlesController : ControllerBase
     {
         private readonly IGetArticleService _articleService;
+        private readonly IImageService _imageService;
 
-        public ArticlesController(IGetArticleService articleService)
+        public ArticlesController(IGetArticleService articleService, IImageService imageService)
         {
             _articleService = articleService;
+            _imageService = imageService;
         }
 
         [HttpGet(nameof(GetAllCategories))]
@@ -140,5 +145,70 @@ namespace SportHub.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpPut(nameof(UploadPhotoOfTheDay))]
+        [AllowAnonymous]
+        public async Task<IActionResult> UploadPhotoOfTheDay([FromForm]PhotoOfTheDayModel photo)
+        {
+            string link = null;
+            if (photo.imageFile is not null)
+            {
+                link = await _imageService.UploadImageAsync(photo.imageFile);
+            }
+
+            ImageItem imageItem = new ImageItem()
+            {
+                Alt = photo.Alt,
+                Author = photo.Author,
+                ShortDescription = photo.ShortDescription,
+                PhotoTitle = photo.PhotoTitle,
+                ImageLink = link
+            };
+
+            var uploadResult = await _articleService.UploadPhotoOfTheDay(imageItem);
+            
+            if (!uploadResult)
+            {
+                return new BadRequestResult();
+            }
+
+            if (photo.isDisplayed is not null)
+            {
+                if (photo.isDisplayed == true)
+                {
+                    await _articleService.DisplayPhotoOfTheDay();
+                }
+                else
+                {
+                    await _articleService.HidePhotoOfTheDay();
+                }
+            }
+            else
+            {
+                await _articleService.HidePhotoOfTheDay();
+            }
+            return Ok();
+        }
+
+
+        //admin only
+        [HttpGet(nameof(GetPhotoOfTheDay))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPhotoOfTheDay()
+        {
+            //image is DisplayItem
+            var image = await _articleService.GetPhotoOfTheDay();
+            return Ok(image);
+        }
+
+        [HttpGet(nameof(GetDisplayedPhotoOfTheDay))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetDisplayedPhotoOfTheDay()
+        {
+            //image is DisplayItem
+            var image = await _articleService.GetDisplayedPhotoOfTheDay();
+            return Ok(image);
+        }
+
     }
 }

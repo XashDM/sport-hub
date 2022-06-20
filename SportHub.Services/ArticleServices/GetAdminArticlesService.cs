@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SportHub.Services.NavigationItemServices;
 using FluentEmail.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace SportHub.Services.ArticleServices
 {
@@ -64,7 +65,10 @@ namespace SportHub.Services.ArticleServices
                             {
                                 for (int i = 0; i < navigationItems.Count; i++)
                                 {
-                                    articles.AddRange(_context.Articles.Where(article => article.ReferenceItemId.Equals(navigationItems[i].Id)).ToList());
+                                    articles.AddRange(_context.Articles
+                                        .Where(article => article.ReferenceItemId.Equals(navigationItems[i].Id))
+                                        .Include(article => article.ImageItem)
+                                        .ToList());
                                 }
                                 return articles;
                             }
@@ -76,10 +80,16 @@ namespace SportHub.Services.ArticleServices
                         {
                             IList<NavigationItem> subcategoryItems = new List<NavigationItem>();
                             subcategoryItems = _context.NavigationItems.Where(items => items.ParentsItemId.Equals(categoryItem.Id)).ToList();
-                            articles.AddRange(_context.Articles.Where((article) => article.ReferenceItemId.Equals(categoryItem.Id)).ToList());
+                            articles.AddRange(_context.Articles
+                                .Where((article) => article.ReferenceItemId.Equals(categoryItem.Id))
+                                .Include(article => article.ImageItem)
+                                .ToList());
                             for (int i = 0; i < subcategoryItems.Count; i++)
                             {
-                                articles.AddRange(_context.Articles.Where((article) => article.ReferenceItemId.Equals(subcategoryItems[i].Id)).ToList());
+                                articles.AddRange(_context.Articles
+                                    .Where((article) => article.ReferenceItemId.Equals(subcategoryItems[i].Id))
+                                    .Include(article => article.ImageItem)
+                                    .ToList());
                             }
                             for (int i = 0; i < subcategoryItems.Count; i++)
                             {
@@ -88,7 +98,10 @@ namespace SportHub.Services.ArticleServices
                             }
                             for (int i = 0; i < allTeamsItem.Count; i++)
                             {
-                                articles.AddRange(_context.Articles.Where(article => article.ReferenceItemId.Equals(allTeamsItem[i].Id)).ToList());
+                                articles.AddRange(_context.Articles
+                                    .Where(article => article.ReferenceItemId.Equals(allTeamsItem[i].Id))
+                                    .Include(article => article.ImageItem)
+                                    .ToList());
                             }
                             return articles;
                         }
@@ -99,22 +112,28 @@ namespace SportHub.Services.ArticleServices
                                 && item.ParentsItemId.Equals(categoryItem.Id)).ToList();
                             for (int i = 0; i < navigationItems.Count; i++)
                             {
-                                articles.AddRange(_context.Articles.Where(item => item.ReferenceItemId.Equals(navigationItems[i].Id)).ToList());
+                                articles.AddRange(_context.Articles
+                                    .Where(item => item.ReferenceItemId.Equals(navigationItems[i].Id))
+                                    .Include(article => article.ImageItem)
+                                    .ToList());
                                 allTeamsItem.AddRange(_context.NavigationItems.Where(item => item.ParentsItemId == navigationItems[i].Id).ToList());
                             }
                             for (int i = 0; i < allTeamsItem.Count; i++)
                             {
-                                articles.AddRange(_context.Articles.Where(article => article.ReferenceItemId.Equals(allTeamsItem[i].Id)).ToList());
+                                articles.AddRange(_context.Articles
+                                    .Where(article => article.ReferenceItemId.Equals(allTeamsItem[i].Id))
+                                    .Include(article => article.ImageItem)
+                                    .ToList());
                             }
                             return articles;
                         }
                     }
-                    articles = _context.Articles.ToList();
+                    articles = _context.Articles.Include(article => article.ImageItem).ToList();
                     return articles;
                 }
                 else
                 {
-                    articles = _context.Articles.ToList();
+                    articles = _context.Articles.Include(article => article.ImageItem).ToList();
                     for (int i = 0; i<articles.Count; i++)
                     {
                         articles[i].ReferenceItem = _context.NavigationItems.FirstOrDefault(item => item.Id.Equals(articles[i].ReferenceItemId));

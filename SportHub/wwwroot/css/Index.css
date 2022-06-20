@@ -326,11 +326,23 @@
     overflow: hidden;
 }
 
+.photo-of-the-day-crop:hover img {
+    filter: blur(8px) brightness(60%);
+    transition: 1s;
+}
+
+.photo-of-the-day-crop:hover .photo-of-the-day-textbox{
+    display: block;
+
+}
+
 .photo-of-the-day-crop img {
     height: 120%;
+    transition: 0.5s;
 }
 
 .photo-of-the-day-textbox {
+    display: none;
     position:absolute;
     bottom: 3%;
     margin-left: 3%;
@@ -340,6 +352,10 @@
 
 .photo-of-the-day-textbox p, .photo-of-the-day-textbox h2 {
     color: white;
+}
+
+.photo-of-the-day-textbox p {
+    font-size: 14px;
 }
 
 .best-news {
