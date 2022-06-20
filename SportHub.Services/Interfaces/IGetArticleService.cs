@@ -24,5 +24,9 @@ namespace SportHub.Services.Interfaces
         Task<DisplayItem> GetDisplayedPhotoOfTheDay();
         Task DisplayPhotoOfTheDay();
         Task HidePhotoOfTheDay();
+        Task<NavigationItem[]> GetAllCategoriesArrayAsync();
+        Task<NavigationItem[]> GetAllSubcategoriesByCategoryIdArrayAsync(int categoryId);
+        Task<NavigationItem[]> GetAllTeamsByParentIdArrayAsync(int parentId);
+        Task<Article[]> GetArticlesByParentIdPaginatedArrayAsync(int parentId, int pageSize, int pageNumber);
     }
 }

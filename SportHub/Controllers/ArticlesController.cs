@@ -33,9 +33,7 @@ namespace SportHub.Controllers
         {
             try
             {
-                var categories = await _articleService
-                .GetAllCategoriesQueryable()
-                .ToArrayAsync();
+                var categories = await _articleService.GetAllCategoriesArrayAsync();
 
                 return Ok(categories);
             }
@@ -51,9 +49,7 @@ namespace SportHub.Controllers
         {
             try
             {
-                var subcategories = await _articleService
-                .GetAllSubcategoriesByCategoryIdQueryable(categoryId)
-                .ToArrayAsync();
+                var subcategories = await _articleService.GetAllSubcategoriesByCategoryIdArrayAsync(categoryId);
 
                 return Ok(subcategories);
             }
@@ -69,9 +65,7 @@ namespace SportHub.Controllers
         {
             try
             {
-                var teams = await _articleService
-                .GetAllTeamsByParentIdQueryable(parentId)
-                .ToArrayAsync();
+                var teams = await _articleService.GetAllTeamsByParentIdArrayAsync(parentId);
 
                 return Ok(teams);
             }
@@ -88,14 +82,7 @@ namespace SportHub.Controllers
             try
             {
                 var pageArgs = articleArgs.PageArgs;
-
-                var articles = _articleService
-                    .GetAllArticlesByParentIdQueryable(articleArgs.ArticleParentId);
-
-                var articlesPaginated = await _articleService
-                    .Paginate(articles, pageArgs.PageSize, pageArgs.PageNumber)
-                    .Item1
-                    .ToArrayAsync();
+                var articlesPaginated = await _articleService.GetArticlesByParentIdPaginatedArrayAsync(articleArgs.ArticleParentId, pageArgs.PageSize, pageArgs.PageNumber);
 
                 return Ok(articlesPaginated);
             }
@@ -117,7 +104,7 @@ namespace SportHub.Controllers
             {
                 await _articleService.SaveMainArticles(articleIds);
 
-                return Ok();
+                return StatusCode(201);
             }
             catch (Exception)
             {
