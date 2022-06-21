@@ -11,8 +11,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    [Migration("20220620193414_initialize_in_13_fckn_time")]
-    partial class initialize_in_13_fckn_time
+    [Migration("20220620170304_initial_n22")]
+    partial class initial_n22
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
