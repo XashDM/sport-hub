@@ -51,11 +51,11 @@ builder.Services.AddSingleton<IImageService>(x => new ImageService(blobContainer
 builder.Services
     .AddFluentEmail("sporthub.mailservice@gmail.com", "SportHub")
     .AddRazorRenderer()
-    .AddSmtpSender(new SmtpClient("smtp.gmail.com")
+    .AddSmtpSender(new SmtpClient("smtp.live.com")
     {
         UseDefaultCredentials = false,
         Port = 587,
-        Credentials = new NetworkCredential("sporthub.mailservice@gmail.com", "steamisjustavaporizedwater123"),
+        Credentials = new NetworkCredential("sportshub.service@hotmail.com", "steamisjustavaporizedwater123"),
         EnableSsl = true
     });
 builder.Services.AddScoped<ILanguageService, LanguageService>();

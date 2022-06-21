@@ -6,7 +6,7 @@ p
     font-family: 'Open Sans';
     color: #B2B2B2;
 }
-//Ламає частину текту на сторінці, залишаю, щоб підправили (тоиу, кому треба цей стиль)
+//Ламає частину текту на сторінці, залишаю, щоб підправили (той, кому треба цей стиль)
 */
 
 main {
@@ -484,6 +484,15 @@ input:checked + .slider:before {
     height: 600px;
     overflow: hidden;
 }
+
+/*
+    Removes flickering when dragged over, for moz and webkit;
+    Also disable some buttons (important)
+*/
+#drop-section * {
+    pointer-events: none;
+}
+
 .day-photo-background-crop {
     background-color: lightgray;
     width: 100%;
@@ -503,6 +512,11 @@ input:checked + .slider:before {
     top: -600px;
     display: flex;
     display: none;
+}
+
+.editing-tools-box label {
+    /*need some active buttons*/
+    pointer-events: initial !important;
 }
 
 .image-upload-box:hover #day-photo-background-img,
@@ -545,9 +559,13 @@ input:checked + .slider:before {
 }
 
 .add-photo-button {
+    cursor: pointer;
+}
+
+.add-photo-img {
+    margin: auto;
     height: 63px;
     width: 63px;
-    cursor: pointer;
 }
 
 #photo-upload-form {
