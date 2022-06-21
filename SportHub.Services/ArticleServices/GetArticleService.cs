@@ -319,6 +319,17 @@ namespace SportHub.Services.ArticleServices
             await _context.SaveChangesAsync();
         }
 
+        public async Task<ImageItem> UploadArticlePhoto(ImageItem image)
+        {
+            if (image.ImageLink != null)
+            {
+                await _context.AddAsync(image);
+                await _context.SaveChangesAsync();
+                return image;
+            }
+            return null; 
+        }
+
         //admin only, returns hidden article 
         public async Task<DisplayItem> GetPhotoOfTheDay()
         {

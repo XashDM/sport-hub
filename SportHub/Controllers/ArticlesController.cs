@@ -162,21 +162,38 @@ namespace SportHub.Controllers
 
         [Route("/SaveNewArticle")]
         [AllowAnonymous]
-        public async Task<IActionResult> SaveNewArticle(ArticleUpload article)
+        public async Task<IActionResult> SaveNewArticle([FromForm] ArticleToAdd article)
         {
             try
             {
-                Article article1 = new Article
+                string link = null;
+                if (article.imageFile is not null)
                 {
-                    Title = article.Title,
-                    ReferenceItemId = article.ReferenceItemId,
-                    AlternativeTextForThePicture = article.AlternativeTextForThePicture,
-                    IsPublished = article.IsPublished,
-                    ContentText = article.ContentText,
-                    ImageItemId = article.ImageItemId,
-                    ShortDescriptionOfThePicture = article.ShortDescriptionOfThePicture
+                    link = await _imageService.UploadImageAsync(article.imageFile);
+                }
+                ImageItem imageItem = new ImageItem()
+                {
+                    Alt = article.AlternativeTextForThePicture,
+                    Author = "None",
+                    ShortDescription = article.ShortDescriptionOfThePicture,
+                    PhotoTitle = "None",
+                    ImageLink = link
                 };
-                bool resulte = await _articleService.SaveArticle(article1);
+                imageItem = await _articleService.UploadArticlePhoto(imageItem);
+                if(imageItem == null)
+                    return StatusCode(400, "Something went wrong");
+
+                Article articleToSave = new Article
+                {
+                    ReferenceItemId = article.ReferenceItemId,
+                    ImageItemId = imageItem.Id,
+                    Title = article.Title,
+                    AlternativeTextForThePicture = article.AlternativeTextForThePicture,
+                    ContentText = article.ContentText,
+                    ShortDescriptionOfThePicture = article.ShortDescriptionOfThePicture,
+                    IsPublished = true,
+                };
+                bool resulte = await _articleService.SaveArticle(articleToSave);
                 if (!resulte) 
                     return StatusCode(400, "Something went wrong");
 

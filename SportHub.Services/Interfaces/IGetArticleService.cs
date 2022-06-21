@@ -25,5 +25,6 @@ namespace SportHub.Services.Interfaces
         public Task DisplayPhotoOfTheDay();
         public Task HidePhotoOfTheDay();
         Task<bool> SaveArticle(Article article);
+        Task<ImageItem> UploadArticlePhoto(ImageItem image);
     }
 }

@@ -49,13 +49,27 @@
     </div> 
     
     <div class="add-article-box">
-        <div class="picture">        
-            <label>PICTURE</label>
-            <div class="area">
-                <input type="file" id="upload" name="ImageLink">       
-            </div>  
+    <div class="image-upload-box">
+            <div class="day-photo-background-crop">
+                <img id="day-photo-background-img" src="" />
+            </div>
+            <div class="editing-tools-box">
+                <form class="add-photo-box" id="add-photo-form" enctype="multipart/form-data">
+                    <label class="add-photo-button" for="photo-upload-input">
+                        <img src="~/icons/photo-icon.svg" />
+                    </label>
+                    <p class="caption hide-on-draggedover">
+                        <input id="photo-upload-input" name="imageFile" type="file" accept="image/png, image/jpg, image/jpeg, image/gif" />
+                        <label for="photo-upload-input">Choose a file</label>
+                        or drop it here
+                    </p>
+                    <p class="caption hide-on-draggedover">You can add next formats: .png .jpg .jpeg .gif </p>
+                    <p class="caption show-on-draggedover">
+                        Drop it here!!
+                    </p>
+                </form>
+            </div>
         </div>
-    
         <div class="drop-down-fields">      
             <div class="select-box">            
                 <label for="main-a-subcategories">SUBCATEGORY</label>           
@@ -106,6 +120,7 @@
             </div>
 
         </div>
+
     </div>   
 </from>
 
@@ -121,38 +136,35 @@
     });
 
     let category = {"id":@p };
-    function save() {
-        let data = {};
-        // переберём все элементы input, textarea и select формы с id="myForm "
-        $('#form1').find ('input, textearea, select').each(function() {
 
-          data[this.name] = $(this).val();
+    function save() {
+        infoForm = $('#article-form')[0];
+        let data = new FormData(infoForm);
+        $('#form1').find ('input, textearea, select').each(function() {
+            data.append(this.name, $(this).val());
         });
         console.log(data);
         let ReferenceItemId = @p;
-        if (data["subcutegories"] != "") {
-            ReferenceItemId = parseInt(data["subcutegories"]);
+        let subcutegory = data.get("teams");
+        if (subcutegory != "" && subcutegory != "null") {
+            ReferenceItemId = parseInt(data.get("subcutegories"));
         }
-        if (data["teams"] != "") {
-            ReferenceItemId = parseInt(data["teams"]);
+        let team = data.get("teams");
+        if (team != "" && team != "null" ) {
+            ReferenceItemId = parseInt(data.get("teams"));
         }
-        data["ReferenceItemId"] = ReferenceItemId;
-        data["ContentText"] = editor.getData();
-        data["ImageLink"] = "nyashka.png";
-        data["IsPublished"] = true;
-        data["ImageItemId"] = 2;
-        data["ImageItem"] = null;
-        console.log(data);
+        data.append('ReferenceItemId', ReferenceItemId);
+        data.append('ContentText', editor.getData());
+        data.append('imageFile', $('input[name="imageFile"]').prop('files')[0]);
         $.ajax({
         url: '/SaveNewArticle',
         type: 'post',
-        dataType: "json",
-        data: JSON.stringify(data),
+        processData: false,
+        contentType: false,
+        data: data,
         async: false,
         headers:
         {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
             'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
         },
         }).done(function (date) {
@@ -193,5 +205,64 @@
             sel.append($("<option>").attr('value', this.id).text(this.name));
         });
     }
-  </script>
+
+$('#photo-upload-input').on('change', function () {
+    const file = $('input[name="imageFile"]').prop('files')[0];
+    if (file) {
+        $('#day-photo-background-img').attr('src', URL.createObjectURL(file));
+    }
+});
+
+$('.image-upload-box').on('dragover dragenter dragleave drop', function (evt) {
+    evt.preventDefault();
+});
+
+$('.image-upload-box').on('dragenter dragover', function (evt) {
+    $('.hide-on-draggedover').hide();
+    $('.show-on-draggedover').show();
+    $('.image-upload-box').addClass('isDragover');
+});
+
+$('.image-upload-box').on('dragleave dragend drop', function (evt) {
+    $('.image-upload-box').removeClass('isDragover');
+    $('.hide-on-draggedover').show();
+    $('.show-on-draggedover').hide();
+});
+
+$('.image-upload-box').on('drop', function (evt) {
+    let dt = evt.originalEvent.dataTransfer;
+    let files = dt.files;
+    $('input[name="imageFile"]').prop('files', files);
+    const file = files[0];
+    if (file) {
+        $('#day-photo-background-img').attr('src', URL.createObjectURL(file));
+    }
+  });
+
+function uploadPhotoOfTheDay() {
+    infoForm = $('#photo-info-form')[0];
+    let fd = new FormData(infoForm);
+    fd.append('imageFile', $('input[name="imageFile"]').prop('files')[0]);
+    isDisplayed = $('#photo-of-day-isDisplayed').prop('checked')
+    fd.append('isDisplayed', isDisplayed);
+    $.ajax({
+        async: true,
+        url: "/api/Articles/UploadPhotoOfTheDay",
+        type: "PUT",
+        processData: false,
+        contentType: false,
+        data: fd,
+
+        success: function (response) {
+            $('#success-banner').css('display', 'flex');
+            $('#success-banner').delay(5000).fadeOut();
+        },
+        
+        error: function () {
+            $('#error-banner').css('display', 'flex');
+            $('#error-banner').delay(5000).fadeOut();
+        }
+    });
+}
+</script>
 }
