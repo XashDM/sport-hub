@@ -11,13 +11,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220614185509_initialize_in_12_fckn_time.Designer.cs
-    [Migration("20220614185509_initialize_in_12_fckn_time")]
-    partial class initialize_in_12_fckn_time
-========
-    [Migration("20220620170304_initial_n22")]
-    partial class initial_n22
->>>>>>>> main:SportHub.Domain/Migrations/20220620170304_initial_n22.Designer.cs
+    [Migration("20220620193414_initialize_in_13_fckn_time")]
+    partial class initialize_in_13_fckn_time
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

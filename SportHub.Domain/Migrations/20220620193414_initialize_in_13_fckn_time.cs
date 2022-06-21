@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SportHub.Domain.Migrations
 {
-<<<<<<<< HEAD:SportHub.Domain/Migrations/20220614185509_initialize_in_12_fckn_time.cs
-    public partial class initialize_in_12_fckn_time : Migration
-========
-    public partial class initial_n22 : Migration
->>>>>>>> main:SportHub.Domain/Migrations/20220620170304_initial_n22.cs
+    public partial class initialize_in_13_fckn_time : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
