@@ -56,10 +56,6 @@
             </button>
             <div class="category-list-category-list-all-items">
                 <a id="category-element-home" class="category-list-category-list" href="/adminpage">Home</a>
-                @*@for (int i = 0; i<Model.Categories.Count; i++)
-                {
-                    <a id="category-element-@(Model.Categories[i].Name.Replace(' ','-'))lower" class="category-list-category-list" href="/@Model.Categories[i].Name">@Model.Categories[i].Name</a>
-                }*@
             </div>
             <button onclick="moveCategoryListRight()" class="category-list-right-category-button">
                 <img src="~/images/Left-arrow-header-categories-gray.svg" class="category-list-right-category-button-img" id="right-button-image">
