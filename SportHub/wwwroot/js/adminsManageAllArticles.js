@@ -164,6 +164,7 @@ function deleteArticleFunction(articleId) {
             document.getElementById(`article-with-id-${articleId}`).style.display = "none";
             $("#delete-confirm").fadeOut();
             $("#overlay").fadeOut();
+            $('#publish-banner').finish();
             $("#message-title").text("Deleted!");
             $("#message-info").text("The article is removed from the list");
             $('#publish-banner').fadeIn().delay(1000).fadeOut(500);
@@ -195,6 +196,7 @@ function publishUnpublish(articleId) {
                 if (publishText == "Published") {
                     $(`#article-with-id-${articleId}`).show();
                 }
+                $('#publish-banner').finish();
                 $("#message-title").text("Published");
                 $("#message-info").text("The article is successfully published");
                 $('#publish-banner').fadeIn().delay(1000).fadeOut(500);
@@ -211,6 +213,7 @@ function publishUnpublish(articleId) {
                 if (publishText == "Unpublished") {
                     $(`#article-with-id-${articleId}`).show();
                 }
+                $('#publish-banner').finish();
                 $("#message-title").text("Unpublished");
                 $("#message-info").text("The article is successfully unpublished");
                 $('#publish-banner').fadeIn().delay(1000).fadeOut(500);
@@ -237,6 +240,7 @@ function changeArticleCategory(articleId, categoryId) {
         success: function (result) {
             $(`#article-with-id-${articleId}`).hide();
             console.log(result);
+            $('#publish-banner').finish();
             $("#message-title").text("Moved");
             $("#message-info").text("The article is successfully moved");
             $('#publish-banner').fadeIn();
