@@ -6,11 +6,9 @@ $(document).ready(function () {
     let category = $(location).attr('pathname');
     category = category.split("/").pop();
     category = decodeURI(category);
-    console.log(category);
     if (category != "") {
         categoryWithoutSpaces = category.replace(/ /g, "-");
         $('#page-header-name').text(category);
-        console.log(categoryWithoutSpaces);
     }
     else {
         $('#page-header-name').text("All categories");
@@ -239,7 +237,6 @@ function changeArticleCategory(articleId, categoryId) {
         url: `/article/move/${articleId}/${categoryId}`,
         success: function (result) {
             $(`#article-with-id-${articleId}`).hide();
-            console.log(result);
             $('#publish-banner').finish();
             $("#message-title").text("Moved");
             $("#message-info").text("The article is successfully moved");
@@ -247,5 +244,4 @@ function changeArticleCategory(articleId, categoryId) {
             $("#publish-banner").delay(1000).fadeOut(500);
         }
     });
-    console.log("working(no)");
 }
