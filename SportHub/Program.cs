@@ -83,6 +83,10 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
@@ -90,14 +94,6 @@ app.UseEndpoints(endpoints =>
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
-app.UseRouting();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapRazorPages();
 app.UseEndpoints(endpoints =>
