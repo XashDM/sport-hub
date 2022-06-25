@@ -454,6 +454,7 @@ input:checked + .slider:before {
     display: flex;
     width: 170px;
     justify-content: space-between;
+    align-items: center;
 }
 
 .show-hide-selector-box p {
@@ -463,6 +464,7 @@ input:checked + .slider:before {
     font-size: 12px;
     line-height: 16px;
     color: #2B2F43;
+    padding-bottom: 5px;
 }
 
 .break-line {
