@@ -1,4 +1,5 @@
 ﻿using SportHub.Domain.Models;
+using SportHub.Domain.ViewModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,6 +11,6 @@ namespace SportHub.Services.Interfaces
         Task<List<NavigationItem>> GetTopCategories();
         Task<List<int>> GetRecusiveTree(int ItemId);
         Task<List<Article>> GetArticlesofItem(int ItemId);
-        Task<bool> AddNewItems (List<NavigationItem> newItem);
+        Task<bool> AddNewItems (List<NavigationItemForSave> newItem);
     }
 }

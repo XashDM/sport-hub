@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SportHub.Domain.Models;
+using SportHub.Domain.ViewModel;
 using SportHub.Services.Interfaces;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -24,7 +25,7 @@ namespace SportHub.Controlles
         }
 
         [HttpPost("/save")]
-        public async Task<IActionResult> SaveItems(Dictionary<string, List<NavigationItem>> data)
+        public async Task<IActionResult> SaveItems(Dictionary<string, List<NavigationItemForSave>> data)
         {
             bool result = await _navigationService.AddNewItems(data["date"]);
             return result ? new ObjectResult("OK") : BadRequest("Errore");
