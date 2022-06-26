@@ -11,8 +11,8 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    [Migration("20220614140901_Start4")]
-    partial class Start4
+    [Migration("20220624085210_start1")]
+    partial class start1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,10 +37,6 @@ namespace SportHub.Domain.Migrations
 
                     b.Property<int>("ImageItemId")
                         .HasColumnType("int");
-
-                    b.Property<string>("ImageLink")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsPublished")
                         .ValueGeneratedOnAdd()
@@ -130,8 +126,8 @@ namespace SportHub.Domain.Migrations
 
                     b.Property<string>("Alt")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasMaxLength(70)
+                        .HasColumnType("varchar(70)");
 
                     b.Property<string>("Author")
                         .IsRequired()
@@ -149,8 +145,8 @@ namespace SportHub.Domain.Migrations
 
                     b.Property<string>("ShortDescription")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
 
                     b.HasKey("Id");
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SportHub.Domain.Migrations
 {
-    public partial class Start4 : Migration
+    public partial class start1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,11 +37,11 @@ namespace SportHub.Domain.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ImageLink = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Alt = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    Alt = table.Column<string>(type: "varchar(70)", maxLength: 70, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PhotoTitle = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ShortDescription = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                    ShortDescription = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Author = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
@@ -137,8 +137,6 @@ namespace SportHub.Domain.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ReferenceItemId = table.Column<int>(type: "int", nullable: true),
                     AlternativeTextForThePicture = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ImageLink = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ImageItemId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "longtext", nullable: false)
