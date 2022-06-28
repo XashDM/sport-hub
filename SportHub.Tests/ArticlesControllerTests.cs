@@ -23,7 +23,7 @@ namespace SportHub.Tests
         private Article[] articles;
         private DisplayItem[] mainArticles;
         private ImageItem[] images;
-
+        
         [SetUp]
         public void Setup()
         {
@@ -78,7 +78,9 @@ namespace SportHub.Tests
 
             var imageService = new Mock<IImageService>();
 
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var commentService = new Mock<ICommentService>();
+
+            var articleController = new ArticlesController(articleService.Object, imageService.Object, commentService.Object);
 
             // act
 
@@ -103,7 +105,10 @@ namespace SportHub.Tests
                 .Returns(Task.FromResult(subcategoriesToReturn));
 
             var imageService = new Mock<IImageService>();
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+
+            var commentService = new Mock<ICommentService>();
+
+            var articleController = new ArticlesController(articleService.Object, imageService.Object, commentService.Object);
 
             // act
 
@@ -128,7 +133,9 @@ namespace SportHub.Tests
                 .Returns(Task.FromResult(teamsToReturn));
             
             var imageService = new Mock<IImageService>();
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var commentService = new Mock<ICommentService>();
+
+            var articleController = new ArticlesController(articleService.Object, imageService.Object, commentService.Object);
 
             // act
 
@@ -152,7 +159,9 @@ namespace SportHub.Tests
                 .Returns(Task.FromResult(articles));
 
             var imageService = new Mock<IImageService>();
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var commentService = new Mock<ICommentService>();
+
+            var articleController = new ArticlesController(articleService.Object, imageService.Object, commentService.Object);
 
             // act
 
@@ -177,7 +186,9 @@ namespace SportHub.Tests
                 .ThrowsAsync(new InvalidPageArgumentsException());
 
             var imageService = new Mock<IImageService>();
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var commentService = new Mock<ICommentService>();
+
+            var articleController = new ArticlesController(articleService.Object, imageService.Object, commentService.Object);
 
             // act
 
@@ -203,8 +214,9 @@ namespace SportHub.Tests
 
             var articleService = new Mock<IGetArticleService>();
             var imageService = new Mock<IImageService>();
+            var commentService = new Mock<ICommentService>();
 
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var articleController = new ArticlesController(articleService.Object, imageService.Object, commentService.Object);
 
             // act
 
@@ -225,7 +237,9 @@ namespace SportHub.Tests
             articleService.Setup(articleService => articleService.GetMainArticles()).Returns(Task.FromResult(mainArticles));
 
             var imageService = new Mock<IImageService>();
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var commentService = new Mock<ICommentService>();
+
+            var articleController = new ArticlesController(articleService.Object, imageService.Object, commentService.Object);
 
             // act
 
@@ -247,7 +261,9 @@ namespace SportHub.Tests
             articleService.Setup(articleService => articleService.GetDisplayedMainArticles()).Returns(Task.FromResult(articlesToReturn));
 
             var imageService = new Mock<IImageService>();
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var commentService = new Mock<ICommentService>();
+
+            var articleController = new ArticlesController(articleService.Object, imageService.Object, commentService.Object);
 
             // act
 
