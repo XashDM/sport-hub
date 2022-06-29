@@ -145,6 +145,10 @@ h3btn {
     padding-bottom: 20px;
 }
 
+.icons {
+    display: flex;
+}
+
 .rectang {
     position: absolute;
     font-family: 'Open Sans';

@@ -17,6 +17,11 @@ namespace SportHub.Services
 
         public User GetUserByEmail(string email)
         {
+            if (IsExistingEmail(email) == false)
+            {
+                throw new UserDoesNotExistException();
+            }
+
             var user = _context.Users.Include(u => u.Roles)
                                      .Where(u => u.Email.Equals(email))
                                      .First();
@@ -24,7 +29,7 @@ namespace SportHub.Services
             return user;
         }
 
-        public User CreateUser(string email, string passwordHash, string firstName, string lastName)
+        public User CreateUser(string email, string? passwordHash, string firstName, string lastName, bool isExternal = false)
         {
             if (IsExistingEmail(email))
             {
@@ -32,6 +37,11 @@ namespace SportHub.Services
             }
 
             var userRole = GetUserRoleByName("User");
+
+            if (isExternal)
+            {
+                passwordHash = "945d907f6a5e50d7f95b96925dca6a32e09eb782060956e3f122e24d7f90f8da"; // stands for 'dummypassword'
+            }
 
             var user = new User
             {

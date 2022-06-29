@@ -13,6 +13,48 @@ async function sha256(message) {
     return hashHex;
 }
 
+function handleGoogleCredentialResponseSignup(googleUser) {
+    let token = googleUser.credential;
+    sendExternalAuthAjaxRequest(token, true)
+};
+
+function handleGoogleCredentialResponseSignin(googleUser) {
+    let token = googleUser.credential;
+    sendExternalAuthAjaxRequest(token, false)
+};
+
+function sendExternalAuthAjaxRequest(token, isSignup) {
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        async: true,
+        url: '/api/Users/HandleExternalAuth',
+        type: 'post',
+        data: JSON.stringify({
+            'UserToken': token,
+            'AuthProvider': 'Google',
+            'IsCreationRequired': isSignup
+        }),
+        success: function (jwtToken) {
+            localStorage.setItem('Jwt Token', jwtToken);
+            window.location.href = '/';
+        },
+        error: function (response) {
+            console.error(response);
+            if (isSignup) {
+                applySignupResponse(response.responseJSON, 'response-danger-text');
+                resetBorderColors();
+            }
+            else {
+                $('#form-result').text(response.responseJSON);
+                $('#form-result').show();
+            }
+        }
+    });
+}
+
 $("#loginForm").submit((event) => {
     event.preventDefault();
     const emailAddress = $("#field_email").val().toString();
