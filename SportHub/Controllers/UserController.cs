@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SportHub.Config.JwtAuthentication;
 using SportHub.Models;
 using SportHub.Services;
+using SportHub.Services.Exceptions.RootExceptions;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace SportHub.Controllers
 {
@@ -23,8 +27,6 @@ namespace SportHub.Controllers
             _jwtSigner = jwtSigner;
         }
 
-<<<<<<< Updated upstream
-=======
         [HttpPost(nameof(HandleExternalAuth))]
         [AllowAnonymous]
         public async Task<IActionResult> HandleExternalAuth(ExternalAuthArgs externalAuthArgs)
@@ -88,7 +90,6 @@ namespace SportHub.Controllers
             }
         }
 
->>>>>>> Stashed changes
         [HttpPost(nameof(ResetPassword))]
         [Authorize]
         public IActionResult ResetPassword([FromQuery] string passwordHash)

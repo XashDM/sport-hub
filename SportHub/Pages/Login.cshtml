@@ -1,4 +1,6 @@
 ﻿@page
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration _configuration
 @model SportHub.Pages.LoginModel
 @{
     ViewData["Title"] = "Login User";
@@ -24,10 +26,7 @@
                   <h3 class="h3btn">Log in to Sports Hub</h3>
                </div>
                <div class="icons">
-<<<<<<< Updated upstream
-                  <img class="logo" src="@Url.Content("~/images/FB.png")" />
-                  <img class="logo" src="@Url.Content("~/images/Gmail.png")" />
-=======
+                   <script src="https://accounts.google.com/gsi/client" async defer></script>
                     <a href="#" onclick="handleFacebookResponseSignin();"><img src="~/images/Facebook.svg" alt=""></a>
                     <div id="g_id_onload"
                         data-client_id="@_configuration["Authentication:Google:ClientId"]"
@@ -42,7 +41,6 @@
                          data-text="signin_with"
                          data-size="medium">
                     </div>
->>>>>>> Stashed changes
                </div>
                <div id="form-result" class="error"></div>
                <form method="post" id="loginForm">

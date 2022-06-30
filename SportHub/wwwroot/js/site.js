@@ -13,8 +13,6 @@ async function sha256(message) {
     return hashHex;
 }
 
-<<<<<<< Updated upstream
-=======
 function handleGoogleCredentialResponseSignup(googleUser) {
     let token = googleUser.credential;
     sendExternalAuthAjaxRequest(token, true, 'Google');
@@ -126,7 +124,6 @@ function handleFacebookResponseSignin() {
     document.getElementById('fb-root').appendChild(e);
 }());
 
->>>>>>> Stashed changes
 $("#loginForm").submit((event) => {
     event.preventDefault();
     const emailAddress = $("#field_email").val().toString();
