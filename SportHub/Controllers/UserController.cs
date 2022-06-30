@@ -23,6 +23,72 @@ namespace SportHub.Controllers
             _jwtSigner = jwtSigner;
         }
 
+<<<<<<< Updated upstream
+=======
+        [HttpPost(nameof(HandleExternalAuth))]
+        [AllowAnonymous]
+        public async Task<IActionResult> HandleExternalAuth(ExternalAuthArgs externalAuthArgs)
+        {
+            try
+            {
+                if (externalAuthArgs.AuthProvider.Equals("Facebook"))
+                {
+                    if (externalAuthArgs.IsCreationRequired == true)
+                    {
+                        var createdUser = _userService.CreateUser(externalAuthArgs.Email, null, 
+                            externalAuthArgs.FirstName, externalAuthArgs.LastName, true);
+                        var authToken = _jwtSigner.FetchToken(createdUser);
+
+                        return Ok(authToken);
+                    }
+                    else
+                    {
+                        var existingUser = _userService.GetUserByEmail(externalAuthArgs.Email);
+                        var authToken = _jwtSigner.FetchToken(existingUser);
+
+                        return Ok(authToken);
+                    }
+                }
+                else
+                {
+                    var validatedToken = await GoogleJsonWebSignature.ValidateAsync(externalAuthArgs.UserToken);
+
+                    if (validatedToken != null)
+                    {
+                        var firstname = validatedToken.GivenName;
+                        var lastname = validatedToken.FamilyName;
+                        var email = validatedToken.Email;
+
+                        if (externalAuthArgs.IsCreationRequired == true)
+                        {
+                            var createdUser = _userService.CreateUser(email, null, firstname, lastname, true);
+                            var authToken = _jwtSigner.FetchToken(createdUser);
+
+                            return Ok(authToken);
+                        }
+                        else
+                        {
+                            var existingUser = _userService.GetUserByEmail(email);
+                            var authToken = _jwtSigner.FetchToken(existingUser);
+
+                            return Ok(authToken);
+                        }
+                    }
+
+                    return BadRequest();
+                }
+            }
+            catch (UserServiceException e)
+            {
+                return StatusCode(e.StatusCode, e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
+>>>>>>> Stashed changes
         [HttpPost(nameof(ResetPassword))]
         [Authorize]
         public IActionResult ResetPassword([FromQuery] string passwordHash)
