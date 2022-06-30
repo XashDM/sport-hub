@@ -22,6 +22,29 @@ namespace SportHub.Services.ArticleServices
             _imageService = imageService;
         }
 
+        public string ChangeArticlesCategory(int id, int categoryId)
+        {
+            NavigationItem = _context.NavigationItems.FirstOrDefault(item => item.Id.Equals(categoryId));
+            var article = _context.Articles.FirstOrDefault(idArticle => idArticle.Id == id);
+            if (article != null)
+            {
+                if(NavigationItem != null)
+                {
+                    article.ReferenceItemId = NavigationItem.Id;
+                    article.ReferenceItem = NavigationItem;
+                    _context.SaveChanges();
+                    return article.ReferenceItem.Name;
+                }
+                else
+                {
+                    return "Unable to change";
+                }
+            }
+            else
+            {
+                return "Unable to change";
+            }
+        }
 
         public async Task<Article> GetArticle(int id)
         {
@@ -39,6 +62,7 @@ namespace SportHub.Services.ArticleServices
             }
             catch { return null; }
         }
+
 
         public string GetArticlesTeam(int? id)
         {

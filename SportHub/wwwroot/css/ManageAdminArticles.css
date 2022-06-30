@@ -13,6 +13,41 @@ body {
     }
 }
 
+.middle-header {
+    height: 78px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 101px;
+}
+
+.info-title {
+    margin: 25px 0 12px 0;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 41px;
+    color: #000000;
+}
+
+.red-button-object {
+    height: 32px;
+    width: 134px;
+    background-color: #D72130;
+    margin: 24px 0 22px 0;
+}
+
+.new-article {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    color: white;
+    margin: 8px 28px 8px 29px;
+}
+
 .get-admins-articles-main-body {
     max-width: 839px;
     margin: auto;
@@ -25,7 +60,7 @@ select {
 }
 
 .get-admins-articles-container-body {
-    width: 960px;
+    width: 1160px;
     height: 1058px;
     overflow: scroll;
     overflow-x: visible;
@@ -272,6 +307,237 @@ select {
     font-style: normal;
     font-weight: 400;
     font-size: 19px;
+}
+
+.get-admins-articles-move-button {
+    border: none;
+    background-color: white;
+    width: 100%;
+    text-align: inherit;
+    padding: 8px 16px;
+    color: black;
+    cursor: pointer;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+}
+
+.get-admins-articles-move-image {
+    float: right;
+    margin: 8px;
+    vertical-align: text-bottom;
+}
+
+.get-admins-articles-dropdown-move-content {
+    display: none;
+    position: absolute;
+    left: 100%;
+    width: 200px;
+    z-index: 1;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.get-admins-articles-dropdown-move-content-item {
+    
+    border-style: none;
+    background-color: white;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    padding: 12px 0 9px 20px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+}
+
+    .get-admins-articles-dropdown-move-content-item:hover {
+        background: rgba(215, 33, 48, 0.11);
+        color: #D72130;
+    }
+
+.get-admins-articles-left-category-button {
+    border: none;
+    background-color: white;
+    box-shadow: 20px 0px 15px #fff;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.get-admins-articles-right-category-button {
+    border: none;
+    background-color: white;
+    box-shadow: -20px 0px 15px #fff;
+    cursor: pointer;
+}
+
+.get-admins-articles-left-category-button-img {
+    filter: invert(77%) sepia(22%) saturate(6%) hue-rotate(323deg) brightness(96%) contrast(96%);
+}
+
+.get-admins-articles-right-category-button-img {
+    transform: scale(-1, 1);
+    filter: invert(77%) sepia(22%) saturate(6%) hue-rotate(323deg) brightness(96%) contrast(96%);
+}
+
+.get-admins-articles-category-list-all-items {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    font-family: 'Open Sans', sans-serif;
+    color: #7F7B7B;
+    margin: 17px 0 19px 0;
+}
+
+.get-admins-articles-category-list {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+    color: #B2B2B2;
+    margin: 0 31px;
+    white-space: nowrap;
+}
+
+.get-admins-articles-delete-confirmation {
+    position: fixed;
+    top: 40%;
+    left: 40%;
+    width: 458px;
+    height: 247px;
+    box-shadow: 0px 4px 28px #818181;
+    background-color: white;
+    display: none;
+    z-index: 3;
+    filter: none !important;
+}
+
+.get-admins-articles-delete-content {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.get-admins-articles-delete-image {
+    width: 81px;
+    height: 81px;
+    margin: auto;
+    position: relative;
+    top: -40px;
+}
+
+.get-admins-articles-detele-window-title {
+    margin: auto;
+    margin-top: -4px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+    text-align: center;
+}
+
+.get-admins-articles-detele-window-info {
+    margin: auto;
+    margin-top: 10px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    text-align: center;
+}
+
+.get-admins-articles-delete-bottom-section {
+    margin-top: 51px;
+    border-top: 1px solid #F4F5F8;
+    height: 69px;
+    float: right;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.get-admins-articles-delete-cancel-button {
+    color: red;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    height: 16px;
+    margin-top: 26px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+}
+
+.get-admins-articles-delete-delete-button {
+    width: 107px;
+    height: 32px;
+    background-color: #D72130;
+    border: 1px solid #C63638;
+    color: white;
+    margin: 19px 34px 18px 32px;
+    cursor: pointer;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+}
+
+.get-admins-articles-publish-pop-up {
+    position: fixed;
+    top: 50px;
+    right: 350px;
+    width: 472px;
+    height: 85px;
+    box-shadow: 0px 4px 28px #818181;
+    background-color: white;
+    display: none;
+}
+
+.get-admins-articles-publish-window-title {
+    margin: 19px 0 4px 0;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+}
+
+.get-admins-articles-publish-window-info {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+}
+
+.get-admins-articles-content-publish {
+    display: flex;
+    flex-direction: row;
+}
+
+.get-admins-articles-content-text-publish {
+    display: flex;
+    flex-direction: column;
+}
+
+.get-admins-articles-publish-window-info {
+    width: 382px;
+}
+
+.get-admins-articles-publish-image {
+    width: 46px;
+    height: 46px;
+    margin: 17px 13px 22px 19px;
 }
 
 .show {
