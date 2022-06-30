@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace SportHub.Services.ArticleServices
 {
-    public class GetArticleService: IGetArticleService
+    public class GetArticleService : IGetArticleService
     {
         private readonly SportHubDBContext _context;
         private readonly IImageService _imageService;
@@ -438,6 +438,19 @@ namespace SportHub.Services.ArticleServices
                     _context.SaveChanges();
                 }
             }
+        }
+        public MainComment CreateMainComment(string message, int articleId, int userId)
+        {
+            var newMainComment = new MainComment
+            {
+                UserId = userId,
+                ArticleId = articleId,
+                Message = message,
+                Created = DateTime.UtcNow,
+            };
+            _context.MainComments.Add(newMainComment);
+            _context.SaveChanges();
+            return newMainComment;
         }
     }
 }

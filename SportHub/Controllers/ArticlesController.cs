@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SportHub.Domain;
+using SportHub.Domain.Models;
 using SportHub.Models;
 using SportHub.Services;
 using SportHub.Services.Exceptions.RootExceptions;
@@ -20,11 +22,13 @@ namespace SportHub.Controllers
     {
         private readonly IGetArticleService _articleService;
         private readonly IImageService _imageService;
+        private readonly ICommentService _commentService;
 
-        public ArticlesController(IGetArticleService articleService, IImageService imageService)
+        public ArticlesController(IGetArticleService articleService, IImageService imageService, ICommentService commentService)
         {
             _articleService = articleService;
             _imageService = imageService;
+            _commentService = commentService;
         }
 
         [HttpGet(nameof(GetAllCategories))]
@@ -210,5 +214,36 @@ namespace SportHub.Controllers
             return Ok(image);
         }
 
+        [HttpPost(nameof(CreateMainComment))]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateMainComment(CommentDTO comment)
+        {
+            var createdComment = _articleService.CreateMainComment(comment.Message, comment.ArticleId, comment.UserId);
+            return Ok(createdComment);
+        }
+
+        [HttpDelete(nameof(DeleteComment))]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteComment([FromQuery] int mainCommentId)
+        {
+            _commentService.DeleteComment(mainCommentId);
+            return Ok();
+        }
+
+        [HttpGet(nameof(GetComments))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetComments([FromQuery] int articleId)
+        {           
+            var comments = await _commentService.GetComments(articleId);
+            return Ok(comments);
+        }
+
+        [HttpGet(nameof(GetSortedComments))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetSortedComments([FromQuery] string sortedBy)
+        {
+            var sortedComments = await _commentService.GetSortedComments(sortedBy);
+            return Ok(sortedComments);
+        }
     }
 }
