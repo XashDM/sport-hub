@@ -177,6 +177,7 @@ namespace SportHub.Controllers
                     ShortDescriptionOfThePicture = article.ShortDescriptionOfThePicture,
                     IsPublished = true,
                 };
+
                 bool resulte = await _articleService.SaveArticle(articleToSave);
                 if (!resulte) 
                     return StatusCode(400, "Something went wrong");

@@ -121,6 +121,7 @@ namespace SportHub.Services.NavigationItemServices
             }
             _context.NavigationItems.AddRange(navigationItems);
             _context.SaveChanges();
+
             for (int i = 0; i < navigationItems.Count ; i++)
             {
                 foreach (var item in newItems[i].Children)
@@ -129,6 +130,7 @@ namespace SportHub.Services.NavigationItemServices
                 }
                 SaveItems(newItems[i].Children);
             }
+
             return true;
         }
 
@@ -146,9 +148,15 @@ namespace SportHub.Services.NavigationItemServices
 
             return isSaved;
         }
+
         public async Task<NavigationItem> GetItemById(int itemId)
         {
             return _context.NavigationItems.FirstOrDefault(navigationItem => navigationItem.Id == itemId);
+        }
+
+        public async Task<NavigationItem> GetItemByName(string name)
+        {
+            return _context.NavigationItems.FirstOrDefault(navigationItem => navigationItem.Name == name);
         }
     }
 }
