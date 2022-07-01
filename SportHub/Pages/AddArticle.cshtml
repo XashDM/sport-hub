@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/css/AddArticle.css" asp-append-version="true" />
 </head>
 @{
-    int p = 1;
+    int item = Model.Category.Id;
 }
 @section SaveButton {
         <section class ="middle-header">
@@ -132,7 +132,7 @@
         autoGrow_maxHeight:1000
     });
 
-    let category = {"id":@p };
+    let category = {"id":@item };
 
     function save() {
         infoForm = $('#article-form')[0];
@@ -141,7 +141,7 @@
             data.append(this.name, $(this).val());
         });
         console.log(data);
-        let ReferenceItemId = @p;
+        let ReferenceItemId = @item;
         let subcutegory = data.get("teams");
         if (subcutegory != "" && subcutegory != "null") {
             ReferenceItemId = parseInt(data.get("subcutegories"));
