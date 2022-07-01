@@ -159,7 +159,7 @@ namespace SportHub.Controllers
                 {
                     Alt = article.AlternativeTextForThePicture,
                     Author = "None",
-                    ShortDescription = article.ShortDescriptionOfThePicture,
+                    ShortDescription = "None",
                     PhotoTitle = "None",
                     ImageLink = link
                 };
@@ -172,9 +172,8 @@ namespace SportHub.Controllers
                     ReferenceItemId = article.ReferenceItemId,
                     ImageItemId = imageItem.Id,
                     Title = article.Title,
-                    AlternativeTextForThePicture = article.AlternativeTextForThePicture,
+                    Caption = article.Caption,
                     ContentText = article.ContentText,
-                    ShortDescriptionOfThePicture = article.ShortDescriptionOfThePicture,
                     IsPublished = true,
                 };
 

@@ -12,7 +12,7 @@ namespace SportHub.Models
         public string AlternativeTextForThePicture { get; set; }
         public string Title { get; set; }
         public IFormFile? imageFile { get; set; }
-        public string ShortDescriptionOfThePicture { get; set; }
+        public string Caption { get; set; }
         public string ContentText { get; set; }
     }
 }

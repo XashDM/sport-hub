@@ -21,9 +21,12 @@
             <div class="get-article-category-link">
                 @Html.DisplayFor(model => model.category)
             </div>
-            <div class="get-article-subcategory-link">
-                 <b>>@Html.DisplayFor(model => model.subcategory)</b>
-            </div>
+            @if (Model.subcategory != "item reference wasn't found(no subcategory)")
+            {
+                <div class="get-article-subcategory-link">
+                    <b>>@Html.DisplayFor(model => model.subcategory)</b>
+                </div>
+            }
             <div class="get-article-subcategory-link">
                  <b>/@Html.DisplayFor(model => model.Article.Title)</b>
             </div>
@@ -41,11 +44,11 @@
                 </div>
                 <div class="get-article-title-info">
                     <b>
-                        @Html.DisplayFor(model => model.Article.AlternativeTextForThePicture)
+                        @Html.DisplayFor(model => model.Article.ImageItem.Alt)
                     </b>
                 </div>
                 <div class="get-article-bottom-info">
-                    @Html.DisplayFor(model => model.Article.ShortDescriptionOfThePicture)
+                    @Html.DisplayFor(model => model.Article.Caption)
                 </div> 
             </div>
             <text class="get-article-text-under-image" id="main-article-text">@Html.Raw(Model.Article.ContentText)</text>

@@ -11,13 +11,12 @@ namespace SportHub.Domain.Models
         public int Id { get; set; }
         public int? ReferenceItemId { get; set; }
         public virtual NavigationItem? ReferenceItem { get; set; }
-        public string AlternativeTextForThePicture { get; set; }
         public int ImageItemId { get; set; }
         public virtual ImageItem ImageItem { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
-        public string ShortDescriptionOfThePicture { get; set; }
+        public string Caption { get; set; }
         [Required]
         public string ContentText { get; set; }
         [Required]
