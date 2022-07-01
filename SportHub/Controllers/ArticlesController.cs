@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SportHub.Domain.Models;
 using Microsoft.AspNetCore.Http;
+using SportHub.Views;
 
 namespace SportHub.Controllers
 {
@@ -20,11 +21,13 @@ namespace SportHub.Controllers
     {
         private readonly IGetArticleService _articleService;
         private readonly IImageService _imageService;
+        private readonly ISearchArticles _searchArticles;
 
-        public ArticlesController(IGetArticleService articleService, IImageService imageService)
+        public ArticlesController(IGetArticleService articleService, IImageService imageService, ISearchArticles searchArticles)
         {
             _articleService = articleService;
             _imageService = imageService;
+            _searchArticles = searchArticles;
         }
 
         [HttpGet(nameof(GetAllCategories))]
@@ -210,5 +213,12 @@ namespace SportHub.Controllers
             return Ok(image);
         }
 
+        [HttpGet(nameof(SearchArticlesRange))]
+        [AllowAnonymous]
+        public async Task<IActionResult> SearchArticlesRange([FromBody] ArticlesSearch articleInfo)
+        {
+            var articles = _searchArticles.ArticlesBySearchRange(articleInfo.searchValue, articleInfo.startPosition, articleInfo.amountArticles);
+            return new OkObjectResult(articles);
+        }
     }
 }

@@ -46,15 +46,6 @@
     white-space: nowrap;
 }
 
-p {
-    margin: 0;
-    background-color: #FFFFFF;
-    font-family: 'Open Sans';
-    color: #B2B2B2;
-}
-//Ламає частину текту на сторінці, залишаю, щоб підправили (той, кому треба цей стиль)
-*/
-
 main {
     padding-bottom: 60px;
 }
