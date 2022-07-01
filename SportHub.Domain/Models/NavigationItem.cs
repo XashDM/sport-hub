@@ -25,7 +25,5 @@ namespace SportHub.Domain.Models
         public string Type { get; set; }
         public int? ParentsItemId { get; set; }
         public virtual NavigationItem? ParentsItem { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public ICollection<NavigationItem>? Children { get; set; }
     }
 }
