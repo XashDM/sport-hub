@@ -81,6 +81,12 @@ function displayLogInOut() {
         window.localStorage.removeItem("Jwt Token");
     }
 }
+
+function logoutUser(){
+    localStorage.removeItem('Jwt Token');
+    location.reload();
+};
+
 // for sidebar
 let timer1;
 let timer2;

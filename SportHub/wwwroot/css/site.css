@@ -283,3 +283,16 @@ option {
 .red-hover:hover {
     filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(355deg) brightness(86%) contrast(118%);
 }
+
+.overlay {
+    display: none;
+    background-color: white;
+    filter: blur(5px) brightness(50%);
+    position: fixed;
+    top: -10px;
+    left: -10px;
+    width: 110%;
+    height: 110%;
+    z-index: 2;
+    opacity: 50%;
+}

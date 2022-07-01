@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SportHub.Models;
 using SportHub.Services;
 using SportHub.Services.Exceptions.RootExceptions;
 using SportHub.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using SportHub.Domain.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace SportHub.Controllers
 {
@@ -96,8 +93,8 @@ namespace SportHub.Controllers
             }
         }
 
-        [HttpPost(nameof(SaveMainArticles))]  // admin-only
-        [AllowAnonymous]
+        [HttpPost(nameof(SaveMainArticles))]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SaveMainArticles(Dictionary<int, bool> articleIds)
         {
             try
@@ -112,9 +109,8 @@ namespace SportHub.Controllers
             }
         }
 
-        //for admins only, returns hidden articles
         [HttpGet(nameof(GetMainArticles))]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetMainArticles()
         {
             try
