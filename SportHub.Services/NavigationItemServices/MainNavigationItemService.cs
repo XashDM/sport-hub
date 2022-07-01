@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using SportHub.Domain;
 using SportHub.Domain.Models;
+using SportHub.Domain.ViewModel;
 using SportHub.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace SportHub.Services.NavigationItemServices
             _logger = logger;
             _context = context;
         }
+
         public async Task<List<NavigationItem>> GetChildrenOfItem(int itemId)
         {
             List<NavigationItem> listOfChildren = null; 
@@ -36,6 +38,7 @@ namespace SportHub.Services.NavigationItemServices
 
             return listOfChildren;
         }
+
         public async Task<List<NavigationItem>> GetTopCategories()
         {
             List<NavigationItem> listOfChildren = null;
@@ -52,6 +55,7 @@ namespace SportHub.Services.NavigationItemServices
 
             return listOfChildren;
         }
+
         public async Task<List<int>> GetRecusiveTree(int itemId)
         {
             var resUnion = _context.NavigationItems.Select(navigationItem => new NavigationItem
@@ -84,6 +88,7 @@ namespace SportHub.Services.NavigationItemServices
 
             return await resUnion.Select(navigationItem => navigationItem.Id).ToListAsync();
         }
+
         public async Task<List<Article>> GetArticlesofItem(int itemId)
         {
             List<Article> result = null; 
@@ -100,18 +105,39 @@ namespace SportHub.Services.NavigationItemServices
 
             return result;
         }
-        public async Task<bool> AddNewItems(List<NavigationItem> newItem)
+
+        private async Task<bool> SaveItems(List<NavigationItemForSave>? newItems)
+        {
+            List<NavigationItem> navigationItems = new List<NavigationItem>(); ;
+            foreach (var Item in newItems)
+            {
+                NavigationItem saveItem = new NavigationItem
+                {
+                    Name = Item.Name,
+                    Type = Item.Type,
+                    ParentsItemId = Item.ParentsItemId
+                };
+                navigationItems.Add(saveItem);
+            }
+            _context.NavigationItems.AddRange(navigationItems);
+            _context.SaveChanges();
+            for (int i = 0; i < navigationItems.Count ; i++)
+            {
+                foreach (var item in newItems[i].Children)
+                {
+                    item.ParentsItemId = navigationItems[i].Id;
+                }
+                SaveItems(newItems[i].Children);
+            }
+            return true;
+        }
+
+        public async Task<bool> AddNewItems(List<NavigationItemForSave> newItems)
         {
             bool isSaved = false;
             try
             {
-                foreach (var Item in newItem)
-                {
-                    _context.NavigationItems.Add(Item);
-                }
-                _context.SaveChanges();
-
-                isSaved = true;
+                isSaved = await SaveItems(newItems);
             }
             catch (System.Exception e)
             {

@@ -13,6 +13,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
+    
     <header>
         <section class="header">
         <div class="header-container">
@@ -22,16 +23,12 @@
                 </div>             
             </div>
 
-            <div class="blank-space">
-                
-            </div>
-
             <div class="user-container">
                 <div class="switch-button">
-                    <img src="~/images/switch.png" alt="">
+                    <img src="~/images/left-right-admin-arrow.svg" alt="">
                 </div>
                     <div class="user-ava">
-                        <img src="~/images/switch.png" alt="">
+                        <img src="~/images/left-right-admin-arrow.svg" alt="">
                     </div>
 
                     <div class="user-desc">
@@ -41,44 +38,62 @@
                         <p class="user-role">
                             Administrator
                         </p>
-                    </div>                 
+                    </div>  
+                    <button class="image-polygon-dropdown">
+                        <img src="~/images/Polygon.png">
+                    </button>
+                </div>
             </div>
         </div>
     </section>
-
-
-     @RenderSection("SaveButton", required: false)
-   
+    @RenderSection("SaveButton", required: false)
     <section class ="bottom-header">
         <div class="sports">
-            @RenderSection("categoryList",false)
+            <button onclick="moveCategoryListLeft()" class="category-list-left-category-button">
+                <img src="~/images/Left-arrow-header-categories-gray.svg" class="category-list-left-category-button-img" id="left-button-image">
+            </button>
+            <div class="category-list-category-list-all-items">
+                <a id="category-element-home" class="category-list-category-list" href="/adminpage">Home</a>
+            </div>
+            <button onclick="moveCategoryListRight()" class="category-list-right-category-button">
+                <img src="~/images/Left-arrow-header-categories-gray.svg" class="category-list-right-category-button-img" id="right-button-image">
+            </button>
         </div>
     </section>
-    <hr class="href-between-sections">
+
     </header>
 
         <main>
             <section class="local-navigation">
                 <div class = "navigation-picture">
-                <img src="~/images/surveys-button.png" alt="" width="50" height="40">
+                <img src="~/images/Surveys.svg" alt="">
                 </div>
                 <div class = "navigation-picture">
-                <img src="~/images/banners-button.png" alt="" width="40" height="40">
+                <img src="~/images/Banners.svg" alt="">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="~/images/languages-button.png" alt="" width="40" height="40">
+                    <img src="~/images/Langueges.svg" alt="">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="~/images/footer-button.png" alt="" width="40" height="40">
+                    <img src="~/images/Footer.svg" alt="">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="~/images/social_networks-button.png" alt="" width="40" height="40">
+                    <img src="~/images/Shares.svg" alt="">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="~/images/ussers-button.png" alt="" width="40" height="40">
+                    <img src="~/images/My_users.svg" alt="">
                 </div>
                 <div class = "navigation-picture">
-                    <img src="~/images/IA-button.png" alt="" width="40" height="40">
+                    <img src="~/images/IA.svg" alt="">
+                </div>
+                <div class = "navigation-picture">
+                    <img src="~/images/teams.svg" alt="">
+                </div>
+                <div class = "navigation-picture">
+                    <img src="~/images/News_partnerds.svg" alt="">
+                </div>
+                <div class = "navigation-picture">
+                    <img src="~/images/triangle_and_circle.svg" alt="">
                 </div>
             </section>
 
@@ -93,3 +108,86 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    let redColorFilter = 'invert(1%) sepia(91%) saturate(1000%) hue-rotate(300deg) brightness(85%)';
+    let grayColorFilter = 'invert(77%) sepia(22%) saturate(6%) hue-rotate(323deg) brightness(96%) contrast(96%)';
+
+    $(document).ready(function () {
+
+        let category = $(location).attr('pathname');
+        category = category.split("/").pop();
+        category = decodeURI(category);
+        let checkCategory = false;
+
+        $.ajax({
+            method: 'get',
+            url: '/allcategories',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (categories) {
+                amountOfCategories = categories.length;
+                for (var i = 0; i < amountOfCategories; i++) {
+                    console.log(categories[i].name);
+                    var categoryElement = $('#category-element-home').clone().appendTo('.category-list-category-list-all-items');
+                    categoryElement.attr('href',`/Articles/Admin/${categories[i].name}`);
+                    categoryElement.text(categories[i].name);
+                    categoryElement.attr('id', `category-element-${categories[i].name.replace(/ /g,"-")}lower`);
+                    if (categories[i].name.replace(/ /g,"-") == category.replace(/ /g,"-")) {
+                        checkCategory = true;
+                    }
+                }
+                if (checkCategory == true) {
+                    categoryWithoutSpaces = category.replace(/ /g,"-");
+                    $(`#category-element-${categoryWithoutSpaces}lower`).css('color', '#D72130');
+                    console.log($(`#category-element-${categoryWithoutSpaces}lower`).text());
+                }
+                else {
+                    $(`#category-element-home`).css('color', '#D72130');
+                }
+            }
+        });
+
+        //change button color is needed
+        let scrollWidth = $('.category-list-category-list-all-items')[0].scrollWidth;
+        let visibleWidth = $('.category-list-category-list-all-items')[0].clientWidth;
+        if (scrollWidth > visibleWidth) {
+            $("#right-button-image").css('filter', redColorFilter);
+            console.log("yes");
+        }
+        else {
+            $("#right-button-image").css('fill', 'blue');
+        }
+    });
+
+    function moveCategoryListLeft() {
+        let scrollWidth = $('.category-list-category-list-all-items')[0].scrollWidth;
+        let visibleWidth = $('.category-list-category-list-all-items')[0].clientWidth;
+        if (visibleWidth < scrollWidth) {
+            $("#right-button-image").css('filter', redColorFilter);
+        }
+        $('.category-list-category-list-all-items').animate({ scrollLeft: '-=100' }, 200, function () {
+            if ($('.category-list-category-list-all-items')[0].scrollLeft == 0) {
+                // gray color from figma(filter to svg)
+                // grayColorFilter = 'invert(77%) sepia(22%) saturate(6%) hue-rotate(323deg) brightness(96%) contrast(96%)'
+                $("#left-button-image").css('filter', grayColorFilter);
+            }
+        }); 
+    }
+
+    function moveCategoryListRight() {
+        let scrollWidth = $('.category-list-category-list-all-items')[0].scrollWidth;
+        let visibleWidth = $('.category-list-category-list-all-items')[0].clientWidth;
+        let scrollPosition = $('.category-list-category-list-all-items')[0].scrollLeft;
+        if (visibleWidth < scrollWidth) {
+            $("#left-button-image").css('filter', redColorFilter);
+        }
+
+        $('.category-list-category-list-all-items').animate({ scrollLeft: '+=100' }, 200, function () {
+            if (visibleWidth + scrollPosition >= scrollWidth || (visibleWidth + scrollPosition) / scrollWidth > 0.95) {
+                $("#right-button-image").css('filter', grayColorFilter);
+            }
+        });  
+    }
+
+</script>

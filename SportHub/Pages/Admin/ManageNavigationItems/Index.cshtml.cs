@@ -41,10 +41,5 @@ namespace SportHub.Pages.Admin.ManageNavigationItems
         }
         [BindProperty]
         public dynamic newItem { get; set; }
-        public async Task<IActionResult> OnPost(List<NavigationItem> newItem)
-        {
-            await _servise.AddNewItems(newItem);
-            return new OkObjectResult(newItem);
-        }
     }
 }
