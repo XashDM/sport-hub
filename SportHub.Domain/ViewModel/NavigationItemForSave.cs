@@ -6,7 +6,6 @@ namespace SportHub.Domain.ViewModel
 {
     public class NavigationItemForSave
     {
-
         public int Id { get; set; }
         [Required]
         [MaxLength(200)]

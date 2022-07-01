@@ -21,6 +21,7 @@ namespace SportHub.Services.NavigationItemServices
             _logger = logger;
             _context = context;
         }
+
         public async Task<List<NavigationItem>> GetChildrenOfItem(int itemId)
         {
             List<NavigationItem> listOfChildren = null; 
@@ -37,6 +38,7 @@ namespace SportHub.Services.NavigationItemServices
 
             return listOfChildren;
         }
+
         public async Task<List<NavigationItem>> GetTopCategories()
         {
             List<NavigationItem> listOfChildren = null;
@@ -53,6 +55,7 @@ namespace SportHub.Services.NavigationItemServices
 
             return listOfChildren;
         }
+
         public async Task<List<int>> GetRecusiveTree(int itemId)
         {
             var resUnion = _context.NavigationItems.Select(navigationItem => new NavigationItem
@@ -85,6 +88,7 @@ namespace SportHub.Services.NavigationItemServices
 
             return await resUnion.Select(navigationItem => navigationItem.Id).ToListAsync();
         }
+
         public async Task<List<Article>> GetArticlesofItem(int itemId)
         {
             List<Article> result = null; 
@@ -101,6 +105,7 @@ namespace SportHub.Services.NavigationItemServices
 
             return result;
         }
+
         private async Task<bool> SaveItems(List<NavigationItemForSave>? newItems)
         {
             List<NavigationItem> navigationItems = new List<NavigationItem>(); ;
@@ -126,6 +131,7 @@ namespace SportHub.Services.NavigationItemServices
             }
             return true;
         }
+
         public async Task<bool> AddNewItems(List<NavigationItemForSave> newItems)
         {
             bool isSaved = false;
