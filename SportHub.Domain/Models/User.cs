@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -31,6 +32,9 @@ namespace SportHub.Domain.Models
         [Column(TypeName = "varchar(320)")]
         [EmailAddress]
         public string Email { get; set; }
+        [Required]
+        [Column(TypeName = "bit")]
+        public bool IsActive { get; set; }
         public virtual ICollection<UserRole> Roles { get; set; }
     }
 }

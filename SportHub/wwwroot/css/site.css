@@ -207,6 +207,15 @@ option {
     position: relative;
 }
 
+.column-caption {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #434C5D;
+}
+
 /*decorations for buttons, hovers etc.*/
 
 .box-shadow:hover {
@@ -224,6 +233,53 @@ option {
     color: #d72130 !important;
 }
 
+.green-accent {
+    color: #229d1f !important;
+}
+
+.button-text {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+    user-select: none;
+}
+
+.red-option {
+    background: #fdeaeb;
+}
+
+.red-option p {
+    color: #d72130;
+}
+
+.grey-option {
+    background: #d4d9e2;
+}
+
+.grey-option p {
+    color: #000000;
+}
+
+.green-option {
+    background: #dfecdd;
+}
+
+.green-option p {
+    color: #229d1f;
+}
+
+.blue-option {
+    background: #d4e7f1
+}
+
+.blue-option p {
+    color: #0072af;
+
+}
+
+/*works for .svg and .png*/
 .red-hover:hover {
     filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(355deg) brightness(86%) contrast(118%);
 }
