@@ -156,6 +156,7 @@ function generatePageArguments(pageNumber, pageSize) {
 function applyMainArticlesConfigurationChanges() {
     $.ajax({
         headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
@@ -174,6 +175,9 @@ function applyMainArticlesConfigurationChanges() {
 
 function getMainArticles() {
     $.ajax({
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token')
+        },
         async: true,
         url: '/api/Articles/GetMainArticles',
         type: 'get',
