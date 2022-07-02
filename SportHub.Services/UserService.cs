@@ -37,10 +37,12 @@ namespace SportHub.Services
             }
 
             var userRole = GetUserRoleByName("User");
+            bool isExternalUser = false;
 
             if (isExternal)
             {
-                passwordHash = "945d907f6a5e50d7f95b96925dca6a32e09eb782060956e3f122e24d7f90f8da"; // stands for 'dummypassword'
+                passwordHash = null;
+                isExternalUser = true;
             }
 
             var user = new User
@@ -49,7 +51,8 @@ namespace SportHub.Services
                 PasswordHash = passwordHash,
                 FirstName = firstName,
                 LastName = lastName,
-                Roles = userRole
+                Roles = userRole,
+                IsExternal = isExternalUser
             };
 
             _context.Users.Add(user);

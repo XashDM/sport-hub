@@ -19,6 +19,7 @@ using SportHub.Services.Services;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Logging;
 using System.Configuration;
+using SportHub.OAuthRoot;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
@@ -42,6 +43,7 @@ builder.Services.AddDbContext<SportHubDBContext>(options =>
 });
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
+builder.Services.AddSingleton<IExternalAuthHandlerFactory, ExternalAuthHandlerFactory>();
 builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();
 builder.Services.AddScoped<INavigationItemService, MainNavigationItemService>();
 builder.Services.AddScoped<IGetArticleService, GetArticleService>();

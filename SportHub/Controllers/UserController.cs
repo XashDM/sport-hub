@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SportHub.Config.JwtAuthentication;
 using SportHub.Models;
+using SportHub.OAuthRoot;
 using SportHub.Services;
 using SportHub.Services.Exceptions.RootExceptions;
 using System;
@@ -20,11 +21,13 @@ namespace SportHub.Controllers
     {
         private readonly IUserService _userService;
         private readonly IJwtSigner _jwtSigner;
+        private readonly IExternalAuthHandlerFactory _externalAuthHandlerFactory;
 
-        public UsersController(IUserService userService, IJwtSigner jwtSigner)
+        public UsersController(IUserService userService, IJwtSigner jwtSigner, IExternalAuthHandlerFactory externalAuthHandlerFactory)
         {
             _userService = userService;
             _jwtSigner = jwtSigner;
+            _externalAuthHandlerFactory = externalAuthHandlerFactory;
         }
 
         [HttpPost(nameof(HandleExternalAuth))]
@@ -33,60 +36,31 @@ namespace SportHub.Controllers
         {
             try
             {
-                if (externalAuthArgs.AuthProvider.Equals("Facebook"))
+                var externalAuthHandler = _externalAuthHandlerFactory.FetchAuthHandler(externalAuthArgs.IsCreationRequired, externalAuthArgs.AuthProvider);
+                var authToken = await externalAuthHandler.HandleExternalAuth(externalAuthArgs, _userService, _jwtSigner);
+
+                if (authToken != null)
                 {
-                    if (externalAuthArgs.IsCreationRequired == true)
-                    {
-                        var createdUser = _userService.CreateUser(externalAuthArgs.Email, null, 
-                            externalAuthArgs.FirstName, externalAuthArgs.LastName, true);
-                        var authToken = _jwtSigner.FetchToken(createdUser);
-
-                        return Ok(authToken);
-                    }
-                    else
-                    {
-                        var existingUser = _userService.GetUserByEmail(externalAuthArgs.Email);
-                        var authToken = _jwtSigner.FetchToken(existingUser);
-
-                        return Ok(authToken);
-                    }
+                    return Ok(authToken);
                 }
-                else
-                {
-                    var validatedToken = await GoogleJsonWebSignature.ValidateAsync(externalAuthArgs.UserToken);
 
-                    if (validatedToken != null)
-                    {
-                        var firstname = validatedToken.GivenName;
-                        var lastname = validatedToken.FamilyName;
-                        var email = validatedToken.Email;
-
-                        if (externalAuthArgs.IsCreationRequired == true)
-                        {
-                            var createdUser = _userService.CreateUser(email, null, firstname, lastname, true);
-                            var authToken = _jwtSigner.FetchToken(createdUser);
-
-                            return Ok(authToken);
-                        }
-                        else
-                        {
-                            var existingUser = _userService.GetUserByEmail(email);
-                            var authToken = _jwtSigner.FetchToken(existingUser);
-
-                            return Ok(authToken);
-                        }
-                    }
-
-                    return BadRequest();
-                }
+                return StatusCode(400, "Cannot authenticate user");
             }
             catch (UserServiceException e)
             {
                 return StatusCode(e.StatusCode, e.Message);
             }
+            catch (ArgumentNullException)
+            {
+                return BadRequest("Not supplied with requested data");
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest("Invalid Auth provider");
+            }
             catch (Exception)
             {
-                return StatusCode(500);
+                return StatusCode(500, "Something went wrong");
             }
         }
 
