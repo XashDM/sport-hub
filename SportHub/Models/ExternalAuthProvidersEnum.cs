@@ -2,7 +2,7 @@
 {
     public enum ExternalAuthProvidersEnum
     {
-        Facebook = 5,
+        Facebook,
         Google
     }
 }
