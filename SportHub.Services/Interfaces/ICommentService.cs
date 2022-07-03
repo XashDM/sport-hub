@@ -11,8 +11,9 @@ namespace SportHub.Services.Interfaces
     public interface ICommentService
     {
         public void DeleteComment(int mainCommentId);
-        public int GetCommentCount();
+        public Task<int> GetCommentCount(int articleId);
         public Task<MainComment[]> GetComments(int articleId);
         public Task<MainComment[]> GetSortedComments(string sortedBy);
+        public Task<MainComment> EditComment(string message, int mainCommentId);
     }
 }

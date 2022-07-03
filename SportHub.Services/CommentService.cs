@@ -27,9 +27,9 @@ namespace SportHub.Services
             _context.SaveChanges();
         }
 
-        public int GetCommentCount()
+        public async Task<int> GetCommentCount(int articleId)
         {
-            var commentCount = _context.MainComments.Count() + _context.SubComments.Count();
+            var commentCount = await _context.MainComments.Where(mainComment => mainComment.ArticleId == articleId).CountAsync();
             return commentCount;
         }
 
@@ -40,6 +40,17 @@ namespace SportHub.Services
                 .ToArrayAsync();
             
             return mainComments;
+        }
+
+        public async Task<MainComment> EditComment(string message, int mainCommentId)
+        {
+            var foundComment = await _context.MainComments.Where(mainComment => mainComment.Id == mainCommentId).FirstOrDefaultAsync();
+
+            foundComment.Message = message;
+            foundComment.Created = DateTime.UtcNow;
+          
+            await _context.SaveChangesAsync();
+            return foundComment;
         }
 
         public async Task<MainComment[]> GetSortedComments(string sortedBy)

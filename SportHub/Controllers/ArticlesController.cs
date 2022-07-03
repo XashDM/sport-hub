@@ -245,5 +245,22 @@ namespace SportHub.Controllers
             var sortedComments = await _commentService.GetSortedComments(sortedBy);
             return Ok(sortedComments);
         }
+
+        [HttpGet(nameof(GetCommentsCount))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetCommentsCount([FromQuery] int articleId)
+        {
+            var countComments = await _commentService.GetCommentCount(articleId);
+            return Ok(countComments);
+        }
+
+        [HttpPut(nameof(EditComment))]
+        [AllowAnonymous]
+        public async Task<IActionResult> EditComment([FromBody] EditedCommentArgs editComment)
+        {
+            var editedComment = await _commentService.EditComment(editComment.Message, editComment.MainCommentId);
+            return Ok(editedComment);
+        }
+
     }
 }
