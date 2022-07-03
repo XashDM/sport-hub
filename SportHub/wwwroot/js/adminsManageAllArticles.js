@@ -14,7 +14,7 @@ $(document).ready(function () {
         $('#page-header-name').text("All categories");
     }
 
-    // відслюдковую позицію скролера
+    // відслідковую позицію скролера
     let hiddenDivSize = $('.get-admins-articles-scroll-position').height();
     let visibleDivSize = $('.get-admins-articles-container-body').height();
     let scrollHeight = hiddenDivSize - visibleDivSize;
@@ -60,7 +60,6 @@ function updateArticlesAfterScrolling() {
     $.ajax({
         method: 'post',
         url: '/articles',
-        dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify(articleDisplayParameters),
         success: function (articles) {

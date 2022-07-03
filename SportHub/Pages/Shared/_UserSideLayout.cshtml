@@ -22,9 +22,12 @@
                 </div>
                 <div class="search-box">
                     <form style="display: flex; margin: auto;">
-                        <button id="search-button"><img src="~/icons/search-icon.png" class="header-icons" alt="Search!" /></button>
-                        <input type="search" id="header-search-field" class="lable" placeholder="Search..." />
+                        <button id="search-button" onclick="moveToSearchPage()" ><img src="~/icons/search-icon.png" class="header-icons" alt="Search!" /></button>
+                        <input type="text" id="header-search-field" class="lable" placeholder="Search..." onclick="searchField()" />
                     </form>
+                    <div class="search-result-articles" onscroll="searchScroll()">
+                        
+                    </div>
                 </div>
 
                 <div class="social-media-box">
@@ -117,6 +120,26 @@
             <p class="regular-text">Copyright ©2022 SportHub</p>
         </div>
     </footer>
+
+    <div class="search-article-info">
+        <div class="search-article-top-info">
+            <div class="search-article-category-name">
+                NBA
+            </div>
+            <img id="image-in-search-between-category-subcategory" class="image-arrow-in-search" src=~/images/combined-shape-grey.svg/>
+            <div class="search-article-subcategory-name">
+                AFC South
+            </div>
+            <img id="image-in-search-between-subcategory-team" class="image-arrow-in-search" src=~/images/combined-shape.svg/>
+            <div class="search-article-team-name">
+                AFC South
+            </div>
+        </div>
+        <div class="search-article-bottom-content">
+            
+        </div>
+    </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/DataClass.js" asp-append-version="true"></script>
@@ -127,6 +150,10 @@
         $(document).ready(function () {
             displayLogInOut();
             displayData();
+        });
+
+        $('#header-search-field').keyup(function () {
+            searchField();
         });
     </script>
     @await RenderSectionAsync("Scripts", required: false)

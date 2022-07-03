@@ -81,6 +81,134 @@ function displayLogInOut() {
         window.localStorage.removeItem("Jwt Token");
     }
 }
+
+//search-results
+let startElementPosition = 10;
+let amountOfElements = 2;
+function searchField() {
+    if ($('.search-result-articles').css('display') != "block") {
+        startElementPosition = 10;
+        let searchValue = $(".lable").val();
+        $(".search-result-articles").empty();
+
+        let searchParameters = {
+            searchValue: searchValue,
+            startPosition: 0,
+            amountArticles: 10,
+        };
+        if (searchValue != "") {
+            $.ajax({
+                method: 'post',
+                url: '/api/Articles/SearchArticlesRange',
+                contentType: 'application/json',
+                data: JSON.stringify(searchParameters),
+                success: function (articles) {
+                    amountOfArticles = articles.length;
+
+                    for (var i = 0; i < amountOfArticles; i++) {
+                        var articleSearchField = $('.search-article-info:first')
+                            .clone().attr('id', `article-with-id-${articles[i].category}`)
+                            .appendTo('.search-result-articles');
+
+                        //add category, subcategory, team fields
+
+                        articleSearchField.find('.search-article-category-name').text(articles[i].category);
+                        articleSearchField.find('.search-article-subcategory-name').text(articles[i].subcategory);
+                        if (articles[i].subcategory == "") {
+                            articleSearchField.find('.search-article-category-name').css('color', '#D72130');
+                        }
+                        articleSearchField.find('.search-article-team-name').text(articles[i].team);
+                        if (articles[i].team == "") {
+                            articleSearchField.find('.search-article-subcategory-name').css('color', '#D72130');
+                        }
+                        if (articles[i].team != "") {
+                            articleSearchField.find('.search-article-team-name').css('color', '#D72130');
+                            articleSearchField.find('.search-article-subcategory-name').css('color', '');
+                            articleSearchField.find('.search-article-category-name').css('color', '');
+                        }
+                        articleSearchField.find('.search-article-bottom-content').text(articles[i].contentText);
+                        $('.search-result-articles').show();
+                    }
+                }
+            });
+        }
+    }
+    
+}
+
+function searchScroll() {
+    let hiddenDivSize = $('.search-result-articles')[0].scrollHeight;
+    let visibleDivSize = $('.search-result-articles').height();
+    let scrollHeight = hiddenDivSize - visibleDivSize;
+    let scrollPosition = $('.search-result-articles').scrollTop();
+    if ((visibleDivSize + scrollPosition) / hiddenDivSize > 0.8) {
+        updateSearchAfterScrolling();
+        hiddenDivSize = $('.search-result-articles')[0].scrollHeight;
+        scrollHeight = visibleDivSize / hiddenDivSize * visibleDivSize;
+    }
+}
+
+function updateSearchAfterScrolling() {
+    let searchValue = $(".lable").val();
+
+    let searchParameters = {
+        searchValue: searchValue,
+        startPosition: startElementPosition,
+        amountArticles: amountOfElements,
+    };
+
+    $.ajax({
+        method: 'post',
+        url: '/api/Articles/SearchArticlesRange',
+        contentType: 'application/json',
+        data: JSON.stringify(searchParameters),
+        success: function (articles) {
+            amountOfArticles = articles.length;
+
+            for (var i = 0; i < amountOfArticles; i++) {
+                var articleSearchField = $('.search-article-info:first')
+                    .clone().attr('id', `article-with-id-${articles[i].category}`)
+                    .appendTo('.search-result-articles');
+
+                //add category, subcategory, team fields
+
+                articleSearchField.find('.search-article-category-name').text(articles[i].category);
+                articleSearchField.find('.search-article-subcategory-name').text(articles[i].subcategory);
+                if (articles[i].subcategory == "") {
+                    articleSearchField.find('.search-article-category-name').css('color', '#D72130');
+                }
+                articleSearchField.find('.search-article-team-name').text(articles[i].team);
+                if (articles[i].team == "") {
+                    articleSearchField.find('.search-article-subcategory-name').css('color', '#D72130');
+                }
+                if (articles[i].team != "") {
+                    articleSearchField.find('.search-article-team-name').css('color', '#D72130');
+                    articleSearchField.find('.search-article-subcategory-name').css('color', '');
+                    articleSearchField.find('.search-article-category-name').css('color', '');
+                }
+                articleSearchField.find('.search-article-bottom-content').text(articles[i].contentText);
+                $('.search-result-articles').show();
+            }
+        }
+    });
+    startElementPosition += amountOfElements;
+}
+
+var ignoreClickOnMeElement = document.getElementsByClassName('search-result-articles')[0];
+
+document.addEventListener('click', function (event) {
+    var isClickInsideElement = ignoreClickOnMeElement.contains(event.target);
+    if (!isClickInsideElement) {
+        $('.search-result-articles').hide();
+    }
+});
+
+function moveToSearchPage() {
+    const searchValue = $('#header-search-field').val();
+    console.log(searchValue);
+    $(location).prop('href', `/search?value=${searchValue}`);
+}
+
 // for sidebar
 let timer1;
 let timer2;

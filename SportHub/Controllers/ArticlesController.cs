@@ -213,12 +213,21 @@ namespace SportHub.Controllers
             return Ok(image);
         }
 
-        [HttpGet(nameof(SearchArticlesRange))]
+        [HttpPost(nameof(SearchArticlesRange))]
         [AllowAnonymous]
         public async Task<IActionResult> SearchArticlesRange([FromBody] ArticlesSearch articleInfo)
         {
             var articles = _searchArticles.ArticlesBySearchRange(articleInfo.searchValue, articleInfo.startPosition, articleInfo.amountArticles);
-            return new OkObjectResult(articles);
+            IList<ArticleForSearchResult> articleForSearchResult = new List<ArticleForSearchResult>();
+            for (int i = 0; i < articles.Count; i++)
+            {
+                articleForSearchResult.Add(new ArticleForSearchResult());
+                articleForSearchResult[i].ContentText = articles[i].ContentText;
+                articleForSearchResult[i].Category = _articleService.GetArticlesCategory(articles[i].Id);
+                articleForSearchResult[i].Subcategory = _articleService.GetArticlesSubcategory(articles[i].Id);
+                articleForSearchResult[i].Team = _articleService.GetArticlesTeam(articles[i].Id);
+            }
+            return new OkObjectResult(articleForSearchResult);
         }
     }
 }

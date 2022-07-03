@@ -43,6 +43,55 @@ button#search-button {
     max-width: 20px;
 }
 
+.search-result-articles {
+    z-index: 1;
+    background-color: white;
+    position: absolute;
+    max-height: 500px;
+    overflow-y: scroll;
+    padding: 22px 36px 30px 37px;
+    width: 774px;
+    display: none;
+}
+
+.search-article-info {
+    margin-bottom: 24px;
+}
+
+.search-article-top-info {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.image-arrow-in-search {
+    margin: 0 3px;
+}
+
+.search-article-category-name {
+}
+
+.search-article-subcategory-name {
+
+}
+
+.search-article-team-name {
+
+}
+
+.search-article-bottom-content {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+}
+
 .header-icons {
     width: 25px;
     height: 25px;
@@ -238,5 +287,6 @@ footer {
 
 main {
     width: 100%;
-
+    z-index: -1;
+    position: relative;
 }
