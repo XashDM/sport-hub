@@ -1,11 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SportHub.Domain;
 using SportHub.Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SportHub.Pages.Admin
 {
@@ -24,12 +22,12 @@ namespace SportHub.Pages.Admin
         {
             users = _context.Users.Include(u => u.Roles).ToList();
 
-            var userRole = _context.UserRoles
-                .Where(r => r.RoleName == "Admin")
-                .Include(r => r.Users)
+            var adminRole = _context.UserRoles
+                .Where(role => role.RoleName == "Admin")
+                .Include(role => role.Users)
                 .ToList();
 
-            admins = userRole[0].Users.ToList();
+            admins = adminRole[0].Users.ToList();
         }
     }
 }

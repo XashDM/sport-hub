@@ -39,7 +39,8 @@ namespace SportHub.Services
                 PasswordHash = passwordHash,
                 FirstName = firstName,
                 LastName = lastName,
-                Roles = userRole
+                Roles = userRole,
+                IsActive = true
             };
 
             _context.Users.Add(user);
