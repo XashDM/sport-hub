@@ -1,10 +1,52 @@
 ﻿@page
 @model SportHub.Pages.SearchModel
 @{
+    Layout = "_AdminLayout";
 }
 
-@{
-    for (int index = 0; index<Model.ArticlesSearch.Count; index++) {
-        @Model.ArticlesSearch[index].ContentText
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SportHub</title>
+    <link rel="stylesheet" href="~/css/searchPageResult.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SportHub.styles.css" asp-append-version="true" />
+</head>
+
+<div class="search-page-all-content">
+    <div class="search-page-result">
+        <div class="search-page-result-name">
+            @(Model.title + " ")
+        </div>
+        <div class="search-page-result-amount">
+            (@Model.amountOfFindedTitles)
+        </div>
+    </div>
+
+    <div class="search-page-search-result-articles">  
+    @{
+        for (int index = 0; index<Model.ArticlesSearch.Count; index++) {
+            <div class="search-page-search-article-info">
+                <div class="search-page-search-content">
+                    <div class="search-page-search-article-top-info">
+                        <div class="search-page-search-article-category-name">
+                            @Model.ArticlesSearch[index].Category
+                        </div>
+                        <img id="search-page-image-in-search-between-category-subcategory" class="image-arrow-right-in-search" src=~/images/combined-shape-grey.svg/>
+                        <div class="search-page-search-article-subcategory-name">
+                            @Model.ArticlesSearch[index].Subcategory
+                        </div>
+                        <img id="search-page-image-in-search-between-subcategory-team" class="image-arrow-right-in-search" src=~/images/combined-shape.svg/>
+                        <div class="search-page-search-article-team-name">
+                            @Model.ArticlesSearch[index].Team
+                        </div>
+                    </div>
+                    <div class="search-page-search-article-bottom-content">
+                        @Model.ArticlesSearch[index].ContentText
+                    </div>
+                </div>
+            
+            </div>
+        }
     }
-}
+    </div>
+</div>

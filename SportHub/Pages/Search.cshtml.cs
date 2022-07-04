@@ -21,9 +21,12 @@ namespace SportHub.Pages
 
         public IList<ArticleForSearchResult?> ArticlesSearch { get; set; }
         public IList<Article> Articles { get; set; }
+        public string title { get; set; }
+        public int amountOfFindedTitles { get; set; }
 
         public void OnGet(string? searchValue)
         {
+            title = searchValue;
             Articles = _searchArticles.ArticlesBySearchRange(searchValue, 0, 10);
             ArticlesSearch = new List<ArticleForSearchResult>();
             for (int i = 0; i < Articles.Count; i++)
@@ -35,6 +38,7 @@ namespace SportHub.Pages
                 articleForSearchResult.Team = _articleService.GetArticlesTeam(Articles[i].Id);
                 ArticlesSearch.Add(articleForSearchResult);
             }
+            amountOfFindedTitles = Articles.Count;
         }
     }
 }

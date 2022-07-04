@@ -1,0 +1,87 @@
+.search-page-all-content {
+    margin: 44px 0 0 166px;
+}
+
+.search-page-result {
+    display: flex;
+    margin-left: 32px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.search-page-search-result-articles {
+    background-color: white;
+    max-height: 600px;
+    overflow-y: scroll;
+    width: 774px;
+    margin-top: 19px;
+}
+
+.search-article-info {
+    margin-bottom: 20px;
+    width: 855px;
+    height: 116px;
+    background: #FFFFFF;
+}
+
+.search-page-search-content {
+    margin: 22px 13px 28px 32px;
+}
+
+.search-page-search-article-top-info {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.find-words-search-article-top-info {
+    color: black;
+}
+
+.image-arrow-right-in-search {
+    margin: 0 3px;
+}
+
+.search-page-search-article-category-name {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #B2B2B2;
+}
+
+.search-page-search-article-subcategory-name {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #B2B2B2;
+}
+
+.search-page-search-article-team-name {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #B2B2B2;
+}
+
+.search-page-search-article-bottom-content {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #7F7B7B;
+}
