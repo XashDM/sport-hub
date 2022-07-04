@@ -1,0 +1,10 @@
+﻿@page
+@model SportHub.Pages.SearchModel
+@{
+}
+
+@{
+    for (int index = 0; index<Model.ArticlesSearch.Count; index++) {
+        @Model.ArticlesSearch[index].ContentText
+    }
+}

@@ -26,6 +26,11 @@
     width: 33%
 }
 
+.search-button-and-field-input {
+    display: flex;
+    margin: auto;
+}
+
 input#header-search-field {
     height: 77px;
     width: 90%;
@@ -40,7 +45,6 @@ button#search-button {
     background-color: white;
     width: 10%;
     height: 83px;
-    max-width: 20px;
 }
 
 .search-result-articles {
@@ -69,19 +73,39 @@ button#search-button {
     line-height: 16px;
 }
 
+.find-words-search-article-top-info {
+    color: black;
+}
+
 .image-arrow-in-search {
     margin: 0 3px;
 }
 
 .search-article-category-name {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #B2B2B2;
 }
 
 .search-article-subcategory-name {
-
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #B2B2B2;
 }
 
 .search-article-team-name {
-
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #B2B2B2;
 }
 
 .search-article-bottom-content {
@@ -90,6 +114,7 @@ button#search-button {
     font-weight: 400;
     font-size: 14px;
     line-height: 19px;
+    color: #7F7B7B;
 }
 
 .header-icons {

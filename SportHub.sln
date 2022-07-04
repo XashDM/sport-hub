@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SportHub.Domain", "SportHub
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SportHub.Services", "SportHub.Services\SportHub.Services.csproj", "{0EC67AA5-7884-4753-8067-8657E725A03A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportHub.Tests", "SportHub.Tests\SportHub.Tests.csproj", "{FC59DB91-9ADC-4EE7-BECE-AA0125CA791B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SportHub.Tests", "SportHub.Tests\SportHub.Tests.csproj", "{FC59DB91-9ADC-4EE7-BECE-AA0125CA791B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

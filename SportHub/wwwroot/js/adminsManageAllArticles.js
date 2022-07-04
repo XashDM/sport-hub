@@ -64,13 +64,12 @@ function updateArticlesAfterScrolling() {
         data: JSON.stringify(articleDisplayParameters),
         success: function (articles) {
             amountOfArticles = articles.length;
-            
             for (var i = 0; i < amountOfArticles; i++) {
                 var articleField = $('.get-admins-articles-elements:first')
                     .clone().attr('id', `article-with-id-${articles[i].id}`)
                     .insertAfter("div.get-admins-articles-elements:last");
                 articleField.find('.get-admins-articles-elements').attr('id', `article-with-id-${articles[i].id}`);
-                articleField.find('.get-admins-articles-image').attr('src', articles[i].imageLink);
+                articleField.find('.get-admins-articles-image').attr('src', articles[i].imageItem.imageLink);
                 articleField.find('.get-admins-articles-image-container-a').attr('href', `/Articles/Details?id=${articles[i].id}`);
                 articleField.find('.get-admins-articles-title').text(articles[i].title);
                 articleField.find('.get-admins-articles-content-text').text(articles[i].contentText);
