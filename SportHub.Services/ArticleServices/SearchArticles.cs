@@ -19,7 +19,7 @@ namespace SportHub.Services.ArticleServices
         public IList<Article> ArticlesBySearch(string search)
         {
             IList<Article> articles = new List<Article>();
-            articles = _context.Articles.Where(article => article.Title.Contains(search) || article.ContentText.Contains(search)).ToList();
+            articles = _context.Articles.Where(article => (article.Title.Contains(search) || article.ContentText.Contains(search)) && article.IsPublished.Equals(true)).ToList();
             return articles;
         }
 

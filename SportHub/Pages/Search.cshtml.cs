@@ -38,7 +38,7 @@ namespace SportHub.Pages
                 articleForSearchResult.Team = _articleService.GetArticlesTeam(Articles[i].Id);
                 ArticlesSearch.Add(articleForSearchResult);
             }
-            amountOfFindedTitles = Articles.Count;
+            amountOfFindedTitles = _searchArticles.ArticlesBySearchRange(searchValue, 0, 10000).Count;
         }
     }
 }

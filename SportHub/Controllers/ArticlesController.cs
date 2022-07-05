@@ -20,14 +20,16 @@ namespace SportHub.Controllers
     public class ArticlesController : ControllerBase
     {
         private readonly IGetArticleService _articleService;
+        private readonly IGetAdminArticlesService _adminArticlesService;
         private readonly IImageService _imageService;
         private readonly ISearchArticles _searchArticles;
 
-        public ArticlesController(IGetArticleService articleService, IImageService imageService, ISearchArticles searchArticles)
+        public ArticlesController(IGetArticleService articleService, IGetAdminArticlesService adminArticlesService, IImageService imageService, ISearchArticles searchArticles)
         {
             _articleService = articleService;
             _imageService = imageService;
             _searchArticles = searchArticles;
+            _adminArticlesService = adminArticlesService;
         }
 
         [HttpGet(nameof(GetAllCategories))]
@@ -222,6 +224,7 @@ namespace SportHub.Controllers
             for (int i = 0; i < articles.Count; i++)
             {
                 articleForSearchResult.Add(new ArticleForSearchResult());
+                articleForSearchResult[i].Id = articles[i].Id;
                 articleForSearchResult[i].ContentText = articles[i].ContentText;
                 articleForSearchResult[i].Category = _articleService.GetArticlesCategory(articles[i].Id);
                 articleForSearchResult[i].Subcategory = _articleService.GetArticlesSubcategory(articles[i].Id);

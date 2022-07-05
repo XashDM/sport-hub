@@ -123,22 +123,24 @@
     </footer>
 
     <div class="search-article-info">
-        <div class="search-article-top-info">
-            <div class="search-article-category-name">
-                NBA
+        <a id="article-href">
+            <div class="search-article-top-info">
+                <div class="search-article-category-name">
+
+                </div>
+                <img id="image-in-search-between-category-subcategory" class="image-arrow-in-search" src=~/images/combined-shape-grey.svg/>
+                <div class="search-article-subcategory-name">
+
+                </div>
+                <img id="image-in-search-between-subcategory-team" class="image-arrow-in-search" src=~/images/combined-shape.svg/>
+                <div class="search-article-team-name">
+
+                </div>
             </div>
-            <img id="image-in-search-between-category-subcategory" class="image-arrow-in-search" src=~/images/combined-shape-grey.svg/>
-            <div class="search-article-subcategory-name">
-                AFC South
-            </div>
-            <img id="image-in-search-between-subcategory-team" class="image-arrow-in-search" src=~/images/combined-shape.svg/>
-            <div class="search-article-team-name">
-                AFC South
-            </div>
-        </div>
-        <div class="search-article-bottom-content">
+            <div class="search-article-bottom-content">
             
-        </div>
+            </div>
+        </a>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -153,9 +155,6 @@
             displayData();
         });
 
-        $('#header-search-field').keyup(function () {
-            searchField();
-        });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

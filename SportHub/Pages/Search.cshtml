@@ -2,6 +2,13 @@
 @model SportHub.Pages.SearchModel
 @{
     Layout = "_AdminLayout";
+    ViewData["Title"] = "Search";
+}
+
+@section SaveButton {
+    <div class="middle-header">
+        <p class="search-page-info-title" id="page-header-name">Search</p>
+    </div>
 }
 
 <head>
@@ -17,7 +24,7 @@
         <div class="search-page-result-name">
             @(Model.title + " ")
         </div>
-        <div class="search-page-result-amount">
+        <div class="search-page-result-amount" style=@(Model.amountOfFindedTitles == 0 ? "display:none":"")>
             (@Model.amountOfFindedTitles)
         </div>
     </div>
@@ -48,5 +55,12 @@
             </div>
         }
     }
+    </div>
+
+    <div class="no-articles-was-found" style=@(Model.amountOfFindedTitles > 0 ? "display:none":"")>
+        <h2 class="">No matches found.</h2>
+        <div class="bottom-text-for-no-result">
+            Please try another search.
+        </div>
     </div>
 </div>

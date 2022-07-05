@@ -1,3 +1,12 @@
+.search-page-info-title {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 41px;
+    margin: 25px 0 11px 66px;
+}
+
 .search-page-all-content {
     margin: 44px 0 0 166px;
 }
@@ -20,15 +29,19 @@
     margin-top: 19px;
 }
 
-.search-article-info {
+.search-page-search-article-info:hover {
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.110932);
+}
+
+/*.search-page-search-article-info {
     margin-bottom: 20px;
     width: 855px;
     height: 116px;
     background: #FFFFFF;
-}
+}*/
 
 .search-page-search-content {
-    margin: 22px 13px 28px 32px;
+    padding: 22px 13px 28px 32px;
 }
 
 .search-page-search-article-top-info {
@@ -84,4 +97,10 @@
     font-size: 14px;
     line-height: 19px;
     color: #7F7B7B;
+}
+
+.no-articles-was-found {
+    font-family: 'Open Sans';
+    font-style: normal;
+    margin-left: 30px;
 }

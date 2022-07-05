@@ -56,6 +56,17 @@ button#search-button {
     padding: 22px 36px 30px 37px;
     width: 774px;
     display: none;
+    box-shadow: 0px 12px 14px rgba(0, 0, 0, 0.0542504);
+}
+
+    .search-result-articles::-webkit-scrollbar {
+        display: none;
+    }
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.search-result-articles {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
 
 .search-article-info {

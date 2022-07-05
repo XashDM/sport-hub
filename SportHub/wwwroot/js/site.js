@@ -83,18 +83,21 @@ function displayLogInOut() {
 }
 
 //search-results
+let amountOfArticlesInSearchField = 0;
 let startElementPosition = 10;
 let amountOfElements = 2;
+let amountToDelete;
 function searchField() {
     startElementPosition = 10;
+    let amountOfArticles;
     let searchValue = $(".lable").val();
-    $(".search-result-articles").empty();
 
     let searchParameters = {
         searchValue: searchValue,
         startPosition: 0,
         amountArticles: 10,
     };
+    $(".search-result-articles").empty();
     if (searchValue != "") {
         $.ajax({
             method: 'post',
@@ -103,14 +106,14 @@ function searchField() {
             data: JSON.stringify(searchParameters),
             success: function (articles) {
                 amountOfArticles = articles.length;
-
+                amountToDelete = amountOfArticles;
                 for (var i = 0; i < amountOfArticles; i++) {
                     var articleSearchField = $('.search-article-info:first')
-                        .clone().attr('id', `article-with-id-${articles[i].category}`)
+                        .clone().attr('id', `article-with-id-${articles[i].id}`)
                         .appendTo('.search-result-articles');
 
                     //add category, subcategory, team fields
-
+                    articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
                     articleSearchField.find('.search-article-category-name').text(articles[i].category);
                     articleSearchField.find('.search-article-subcategory-name').text(articles[i].subcategory);
                     if (articles[i].subcategory == "") {
@@ -128,7 +131,7 @@ function searchField() {
 
                     let fieldFromArticle = articles[i].contentText;
                     let articleContentText = "";
-                    for (var j = 0; j < fieldFromArticle.length - searchValue.length; j++) {
+                    for (var j = 0; j < fieldFromArticle.length; j++) {
                         if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
                             articleContentText += `<span class="find-words-search-article-top-info"><b>${fieldFromArticle.substr(j, searchValue.length)}</b></span>`;
                             j += searchValue.length - 1;
@@ -140,9 +143,22 @@ function searchField() {
                     articleSearchField.find('.search-article-bottom-content').html(articleContentText);
                     $('.search-result-articles').show();
                 }
+                if (amountOfArticles == 0) {
+                    var articleSearchField = $('.search-article-info:first')
+                        .clone().appendTo('.search-result-articles');
+                    articleSearchField.find('.search-article-category-name').text('No matches found.');
+                    articleSearchField.find('.search-article-bottom-content').text('Please try another search.');
+                }
             }
         });
-    }   
+        //for (var i = 0; i < amountOfArticlesInSearchField; i++) {
+        //    $('.search-result-articles').find('.search-article-info').first().remove();
+        //}
+        amountOfArticlesInSearchField = amountToDelete;
+    }
+    else {
+        $(".search-result-articles").empty();
+    }
 }
 
 function searchScroll() {
@@ -176,11 +192,11 @@ function updateSearchAfterScrolling() {
 
             for (var i = 0; i < amountOfArticles; i++) {
                 var articleSearchField = $('.search-article-info:first')
-                    .clone().attr('id', `article-with-id-${articles[i].category}`)
+                    .clone().attr('id', `article-with-id-${articles[i].id}`)
                     .appendTo('.search-result-articles');
-
+                console.log(articles[i].contentText);
                 //add category, subcategory, team fields
-
+                articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
                 articleSearchField.find('.search-article-category-name').text(articles[i].category);
                 articleSearchField.find('.search-article-subcategory-name').text(articles[i].subcategory);
                 if (articles[i].subcategory == "") {
@@ -198,7 +214,7 @@ function updateSearchAfterScrolling() {
 
                 let fieldFromArticle = articles[i].contentText;
                 let articleContentText = "";
-                for (var j = 0; j < fieldFromArticle.length - searchValue.length; j++) {
+                for (var j = 0; j < fieldFromArticle.length; j++) {
                     if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
                         articleContentText += `<span class="find-words-search-article-top-info"><b>${fieldFromArticle.substr(j, searchValue.length)}</b></span>`;
                         j += searchValue.length - 1;
@@ -216,19 +232,22 @@ function updateSearchAfterScrolling() {
 }
 
 let ignoreClickOnMeElement = document.getElementsByClassName('search-result-articles')[0];
-
+let ignoreClickOnMeElement2 = $('#header-search-field');
 document.addEventListener('click', function (event) {
     let isClickInsideElement = ignoreClickOnMeElement.contains(event.target);
     if (!isClickInsideElement) {
-        $('#search-field-tag').css('display','none');
-        
+        $('#search-field-tag').css('display', 'none');
+    }
+    else {
+        if (ignoreClickOnMeElement2) {
+            $('#search-field-tag').show();
+        }
     }
 });
 
 function checkIsInputActive() {
     let searchValue = $(".lable").val();
     if (searchValue != "") {
-        $('#search-field-tag').show();
         console.log("Working(no)");
         console.log($('#search-field-tag').css('display'));
     }
@@ -238,8 +257,14 @@ function moveToSearchPage() {
     const searchValue = $('#header-search-field').val();
     console.log(searchValue);
     $(location).attr('href', `/search?searchValue=${searchValue}`);
-    //$(location).prop('href', `/search`);
 }
+
+var input = document.getElementById("header-search-field");
+input.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        moveToSearchPage();
+    }
+});
 
 // for sidebar
 let timer1;
