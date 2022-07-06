@@ -289,6 +289,12 @@ input.addEventListener("keypress", function (event) {
     }
 });
 
+
+function logoutUser(){
+    localStorage.removeItem('Jwt Token');
+    location.reload();
+};
+
 // for sidebar
 let timer1;
 let timer2;

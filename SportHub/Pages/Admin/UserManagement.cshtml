@@ -1,0 +1,148 @@
+﻿@page
+@model SportHub.Pages.Admin.UserManagementModel
+@{
+    ViewData["Title"] = "User Management";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/userManagementPage.css" asp-append-version="true" />
+</head>
+
+<section class="content-box">
+    <div class="users-management-box">
+        <div class="tabs-box">
+            <p id="users-tab" class="red-accent">Users</p>
+            <p id="admins-tab">Admins</p>
+        </div>
+        <div class="user-table">
+            <div class="table-header">
+                <div class="name-col">
+                    <p class="column-caption">NAME</p>
+                </div>
+                <div class="status-col">
+                    <p class="column-caption">STATUS</p>
+                </div>
+                <div class="action-col">
+                    <p class="column-caption">ACTION</p>
+                </div>
+            </div>
+            <div class="table-body">
+                <ul>
+                    @for (var i = 0; i < Model.Users.Count(); i++)
+                    {
+                        <li id="@(Model.Users[i].Id)" class="table-row box-shadow" isactive="@(Model.Users[i].IsActive? "true" : "false")">
+                            <div class="name-col">
+                                <p class="button-text">@(Model.Users[i].FirstName + " " + Model.Users[i].LastName)</p>
+                            </div>
+                            <div class="status-col">
+                                @if (Model.Users[i].IsActive)
+                                {
+                                    <p class="status-label green-accent button-text">Active</p>
+                                }
+                                else
+                                {
+                                    <p class="status-label grey-accent button-text">Blocked</p>
+                                }
+                            </div>
+                            <div class="action-col">
+                                <!--Custom dropdown section-->
+                                <div class="custom-dropdown-body box-shadow">
+                                    <div class="custom-dropdown-selected @(Model.Users[i].IsActive? "grey-option" : "green-option")" actiontype="@(Model.Users[i].IsActive? "block" : "activate")">
+                                        <div class="space-button"></div>
+
+                                        <p class="button-text selected-value">@(Model.Users[i].IsActive? "Block" : "Activate")</p>
+
+                                        <div class="arrow-button">
+                                            <img class="down-arrow" src="../icons/Polygon.svg" />
+                                        </div>
+                                    </div>
+                                    <div id="dropdown-options-@(Model.Users[i].Id)" class="custom-dropdown-options">
+                                        <div class="custom-option blue-option" optionstyle="blue-option" id="grant-admin">
+                                            <p class="button-text">Make as Admin</p>
+                                        </div>
+                                        <div class="custom-option green-option" optionstyle="green-option" id="activate" style="display: none">
+                                            <p class="button-text">Activate</p>
+                                        </div>
+                                        <div class="custom-option grey-option" optionstyle="grey-option" id="block" style="display: none">
+                                            <p class="button-text">Block</p>
+                                        </div>
+                                        <div class="custom-option red-option" optionstyle="red-option" id="delete">
+                                            <p class="button-text">Delete</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="admin-table">
+            <div class="table-header">
+                <div class="name-col">
+                    <p class="column-caption">NAME</p>
+                </div>
+                <div class="status-col">
+                    <p class="column-caption">STATUS</p>
+                </div>
+                <div class="action-col">
+                    <p class="column-caption">ACTION</p>
+                </div>
+            </div>
+            <div class="table-body">
+                <ul class="admin-table-ul">
+                    @for (var i = 0; i < Model.Admins.Count(); i++)
+                    {
+                        <li id="@(Model.Admins[i].Id)" class="table-row box-shadow" isactive="@(Model.Admins[i].IsActive? "true" : "false")">
+                            <div class="name-col">
+                                <p class="button-text">@(Model.Admins[i].FirstName + " " + Model.Admins[i].LastName)</p>
+                            </div>
+                            <div class="status-col">
+                                @if (Model.Admins[i].IsActive)
+                                {
+                                    <p class="status-label green-accent button-text">Active</p>
+                                }
+                                else
+                                {
+                                    <p class="status-label grey-accent button-text">Blocked</p>
+                                }
+                            </div>
+                            <div class="action-col">
+                                <!--Custom dropdown section-->
+                                <div class="custom-dropdown-body box-shadow">
+                                    <div class="custom-dropdown-selected @(Model.Admins[i].IsActive? "grey-option" : "green-option")" actiontype="@(Model.Admins[i].IsActive? "block" : "activate")">
+                                        <div class="space-button"></div>
+
+                                        <p class="button-text selected-value">@(Model.Admins[i].IsActive? "Block" : "Activate")</p>
+
+                                        <div class="arrow-button">
+                                            <img class="down-arrow" src="../icons/Polygon.svg" />
+                                        </div>
+                                    </div>
+                                    <div id="dropdown-options-@(Model.Admins[i].Id)" class="custom-dropdown-options">
+                                        <div class="custom-option blue-option" optionstyle="blue-option" id="remove-admin" style="display: @(Model.Admins[i].IsActive? "block" : "none")">
+                                            <p class="button-text">Remove from Admin</p>
+                                        </div>
+                                        <div class="custom-option green-option" optionstyle="green-option" id="activate" style="display: none">
+                                            <p class="button-text">Activate</p>
+                                        </div>
+                                        <div class="custom-option grey-option" optionstyle="grey-option" id="block" style="display: none">
+                                            <p class="button-text">Block</p>
+                                        </div>
+                                        <div class="custom-option red-option" optionstyle="red-option" id="delete">
+                                            <p class="button-text">Delete</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/js/userManagement.js"></script>
