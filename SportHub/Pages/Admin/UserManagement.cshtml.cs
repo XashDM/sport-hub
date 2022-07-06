@@ -1,33 +1,29 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using SportHub.Domain;
 using SportHub.Domain.Models;
+using SportHub.Services;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SportHub.Pages.Admin
 {
     public class UserManagementModel : PageModel
     {
         private readonly SportHubDBContext _context;
-        public IList<User> users { get; set; }
-        public IList<User> admins { get; set; }
+        private readonly IUserService _userService;
+        public IList<User> Users { get; set; }
+        public IList<User> Admins { get; set; }
 
-        public UserManagementModel(SportHubDBContext context)
+        public UserManagementModel(SportHubDBContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         public void OnGet()
         {
-            users = _context.Users.Include(u => u.Roles).ToList();
+            Users = _userService.GetAllUsersList();
 
-            var adminRole = _context.UserRoles
-                .Where(role => role.RoleName == "Admin")
-                .Include(role => role.Users)
-                .ToList();
-
-            admins = adminRole[0].Users.ToList();
+            Admins = _userService.GetAllAdminsList();
         }
     }
 }

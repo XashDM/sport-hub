@@ -28,14 +28,14 @@
             </div>
             <div class="table-body">
                 <ul>
-                    @for (var i = 0; i < Model.users.Count(); i++)
+                    @for (var i = 0; i < Model.Users.Count(); i++)
                     {
-                        <li id="@(Model.users[i].Id)" class="table-row box-shadow" isactive="@(Model.users[i].IsActive? "true" : "false")">
+                        <li id="@(Model.Users[i].Id)" class="table-row box-shadow" isactive="@(Model.Users[i].IsActive? "true" : "false")">
                             <div class="name-col">
-                                <p class="button-text">@(Model.users[i].FirstName + " " + Model.users[i].LastName)</p>
+                                <p class="button-text">@(Model.Users[i].FirstName + " " + Model.Users[i].LastName)</p>
                             </div>
                             <div class="status-col">
-                                @if (Model.users[i].IsActive)
+                                @if (Model.Users[i].IsActive)
                                 {
                                     <p class="status-label green-accent button-text">Active</p>
                                 }
@@ -47,16 +47,16 @@
                             <div class="action-col">
                                 <!--Custom dropdown section-->
                                 <div class="custom-dropdown-body box-shadow">
-                                    <div class="custom-dropdown-selected @(Model.users[i].IsActive? "grey-option" : "green-option")" actiontype="@(Model.users[i].IsActive? "block" : "activate")">
+                                    <div class="custom-dropdown-selected @(Model.Users[i].IsActive? "grey-option" : "green-option")" actiontype="@(Model.Users[i].IsActive? "block" : "activate")">
                                         <div class="space-button"></div>
 
-                                        <p class="button-text selected-value">@(Model.users[i].IsActive? "Block" : "Activate")</p>
+                                        <p class="button-text selected-value">@(Model.Users[i].IsActive? "Block" : "Activate")</p>
 
                                         <div class="arrow-button">
                                             <img class="down-arrow" src="../icons/Polygon.svg" />
                                         </div>
                                     </div>
-                                    <div id="dropdown-options-@(Model.users[i].Id)" class="custom-dropdown-options">
+                                    <div id="dropdown-options-@(Model.Users[i].Id)" class="custom-dropdown-options">
                                         <div class="custom-option blue-option" optionstyle="blue-option" id="grant-admin">
                                             <p class="button-text">Make as Admin</p>
                                         </div>
@@ -93,14 +93,14 @@
             </div>
             <div class="table-body">
                 <ul class="admin-table-ul">
-                    @for (var i = 0; i < Model.admins.Count(); i++)
+                    @for (var i = 0; i < Model.Admins.Count(); i++)
                     {
-                        <li id="@(Model.admins[i].Id)" class="table-row box-shadow" isactive="@(Model.admins[i].IsActive? "true" : "false")">
+                        <li id="@(Model.Admins[i].Id)" class="table-row box-shadow" isactive="@(Model.Admins[i].IsActive? "true" : "false")">
                             <div class="name-col">
-                                <p class="button-text">@(Model.admins[i].FirstName + " " + Model.admins[i].LastName)</p>
+                                <p class="button-text">@(Model.Admins[i].FirstName + " " + Model.Admins[i].LastName)</p>
                             </div>
                             <div class="status-col">
-                                @if (Model.admins[i].IsActive)
+                                @if (Model.Admins[i].IsActive)
                                 {
                                     <p class="status-label green-accent button-text">Active</p>
                                 }
@@ -112,17 +112,17 @@
                             <div class="action-col">
                                 <!--Custom dropdown section-->
                                 <div class="custom-dropdown-body box-shadow">
-                                    <div class="custom-dropdown-selected @(Model.admins[i].IsActive? "grey-option" : "green-option")" actiontype="@(Model.admins[i].IsActive? "block" : "activate")">
+                                    <div class="custom-dropdown-selected @(Model.Admins[i].IsActive? "grey-option" : "green-option")" actiontype="@(Model.Admins[i].IsActive? "block" : "activate")">
                                         <div class="space-button"></div>
 
-                                        <p class="button-text selected-value">@(Model.admins[i].IsActive? "Block" : "Activate")</p>
+                                        <p class="button-text selected-value">@(Model.Admins[i].IsActive? "Block" : "Activate")</p>
 
                                         <div class="arrow-button">
                                             <img class="down-arrow" src="../icons/Polygon.svg" />
                                         </div>
                                     </div>
-                                    <div id="dropdown-options-@(Model.admins[i].Id)" class="custom-dropdown-options">
-                                        <div class="custom-option blue-option" optionstyle="blue-option" id="remove-admin" style="display: @(Model.admins[i].IsActive? "block" : "none")">
+                                    <div id="dropdown-options-@(Model.Admins[i].Id)" class="custom-dropdown-options">
+                                        <div class="custom-option blue-option" optionstyle="blue-option" id="remove-admin" style="display: @(Model.Admins[i].IsActive? "block" : "none")">
                                             <p class="button-text">Remove from Admin</p>
                                         </div>
                                         <div class="custom-option green-option" optionstyle="green-option" id="activate" style="display: none">
