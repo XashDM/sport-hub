@@ -101,54 +101,63 @@ function searchField() {
     if (searchValue != "") {
         $.ajax({
             method: 'post',
-            url: '/api/Articles/SearchArticlesRange',
+            url: '/api/Articles/ArticlesRange',
             contentType: 'application/json',
             data: JSON.stringify(searchParameters),
             success: function (articles) {
-                amountOfArticles = articles.length;
-                amountToDelete = amountOfArticles;
-                for (var i = 0; i < amountOfArticles; i++) {
-                    var articleSearchField = $('.search-article-info:first')
-                        .clone().attr('id', `article-with-id-${articles[i].id}`)
-                        .appendTo('.search-result-articles');
-
-                    //add category, subcategory, team fields
-                    articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
-                    articleSearchField.find('.search-article-category-name').text(articles[i].category);
-                    articleSearchField.find('.search-article-subcategory-name').text(articles[i].subcategory);
-                    if (articles[i].subcategory == "") {
-                        articleSearchField.find('.search-article-category-name').css('color', '#D72130');
-                    }
-                    articleSearchField.find('.search-article-team-name').text(articles[i].team);
-                    if (articles[i].team == "") {
-                        articleSearchField.find('.search-article-subcategory-name').css('color', '#D72130');
-                    }
-                    if (articles[i].team != "") {
-                        articleSearchField.find('.search-article-team-name').css('color', '#D72130');
-                        articleSearchField.find('.search-article-subcategory-name').css('color', '');
-                        articleSearchField.find('.search-article-category-name').css('color', '');
-                    }
-
-                    let fieldFromArticle = articles[i].contentText;
-                    let articleContentText = "";
-                    for (var j = 0; j < fieldFromArticle.length; j++) {
-                        if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
-                            articleContentText += `<span class="find-words-search-article-top-info"><b>${fieldFromArticle.substr(j, searchValue.length)}</b></span>`;
-                            j += searchValue.length - 1;
+                if (articles.length != 0) {
+                    amountOfArticles = articles.length;
+                    amountToDelete = amountOfArticles;
+                    for (var i = 0; i < amountOfArticles; i++) {
+                        var articleSearchField = $('.search-article-info:first')
+                            .clone().attr('id', `article-with-id-${articles[i].id}`)
+                            .appendTo('.search-result-articles');
+                        console.log(articles[i]);
+                        //add category, subcategory, team fields
+                        articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
+                        articleSearchField.find('.search-article-category-name').text(articles[i].referenceItem.name);
+                        if (articles[i].referenceItem.parentsItem != null) {
+                            articleSearchField.find('.search-article-subcategory-name').text(articles[i].referenceItem.parentsItem.name);
+                            if (articles[i].referenceItem.parentsItem.parentsItem != null) {
+                                articleSearchField.find('.search-article-team-name').text(articles[i].referenceItem.parentsItem.parentsItem.name);
+                                articleSearchField.find('.search-article-team-name').css('color', '#D72130');
+                                articleSearchField.find('.search-article-subcategory-name').css('color', '');
+                                articleSearchField.find('.search-article-category-name').css('color', '');
+                            }
+                            else {
+                                articleSearchField.find('.search-article-subcategory-name').css('color', '#D72130');
+                                articleSearchField.find('.search-article-team-name').text('');
+                            }
                         }
                         else {
-                            articleContentText += fieldFromArticle[j];
+                            articleSearchField.find('.search-article-category-name').css('color', '#D72130');
+                            articleSearchField.find('.search-article-team-name').text('');
+                            articleSearchField.find('.search-article-subcategory-name').text('');
+                            articleSearchField.find('#image-in-search-between-category-subcategory').css('display', 'none');
                         }
+
+                        let fieldFromArticle = articles[i].contentText;
+                        let articleContentText = "";
+                        for (var j = 0; j < fieldFromArticle.length; j++) {
+                            if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
+                                articleContentText += `<span class="find-words-search-article-top-info"><b>${fieldFromArticle.substr(j, searchValue.length)}</b></span>`;
+                                j += searchValue.length - 1;
+                            }
+                            else {
+                                articleContentText += fieldFromArticle[j];
+                            }
+                        }
+                        articleSearchField.find('.search-article-bottom-content').html(articleContentText);
+                        $('.search-result-articles').show();
                     }
-                    articleSearchField.find('.search-article-bottom-content').html(articleContentText);
-                    $('.search-result-articles').show();
+                    if (amountOfArticles == 0) {
+                        var articleSearchField = $('.search-article-info:first')
+                            .clone().appendTo('.search-result-articles');
+                        articleSearchField.find('.search-article-category-name').text('No matches found.');
+                        articleSearchField.find('.search-article-bottom-content').text('Please try another search.');
+                    }
                 }
-                if (amountOfArticles == 0) {
-                    var articleSearchField = $('.search-article-info:first')
-                        .clone().appendTo('.search-result-articles');
-                    articleSearchField.find('.search-article-category-name').text('No matches found.');
-                    articleSearchField.find('.search-article-bottom-content').text('Please try another search.');
-                }
+
             }
         });
         //for (var i = 0; i < amountOfArticlesInSearchField; i++) {
@@ -157,7 +166,7 @@ function searchField() {
         amountOfArticlesInSearchField = amountToDelete;
     }
     else {
-        $(".search-result-articles").empty();
+        $(".search-result-articles").empty().hide();
     }
 }
 
@@ -184,48 +193,62 @@ function updateSearchAfterScrolling() {
 
     $.ajax({
         method: 'post',
-        url: '/api/Articles/SearchArticlesRange',
+        url: '/api/Articles/ArticlesRange',
         contentType: 'application/json',
         data: JSON.stringify(searchParameters),
         success: function (articles) {
-            amountOfArticles = articles.length;
-
-            for (var i = 0; i < amountOfArticles; i++) {
-                var articleSearchField = $('.search-article-info:first')
-                    .clone().attr('id', `article-with-id-${articles[i].id}`)
-                    .appendTo('.search-result-articles');
-                console.log(articles[i].contentText);
-                //add category, subcategory, team fields
-                articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
-                articleSearchField.find('.search-article-category-name').text(articles[i].category);
-                articleSearchField.find('.search-article-subcategory-name').text(articles[i].subcategory);
-                if (articles[i].subcategory == "") {
-                    articleSearchField.find('.search-article-category-name').css('color', '#D72130');
-                }
-                articleSearchField.find('.search-article-team-name').text(articles[i].team);
-                if (articles[i].team == "") {
-                    articleSearchField.find('.search-article-subcategory-name').css('color', '#D72130');
-                }
-                if (articles[i].team != "") {
-                    articleSearchField.find('.search-article-team-name').css('color', '#D72130');
-                    articleSearchField.find('.search-article-subcategory-name').css('color', '');
-                    articleSearchField.find('.search-article-category-name').css('color', '');
-                }
-
-                let fieldFromArticle = articles[i].contentText;
-                let articleContentText = "";
-                for (var j = 0; j < fieldFromArticle.length; j++) {
-                    if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
-                        articleContentText += `<span class="find-words-search-article-top-info"><b>${fieldFromArticle.substr(j, searchValue.length)}</b></span>`;
-                        j += searchValue.length - 1;
+            if (articles.length != 0) {
+                amountOfArticles = articles.length;
+                amountToDelete = amountOfArticles;
+                for (var i = 0; i < amountOfArticles; i++) {
+                    var articleSearchField = $('.search-article-info:first')
+                        .clone().attr('id', `article-with-id-${articles[i].id}`)
+                        .appendTo('.search-result-articles');
+                    console.log(articles[i]);
+                    //add category, subcategory, team fields
+                    articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
+                    articleSearchField.find('.search-article-category-name').text(articles[i].referenceItem.name);
+                    if (articles[i].referenceItem.parentsItem != null) {
+                        articleSearchField.find('.search-article-subcategory-name').text(articles[i].referenceItem.parentsItem.name);
+                        if (articles[i].referenceItem.parentsItem.parentsItem != null) {
+                            articleSearchField.find('.search-article-team-name').text(articles[i].referenceItem.parentsItem.parentsItem.name);
+                            articleSearchField.find('.search-article-team-name').css('color', '#D72130');
+                            articleSearchField.find('.search-article-subcategory-name').css('color', '');
+                            articleSearchField.find('.search-article-category-name').css('color', '');
+                        }
+                        else {
+                            articleSearchField.find('.search-article-subcategory-name').css('color', '#D72130');
+                            articleSearchField.find('.search-article-team-name').text('');
+                        }
                     }
                     else {
-                        articleContentText += fieldFromArticle[j];
+                        articleSearchField.find('.search-article-category-name').css('color', '#D72130');
+                        articleSearchField.find('.search-article-team-name').text('');
+                        articleSearchField.find('.search-article-subcategory-name').text('');
+                        articleSearchField.find('#image-in-search-between-category-subcategory').css('display', 'none');
                     }
+
+                    let fieldFromArticle = articles[i].contentText;
+                    let articleContentText = "";
+                    for (var j = 0; j < fieldFromArticle.length; j++) {
+                        if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
+                            articleContentText += `<span class="find-words-search-article-top-info"><b>${fieldFromArticle.substr(j, searchValue.length)}</b></span>`;
+                            j += searchValue.length - 1;
+                        }
+                        else {
+                            articleContentText += fieldFromArticle[j];
+                        }
+                    }
+                    articleSearchField.find('.search-article-bottom-content').html(articleContentText);
+                    $('.search-result-articles').show();
                 }
-                articleSearchField.find('.search-article-bottom-content').html(articleContentText);
-                //$('.search-result-articles').show();
-            }
+                if (amountOfArticles == 0) {
+                    var articleSearchField = $('.search-article-info:first')
+                        .clone().appendTo('.search-result-articles');
+                    articleSearchField.find('.search-article-category-name').text('No matches found.');
+                    articleSearchField.find('.search-article-bottom-content').text('Please try another search.');
+                }
+            }   
         }
     });
     startElementPosition += amountOfElements;

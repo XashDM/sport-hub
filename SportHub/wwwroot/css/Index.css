@@ -144,6 +144,7 @@
     width: 100%;
     height: 700px;
     overflow: hidden;
+    z-index: -1;
 }
 
 .feedback-column {
@@ -170,6 +171,8 @@
     font-size: 14px;
     line-height: 19px;
 }
+
+
 
 .main-article-photo {
     width: 130%;

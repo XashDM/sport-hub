@@ -28,5 +28,17 @@ namespace SportHub.Services.ArticleServices
             var articles = ArticlesBySearch(search);
             return articles.Skip(startPosition).Take(endPosition).ToList();
         }
+
+        public IQueryable<Article> SearchArticlesSecond(string search)
+        {
+            var articles = _context.Articles
+                .AsNoTracking()
+                .Include(article => article.ReferenceItem)
+                .ThenInclude(refItem => refItem.ParentsItem)
+                .ThenInclude(refItem => refItem.ParentsItem)
+                .Where(article => (article.Title.Contains(search) || article.ContentText.Contains(search)) && article.IsPublished.Equals(true));
+
+            return articles;
+        }
     }
 }

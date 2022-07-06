@@ -232,5 +232,13 @@ namespace SportHub.Controllers
             }
             return new OkObjectResult(articleForSearchResult);
         }
+
+        [HttpPost(nameof(ArticlesRange))]
+        [AllowAnonymous]
+        public async Task<IActionResult> ArticlesRange([FromBody] ArticlesSearch articleInfo)
+        {
+            var articles = _searchArticles.SearchArticlesSecond(articleInfo.searchValue).Skip(articleInfo.startPosition).Take(articleInfo.amountArticles);
+            return new OkObjectResult(articles);
+        }
     }
 }
