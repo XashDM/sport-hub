@@ -46,15 +46,6 @@
     white-space: nowrap;
 }
 
-p {
-    margin: 0;
-    background-color: #FFFFFF;
-    font-family: 'Open Sans';
-    color: #B2B2B2;
-}
-//Ламає частину текту на сторінці, залишаю, щоб підправили (той, кому треба цей стиль)
-*/
-
 main {
     padding-bottom: 60px;
 }
@@ -238,6 +229,10 @@ hr.href-between-sections {
 
 .navigation-picture {
     margin: 10px 26px 0 32px;
+}
+
+.navigation-picture img:hover {
+    filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(355deg) brightness(86%) contrast(118%);
 }
 
 .h {

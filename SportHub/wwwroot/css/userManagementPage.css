@@ -1,0 +1,126 @@
+﻿.content-box {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 50px 230px 0 230px;
+}
+
+.users-management-box {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+.tabs-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 35px;
+}
+
+.tabs-box p {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    color: #7f8899;
+}
+
+.user-table {
+    width: 100%;
+    min-width: 580px;
+}
+
+.admin-table {
+    width: 100%;
+    min-width: 580px;
+    display: none;
+}
+
+.table-header {
+    display: flex;
+    flex-direction: row;
+    background-color: #f2f2f2;
+}
+
+.name-col, .status-col, .action-col {
+    display: flex;
+} 
+
+.name-col {
+    margin-left: 5%;
+    width: 60%;
+}
+
+.status-col {
+    width: 15%;
+    justify-content: center;
+}
+
+.action-col {
+    width: 30%;
+    justify-content: center;
+}
+
+.table-body ul {
+    padding: 0;
+}
+
+.table-row {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #D4D9E2;
+    border-bottom: none;
+}
+
+.table-row:last-of-type {
+    border: 1px solid #D4D9E2 !important;
+}
+
+.custom-dropdown-body {
+    width: 90%;
+    margin: auto;
+    background-color: #f2f2f2;
+    height: 35px;
+}
+
+.custom-dropdown-selected {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.custom-dropdown-selected p {
+    margin: auto;
+}
+
+.custom-dropdown-options {
+    display: none;
+    position: relative;
+    z-index: 5;
+    background-color: #f2f2f2;
+    margin: 0;
+}
+
+.custom-option {
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+}
+
+.custom-option p {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.down-arrow {
+    width: 7px;
+    height: 4px;
+    margin: auto 15px auto;
+}
+
+.arrow-button, .space-button {
+    width: 37px;
+    height: 100%;
+}
