@@ -74,37 +74,90 @@ $('.selected-value').click(function () {
     let selectedValue = $(this).parent();
     let action = selectedValue.attr('actiontype');
     let rowElement = $(this).parents('li');
+    let userId = rowElement.attr('id');
     let statusLabel = rowElement.find('.status-label');
-
+    console.log(userId);
     if (action == 'block') {
-        console.log('Block!');
-        rowElement.attr('isactive', "false");
-        selectedValue.attr('actiontype', 'activate');
-        selectedValue.removeClass('grey-option');
-        selectedValue.addClass('green-option');
-        selectedValue.find('.selected-value').text('Activate');
-        rowElement.find('#grant-admin').hide();
+        $.ajax({
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            async: true,
+            url: '/api/Users/BlockUserById',
+            type: 'post',
+            data: JSON.stringify({'userid': userId}),
+            success: function () {
+                console.log('Block!');
+                rowElement.attr('isactive', "false");
+                selectedValue.attr('actiontype', 'activate');
+                selectedValue.removeClass('grey-option');
+                selectedValue.addClass('green-option');
+                selectedValue.find('.selected-value').text('Activate');
+                rowElement.find('#grant-admin').hide();
 
-        statusLabel.text('Blocked');
-        statusLabel.removeClass('green-accent');
-        statusLabel.addClass('grey-accent');
+                statusLabel.text('Blocked');
+                statusLabel.removeClass('green-accent');
+                statusLabel.addClass('grey-accent');
+                return;
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr);
+                console.error(error);
+            }
+        });
     }
     else if (action == 'activate') {
-        console.log('Activate!');
-        rowElement.attr('isactive', "true");
-        selectedValue.attr('actiontype', 'block');
-        selectedValue.removeClass('green-option');
-        selectedValue.addClass('grey-option');
-        selectedValue.find('.selected-value').text('Block');
-        rowElement.find('#grant-admin').show();
+        $.ajax({
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            async: true,
+            url: '/api/Users/ActivateUserById',
+            type: 'post',
+            data: JSON.stringify({ 'userid': userId }),
+            success: function () {
+                console.log('Activate!');
+                rowElement.attr('isactive', "true");
+                selectedValue.attr('actiontype', 'block');
+                selectedValue.removeClass('green-option');
+                selectedValue.addClass('grey-option');
+                selectedValue.find('.selected-value').text('Block');
+                rowElement.find('#grant-admin').show();
 
-        statusLabel.text('Active');
-        statusLabel.removeClass('grey-accent');
-        statusLabel.addClass('green-accent');
+                statusLabel.text('Active');
+                statusLabel.removeClass('grey-accent');
+                statusLabel.addClass('green-accent');
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr);
+                console.error(error);
+            }
+        });
     }
     else if (action == 'delete') {
-        console.log('Delete!');
-        rowElement.slideUp();
+        $.ajax({
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            async: true,
+            url: '/api/Users/DeleteUserById',
+            type: 'post',
+            data: JSON.stringify({ 'userid': userId }),
+            success: function () {
+                console.log('Delete!');
+                rowElement.slideUp();
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr);
+                console.error(error);
+            }
+        });
     }
     else if (action == 'remove-admin') {
         console.log('Remove admin permissions!');

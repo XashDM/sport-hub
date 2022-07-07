@@ -93,5 +93,47 @@ namespace SportHub.Services
 
             return admins;
         }
+
+        public async Task<bool> BlockUserByIdAsync(int userId)
+        {
+            var userToBlock = await _context.Users.FindAsync(userId);
+            if (userToBlock is not null)
+            {
+                if (userToBlock.IsActive == true)
+                {
+                    userToBlock.IsActive = false;
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> ActivateUserByIdAsync(int userId)
+        {
+            var userToActivate = await _context.Users.FindAsync(userId);
+            if (userToActivate is not null)
+            {
+                if (userToActivate.IsActive == false)
+                {
+                    userToActivate.IsActive = true;
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> DeleteUserByIdAsync(int userId)
+        {
+            var userToDelete = await _context.Users.FindAsync(userId);
+            if (userToDelete is not null)
+            {
+                _context.Remove(userToDelete);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
     }
 }

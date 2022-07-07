@@ -1,5 +1,6 @@
 ﻿using SportHub.Domain.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SportHub.Services
 {
@@ -16,5 +17,10 @@ namespace SportHub.Services
 
         IList<User> GetAllAdminsList();
 
+        Task<bool> BlockUserByIdAsync(int userId);
+
+        Task<bool> ActivateUserByIdAsync(int userId);
+
+        Task<bool> DeleteUserByIdAsync(int userId);
     }
 }
