@@ -27,6 +27,7 @@
     overflow-y: scroll;
     width: 774px;
     margin-top: 19px;
+    padding: 20px;
 }
 
 .search-page-search-article-info:hover {

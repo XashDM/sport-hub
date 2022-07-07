@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using SportHub.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using SportHub.Views;
+using System.Linq;
 
 namespace SportHub.Controllers
 {

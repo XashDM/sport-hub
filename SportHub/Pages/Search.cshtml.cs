@@ -32,6 +32,7 @@ namespace SportHub.Pages
             for (int i = 0; i < Articles.Count; i++)
             {
                 ArticleForSearchResult articleForSearchResult = new ArticleForSearchResult();
+                articleForSearchResult.Id = Articles[i].Id;
                 articleForSearchResult.ContentText = Articles[i].ContentText;
                 articleForSearchResult.Category = _articleService.GetArticlesCategory(Articles[i].Id);
                 articleForSearchResult.Subcategory = _articleService.GetArticlesSubcategory(Articles[i].Id);
