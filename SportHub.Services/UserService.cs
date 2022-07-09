@@ -135,5 +135,53 @@ namespace SportHub.Services
             }
             return false;
         }
+
+        public async Task<bool> GrantAdminRoleByIdAsync(int userId)
+        {
+            var userToGrantAdmin = await _context.Users
+                .Include(user => user.Roles)
+                .FirstOrDefaultAsync(user => user.Id == userId);
+
+            if (userToGrantAdmin is not null)
+            {
+                var adminRole = GetUserRoleByName("Admin");
+                if (userToGrantAdmin.Roles.Contains(adminRole[0]))
+                {
+                    return false;
+                }
+                else
+                {
+                    userToGrantAdmin.Roles.Add(adminRole[0]);
+                }
+                await _context.SaveChangesAsync();
+                return true;
+                
+            }
+            return false;
+        }
+
+        public async Task<bool> RemoveAdminRoleByIdAsync(int userId)
+        {
+            var userToGrantAdmin = await _context.Users
+                .Include(user => user.Roles)
+                .FirstOrDefaultAsync(user => user.Id == userId);
+
+            if (userToGrantAdmin is not null)
+            {
+                var adminRole = GetUserRoleByName("Admin");
+                if (userToGrantAdmin.Roles.Contains(adminRole[0]))
+                {
+                    userToGrantAdmin.Roles.Remove(adminRole[0]);
+                }
+                else
+                {
+                    return false;
+                }
+                await _context.SaveChangesAsync();
+                return true;
+
+            }
+            return false;
+        }
     }
 }

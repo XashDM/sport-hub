@@ -13,18 +13,32 @@ namespace SportHub.Pages.Admin
         private readonly IUserService _userService;
         public IList<User> Users { get; set; }
         public IList<User> Admins { get; set; }
-
+        public bool IsAdminTable { get; set; }
         public UserManagementModel(SportHubDBContext context, IUserService userService)
         {
             _context = context;
             _userService = userService;
         }
 
-        public void OnGet()
+        public void OnGet(string? accessType)
         {
-            Users = _userService.GetAllUsersList();
-
             Admins = _userService.GetAllAdminsList();
+
+            if (accessType is null)
+            {
+                Users = _userService.GetAllUsersList();
+            }
+            else
+            {
+                if (accessType == "admin")
+                {
+                    IsAdminTable = true;
+                }
+                else
+                {
+                    Users = _userService.GetAllUsersList();
+                }
+            }
         }
     }
 }

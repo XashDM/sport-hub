@@ -49,6 +49,11 @@ namespace SportHub.Pages
                 }
                 
             }
+
+            if (currentUser.IsActive == false)
+            {
+                return BadRequest("User was blocked");
+            }
               var token = _jwtSigner.FetchToken(currentUser);
               return Content(token);
         }

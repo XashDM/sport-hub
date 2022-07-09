@@ -85,5 +85,35 @@ namespace SportHub.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPost(nameof(GrantAdminRoleById))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GrantAdminRoleById([FromBody] UserIdArgs args)
+        {
+            var result = await _userService.GrantAdminRoleByIdAsync(args.UserId);
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost(nameof(RemoveAdminRoleById))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RemoveAdminRoleById([FromBody] UserIdArgs args)
+        {
+            var result = await _userService.RemoveAdminRoleByIdAsync(args.UserId);
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

@@ -1,20 +1,12 @@
-﻿$('#users-tab').click(function () {
-    $('.user-table').slideDown();
-    $('.admin-table').slideUp();
-    $('#admins-tab').removeClass('red-accent');
-    $('#users-tab').addClass('red-accent');
-});
+﻿let IsAdminTable = false;
+if ($('.admin-table').length) {
+    IsAdminTable = true;
+}
 
-$('#admins-tab').click(function () {
-    $('.user-table').slideUp();
-    $('.admin-table').slideDown();
-    $('#admins-tab').addClass('red-accent');
-    $('#users-tab').removeClass('red-accent');
-});
-
-$('.arrow-button').click(function () {
+$('.arrow-button').on('click', function () {
     let id = $(this).parents('li').attr('id');
     let parentItem = $(this).parents('li');
+    console.log('Click on arrow!')
     console.log('id: ' + id);
     $('.custom-dropdown-options').slideUp();
     const isDropped = parentItem.find(`#dropdown-options-${id}`).is(":visible");
@@ -29,6 +21,8 @@ function selectAnOption(customOption) {
     let id = customOption.parents('li').attr('id');
     //bool for user status
     let isActiveUser = customOption.parents('li').attr('isactive');
+    //bool for admin role in user table
+    let isAdminUser = customOption.parents('li').attr('isadmin');
     //style class of option (stored in attr)
     let elemStyleClass = customOption.attr('optionstyle');
     //element with selected value
@@ -37,8 +31,6 @@ function selectAnOption(customOption) {
     let textVal = customOption.find('.button-text').text();
     //get action type (stored as id)
     let action = customOption.attr('id');
-    //actionType selected before
-    let selectedAction = selectedValue.attr('actionytpe');
     //element that keeps all custom options inside
     let optionKeeper = customOption.parent();
 
@@ -59,21 +51,24 @@ function selectAnOption(customOption) {
             optionKeeper.find('#block').hide();
             optionKeeper.find('#grant-admin').hide();
         }
+        if (isAdminUser == "true") {
+            optionKeeper.find('#grant-admin').hide();
+        }
         customOption.hide();
     });
 
 }
 
-$('.custom-option').click(function () {
+$('.custom-option').on('click', function () {
     selectAnOption($(this));
 });
 
-
 //apply selected action
-$('.selected-value').click(function () {
+$('.selected-value').on('click', function () {
     let selectedValue = $(this).parent();
     let action = selectedValue.attr('actiontype');
     let rowElement = $(this).parents('li');
+    let isAdminUser = rowElement.attr('isadmin');
     let userId = rowElement.attr('id');
     let statusLabel = rowElement.find('.status-label');
     console.log(userId);
@@ -126,7 +121,9 @@ $('.selected-value').click(function () {
                 selectedValue.removeClass('green-option');
                 selectedValue.addClass('grey-option');
                 selectedValue.find('.selected-value').text('Block');
-                rowElement.find('#grant-admin').show();
+                if (isAdminUser == "false") {
+                    rowElement.find('#grant-admin').show();
+                }
 
                 statusLabel.text('Active');
                 statusLabel.removeClass('grey-accent');
@@ -160,14 +157,46 @@ $('.selected-value').click(function () {
         });
     }
     else if (action == 'remove-admin') {
-        console.log('Remove admin permissions!');
-        rowElement.slideUp();
+        $.ajax({
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            async: true,
+            url: '/api/Users/RemoveAdminRoleById',
+            type: 'post',
+            data: JSON.stringify({ 'userid': userId }),
+            success: function () {
+                console.log('Remove admin permissions!');
+                rowElement.slideUp();
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr);
+                console.error(error);
+            }
+        });
     }
     else if (action == 'grant-admin') {
-        //have a visual bug, but we don`t need it now
-        ////if ($('.admin-table-ul').find(`#${rowElement.id}`).length == 0) {
-        ////    let newRow = rowElement.clone();
-        ////    newRow.appendTo('.admin-table-ul');
-        ////}
+        $.ajax({
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            async: true,
+            url: '/api/Users/GrantAdminRoleById',
+            type: 'post',
+            data: JSON.stringify({ 'userid': userId }),
+            success: function () {
+                rowElement.attr('isadmin', 'true');
+                selectAnOption(rowElement.find('#block'));
+                console.log('Grant admin permissions!');
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr);
+                console.error(error);
+            }
+        });
     }
 });

@@ -22,5 +22,9 @@ namespace SportHub.Services
         Task<bool> ActivateUserByIdAsync(int userId);
 
         Task<bool> DeleteUserByIdAsync(int userId);
+
+        Task<bool> GrantAdminRoleByIdAsync(int userId);
+
+        Task<bool> RemoveAdminRoleByIdAsync(int userId);
     }
 }
