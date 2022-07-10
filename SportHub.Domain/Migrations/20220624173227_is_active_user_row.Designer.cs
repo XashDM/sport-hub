@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportHub.Domain;
 
@@ -10,9 +11,10 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    partial class SportHubDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220624173227_is_active_user_row")]
+    partial class is_active_user_row
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,10 +26,6 @@ namespace SportHub.Domain.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<string>("Caption")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<string>("ContentText")
                         .IsRequired()
@@ -313,7 +311,7 @@ namespace SportHub.Domain.Migrations
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
                     b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentsItem")
-                        .WithMany("Children")
+                        .WithMany()
                         .HasForeignKey("ParentsItemId");
 
                     b.Navigation("ParentsItem");
@@ -337,11 +335,6 @@ namespace SportHub.Domain.Migrations
             modelBuilder.Entity("SportHub.Domain.Models.Article", b =>
                 {
                     b.Navigation("DisplayItems");
-                });
-
-            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
-                {
-                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }
