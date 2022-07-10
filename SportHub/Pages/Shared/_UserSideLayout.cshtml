@@ -23,7 +23,7 @@
                 <div class="search-box">
                     <div class="search-button-and-field-input">
                         <button id="search-button" onclick="moveToSearchPage()" ><img src="~/icons/search-icon.png" class="header-icons" alt="Search!" /></button>
-                        <input type="text" id="header-search-field" class="lable" placeholder="Search..." oninput="searchField()" onclick="checkIsInputActive()" autocomplete="off" />
+                        <input type="text" id="header-search-field" class="lable" placeholder="Search..." oninput="searchFieldWithTimeLimit()" autocomplete="off" />
                     </div>
                     
                     <div class="search-result-articles" onscroll="searchScroll()" id="search-field-tag">

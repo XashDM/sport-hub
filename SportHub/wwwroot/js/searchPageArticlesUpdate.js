@@ -2,6 +2,24 @@
 let startElementPosition = 10;
 let amountOfElements = 2;
 
+$(document).ready(function () {
+    $('.search-page-search-article-bottom-content').map(function () {
+        let fieldFromArticle = $(this).text().replace(/(\r\n|\n|\r)/gm, "");
+        let searchValue = $(".search-page-result-name").text().replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, "");
+        let articleContentText = "";
+        for (var j = 0; j < fieldFromArticle.length; j++) {
+            if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
+                articleContentText += `<span class="find-words-search-article-top-info"><b>${fieldFromArticle.substr(j, searchValue.length)}</b></span>`;
+                j += searchValue.length - 1;
+            }
+            else {
+                articleContentText += fieldFromArticle[j];
+            }
+        }
+        $(this).html(articleContentText);
+    });
+});
+
 function searchScroll() {
     let hiddenDivSize = $('.search-page-search-result-articles')[0].scrollHeight;
     let visibleDivSize = $('.search-page-search-result-articles').height();
@@ -35,7 +53,6 @@ function updateSearchAfterScrolling() {
                     var articleSearchField = $('.search-page-search-article-info:first')
                         .clone().attr('id', `article-with-id-${articles[i].id}`)
                         .appendTo('.search-page-search-result-articles');
-                    console.log(articles[i]);
                     //add category, subcategory, team fields
                     articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
                     articleSearchField.find('.search-page-search-article-category-name').text(articles[i].referenceItem.name);

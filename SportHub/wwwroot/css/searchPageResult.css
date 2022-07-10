@@ -28,6 +28,7 @@
     width: 774px;
     margin-top: 19px;
     padding: 20px;
+    margin-bottom: 200px;
 }
 
 .search-page-search-article-info:hover {
@@ -43,6 +44,7 @@
 
 .search-page-search-content {
     padding: 22px 13px 28px 32px;
+    margin-bottom: 20px;
 }
 
 .search-page-search-article-top-info {

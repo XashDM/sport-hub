@@ -5,6 +5,7 @@ using SportHub.Services.Interfaces;
 using SportHub.Views;
 using System.Collections.Generic;
 using SportHub.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SportHub.Pages
 {
@@ -23,6 +24,13 @@ namespace SportHub.Pages
         public IList<Article> Articles { get; set; }
         public string title { get; set; }
         public int amountOfFindedTitles { get; set; }
+        public bool IsOdmen { get; set; }
+        
+        [Authorize(Roles = "Admin")]
+        public void OnGetAuthorized(string? searchValue)
+        {
+            IsOdmen = true;
+        }
 
         public void OnGet(string? searchValue)
         {
@@ -39,7 +47,7 @@ namespace SportHub.Pages
                 articleForSearchResult.Team = _articleService.GetArticlesTeam(Articles[i].Id);
                 ArticlesSearch.Add(articleForSearchResult);
             }
-            amountOfFindedTitles = _searchArticles.ArticlesBySearchRange(searchValue, 0, 10000).Count;
-        }
+            amountOfFindedTitles = _searchArticles.ArticlesBySearch(searchValue).Count;
+        }        
     }
 }

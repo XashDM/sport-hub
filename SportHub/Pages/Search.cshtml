@@ -1,15 +1,22 @@
 ﻿@page
 @model SportHub.Pages.SearchModel
 @{
-    Layout = "_AdminLayout";
+    if (Model.IsOdmen == true)
+    {
+        Layout = "_AdminLayout";
+    }
+    else
+    {
+        Layout = "_UserSideLayout";
+    }
     ViewData["Title"] = "Search";
 }
 
-@section SaveButton {
+@*@section SaveButton {
     <div class="middle-header">
         <p class="search-page-info-title" id="page-header-name">Search</p>
     </div>
-}
+}*@
 
 <head>
     <meta charset="utf-8" />
@@ -26,6 +33,7 @@
         <div class="search-page-result-name">
             @(Model.title + " ")
         </div>
+        <p>@Model.IsOdmen</p>
         <div class="search-page-result-amount" style=@(Model.amountOfFindedTitles == 0 ? "display:none":"")>
             (@Model.amountOfFindedTitles)
         </div>
@@ -38,15 +46,15 @@
                 <a id="article-href" asp-page="/Articles/Details" asp-route-id="@Model.ArticlesSearch[index].Id">
                     <div class="search-page-search-content">
                         <div class="search-page-search-article-top-info">
-                            <div class="search-page-search-article-category-name">
+                            <div class="search-page-search-article-category-name" style=@(Model.ArticlesSearch[index].Subcategory == "" ? "color:#D72130":"")>
                                 @Model.ArticlesSearch[index].Category
                             </div>
-                            <img id="search-page-image-in-search-between-category-subcategory" class="image-arrow-right-in-search" src=~/images/combined-shape-grey.svg/>
-                            <div class="search-page-search-article-subcategory-name">
+                            <img id="search-page-image-in-search-between-category-subcategory" style=@(Model.ArticlesSearch[index].Subcategory == "" ? "display:none":"") class="image-arrow-right-in-search" src=~/images/combined-shape-grey.svg/>
+                            <div class="search-page-search-article-subcategory-name" style=@(Model.ArticlesSearch[index].Team == "" ? "color:#D72130":"")>
                                 @Model.ArticlesSearch[index].Subcategory
                             </div>
                             <img id="search-page-image-in-search-between-subcategory-team" class="image-arrow-right-in-search" src=~/images/combined-shape.svg/>
-                            <div class="search-page-search-article-team-name">
+                            <div class="search-page-search-article-team-name" style=@(Model.ArticlesSearch[index].Team != "" ? "color:#D72130":"")>
                                 @Model.ArticlesSearch[index].Team
                             </div>
                         </div>

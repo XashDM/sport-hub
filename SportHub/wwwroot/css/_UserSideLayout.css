@@ -57,6 +57,7 @@ button#search-button {
     width: 774px;
     display: none;
     box-shadow: 0px 12px 14px rgba(0, 0, 0, 0.0542504);
+    margin-top: 1px;
 }
 
     .search-result-articles::-webkit-scrollbar {
@@ -71,6 +72,7 @@ button#search-button {
 
 .search-article-info {
     margin-bottom: 24px;
+    display: none;
 }
 
 .search-article-top-info {
@@ -210,7 +212,6 @@ button#search-button {
 .menu-caption {
     overflow-x: hidden;
     overflow-y: auto;
-    height: 600px;
 }
 .menu-caption::-webkit-scrollbar {
         width: 5px;

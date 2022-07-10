@@ -83,11 +83,27 @@ function displayLogInOut() {
 }
 
 //search-results
+let variable;
+function searchFieldWithTimeLimit() {
+    variable = setTimeout(function () {
+        searchField();
+    }, 500);
+}
+
+$('#header-search-field').on('click', function () {
+    if ($('.search-result-articles').css('display') == 'none' && $(".lable").val() != '') {
+        $('.search-result-articles').slideDown();
+    }
+});    
+
 let amountOfArticlesInSearchField = 0;
 let startElementPosition = 10;
 let amountOfElements = 2;
 let amountToDelete;
+let displayedArticles;
 function searchField() {
+    clearTimeout(variable);
+
     startElementPosition = 10;
     let amountOfArticles;
     let searchValue = $(".lable").val();
@@ -97,8 +113,9 @@ function searchField() {
         startPosition: 0,
         amountArticles: 10,
     };
-    $(".search-result-articles").empty();
+    
     if (searchValue != "") {
+        $(".search-result-articles").empty();
         $.ajax({
             method: 'post',
             url: '/api/Articles/ArticlesRange',
@@ -110,9 +127,8 @@ function searchField() {
                     amountToDelete = amountOfArticles;
                     for (var i = 0; i < amountOfArticles; i++) {
                         var articleSearchField = $('.search-article-info:first')
-                            .clone().attr('id', `article-with-id-${articles[i].id}`)
+                            .clone().attr('id', `article-with-id-${articles[i].id}`).css('display', 'block')
                             .appendTo('.search-result-articles');
-                        console.log(articles[i]);
                         //add category, subcategory, team fields
                         articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
                         articleSearchField.find('.search-article-category-name').text(articles[i].referenceItem.name);
@@ -148,16 +164,21 @@ function searchField() {
                             }
                         }
                         articleSearchField.find('.search-article-bottom-content').html(articleContentText);
-                        $('.search-result-articles').show();
                     }
-                    if (amountOfArticles == 0) {
-                        var articleSearchField = $('.search-article-info:first')
-                            .clone().appendTo('.search-result-articles');
-                        articleSearchField.find('.search-article-category-name').text('No matches found.');
-                        articleSearchField.find('.search-article-bottom-content').text('Please try another search.');
-                    }
+                    $('.search-result-articles').slideDown('');
                 }
-
+                else {
+                    console.log("no result");
+                    var articleSearchField = $('.search-article-info:first')
+                        .clone().appendTo('.search-result-articles');
+                    articleSearchField.find('.search-article-category-name').text('No matches found.');
+                    articleSearchField.find('.search-article-bottom-content').text('Please try another search.');
+                    articleSearchField.find('.articleSearchField').hide();
+                    articleSearchField.css('margin-bottom', '0');
+                    $('.search-article-info').show();
+                    $('.search-result-articles').slideDown('');
+                }
+                displayedArticles = amountOfArticles;
             }
         });
         //for (var i = 0; i < amountOfArticlesInSearchField; i++) {
@@ -166,7 +187,9 @@ function searchField() {
         amountOfArticlesInSearchField = amountToDelete;
     }
     else {
-        $(".search-result-articles").empty().hide();
+        $(".search-result-articles").slideUp('', function () {
+            $(".search-result-articles").empty();
+        });
     }
 }
 
@@ -204,7 +227,6 @@ function updateSearchAfterScrolling() {
                     var articleSearchField = $('.search-article-info:first')
                         .clone().attr('id', `article-with-id-${articles[i].id}`)
                         .appendTo('.search-result-articles');
-                    console.log(articles[i]);
                     //add category, subcategory, team fields
                     articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
                     articleSearchField.find('.search-article-category-name').text(articles[i].referenceItem.name);
@@ -255,22 +277,18 @@ function updateSearchAfterScrolling() {
 }
 
 let ignoreClickOnMeElement = document.getElementsByClassName('search-result-articles')[0];
-let ignoreClickOnMeElement2 = $('#header-search-field');
+let ignoreClickOnMeElement2 = document.getElementById('header-search-field');
 document.addEventListener('click', function (event) {
     let isClickInsideElement = ignoreClickOnMeElement.contains(event.target);
-    if (!isClickInsideElement) {
-        $('#search-field-tag').css('display', 'none');
-    }
-    else {
-        if (ignoreClickOnMeElement2) {
-            $('#search-field-tag').show();
-        }
+    let isClickInsideElement2 = ignoreClickOnMeElement2.contains(event.target);
+    if (!isClickInsideElement && !isClickInsideElement2) {
+        $('#search-field-tag').slideUp();
     }
 });
 
 function checkIsInputActive() {
     let searchValue = $(".lable").val();
-    if (searchValue != "") {
+    if (searchValue != "" && $('#search-field-tag').css('display') == 'none') {
         console.log("Working(no)");
         console.log($('#search-field-tag').css('display'));
     }
