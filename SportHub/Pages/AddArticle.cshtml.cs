@@ -20,14 +20,19 @@ namespace SportHub.Pages
             _logger = logger;
             _navigationService = navigationService;
         }
-        public async Task OnGetAsync(string? category)
+        public async Task<IActionResult> OnGetAsync(string? category)
         {
             if (category == null || category == "")
             {
-                this.itemId = 1;
+                return NotFound();
             }
             this.ñategory = await _navigationService.GetItemByName(category);
+            if (this.ñategory.ParentsItemId != null)
+            {
+                return NotFound();
+            }
             this.itemId = this.ñategory.Id;
+            return Page();
         }
     }
 }
