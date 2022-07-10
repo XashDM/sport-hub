@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="~/css/AddArticle.css" asp-append-version="true" />
 </head>
 @{
-    int item = Model.Category.Id;
+    int item = Model.сategory.Id;
 }
 @section SaveButton {
         <section class ="middle-header">
         <div class="home">
             <p>
-                @Html.DisplayFor(model => model.Category.Name)
+                @Html.DisplayFor(model => model.сategory.Name)
             </p>
         </div>
         <div class="edit">
