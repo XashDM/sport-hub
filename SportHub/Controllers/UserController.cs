@@ -115,5 +115,21 @@ namespace SportHub.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet(nameof(GetAllUsersList))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllUsersList()
+        {
+            var users = await _userService.GetAllUsersList();
+            return new OkObjectResult(users);
+        }
+
+        [HttpGet(nameof(GetAllAdminsList))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllAdminsList()
+        {
+            var users = await _userService.GetAllAdminsList();
+            return new OkObjectResult(users);
+        }
     }
 }

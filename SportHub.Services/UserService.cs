@@ -74,22 +74,38 @@ namespace SportHub.Services
             return user;
         }
 
-        public IList<User> GetAllUsersList()
+        public async Task<IList<User>> GetAllUsersList()
         {
-            var users = _context.Users
-                .Include(user => user.Roles)
-                .ToList();
+            var users = await _context.Users
+                .Select(user => new User
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    IsActive = user.IsActive,
+                    Roles = user.Roles
+                })
+                .ToListAsync();
             return users;        
         }
 
-        public IList<User> GetAllAdminsList()
+        public async Task<IList<User>> GetAllAdminsList()
         {
-            var adminRole = _context.UserRoles
+            var adminRole = await _context.UserRoles
                .Where(role => role.RoleName == "Admin")
                .Include(role => role.Users)
-               .ToList();
+               .ToListAsync();
 
-            var admins = adminRole[0].Users.ToList();
+            var admins = adminRole[0].Users
+                .Select(user => new User
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    IsActive = user.IsActive,
+                    Roles = user.Roles
+                })
+                .ToList();
 
             return admins;
         }
