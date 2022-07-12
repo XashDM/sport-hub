@@ -8,10 +8,20 @@ body {
     font-style: normal;
 }
 
+@media (min-width: 576px) and (max-width: 1921px) {
+    .get-article-main {
+        max-width: 1024px;
+        position: relative;
+        margin: 0;
+    }
+}
 
-.get-article-main {
-    max-width: 1024px;
-    position: relative;
+@media (min-width: 1921px) {
+    .get-article-main {
+        max-width: 1024px;
+        position: relative;
+        margin: auto;
+    }
 }
 
 .get-article-top-info {

@@ -9,6 +9,7 @@ namespace SportHub.Services.Interfaces
         IList<Article> GetArticlesByPublished(string? publishValue, string? category, string? subcategory, string? team);
         IList<Article> GetArticlesRange(int start, int end, string? publishValue, string? category, string? subcategory, string? team);
         IList<NavigationItem> GetCategories();
+        IList<NavigationItem> GetCategoriesToMove(string? category);
         IList<NavigationItem> GetSubcategories(string category);
         IList<NavigationItem> GetTeams(string subcategory);
     }

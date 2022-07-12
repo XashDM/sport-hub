@@ -6,6 +6,17 @@
     Layout = "_AdminLayout";
 }
 
+@section SaveButton {
+    <div class="middle-header">
+        <p class="info-title" id="page-header-name"></p>
+        <div class="red-button-object">
+            <a class="new-article" id="new-article-route" href="/addarticle">
+                + New Article
+            </a>
+        </div>
+    </div>
+}
+
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="~/css/ManageAdminArticles.css" asp-append-version="true" />
@@ -100,9 +111,23 @@
                                     Edit
                                 </a>
                                 <div>
-                                    <button onclick="deleteArticleFunction(@Model.Article[index].Id)" class="get-admins-articles-delete">Delete</button>
+                                    <button onclick="openDeletePopUp(@Model.Article[index].Id)" class="get-admins-articles-delete">Delete</button>
                                 </div>
-                                <a href="#move">Move</a>
+                                <div class="get-admins-articles-dropdown-move">
+                                    <button class="get-admins-articles-move-button" onclick="openMove(@Model.Article[index].Id)">
+                                        Move
+                                        <img src="~/images/Polygon-red-rotate-to-right.svg" class="get-admins-articles-move-image"/>
+                                    </button>
+                                    <div class="get-admins-articles-dropdown-move-content" id="article-move-@Model.Article[index].Id">
+                                        @{
+                                            for(int categoryId = 0; categoryId<Model.CategoriesToMove.Count; categoryId++){
+                                                <button onclick="changeArticleCategory(@Model.Article[index].Id, @Model.CategoriesToMove[categoryId].Id)" class="get-admins-articles-dropdown-move-content-item" id="dropdown-move-@Model.CategoriesToMove[categoryId].Id">
+                                                    @Model.CategoriesToMove[categoryId].Name
+                                                </button>
+                                            }
+                                        }
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -114,10 +139,26 @@
     </div>
 </div>
 
-@section categoryList
-{
-    @for (int i = 0; i<Model.Categories.Count; i++)
-    {
-        <a id="category-element-@Model.Categories[i].Id" href="/Articles/Admin/@Model.Categories[i].Name">@Model.Categories[i].Name</a>
-    }
-}
+<div class="overlay" id="overlay"></div>
+
+<div class="get-admins-articles-delete-confirmation" id="delete-confirm">
+    <div class="get-admins-articles-delete-content">
+        <img src="~/images/delete-image.svg" class="get-admins-articles-delete-image" />
+        <div class="get-admins-articles-detele-window-title">You are about to delete this subcategory!</div>
+        <div class="get-admins-articles-detele-window-info">Are you sure?</div>
+    </div>
+    <div class="get-admins-articles-delete-bottom-section">
+        <button class="get-admins-articles-delete-cancel-button" onclick="closeDeletePopUp()">Cancel</button>
+        <button class="get-admins-articles-delete-delete-button" id="cancel-delete-button">Delete</button>
+    </div>
+</div>
+
+<div class="get-admins-articles-publish-pop-up" id="publish-banner">
+    <div class="get-admins-articles-content-publish">
+        <img src="~/images/success-button.svg" class="get-admins-articles-publish-image" />
+        <div class="get-admins-articles-content-text-publish">
+            <div class="get-admins-articles-publish-window-title" id="message-title">Published!</div>
+            <div class="get-admins-articles-publish-window-info" id="message-info">The Home page is successfully published.</div>
+        </div>     
+    </div>        
+</div>
