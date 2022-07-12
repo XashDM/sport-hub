@@ -179,7 +179,9 @@ $('.users-management-box').on('click', '.selected-value', function () {
                     decreaseCounters(false);
                 }
 
-                rowElement.slideUp();
+                rowElement.slideUp(function () {
+                    $(this).remove();
+                });
             },
             error: function (xhr, status, error) {
                 console.error(xhr);
@@ -200,7 +202,9 @@ $('.users-management-box').on('click', '.selected-value', function () {
             data: JSON.stringify({ 'userid': userId }),
             success: function () {
                 console.log('Remove admin permissions!');
-                rowElement.slideUp();
+                rowElement.slideUp(function () {
+                    $(this).remove();
+                });
                 decreaseAdminCounter();
             },
             error: function (xhr, status, error) {
