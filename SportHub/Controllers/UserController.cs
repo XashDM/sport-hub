@@ -36,7 +36,7 @@ namespace SportHub.Controllers
         {
             try
             {
-                var externalAuthHandler = _externalAuthHandlerFactory.FetchAuthHandler(externalAuthArgs.IsCreationRequired, externalAuthArgs.AuthProvider);
+                var externalAuthHandler = _externalAuthHandlerFactory.GetAuthHandler(externalAuthArgs.IsCreationRequired, externalAuthArgs.AuthProvider);
                 var authToken = await externalAuthHandler.HandleExternalAuth(externalAuthArgs, _userService, _jwtSigner);
 
                 if (authToken != null)
@@ -54,7 +54,7 @@ namespace SportHub.Controllers
             {
                 return BadRequest("Not supplied with requested data");
             }
-            catch (ArgumentException)
+            catch (ArgumentOutOfRangeException)
             {
                 return BadRequest("Invalid Auth provider");
             }

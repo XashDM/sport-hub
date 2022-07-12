@@ -2,6 +2,6 @@
 {
     public interface IExternalAuthHandlerFactory
     {
-        IExternalAuthHandler FetchAuthHandler(bool isCreationRequired, string authProvider);
+        IExternalAuthHandler GetAuthHandler(bool isCreationRequired, string authProvider);
     }
 }
