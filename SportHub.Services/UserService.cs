@@ -54,7 +54,7 @@ namespace SportHub.Services
                 FirstName = firstName,
                 LastName = lastName,
                 Roles = userRole,
-                IsActive = true
+                IsActive = true,
                 IsExternal = isExternalUser
             };
 
