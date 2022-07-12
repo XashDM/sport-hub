@@ -83,11 +83,18 @@ function displayLogInOut() {
 }
 
 //search-results
+let noResultTop = 'No matches found.';
+let noResultBottom = 'Please try another search.';
 let variable;
+let checkTyping = false;
 function searchFieldWithTimeLimit() {
+    checkTyping = true;
     variable = setTimeout(function () {
-        searchField();
-    }, 500);
+        if (checkTyping == true) {
+            searchField();
+            checkTyping = false;
+        }   
+    }, 1000);
 }
 
 $('#header-search-field').on('click', function () {
@@ -100,7 +107,7 @@ let amountOfArticlesInSearchField = 0;
 let startElementPosition = 10;
 let amountOfElements = 2;
 let amountToDelete;
-let displayedArticles;
+let displayedArticles = 0;
 function searchField() {
     clearTimeout(variable);
 
@@ -115,7 +122,7 @@ function searchField() {
     };
     
     if (searchValue != "") {
-        $(".search-result-articles").empty();
+        
         $.ajax({
             method: 'post',
             url: '/api/Articles/ArticlesRange',
@@ -124,8 +131,23 @@ function searchField() {
             success: function (articles) {
                 if (articles.length != 0) {
                     amountOfArticles = articles.length;
-                    amountToDelete = amountOfArticles;
-                    for (var i = 0; i < amountOfArticles; i++) {
+                    let articleIndex = 0;
+                    $('.search-result-articles').find('.search-article-info').map(function () {
+                        if (amountOfArticles > articleIndex) {
+                            $(this).find('.search-article-category-name').text(articles[articleIndex].id);
+                            $(this).find('.search-article-subcategory-name').text("subcategory");
+                            $(this).find('.search-article-team-name').text("team");
+                            $(this).find('.search-article-bottom-content').text(articles[articleIndex].contentText);
+                            articleIndex++;
+                            $(this).show();
+                            $(this).appendTo('.search-result-articles');
+                        }
+                        else {
+                            $(this).remove();
+                        }
+                    });
+                    $('.search-result-articles').show();
+                    for (var i = articleIndex; i < amountOfArticles; i++) {
                         var articleSearchField = $('.search-article-info:first')
                             .clone().attr('id', `article-with-id-${articles[i].id}`).css('display', 'block')
                             .appendTo('.search-result-articles');
@@ -168,15 +190,46 @@ function searchField() {
                     $('.search-result-articles').slideDown('');
                 }
                 else {
+                    amountOfArticles = 0;
                     console.log("no result");
-                    var articleSearchField = $('.search-article-info:first')
-                        .clone().appendTo('.search-result-articles');
-                    articleSearchField.find('.search-article-category-name').text('No matches found.');
-                    articleSearchField.find('.search-article-bottom-content').text('Please try another search.');
-                    articleSearchField.find('.articleSearchField').hide();
-                    articleSearchField.css('margin-bottom', '0');
-                    $('.search-article-info').show();
-                    $('.search-result-articles').slideDown('');
+                    let categoryName = $('.search-article-info:first').find('.search-article-category-name').text().replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, "");
+                    console.log(categoryName, noResultTop.replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, ""));
+                    let availableArticles = 0;
+                    if (categoryName == noResultTop.replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, "")) {
+                        console.log("asdasd");
+                    }
+                    else {
+                        if (displayedArticles == 0) {
+                            var articleSearchField = $('.search-article-info:first')
+                                .clone().css('display', 'block')
+                                .appendTo('.search-result-articles');
+                            articleSearchField.find('.search-article-category-name').text(noResultTop);
+                            articleSearchField.find('.search-article-subcategory-name').text('');
+                            articleSearchField.find('.search-article-team-name').text('');
+                            articleSearchField.find('.search-article-bottom-content').text(noResultBottom);
+                            $('.search-result-articles').show();
+                            console.log("add some");
+                        }
+                        else {
+                            $('.search-result-articles').find('.search-article-info').map(function () {
+                                if (availableArticles == 0) {
+                                    $(this).css('display', 'block');
+                                    $(this).find('.search-article-category-name').text(noResultTop);
+                                    $(this).find('.search-article-subcategory-name').text('');
+                                    $(this).find('.search-article-team-name').text('');
+                                    $(this).find('.search-article-bottom-content').text(noResultBottom);
+                                    console.log($(this));
+                                }
+                                else {
+                                    $(this).remove();
+                                }
+                                availableArticles++;
+                            });
+                            console.log(availableArticles);
+                        }
+                    }
+                    
+                    
                 }
                 displayedArticles = amountOfArticles;
             }
@@ -187,8 +240,13 @@ function searchField() {
         amountOfArticlesInSearchField = amountToDelete;
     }
     else {
+        displayedArticles = 0;
+        let variableForDelete = 0;
         $(".search-result-articles").slideUp('', function () {
-            $(".search-result-articles").empty();
+            let unfoundedElements = $('.search-result-articles').find('.search-article-info').last()
+            $('.search-result-articles').empty();
+            $('.search-result-articles').hide();
+            //unfoundedElements.appendTo('.search-result-articles');
         });
     }
 }

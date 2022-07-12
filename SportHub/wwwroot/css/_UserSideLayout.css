@@ -60,15 +60,15 @@ button#search-button {
     margin-top: 1px;
 }
 
-    .search-result-articles::-webkit-scrollbar {
+    /*.search-result-articles::-webkit-scrollbar {
         display: none;
-    }
+    }*/
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.search-result-articles {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-}
+/*.search-result-articles {
+    -ms-overflow-style: none;*/ /* IE and Edge */
+    /*scrollbar-width: none;*/ /* Firefox */
+/*}*/
 
 .search-article-info {
     margin-bottom: 24px;
