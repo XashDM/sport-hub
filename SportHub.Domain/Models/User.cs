@@ -22,10 +22,9 @@ namespace SportHub.Domain.Models
         [Column(TypeName = "varchar(100)")]
         public string LastName { get; set; }
 
-        [Required]
         [MaxLength(64)]
         [Column(TypeName = "char(64)")]
-        public string PasswordHash { get; set; }
+        public string? PasswordHash { get; set; }
 
         [Required]
         [MaxLength(320)]
@@ -35,6 +34,9 @@ namespace SportHub.Domain.Models
         [Required]
         [Column(TypeName = "bit")]
         public bool IsActive { get; set; }
+
+        [Required]
+        public bool IsExternal { get; set; }
         public virtual ICollection<UserRole> Roles { get; set; }
     }
 }

@@ -5,8 +5,6 @@ namespace SportHub.Services
 {
     public interface IUserService
     {
-        User CreateUser(string email, string passwordHash, string firstName, string lastName);
-
         User GetUserByEmail(string email);
 
         User ChangePassword(string email, string passwordHash);
@@ -16,5 +14,6 @@ namespace SportHub.Services
 
         IList<User> GetAllAdminsList();
 
+        User CreateUser(string email, string? passwordHash, string firstName, string lastName, bool isExternal = false);
     }
 }

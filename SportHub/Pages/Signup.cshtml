@@ -1,4 +1,6 @@
 ﻿@page
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration _configuration
 @model SportHub.Pages.SignupModel
 @{
     ViewData["Title"] = "Sign Up";
@@ -19,12 +21,28 @@
         <img src="~/images/Rectangle.png" />
     </div>
     <div class="right-container">
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <div id="g_id_onload"
+         data-client_id="@_configuration["Authentication:Google:ClientId"]"
+         data-context="signup"
+         data-ux_mode="popup"
+         data-callback="handleGoogleCredentialResponseSignup"
+         style="display: none; visibility: hidden">
+    </div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v14.0&appId=646098686739937&autoLogAppEvents=1&version=v2.8" nonce="mwAIXunn"></script>
+    <div id="fb-root"></div>
         <div class="signup-block">
             <div class="signup-header-block">
                 <p class="menu-caption">Create Account</p>
                 <div class="signup-icons">
-                    <img src=~/images/Facebook.svg />
-                    <img src=~/images/Google.svg />
+                    <a href="#" onclick="handleFacebookResponseSignup();"><img src="~/images/Facebook.svg" alt=""></a>
+                    <div class="g_id_signin"
+                         data-type="icon"
+                         data-shape="circle"
+                         data-theme="filled_black"
+                         data-text="signup_with"
+                         data-size="medium">
+                    </div>
                 </div>
                 <p class="body-text">Or use your email for registration:</p>
                 <p id="signup-response">responce</p>
