@@ -134,10 +134,41 @@ function searchField() {
                     let articleIndex = 0;
                     $('.search-result-articles').find('.search-article-info').map(function () {
                         if (amountOfArticles > articleIndex) {
-                            $(this).find('.search-article-category-name').text(articles[articleIndex].id);
-                            $(this).find('.search-article-subcategory-name').text("subcategory");
-                            $(this).find('.search-article-team-name').text("team");
-                            $(this).find('.search-article-bottom-content').text(articles[articleIndex].contentText);
+                            $(this).find('#article-href').attr('href', `/Articles/Details?id=${articles[articleIndex].id}`);
+                            $(this).find('.search-article-category-name').text(articles[articleIndex].referenceItem.name);
+                            if (articles[articleIndex].referenceItem.parentsItem != null) {
+                                $(this).find('.search-article-subcategory-name').text(articles[articleIndex].referenceItem.parentsItem.name);
+                                if (articles[articleIndex].referenceItem.parentsItem.parentsItem != null) {
+                                    $(this).find('.search-article-team-name').text(articles[articleIndex].referenceItem.parentsItem.parentsItem.name);
+                                    $(this).find('.search-article-team-name').css('color', '#D72130');
+                                    $(this).find('.search-article-subcategory-name').css('color', '');
+                                    $(this).find('.search-article-category-name').css('color', '');
+                                }
+                                else {
+                                    $(this).find('.search-article-subcategory-name').css('color', '#D72130');
+                                    $(this).find('.search-article-team-name').text('');
+                                }
+                            }
+                            else {
+                                $(this).find('.search-article-category-name').css('color', '#D72130');
+                                $(this).find('.search-article-team-name').text('');
+                                $(this).find('.search-article-subcategory-name').text('');
+                                $(this).find('#image-in-search-between-category-subcategory').css('display', 'none');
+                            }
+
+                            let fieldFromArticle = articles[articleIndex].contentText;
+                            let articleContentText = "";
+                            for (var j = 0; j < fieldFromArticle.length; j++) {
+                                if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
+                                    articleContentText += `<span class="find-words-search-article-top-info"><b>${fieldFromArticle.substr(j, searchValue.length)}</b></span>`;
+                                    j += searchValue.length - 1;
+                                }
+                                else {
+                                    articleContentText += fieldFromArticle[j];
+                                }
+                            }
+                            $(this).find('.search-article-bottom-content').html(articleContentText);
+
                             articleIndex++;
                             $(this).show();
                             $(this).appendTo('.search-result-articles');

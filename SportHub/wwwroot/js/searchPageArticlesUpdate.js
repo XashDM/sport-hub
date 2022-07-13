@@ -1,6 +1,6 @@
-﻿let amountOfArticlesInSearchField = 0;
-let startElementPosition = 10;
-let amountOfElements = 2;
+﻿let amountOfArticlesInSearchFieldSearchPage = 0;
+let startElementPositionSearchPage = 10;
+let amountOfElementsSearchPage = 2;
 
 $(document).ready(function () {
     $('.search-page-search-article-bottom-content').map(function () {
@@ -20,25 +20,25 @@ $(document).ready(function () {
     });
 });
 
-function searchScroll() {
+function searchScrollSearchPage() {
     let hiddenDivSize = $('.search-page-search-result-articles')[0].scrollHeight;
     let visibleDivSize = $('.search-page-search-result-articles').height();
     let scrollHeight = hiddenDivSize - visibleDivSize;
     let scrollPosition = $('.search-page-search-result-articles').scrollTop();
     if ((visibleDivSize + scrollPosition) / hiddenDivSize > 0.8) {
-        updateSearchAfterScrolling();
+        updateSearchAfterScrollingSearchPage();
         hiddenDivSize = $('.search-page-search-result-articles')[0].scrollHeight;
         scrollHeight = visibleDivSize / hiddenDivSize * visibleDivSize;
     }
 }
 
-function updateSearchAfterScrolling() {
+function updateSearchAfterScrollingSearchPage() {
     let searchValue = $(".search-page-result-name").text();
     searchValue = searchValue.replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, "");
     let searchParameters = {
         searchValue: searchValue,
-        startPosition: startElementPosition,
-        amountArticles: amountOfElements,
+        startPosition: startElementPositionSearchPage,
+        amountArticles: amountOfElementsSearchPage,
     };
     $.ajax({
         method: 'post',
@@ -98,5 +98,5 @@ function updateSearchAfterScrolling() {
             }
         }
     });
-    startElementPosition += amountOfElements;
+    startElementPositionSearchPage += amountOfElementsSearchPage;
 }
