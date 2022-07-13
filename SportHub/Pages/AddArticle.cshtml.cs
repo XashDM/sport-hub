@@ -10,7 +10,7 @@ namespace SportHub.Pages
     public class AddArticleModel : PageModel
     {
         public int itemId { get; set; }
-        public NavigationItem ñategory { get; set; }
+        public NavigationItem category { get; set; }
 
         private readonly ILogger<AddArticleModel> _logger;
         private readonly INavigationItemService _navigationService;
@@ -26,12 +26,12 @@ namespace SportHub.Pages
             {
                 return NotFound();
             }
-            this.ñategory = await _navigationService.GetItemByName(category);
-            if (this.ñategory.ParentsItemId != null)
+            this.category = await _navigationService.GetItemByName(category);
+            if (this.category.ParentsItemId != null)
             {
                 return NotFound();
             }
-            this.itemId = this.ñategory.Id;
+            this.itemId = this.category.Id;
             return Page();
         }
     }
