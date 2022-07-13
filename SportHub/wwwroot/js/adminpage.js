@@ -30,8 +30,12 @@ $('#main-articles-block').on('click', '.add-new-button', () => {
             .addClass('disabled');
     }
 
+    const breakLine = $('.break-line').first().clone();
+    breakLine.appendTo('#main-articles-block');
+    breakLine.show();
+
     configurationBodyClone.appendTo('#main-articles-block');
-    configurationBodyClone.show();
+    configurationBodyClone.fadeIn();
     $('.add-new-button').eq(-2).fadeOut(400);
 });
 
@@ -46,6 +50,16 @@ $('#main-articles-block').on('click', '.delete-button', (el) => {
     }
 
     let element = el.currentTarget.parentElement.parentElement.parentElement;
+
+    let breakLineToRemove = $(element).prev();;
+    if (breakLineToRemove.attr('class') != 'break-line') {
+        breakLineToRemove = $(element).next();
+    }
+
+    breakLineToRemove.fadeOut(400, () => {
+        breakLineToRemove.remove();
+    });
+
     $(element).fadeOut(400, () => {
         $(element).remove();
         if ($('.configuration-body').length === 2) {

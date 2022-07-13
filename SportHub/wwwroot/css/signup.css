@@ -181,6 +181,7 @@
 
 .signup-block .signup-icons {
     margin: 16px 0;
+    display: flex;
 }
 
 .signup-block .signup-icons img {

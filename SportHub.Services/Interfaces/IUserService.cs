@@ -7,8 +7,6 @@ namespace SportHub.Services
 {
     public interface IUserService
     {
-        User CreateUser(string email, string passwordHash, string firstName, string lastName);
-
         User GetUserByEmail(string email);
 
         User ChangePassword(string email, string passwordHash);
@@ -27,5 +25,6 @@ namespace SportHub.Services
         Task<bool> GrantAdminRoleByIdAsync(int userId);
 
         Task<bool> RemoveAdminRoleByIdAsync(int userId);
+        User CreateUser(string email, string? passwordHash, string firstName, string lastName, bool isExternal = false);
     }
 }
