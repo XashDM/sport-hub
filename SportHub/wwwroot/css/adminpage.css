@@ -269,6 +269,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 40px;
 }
 
 .photo-of-the-day-block .section-caption-block {
@@ -276,6 +277,14 @@ main {
     align-items: center;
     justify-content: space-between;
     margin: 25px 0 25px 0;
+}
+
+.main-articles_block .break-line {
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    border-top: 1px dashed #D4D9E2;
+    display: none;
 }
 
 .section-caption-block .caption-line {
@@ -304,7 +313,6 @@ main {
 }
 
 .main-articles_block .configuration-body {
-    margin-top: 40px;
     display: none;
 }
 
