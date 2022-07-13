@@ -206,6 +206,7 @@ $('.users-management-box').on('click', '.selected-value', function () {
                     $(this).remove();
                 });
                 decreaseAdminCounter();
+                increaseUserCounter();
             },
             error: function (xhr, status, error) {
                 console.error(xhr);
@@ -228,7 +229,11 @@ $('.users-management-box').on('click', '.selected-value', function () {
                 rowElement.attr('isadmin', 'true');
                 selectAnOption(rowElement.find('#block'));
                 increaseAdminCounter();
+                decreaseUserCounter();
                 console.log('Grant admin permissions!');
+                rowElement.slideUp(function () {
+                    $(this).remove();
+                });
             },
             error: function (xhr, status, error) {
                 console.error(xhr);
@@ -242,11 +247,13 @@ $('.users-management-box').on('click', '.selected-value', function () {
 function decreaseCounters(isAdmin) {
     let adminNumber = Number($('#admins-tab').attr('counter')) - 1;
     let usersNumber = Number($('#users-tab').attr('counter')) - 1;
-    $('#users-tab').text(`Users (${usersNumber})`);
-    $('#users-tab').attr('counter', usersNumber);
     if (isAdmin == true) {
         $('#admins-tab').text(`Admins (${adminNumber})`);
         $('#admins-tab').attr('counter', adminNumber);
+    }
+    else {
+        $('#users-tab').text(`Users (${usersNumber})`);
+        $('#users-tab').attr('counter', usersNumber);
     }
 }
 
@@ -262,6 +269,21 @@ function decreaseAdminCounter() {
     let adminNumber = Number($('#admins-tab').attr('counter'));
     $('#admins-tab').text(`Admins (${adminNumber - 1})`);
     $('#admins-tab').attr('counter', adminNumber - 1);
+}
+
+
+//decrease number in user tab, if user receive his permissions
+function decreaseUserCounter() {
+    let userNumber = Number($('#users-tab').attr('counter'));
+    $('#users-tab').text(`Users (${userNumber - 1})`);
+    $('#users-tab').attr('counter', userNumber - 1);
+}
+
+//increase number in user tab
+function increaseUserCounter() {
+    let userNumber = Number($('#users-tab').attr('counter'));
+    $('#users-tab').text(`Users (${userNumber + 1})`);
+    $('#users-tab').attr('counter', userNumber + 1);
 }
 
 function drawUsers(userList) {

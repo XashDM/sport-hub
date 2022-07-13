@@ -76,7 +76,9 @@ namespace SportHub.Services
 
         public async Task<IList<User>> GetAllUsersList()
         {
+            var adminRole = GetUserRoleByName("Admin");
             var users = await _context.Users
+                .Where(user => !user.Roles.Contains(adminRole[0]))
                 .Select(user => new User
                 {
                     Id = user.Id,
@@ -86,6 +88,7 @@ namespace SportHub.Services
                     Roles = user.Roles
                 })
                 .ToListAsync();
+
             return users;        
         }
 
@@ -112,10 +115,15 @@ namespace SportHub.Services
 
         public async Task<bool> BlockUserByIdAsync(int userId)
         {
-            var userToBlock = await _context.Users.FindAsync(userId);
+            var adminRole = GetUserRoleByName("Admin");
+            var userToBlock = await _context.Users
+                .Where(user => user.Id == userId)
+                .Include(user => user.Roles)
+                .FirstOrDefaultAsync();
             if (userToBlock is not null)
             {
-                if (userToBlock.IsActive == true)
+                //we can block only active user, if it's not an admin
+                if (userToBlock.IsActive == true && !userToBlock.Roles.Contains(adminRole[0]))
                 {
                     userToBlock.IsActive = false;
                     await _context.SaveChangesAsync();
@@ -128,6 +136,7 @@ namespace SportHub.Services
         public async Task<bool> ActivateUserByIdAsync(int userId)
         {
             var userToActivate = await _context.Users.FindAsync(userId);
+            //we dont't need checking for admin role, admin can't be blocked
             if (userToActivate is not null)
             {
                 if (userToActivate.IsActive == false)
@@ -160,18 +169,21 @@ namespace SportHub.Services
 
             if (userToGrantAdmin is not null)
             {
-                var adminRole = GetUserRoleByName("Admin");
-                if (userToGrantAdmin.Roles.Contains(adminRole[0]))
+                //check if userToGrantAdmin is active
+                if (userToGrantAdmin.IsActive)
                 {
-                    return false;
+                    var adminRole = GetUserRoleByName("Admin");
+                    if (userToGrantAdmin.Roles.Contains(adminRole[0]))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        userToGrantAdmin.Roles.Add(adminRole[0]);
+                    }
+                    await _context.SaveChangesAsync();
+                    return true;
                 }
-                else
-                {
-                    userToGrantAdmin.Roles.Add(adminRole[0]);
-                }
-                await _context.SaveChangesAsync();
-                return true;
-                
             }
             return false;
         }
