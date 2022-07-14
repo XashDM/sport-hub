@@ -29,5 +29,7 @@ namespace SportHub.Services.Interfaces
         Task<NavigationItem[]> GetAllSubcategoriesByCategoryIdArrayAsync(int categoryId);
         Task<NavigationItem[]> GetAllTeamsByParentIdArrayAsync(int parentId);
         Task<Article[]> GetArticlesByParentIdPaginatedArrayAsync(int parentId, int pageSize, int pageNumber);
+        Task<bool> SaveArticle(Article article);
+        Task<ImageItem> UploadArticlePhoto(ImageItem image);
     }
 }
