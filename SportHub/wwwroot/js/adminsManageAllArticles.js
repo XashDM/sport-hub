@@ -99,7 +99,7 @@ function updateArticlesAfterScrolling() {
                     'id', `isPublishedButton-${articles[i].id}`);
                 articleField.find('.get-admins-articles-published-info-outside').attr('id', `articlePublishFooter-${articles[i].id}`);
                 articleField.find('.get-admins-articles-published-info').attr('id', `publishedForUnpublished-${articles[i].id}`);
-                articleField.find('.get-admins-articles-delete').attr('onclick', `deleteArticleFunction(${articles[i].id})`);
+                articleField.find('.get-admins-articles-delete').attr('onclick', `openDeletePopUp(${articles[i].id})`);
 
                 articleField.find('.get-admins-articles-move-button').attr('onclick', `openMove(${articles[i].id})`);
                 articleField.find('.get-admins-articles-dropdown-move-content').attr('id', `article-move-${articles[i].id}`);

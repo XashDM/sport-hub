@@ -150,19 +150,24 @@
                 else {
                     $(`#category-element-home`).css('color', '#D72130');
                 }
+                let scrollWidth = $('.category-list-category-list-all-items')[0].scrollWidth;
+                let visibleWidth = $('.category-list-category-list-all-items')[0].clientWidth;
+                console.log(scrollWidth);
+                console.log(visibleWidth);
+                
+                //change button color is needed
+        
+                if (scrollWidth > visibleWidth) {
+                    $("#right-button-image").css('filter', redColorFilter);
+                    console.log("yes");
+                }
+                else {
+                    $("#right-button-image").css('fill', 'blue');
+                }
             }
         });
 
-        //change button color is needed
-        let scrollWidth = $('.category-list-category-list-all-items')[0].scrollWidth;
-        let visibleWidth = $('.category-list-category-list-all-items')[0].clientWidth;
-        if (scrollWidth > visibleWidth) {
-            $("#right-button-image").css('filter', redColorFilter);
-            console.log("yes");
-        }
-        else {
-            $("#right-button-image").css('fill', 'blue');
-        }
+        
     });
 
     function moveCategoryListLeft() {
@@ -189,7 +194,10 @@
         }
 
         $('.category-list-category-list-all-items').animate({ scrollLeft: '+=100' }, 200, function () {
-            if (visibleWidth + scrollPosition >= scrollWidth || (visibleWidth + scrollPosition) / scrollWidth > 0.95) {
+            console.log(visibleWidth);
+            console.log(scrollPosition);
+            console.log(scrollWidth);
+            if (visibleWidth + scrollPosition + 100 >= scrollWidth) {
                 $("#right-button-image").css('filter', grayColorFilter);
             }
         });  
