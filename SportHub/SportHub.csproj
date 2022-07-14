@@ -9,10 +9,12 @@
 
     <ImplicitUsings>disabled</ImplicitUsings>
 	<PreserveCompilationContext>true</PreserveCompilationContext>
+	<UserSecretsId>7266271f-acbb-4d55-be10-eef309f88a3a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.57.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
     <Content Remove="wwwroot\css\StyleSheet.css" />
   </ItemGroup>
 

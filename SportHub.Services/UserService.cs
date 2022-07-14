@@ -3,6 +3,8 @@ using SportHub.Domain;
 using SportHub.Domain.Models;
 using SportHub.Services.Exceptions.UserServiceExceptions;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SportHub.Services
 {
@@ -17,6 +19,11 @@ namespace SportHub.Services
 
         public User GetUserByEmail(string email)
         {
+            if (IsExistingEmail(email) == false)
+            {
+                throw new UserDoesNotExistException();
+            }
+
             var user = _context.Users.Include(u => u.Roles)
                                      .Where(u => u.Email.Equals(email))
                                      .First();
@@ -24,7 +31,7 @@ namespace SportHub.Services
             return user;
         }
 
-        public User CreateUser(string email, string passwordHash, string firstName, string lastName)
+        public User CreateUser(string email, string? passwordHash, string firstName, string lastName, bool isExternal = false)
         {
             if (IsExistingEmail(email))
             {
@@ -32,6 +39,13 @@ namespace SportHub.Services
             }
 
             var userRole = GetUserRoleByName("User");
+            bool isExternalUser = false;
+
+            if (isExternal)
+            {
+                passwordHash = null;
+                isExternalUser = true;
+            }
 
             var user = new User
             {
@@ -39,7 +53,9 @@ namespace SportHub.Services
                 PasswordHash = passwordHash,
                 FirstName = firstName,
                 LastName = lastName,
-                Roles = userRole
+                Roles = userRole,
+                IsActive = true,
+                IsExternal = isExternalUser
             };
 
             _context.Users.Add(user);
@@ -69,6 +85,26 @@ namespace SportHub.Services
             _context.SaveChanges();
 
             return user;
+        }
+
+        public IList<User> GetAllUsersList()
+        {
+            var users = _context.Users
+                .Include(user => user.Roles)
+                .ToList();
+            return users;        
+        }
+
+        public IList<User> GetAllAdminsList()
+        {
+            var adminRole = _context.UserRoles
+               .Where(role => role.RoleName == "Admin")
+               .Include(role => role.Users)
+               .ToList();
+
+            var admins = adminRole[0].Users.ToList();
+
+            return admins;
         }
     }
 }

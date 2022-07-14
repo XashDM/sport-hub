@@ -2,14 +2,19 @@
 let amountOfElements = 5;
 
 $(document).ready(function () {
+    //змінюю текст у полі посеред header
     let category = $(location).attr('pathname');
-    category = category.substring(16, category.length);
+    category = category.split("/").pop();
+    category = decodeURI(category);
     if (category != "") {
-        $('#displayed-category-name').text(decodeURI(category));
+        categoryWithoutSpaces = category.replace(/ /g, "-");
+        $('#page-header-name').text(category);
     }
     else {
-        $('#displayed-category-name').text("All categories");
+        $('#page-header-name').text("All categories");
     }
+
+    // відслюдковую позицію скролера
     let hiddenDivSize = $('.get-admins-articles-scroll-position').height();
     let visibleDivSize = $('.get-admins-articles-container-body').height();
     let scrollHeight = hiddenDivSize - visibleDivSize;
@@ -23,10 +28,10 @@ $(document).ready(function () {
     });
 });
 
-
 function updateArticlesAfterScrolling() {
     let category = $(location).attr('pathname');
-    category = category.substring(16, category.length);
+    category = category.split("/").pop();
+    category = decodeURI(category);
     if (category == "") {
         category = null;
     }
@@ -77,7 +82,7 @@ function updateArticlesAfterScrolling() {
                     if (articleNavigation.type == "Team") {
                         articleInfo = articleInfo + articleNavigation.name;
                         let referenceItem1 = articleNavigation.parentsItem;
-                        if (referenceItem1.type == "Subcategory") {
+                        if (referenceItem1 != null && referenceItem1.type == "Subcategory") {
                             articleInfo = referenceItem1.name + articleInfo;
                         }
                     }
@@ -98,11 +103,20 @@ function updateArticlesAfterScrolling() {
                 articleField.find('.get-admins-articles-published-info').attr('id', `publishedForUnpublished-${articles[i].id}`);
                 articleField.find('.get-admins-articles-delete').attr('onclick', `deleteArticleFunction(${articles[i].id})`);
 
+                articleField.find('.get-admins-articles-move-button').attr('onclick', `openMove(${articles[i].id})`);
+                articleField.find('.get-admins-articles-dropdown-move-content').attr('id', `article-move-${articles[i].id}`);
+                
+                // move buttons
+                articleField.find('.get-admins-articles-dropdown-move-content-item').map(function () {
+                    let idWithCategory = this.id.split("-").pop();
+                    articleField.find(`#${this.id}`).attr('onclick', `changeArticleCategory(${articles[i].id}, ${idWithCategory})`);
+                });
                 if (articles[i].isPublished == false) {
                     articleField.find('.get-admins-articles-published-info').css("display", "none");
                     articleField.find('.get-admins-articles-publish-button div')
                         .text('Publish');
                     articleField.find('.get-admins-articles-edit').attr('id', `edit-${articles[i].id}`);
+                    articleField.find('.get-admins-articles-edit').attr('href', `/Articles/Details?id=${articles[i].id}`);
                     articleField.find('.get-admins-articles-edit').css("display", "");
                 }
                 else {
@@ -110,6 +124,7 @@ function updateArticlesAfterScrolling() {
                     articleField.find('.get-admins-articles-publish-button div')
                         .text('Unpublish');
                     articleField.find('.get-admins-articles-edit').attr('id', `edit-${articles[i].id}`);
+                    articleField.find('.get-admins-articles-edit').attr('href', `/Articles/Details?id=${articles[i].id}`);
                     articleField.find('.get-admins-articles-edit').css("display", "none");
                 }  
             } 
@@ -118,13 +133,24 @@ function updateArticlesAfterScrolling() {
     });
 }
 
+
+
 function openDropdownFunction(articleId) {
     document.getElementById(articleId.toString()).classList.toggle("show");
+    $(`#article-move-${articleId}`).fadeOut();
 }
 
 function findHideSearchField() {
     $("#search-field").toggle();
     $("#search-field").focus();
+}
+
+function openDeletePopUp(articleId) {
+    $("#delete-confirm").fadeIn();
+    $("#overlay").fadeIn();
+    if ($("#delete-confirm").css("display") == "block") {
+        $("#cancel-delete-button").attr("onclick", `deleteArticleFunction(${articleId})`)
+    }
 }
 
 function deleteArticleFunction(articleId) {
@@ -134,8 +160,19 @@ function deleteArticleFunction(articleId) {
         url: `/article/delete/${articleId}`,
         success: function (result) {
             document.getElementById(`article-with-id-${articleId}`).style.display = "none";
+            $("#delete-confirm").fadeOut();
+            $("#overlay").fadeOut();
+            $('#publish-banner').finish();
+            $("#message-title").text("Deleted!");
+            $("#message-info").text("The article is removed from the list");
+            $('#publish-banner').fadeIn().delay(1000).fadeOut(500);
         }
     });
+}
+
+function closeDeletePopUp() {
+    $("#delete-confirm").fadeOut();
+    $("#overlay").fadeOut();
 }
 
 function publishUnpublish(articleId) {
@@ -157,6 +194,10 @@ function publishUnpublish(articleId) {
                 if (publishText == "Published") {
                     $(`#article-with-id-${articleId}`).show();
                 }
+                $('#publish-banner').finish();
+                $("#message-title").text("Published");
+                $("#message-info").text("The article is successfully published");
+                $('#publish-banner').fadeIn().delay(1000).fadeOut(500);
             }
             else {
                 $(`#isPublishedButton-${articleId}`).html("<div>Publish</div>");
@@ -170,7 +211,37 @@ function publishUnpublish(articleId) {
                 if (publishText == "Unpublished") {
                     $(`#article-with-id-${articleId}`).show();
                 }
+                $('#publish-banner').finish();
+                $("#message-title").text("Unpublished");
+                $("#message-info").text("The article is successfully unpublished");
+                $('#publish-banner').fadeIn().delay(1000).fadeOut(500);
             }
+            $(`#article-move-${articleId}`).hide();
+        }
+    });
+}
+
+function openMove(articleId) {
+    $(`#article-move-${articleId}`).toggle();
+    if ($(`#edit-${articleId}`).css('display') == 'none') {
+        $(`#article-move-${articleId}`).css("top", "120px");
+    }
+    else {
+        $(`#article-move-${articleId}`).css("top", "154px");
+    }
+}
+
+function changeArticleCategory(articleId, categoryId) {
+    $.ajax({
+        method: "put",
+        url: `/article/move/${articleId}/${categoryId}`,
+        success: function (result) {
+            $(`#article-with-id-${articleId}`).hide();
+            $('#publish-banner').finish();
+            $("#message-title").text("Moved");
+            $("#message-info").text("The article is successfully moved");
+            $('#publish-banner').fadeIn();
+            $("#publish-banner").delay(1000).fadeOut(500);
         }
     });
 }

@@ -30,8 +30,12 @@ $('#main-articles-block').on('click', '.add-new-button', () => {
             .addClass('disabled');
     }
 
+    const breakLine = $('.break-line').first().clone();
+    breakLine.appendTo('#main-articles-block');
+    breakLine.show();
+
     configurationBodyClone.appendTo('#main-articles-block');
-    configurationBodyClone.show();
+    configurationBodyClone.fadeIn();
     $('.add-new-button').eq(-2).fadeOut(400);
 });
 
@@ -46,6 +50,16 @@ $('#main-articles-block').on('click', '.delete-button', (el) => {
     }
 
     let element = el.currentTarget.parentElement.parentElement.parentElement;
+
+    let breakLineToRemove = $(element).prev();;
+    if (breakLineToRemove.attr('class') != 'break-line') {
+        breakLineToRemove = $(element).next();
+    }
+
+    breakLineToRemove.fadeOut(400, () => {
+        breakLineToRemove.remove();
+    });
+
     $(element).fadeOut(400, () => {
         $(element).remove();
         if ($('.configuration-body').length === 2) {
@@ -120,23 +134,24 @@ $('#main-articles-block').on('click', '.custom-selector-body option', function (
 });
 
 var scrollLimit = 100;
+var scrollFlag = true;
 
 document.addEventListener('scroll', function (event) {
     if ($(event.target).attr('class') === 'custom-selector-body') {
-        if ($(event.target).scrollTop() > scrollLimit) {
-            let currentScrollLimitValue = $(event.target).attr('value');
-            if (!currentScrollLimitValue) {
-                currentScrollLimitValue = scrollLimit;
-                $(event.target).attr('value', currentScrollLimitValue);
-            }
-            else {
-                currentScrollLimitValue = parseInt(currentScrollLimitValue) + 100;
-                $(event.target).attr('value', currentScrollLimitValue);
-            }
+        let currentScrollLimitValue = $(event.target).attr('value');
+        if (!currentScrollLimitValue) {
+            currentScrollLimitValue = scrollLimit;
+            $(event.target).attr('value', scrollLimit);
+        }
+        if ($(event.target).scrollTop() > currentScrollLimitValue && scrollFlag === true) {
+            scrollFlag = false;
 
-            const page = (currentScrollLimitValue / 100) + 2;
+            currentScrollLimitValue = parseInt(currentScrollLimitValue) + 100;
+            $(event.target).attr('value', currentScrollLimitValue);
+
+            const page = (currentScrollLimitValue / 100);
             const lastArticleLoadedReferenceId = $(event.target).parent().find('.custom-selector-body option').last().val().split(',')[1];
-            getAllArticlesByParentId($(event.target), generatePageArguments(page, 10), lastArticleLoadedReferenceId, -1, false, false);
+            getAllArticlesByParentId($(event.target), generatePageArguments(page, 15), lastArticleLoadedReferenceId, -1, false, false);
         }
     }
 }, true);
@@ -155,6 +170,7 @@ function generatePageArguments(pageNumber, pageSize) {
 function applyMainArticlesConfigurationChanges() {
     $.ajax({
         headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
@@ -173,6 +189,9 @@ function applyMainArticlesConfigurationChanges() {
 
 function getMainArticles() {
     $.ajax({
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token')
+        },
         async: true,
         url: '/api/Articles/GetMainArticles',
         type: 'get',
@@ -262,7 +281,8 @@ function getAllArticlesByParentId(elementToFill, pageArguments, articleParentId,
                     selectorElementToFill.val(-1);
                     selectorElementToFill.text('Not Chosen');
                 }
-            }  
+            }
+            scrollFlag = true;
         },
         error: function (response) {
             console.error(response);

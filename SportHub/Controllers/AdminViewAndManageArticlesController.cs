@@ -15,21 +15,23 @@ namespace SportHub.Controllers
     public class AdminViewAndManageArticlesController : Controller
     {
         SportHubDBContext _context;
-        IGetAdminArticlesService _articleService;
+        IGetAdminArticlesService _allArticlesService;
         IImageService _imageService;
+        IGetArticleService _articleService;
 
-        public AdminViewAndManageArticlesController(SportHubDBContext context, IGetAdminArticlesService articleService, IImageService imageService)
+        public AdminViewAndManageArticlesController(SportHubDBContext context, IGetAdminArticlesService allArticlesService, IImageService imageService, IGetArticleService articleService)
         {
             _context = context;
-            _articleService = articleService;
+            _allArticlesService = allArticlesService;
             _imageService = imageService;
+            _articleService = articleService;   
         }
 
         [HttpPost]
         [Route("/articles")]
         public async Task<IActionResult> Articles([FromBody] ArticlesDisplayVariables articleInfo)
         {
-            IList<Article> articles = _articleService.GetArticlesRange(articleInfo.startPosition, articleInfo.amountArticles, articleInfo.publishValue, articleInfo.category, articleInfo.subcategory, articleInfo.team);
+            IList<Article> articles = _allArticlesService.GetArticlesRange(articleInfo.startPosition, articleInfo.amountArticles, articleInfo.publishValue, articleInfo.category, articleInfo.subcategory, articleInfo.team);
             for (int i = 0; i < articles.Count; i++)
             {
                 articles[i].ImageItem.ImageLink = await _imageService.GetImageLinkByNameAsync(articles[i].ImageItem.ImageLink);
@@ -69,6 +71,14 @@ namespace SportHub.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpPut]
+        [Route("/article/move/{id}/{categoryId}")]
+        public async Task<IActionResult> PublishUnpublish(int id, int categoryId)
+        {
+            string resultChange = _articleService.ChangeArticlesCategory(id, categoryId);
+            return new OkObjectResult(resultChange);
         }
     }
 }
