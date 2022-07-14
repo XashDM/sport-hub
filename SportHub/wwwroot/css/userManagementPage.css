@@ -24,6 +24,8 @@
     font-weight: 500;
     font-size: 15px;
     color: #7f8899;
+    user-select: none;
+    cursor: pointer;
 }
 
 .user-table {
@@ -125,4 +127,8 @@
 .arrow-button, .space-button {
     width: 37px;
     height: 100%;
+}
+
+.colunm-caption {
+    user-select: none;
 }

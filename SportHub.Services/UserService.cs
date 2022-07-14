@@ -90,6 +90,7 @@ namespace SportHub.Services
         public async Task<IList<User>> GetAllUsersList()
         {
             var adminRole = GetUserRoleByName("Admin");
+
             var users = await _context.Users
                 .Where(user => !user.Roles.Contains(adminRole[0]))
                 .Select(user => new User
@@ -110,9 +111,9 @@ namespace SportHub.Services
             var adminRole = await _context.UserRoles
                .Where(role => role.RoleName == "Admin")
                .Include(role => role.Users)
-               .ToListAsync();
+               .FirstOrDefaultAsync();
 
-            var admins = adminRole[0].Users
+            var admins = adminRole.Users
                 .Select(user => new User
                 {
                     Id = user.Id,
@@ -182,7 +183,6 @@ namespace SportHub.Services
 
             if (userToGrantAdmin is not null)
             {
-                //check if userToGrantAdmin is active
                 if (userToGrantAdmin.IsActive)
                 {
                     var adminRole = GetUserRoleByName("Admin");

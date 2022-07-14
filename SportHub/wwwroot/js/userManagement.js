@@ -79,6 +79,13 @@ function selectAnOption(customOption) {
 
 }
 
+$(document).on('click', function (event) {
+    var $trigger = $('.custom-dropdown-body');
+    if ($trigger !== event.target && !$trigger.has(event.target).length) {
+        $('.custom-dropdown-options').slideUp();
+    }
+});
+
 $('.users-management-box').on('click', '.custom-option', function () {
     selectAnOption($(this));
 });
@@ -103,7 +110,7 @@ $('.users-management-box').on('click', '.selected-value', function () {
                 'Content-Type': 'application/json'
             },
             async: true,
-            url: '/api/Users/BlockUserById',
+            url: '/api/Users/Block',
             type: 'post',
             data: JSON.stringify({'userid': userId}),
             success: function () {
@@ -134,7 +141,7 @@ $('.users-management-box').on('click', '.selected-value', function () {
                 'Content-Type': 'application/json'
             },
             async: true,
-            url: '/api/Users/ActivateUserById',
+            url: '/api/Users/Activate',
             type: 'post',
             data: JSON.stringify({ 'userid': userId }),
             success: function () {
@@ -166,7 +173,7 @@ $('.users-management-box').on('click', '.selected-value', function () {
                 'Content-Type': 'application/json'
             },
             async: true,
-            url: '/api/Users/DeleteUserById',
+            url: '/api/Users/Delete',
             type: 'post',
             data: JSON.stringify({ 'userid': userId }),
             success: function () {
@@ -197,7 +204,7 @@ $('.users-management-box').on('click', '.selected-value', function () {
                 'Content-Type': 'application/json'
             },
             async: true,
-            url: '/api/Users/RemoveAdminRoleById',
+            url: '/api/Users/RemoveAdminRole',
             type: 'post',
             data: JSON.stringify({ 'userid': userId }),
             success: function () {
@@ -222,7 +229,7 @@ $('.users-management-box').on('click', '.selected-value', function () {
                 'Content-Type': 'application/json'
             },
             async: true,
-            url: '/api/Users/GrantAdminRoleById',
+            url: '/api/Users/GrantAdminRole',
             type: 'post',
             data: JSON.stringify({ 'userid': userId }),
             success: function () {
@@ -372,7 +379,7 @@ function getAllUsers() {
             'Content-Type': 'application/json'
         },
         async: true,
-        url: '/api/Users/GetAllUsersList',
+        url: '/api/Users/AllUsersList',
         type: 'get',
         success: function (result) {
             drawUsers(result);
@@ -392,7 +399,7 @@ function getAllAdmins() {
             'Content-Type': 'application/json'
         },
         async: true,
-        url: '/api/Users/GetAllAdminsList',
+        url: '/api/Users/AllAdminsList',
         type: 'get',
         success: function (result) {
             drawAdmins(result);
@@ -405,6 +412,7 @@ function getAllAdmins() {
 }
 
 $(document).ready(function () {
+    $('#user-management-button').toggleClass('red-accent-img');
     getAllUsers();
     getAllAdmins();
 });

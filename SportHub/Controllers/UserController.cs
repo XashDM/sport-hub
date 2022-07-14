@@ -81,9 +81,9 @@ namespace SportHub.Controllers
             return Ok();
         }
 
-        [HttpPost(nameof(BlockUserById))]
+        [HttpPost(nameof(Block))]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> BlockUserById([FromBody] UserIdArgs args)
+        public async Task<IActionResult> Block([FromBody] UserIdArgs args)
         {
             var result = await _userService.BlockUserByIdAsync(args.UserId);
             if (result)
@@ -96,9 +96,9 @@ namespace SportHub.Controllers
             }
         }
 
-        [HttpPost(nameof(ActivateUserById))]
+        [HttpPost(nameof(Activate))]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ActivateUserById([FromBody] UserIdArgs args)
+        public async Task<IActionResult> Activate([FromBody] UserIdArgs args)
         {
             var result = await _userService.ActivateUserByIdAsync(args.UserId);
             if (result)
@@ -111,9 +111,9 @@ namespace SportHub.Controllers
             }
         }
 
-        [HttpPost(nameof(DeleteUserById))]
+        [HttpPost(nameof(Delete))]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteUserById([FromBody] UserIdArgs args)
+        public async Task<IActionResult> Delete([FromBody] UserIdArgs args)
         {
             var result = await _userService.DeleteUserByIdAsync(args.UserId);
             if (result)
@@ -126,9 +126,9 @@ namespace SportHub.Controllers
             }
         }
 
-        [HttpPost(nameof(GrantAdminRoleById))]
+        [HttpPost(nameof(GrantAdminRole))]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GrantAdminRoleById([FromBody] UserIdArgs args)
+        public async Task<IActionResult> GrantAdminRole([FromBody] UserIdArgs args)
         {
             var result = await _userService.GrantAdminRoleByIdAsync(args.UserId);
             if (result)
@@ -141,9 +141,9 @@ namespace SportHub.Controllers
             }
         }
 
-        [HttpPost(nameof(RemoveAdminRoleById))]
+        [HttpPost(nameof(RemoveAdminRole))]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> RemoveAdminRoleById([FromBody] UserIdArgs args)
+        public async Task<IActionResult> RemoveAdminRole([FromBody] UserIdArgs args)
         {
             var result = await _userService.RemoveAdminRoleByIdAsync(args.UserId);
             if (result)
@@ -156,17 +156,17 @@ namespace SportHub.Controllers
             }
         }
 
-        [HttpGet(nameof(GetAllUsersList))]
+        [HttpGet(nameof(AllUsersList))]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetAllUsersList()
+        public async Task<IActionResult> AllUsersList()
         {
             var users = await _userService.GetAllUsersList();
             return new OkObjectResult(users);
         }
 
-        [HttpGet(nameof(GetAllAdminsList))]
+        [HttpGet(nameof(AllAdminsList))]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetAllAdminsList()
+        public async Task<IActionResult> AllAdminsList()
         {
             var users = await _userService.GetAllAdminsList();
             return new OkObjectResult(users);
