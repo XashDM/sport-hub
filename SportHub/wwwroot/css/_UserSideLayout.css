@@ -58,17 +58,24 @@ button#search-button {
     display: none;
     box-shadow: 0px 12px 14px rgba(0, 0, 0, 0.0542504);
     margin-top: 1px;
+    scrollbar-color: darkgrey transparent;
+    scrollbar-width: thin;
 }
 
-    /*.search-result-articles::-webkit-scrollbar {
-        display: none;
-    }*/
+.search-result-articles::-webkit-scrollbar {
+    width: 4px;
+}
 
-/* Hide scrollbar for IE, Edge and Firefox */
-/*.search-result-articles {
-    -ms-overflow-style: none;*/ /* IE and Edge */
-    /*scrollbar-width: none;*/ /* Firefox */
-/*}*/
+.search-result-articles::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 2px;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox 
+.search-result-articles {
+    -ms-overflow-style: none;  IE and Edge 
+    scrollbar-width: none;  Firefox 
+}*/
 
 .search-article-info {
     margin-bottom: 24px;
@@ -324,4 +331,5 @@ footer {
 
 main {
     width: 100%;
+    position: relative;
 }

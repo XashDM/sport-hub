@@ -28,8 +28,19 @@
     width: 774px;
     margin-top: 19px;
     padding: 20px;
-    margin-bottom: 200px;
+    margin-bottom: 20px;
+    scrollbar-color: darkgrey transparent;
+    scrollbar-width: thin;
 }
+
+    .search-page-search-result-articles::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .search-page-search-result-articles::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        border-radius: 2px;
+    }
 
 .search-page-search-article-info:hover {
     box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.110932);

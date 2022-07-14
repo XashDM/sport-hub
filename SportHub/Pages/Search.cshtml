@@ -1,9 +1,14 @@
 ﻿@page
 @model SportHub.Pages.SearchModel
 @{
-    if (Model.IsOdmen == true)
+    if (Model.IsOdmen == false)
     {
         Layout = "_AdminLayout";
+        @section SaveButton {
+            <div class="middle-header">
+                <p class="search-page-info-title" id="page-header-name">Search</p>
+            </div>
+        }
     }
     else
     {
@@ -12,11 +17,7 @@
     ViewData["Title"] = "Search";
 }
 
-@*@section SaveButton {
-    <div class="middle-header">
-        <p class="search-page-info-title" id="page-header-name">Search</p>
-    </div>
-}*@
+        
 
 <head>
     <meta charset="utf-8" />
@@ -31,11 +32,10 @@
 <div class="search-page-all-content">
     <div class="search-page-result">
         <div class="search-page-result-name">
-            @(Model.title + " ")
+            @(Model.Title + " ")
         </div>
-        <p>@Model.IsOdmen</p>
-        <div class="search-page-result-amount" style=@(Model.amountOfFindedTitles == 0 ? "display:none":"")>
-            (@Model.amountOfFindedTitles)
+        <div class="search-page-result-amount" style=@(Model.AmountOfFindedTitles == 0 ? "display:none":"")>
+            (@Model.AmountOfFindedTitles)
         </div>
     </div>
 
@@ -68,7 +68,7 @@
     }
     </div>
 
-    <div class="no-articles-was-found" style=@(Model.amountOfFindedTitles > 0 ? "display:none":"")>
+    <div class="no-articles-was-found" style=@(Model.AmountOfFindedTitles > 0 ? "display:none":"")>
         <h2 class="">No matches found.</h2>
         <div class="bottom-text-for-no-result">
             Please try another search.

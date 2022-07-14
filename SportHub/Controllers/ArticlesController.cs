@@ -21,9 +21,9 @@ namespace SportHub.Controllers
         private readonly IGetArticleService _articleService;
         private readonly IGetAdminArticlesService _adminArticlesService;
         private readonly IImageService _imageService;
-        private readonly ISearchArticles _searchArticles;
+        private readonly ISearchService _searchArticles;
 
-        public ArticlesController(IGetArticleService articleService, IGetAdminArticlesService adminArticlesService, IImageService imageService, ISearchArticles searchArticles)
+        public ArticlesController(IGetArticleService articleService, IGetAdminArticlesService adminArticlesService, IImageService imageService, ISearchService searchArticles)
         {
             _articleService = articleService;
             _imageService = imageService;
@@ -217,17 +217,20 @@ namespace SportHub.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SearchArticlesRange([FromBody] ArticlesSearch articleInfo)
         {
-            var articles = _searchArticles.ArticlesBySearchRange(articleInfo.searchValue, articleInfo.startPosition, articleInfo.amountArticles);
+            var articles = _searchArticles.ArticleSearchLimits(articleInfo.searchValue, articleInfo.startPosition, articleInfo.amountArticles);
             IList<ArticleForSearchResult> articleForSearchResult = new List<ArticleForSearchResult>();
+            
             for (int i = 0; i < articles.Count; i++)
             {
-                articleForSearchResult.Add(new ArticleForSearchResult());
-                articleForSearchResult[i].Id = articles[i].Id;
-                articleForSearchResult[i].ContentText = articles[i].ContentText;
-                articleForSearchResult[i].Category = _articleService.GetArticlesCategory(articles[i].Id);
-                articleForSearchResult[i].Subcategory = _articleService.GetArticlesSubcategory(articles[i].Id);
-                articleForSearchResult[i].Team = _articleService.GetArticlesTeam(articles[i].Id);
+                ArticleForSearchResult articleSearchResult = new ArticleForSearchResult();
+                articleSearchResult.Id = articles[i].Id;
+                articleSearchResult.ContentText = articles[i].ContentText;
+                articleSearchResult.Category = _articleService.GetArticlesCategory(articles[i].Id);
+                articleSearchResult.Subcategory = _articleService.GetArticlesSubcategory(articles[i].Id);
+                articleSearchResult.Team = _articleService.GetArticlesTeam(articles[i].Id);
+                articleForSearchResult.Add(articleSearchResult);
             }
+
             return new OkObjectResult(articleForSearchResult);
         }
 
@@ -235,7 +238,7 @@ namespace SportHub.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ArticlesRange([FromBody] ArticlesSearch articleInfo)
         {
-            var articles = _searchArticles.SearchArticlesSecond(articleInfo.searchValue).Skip(articleInfo.startPosition).Take(articleInfo.amountArticles);
+            var articles = _searchArticles.ArticleSearchAllTree(articleInfo.searchValue).Skip(articleInfo.startPosition).Take(articleInfo.amountArticles);
             return new OkObjectResult(articles);
         }
     }

@@ -12,9 +12,9 @@ namespace SportHub.Pages
     public class SearchModel : PageModel
     {
         private readonly IGetArticleService _articleService;
-        private readonly ISearchArticles _searchArticles;
+        private readonly ISearchService _searchArticles;
 
-        public SearchModel(IGetArticleService articleService, ISearchArticles searchArticles)
+        public SearchModel(IGetArticleService articleService, ISearchService searchArticles)
         {
             _articleService = articleService;
             _searchArticles = searchArticles;
@@ -22,8 +22,8 @@ namespace SportHub.Pages
 
         public IList<ArticleForSearchResult?> ArticlesSearch { get; set; }
         public IList<Article> Articles { get; set; }
-        public string title { get; set; }
-        public int amountOfFindedTitles { get; set; }
+        public string Title { get; set; }
+        public int AmountOfFindedTitles { get; set; }
         public bool IsOdmen { get; set; }
         
         [Authorize(Roles = "Admin")]
@@ -34,8 +34,9 @@ namespace SportHub.Pages
 
         public void OnGet(string? searchValue)
         {
-            title = searchValue;
-            Articles = _searchArticles.ArticlesBySearchRange(searchValue, 0, 10);
+            Title = searchValue;
+            AmountOfFindedTitles = _searchArticles.ArticleSearchAmount(searchValue);
+            Articles = _searchArticles.ArticleSearchLimits(searchValue, 0, 10);
             ArticlesSearch = new List<ArticleForSearchResult>();
             for (int i = 0; i < Articles.Count; i++)
             {
@@ -47,7 +48,6 @@ namespace SportHub.Pages
                 articleForSearchResult.Team = _articleService.GetArticlesTeam(Articles[i].Id);
                 ArticlesSearch.Add(articleForSearchResult);
             }
-            amountOfFindedTitles = _searchArticles.ArticlesBySearch(searchValue).Count;
         }        
     }
 }

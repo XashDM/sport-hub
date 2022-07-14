@@ -9,27 +9,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SportHub.Services.ArticleServices
 {
-    public class SearchArticles : ISearchArticles
+    public class SearchService : ISearchService
     {
         private readonly SportHubDBContext _context;
-        public SearchArticles(SportHubDBContext context)
+
+        public SearchService(SportHubDBContext context)
         {
             _context = context;
         }
-        public IList<Article> ArticlesBySearch(string search)
+
+        public IList<Article> ArticleSearch(string search)
         {
             IList<Article> articles = new List<Article>();
             articles = _context.Articles.Where(article => (article.Title.Contains(search) || article.ContentText.Contains(search)) && article.IsPublished.Equals(true)).ToList();
             return articles;
         }
 
-        public IList<Article> ArticlesBySearchRange(string search, int startPosition, int endPosition)
+        public IList<Article> ArticleSearchLimits(string search, int startPosition, int endPosition)
         {
-            var articles = ArticlesBySearch(search);
+            var articles = ArticleSearch(search);
             return articles.Skip(startPosition).Take(endPosition).ToList();
         }
 
-        public IQueryable<Article> SearchArticlesSecond(string search)
+        public IQueryable<Article> ArticleSearchAllTree(string search)
         {
             var articles = _context.Articles
                 .AsNoTracking()
@@ -39,6 +41,12 @@ namespace SportHub.Services.ArticleServices
                 .Where(article => (article.Title.Contains(search) || article.ContentText.Contains(search)) && article.IsPublished.Equals(true));
 
             return articles;
+        }
+
+        public int ArticleSearchAmount(string search)
+        {
+            var articleAmount = _context.Articles.Where(article => (article.Title.Contains(search) || article.ContentText.Contains(search)) && article.IsPublished.Equals(true)).Count();
+            return articleAmount;
         }
     }
 }
