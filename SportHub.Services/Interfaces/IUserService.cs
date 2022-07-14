@@ -14,6 +14,6 @@ namespace SportHub.Services
 
         IList<User> GetAllAdminsList();
 
-        User CreateUser(string email, string? passwordHash, string firstName, string lastName, bool isExternal = false);
+        User CreateUser(string email, string? passwordHash, string firstName, string lastName, string? authProvider = null, bool isExternal = false);
     }
 }

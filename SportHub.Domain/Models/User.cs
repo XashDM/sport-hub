@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SportHub.Domain.Models
 {
@@ -31,12 +26,18 @@ namespace SportHub.Domain.Models
         [Column(TypeName = "varchar(320)")]
         [EmailAddress]
         public string Email { get; set; }
+
         [Required]
         [Column(TypeName = "bit")]
         public bool IsActive { get; set; }
 
         [Required]
         public bool IsExternal { get; set; }
+
+        [Column(TypeName = "varchar(20)")]
+        [MaxLength(50)]
+        public string? AuthProvider { get; set; } // Google, Facebook, etc. 
+
         public virtual ICollection<UserRole> Roles { get; set; }
     }
 }

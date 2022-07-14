@@ -21,7 +21,7 @@ namespace SportHub.OAuthRoot.Strategies
                     var firstname = validatedToken.GivenName;
                     var lastname = validatedToken.FamilyName;
 
-                    var createdUser = _userService.CreateUser(email, null, firstname, lastname, true);
+                    var createdUser = _userService.CreateUser(email, null, firstname, lastname, ExternalAuthProvidersEnum.Google.ToString(), true);
                     var authToken = _jwtSigner.FetchToken(createdUser);
 
                     return authToken;
@@ -38,9 +38,13 @@ namespace SportHub.OAuthRoot.Strategies
                     var email = validatedToken.Email;
 
                     var existingUser = _userService.GetUserByEmail(email);
-                    var authToken = _jwtSigner.FetchToken(existingUser);
 
-                    return authToken;
+                    if (existingUser.AuthProvider.Equals(ExternalAuthProvidersEnum.Google.ToString()))
+                    {
+                        var authToken = _jwtSigner.FetchToken(existingUser);
+
+                        return authToken;
+                    }       
                 }
 
                 return null;
