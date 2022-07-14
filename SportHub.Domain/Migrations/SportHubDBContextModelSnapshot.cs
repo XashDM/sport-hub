@@ -53,7 +53,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasIndex("ReferenceItemId");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Articles", (string)null);
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.DisplayedLanguage", b =>
@@ -71,7 +71,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DisplayedLanguages");
+                    b.ToTable("DisplayedLanguages", (string)null);
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.DisplayItem", b =>
@@ -105,7 +105,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasIndex("ImageItemId");
 
-                    b.ToTable("DisplayItems");
+                    b.ToTable("DisplayItems", (string)null);
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.ImageItem", b =>
@@ -140,7 +140,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ImageItems");
+                    b.ToTable("ImageItems", (string)null);
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.Language", b =>
@@ -158,7 +158,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Languages");
+                    b.ToTable("Languages", (string)null);
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
@@ -184,7 +184,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasIndex("ParentsItemId");
 
-                    b.ToTable("NavigationItems");
+                    b.ToTable("NavigationItems", (string)null);
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.User", b =>
@@ -220,7 +220,7 @@ namespace SportHub.Domain.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.UserRole", b =>
@@ -241,7 +241,7 @@ namespace SportHub.Domain.Migrations
                     b.HasIndex("RoleName")
                         .IsUnique();
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
 
                     b.HasData(
                         new
@@ -268,7 +268,7 @@ namespace SportHub.Domain.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("UserUserRole");
+                    b.ToTable("UserUserRole", (string)null);
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.Article", b =>
