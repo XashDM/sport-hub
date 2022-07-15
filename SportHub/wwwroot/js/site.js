@@ -109,6 +109,7 @@ let startElementPosition = 10;
 let amountOfElements = 2;
 let amountToDelete;
 let displayedArticles = 0;
+let articleContentTextLength = 300;
 function searchField() {
     clearTimeout(variable);
 
@@ -169,7 +170,7 @@ function searchField() {
                                     articleContentText += fieldFromArticle[j];
                                 }
                             }
-                            $(this).find('.search-article-bottom-content').html(articleContentText);
+                            $(this).find('.search-article-bottom-content').html(articleContentText.substr(0, articleContentTextLength));
 
                             articleIndex++;
                             $(this).show();
@@ -217,7 +218,7 @@ function searchField() {
                                 articleContentText += fieldFromArticle[j];
                             }
                         }
-                        articleSearchField.find('.search-article-bottom-content').html(articleContentText);
+                        articleSearchField.find('.search-article-bottom-content').html(articleContentText.substr(0, articleContentTextLength));
                     }
                     $('.search-result-articles').slideDown('');
                 }
@@ -351,7 +352,7 @@ function updateSearchAfterScrolling() {
                             articleContentText += fieldFromArticle[j];
                         }
                     }
-                    articleSearchField.find('.search-article-bottom-content').html(articleContentText);
+                    articleSearchField.find('.search-article-bottom-content').html(articleContentText.substr(0, articleContentTextLength));
                     $('.search-result-articles').show();
                 }
                 if (amountOfArticles == 0) {
