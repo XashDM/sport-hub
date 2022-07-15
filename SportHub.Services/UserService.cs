@@ -78,6 +78,15 @@ namespace SportHub.Services
             return userRole;
         }
 
+        private async Task<UserRole> GetSingleUserRoleByName(string roleName)
+        {
+            var userRole = await _context.UserRoles
+                .Where(r => r.RoleName == roleName)
+                .FirstOrDefaultAsync();
+
+            return userRole;
+        }
+
         public User ChangePassword(string email, string passwordHash)
         {
             var user = GetUserByEmail(email);
@@ -89,10 +98,10 @@ namespace SportHub.Services
 
         public async Task<IList<User>> GetAllUsersList()
         {
-            var adminRole = GetUserRoleByName("Admin");
+            var adminRole = await GetSingleUserRoleByName("Admin");
 
             var users = await _context.Users
-                .Where(user => !user.Roles.Contains(adminRole[0]))
+                .Where(user => !user.Roles.Contains(adminRole))
                 .Select(user => new User
                 {
                     Id = user.Id,
@@ -129,7 +138,8 @@ namespace SportHub.Services
 
         public async Task<bool> BlockUserByIdAsync(int userId)
         {
-            var adminRole = GetUserRoleByName("Admin");
+            var adminRole = await GetSingleUserRoleByName("Admin");
+
             var userToBlock = await _context.Users
                 .Where(user => user.Id == userId)
                 .Include(user => user.Roles)
@@ -137,7 +147,7 @@ namespace SportHub.Services
             if (userToBlock is not null)
             {
                 //we can block only active user, if it's not an admin
-                if (userToBlock.IsActive == true && !userToBlock.Roles.Contains(adminRole[0]))
+                if (userToBlock.IsActive == true && !userToBlock.Roles.Contains(adminRole))
                 {
                     userToBlock.IsActive = false;
                     await _context.SaveChangesAsync();
@@ -185,14 +195,14 @@ namespace SportHub.Services
             {
                 if (userToGrantAdmin.IsActive)
                 {
-                    var adminRole = GetUserRoleByName("Admin");
-                    if (userToGrantAdmin.Roles.Contains(adminRole[0]))
+                    var adminRole = await GetSingleUserRoleByName("Admin");
+                    if (userToGrantAdmin.Roles.Contains(adminRole))
                     {
                         return false;
                     }
                     else
                     {
-                        userToGrantAdmin.Roles.Add(adminRole[0]);
+                        userToGrantAdmin.Roles.Add(adminRole);
                     }
                     await _context.SaveChangesAsync();
                     return true;
@@ -209,10 +219,10 @@ namespace SportHub.Services
 
             if (userToGrantAdmin is not null)
             {
-                var adminRole = GetUserRoleByName("Admin");
-                if (userToGrantAdmin.Roles.Contains(adminRole[0]))
+                var adminRole = await GetSingleUserRoleByName("Admin");
+                if (userToGrantAdmin.Roles.Contains(adminRole))
                 {
-                    userToGrantAdmin.Roles.Remove(adminRole[0]);
+                    userToGrantAdmin.Roles.Remove(adminRole);
                 }
                 else
                 {
