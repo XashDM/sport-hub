@@ -87,7 +87,7 @@ function updateSearchAfterScrollingSearchPage() {
                             articleContentText += fieldFromArticle[j];
                         }
                     }
-                    articleSearchField.find('.search-page-search-article-bottom-content').html(articleContentText);
+                    articleSearchField.find('.search-page-search-article-bottom-content').html(articleContentText.substr(0, 300));
                 }
                 if (amountOfArticles == 0) {
                     var articleSearchField = $('.search-page-search-article-info:first')

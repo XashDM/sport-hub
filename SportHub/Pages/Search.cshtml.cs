@@ -25,7 +25,7 @@ namespace SportHub.Pages
         public string Title { get; set; }
         public int AmountOfFindedTitles { get; set; }
         public bool IsOdmen { get; set; }
-        
+
         [Authorize(Roles = "Admin")]
         public void OnGetAuthorized(string? searchValue)
         {
@@ -42,12 +42,37 @@ namespace SportHub.Pages
             {
                 ArticleForSearchResult articleForSearchResult = new ArticleForSearchResult();
                 articleForSearchResult.Id = Articles[i].Id;
-                articleForSearchResult.ContentText = Articles[i].ContentText;
+                try
+                {
+                    articleForSearchResult.ContentText = Articles[i].ContentText;
+                }
+                catch
+                {
+                    articleForSearchResult.ContentText = "";
+                }
                 articleForSearchResult.Category = _articleService.GetArticlesCategory(Articles[i].Id);
                 articleForSearchResult.Subcategory = _articleService.GetArticlesSubcategory(Articles[i].Id);
                 articleForSearchResult.Team = _articleService.GetArticlesTeam(Articles[i].Id);
                 ArticlesSearch.Add(articleForSearchResult);
             }
-        }        
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

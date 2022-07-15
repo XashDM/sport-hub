@@ -93,7 +93,7 @@ function searchFieldWithTimeLimit() {
         if (checkTyping == true) {
             searchField();
             checkTyping = false;
-        }   
+        }
     }, 1000);
 }
 
@@ -102,13 +102,14 @@ $('#header-search-field').on('click', function () {
         $('main').css('z-index', '-1');
         $('.search-result-articles').slideDown();
     }
-});    
+});
 
 let amountOfArticlesInSearchField = 0;
 let startElementPosition = 10;
 let amountOfElements = 2;
 let amountToDelete;
 let displayedArticles = 0;
+let articleContentTextLength = 300;
 function searchField() {
     clearTimeout(variable);
 
@@ -121,9 +122,9 @@ function searchField() {
         startPosition: 0,
         amountArticles: 10,
     };
-    
+
     if (searchValue != "") {
-        
+
         $.ajax({
             method: 'post',
             url: '/api/Articles/ArticlesRange',
@@ -169,7 +170,7 @@ function searchField() {
                                     articleContentText += fieldFromArticle[j];
                                 }
                             }
-                            $(this).find('.search-article-bottom-content').html(articleContentText);
+                            $(this).find('.search-article-bottom-content').html(articleContentText.substr(0, articleContentTextLength));
 
                             articleIndex++;
                             $(this).show();
@@ -217,7 +218,7 @@ function searchField() {
                                 articleContentText += fieldFromArticle[j];
                             }
                         }
-                        articleSearchField.find('.search-article-bottom-content').html(articleContentText);
+                        articleSearchField.find('.search-article-bottom-content').html(articleContentText.substr(0, articleContentTextLength));
                     }
                     $('.search-result-articles').slideDown('');
                 }
@@ -260,8 +261,8 @@ function searchField() {
                             console.log(availableArticles);
                         }
                     }
-                    
-                    
+
+
                 }
                 displayedArticles = amountOfArticles;
             }
@@ -351,7 +352,7 @@ function updateSearchAfterScrolling() {
                             articleContentText += fieldFromArticle[j];
                         }
                     }
-                    articleSearchField.find('.search-article-bottom-content').html(articleContentText);
+                    articleSearchField.find('.search-article-bottom-content').html(articleContentText.substr(0, articleContentTextLength));
                     $('.search-result-articles').show();
                 }
                 if (amountOfArticles == 0) {
@@ -360,7 +361,7 @@ function updateSearchAfterScrolling() {
                     articleSearchField.find('.search-article-category-name').text('No matches found.');
                     articleSearchField.find('.search-article-bottom-content').text('Please try another search.');
                 }
-            }   
+            }
         }
     });
     startElementPosition += amountOfElements;
@@ -400,7 +401,7 @@ input.addEventListener("keypress", function (event) {
 });
 
 
-function logoutUser(){
+function logoutUser() {
     localStorage.removeItem('Jwt Token');
     location.reload();
 };
