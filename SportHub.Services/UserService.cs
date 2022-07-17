@@ -31,7 +31,7 @@ namespace SportHub.Services
             return user;
         }
 
-        public User CreateUser(string email, string? passwordHash, string firstName, string lastName, bool isExternal = false)
+        public async Task<User> CreateUser(string email, string? passwordHash, string firstName, string lastName, bool isExternal = false)
         {
             if (IsExistingEmail(email))
             {
@@ -58,8 +58,8 @@ namespace SportHub.Services
                 IsExternal = isExternalUser
             };
 
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
 
             return user;
         }

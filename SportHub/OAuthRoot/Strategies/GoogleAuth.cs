@@ -21,7 +21,7 @@ namespace SportHub.OAuthRoot.Strategies
                     var firstname = validatedToken.GivenName;
                     var lastname = validatedToken.FamilyName;
 
-                    var createdUser = _userService.CreateUser(email, null, firstname, lastname, true);
+                    var createdUser = await _userService.CreateUser(email, null, firstname, lastname, true);
                     var authToken = _jwtSigner.FetchToken(createdUser);
 
                     return authToken;

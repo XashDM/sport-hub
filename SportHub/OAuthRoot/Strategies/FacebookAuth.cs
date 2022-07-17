@@ -17,7 +17,7 @@ namespace SportHub.OAuthRoot.Strategies
                     throw new ArgumentNullException();
                 }
 
-                var createdUser = _userService.CreateUser(externalAuthArgs.Email, null, externalAuthArgs.FirstName, externalAuthArgs.LastName, true);
+                var createdUser = await _userService.CreateUser(externalAuthArgs.Email, null, externalAuthArgs.FirstName, externalAuthArgs.LastName, true);
                 var authToken = _jwtSigner.FetchToken(createdUser);
 
                 return authToken;

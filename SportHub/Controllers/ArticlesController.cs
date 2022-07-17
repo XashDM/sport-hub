@@ -97,13 +97,17 @@ namespace SportHub.Controllers
 
         [HttpPost(nameof(SaveMainArticles))]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> SaveMainArticles(Dictionary<int, bool> articleIds)
+        public async Task<IActionResult> SaveMainArticles(MainArticlesToSaveArgs mainArticlesToSaveArgs)
         {
             try
             {
-                await _articleService.SaveMainArticles(articleIds);
+                await _articleService.SaveMainArticles(mainArticlesToSaveArgs.ArticlesDisplayValues);
 
                 return StatusCode(201);
+            }
+            catch (ArticleServiceException e)
+            {
+                return StatusCode(e.StatusCode, e.Message);
             }
             catch (Exception)
             {
