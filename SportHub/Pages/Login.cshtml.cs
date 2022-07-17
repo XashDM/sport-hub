@@ -2,13 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using SportHub.Config.JwtAuthentication;
-using Microsoft.EntityFrameworkCore;
 using SportHub.Models;
 using SportHub.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
-using SportHub.Domain.Models;
+using SportHub.Services.Exceptions.RootExceptions;
+using System;
 
 namespace SportHub.Pages
 {
@@ -33,24 +30,36 @@ namespace SportHub.Pages
         }
 
         public IActionResult OnPost(LoginCredentials loginCredentials)
-        { 
-            if (!_userService.IsExistingEmail(loginCredentials.Email))
+        {
+            try
             {
-                return BadRequest("Invalid email");
-            }
+                var currentUser = _userService.GetUserByEmail(loginCredentials.Email);
 
-            var currentUser = _userService.GetUserByEmail(loginCredentials.Email);
-
-            if (ModelState.IsValid)
-            {
-                if (!loginCredentials.PasswordHash.Equals(currentUser.PasswordHash))
+                if (currentUser.IsExternal)
                 {
-                    return BadRequest("Invalid password");
+                    return BadRequest("Cannot explicitly authorize externally added user");
                 }
-                
+
+                if (ModelState.IsValid)
+                {
+                    if (!loginCredentials.PasswordHash.Equals(currentUser.PasswordHash))
+                    {
+                        return BadRequest("Invalid password");
+                    }
+                }
+
+                var token = _jwtSigner.FetchToken(currentUser);
+
+                return Content(token);
             }
-              var token = _jwtSigner.FetchToken(currentUser);
-              return Content(token);
+            catch (UserServiceException e)
+            {
+                return StatusCode(e.StatusCode, e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Something went wrong");
+            }
         }
     }
 }

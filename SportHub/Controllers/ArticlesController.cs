@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SportHub.Domain.Models;
 using SportHub.Models;
 using SportHub.Services;
 using SportHub.Services.Exceptions.RootExceptions;
@@ -149,9 +151,53 @@ namespace SportHub.Controllers
             }
         }
 
+        [Route("/SaveNewArticle")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SaveNewArticle([FromForm] ArticleToAdd article)
+        {
+            try
+            {
+                string link = null;
+                if (article.imageFile is not null)
+                {
+                    link = await _imageService.UploadImageAsync(article.imageFile);
+                }
+                ImageItem imageItem = new ImageItem()
+                {
+                    Alt = article.AlternativeTextForThePicture,
+                    Author = "None",
+                    ShortDescription = "None",
+                    PhotoTitle = "None",
+                    ImageLink = link
+                };
+                imageItem = await _articleService.UploadArticlePhoto(imageItem);
+                if(imageItem == null)
+                    return StatusCode(400, "Something went wrong");
+
+                Article articleToSave = new Article
+                {
+                    ReferenceItemId = article.ReferenceItemId,
+                    ImageItemId = imageItem.Id,
+                    Title = article.Title,
+                    Caption = article.Caption,
+                    ContentText = article.ContentText,
+                    IsPublished = true,
+                };
+
+                bool resulte = await _articleService.SaveArticle(articleToSave);
+                if (!resulte) 
+                    return StatusCode(400, "Something went wrong");
+
+                return Ok(article);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
         [HttpPut(nameof(UploadPhotoOfTheDay))]
         [AllowAnonymous]
-        public async Task<IActionResult> UploadPhotoOfTheDay([FromForm]PhotoOfTheDayModel photo)
+        public async Task<IActionResult> UploadPhotoOfTheDay([FromForm] PhotoOfTheDayModel photo)
         {
             string link = null;
             if (photo.imageFile is not null)
@@ -192,7 +238,6 @@ namespace SportHub.Controllers
             }
             return Ok();
         }
-
 
         //admin only
         [HttpGet(nameof(GetPhotoOfTheDay))]
@@ -243,3 +288,5 @@ namespace SportHub.Controllers
         }
     }
 }
+
+        
