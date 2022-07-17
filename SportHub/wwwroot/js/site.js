@@ -120,7 +120,7 @@ function handleFacebookResponseSignin() {
     var e = document.createElement('script');
     e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
     e.async = true;
-    document.getElementById('fb-root').appendChild(e);
+    //document.getElementById('fb-root').appendChild(e);
 }());
 
 $("#loginForm").submit((event) => {
