@@ -1,73 +1,265 @@
-﻿@page
+﻿@page "{Category?}"
+@using SportHub.Domain.Models
 @model SportHub.Pages.AddArticleModel
 @{
     ViewData["Title"] = "Add Article";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
 }
-
 <head>
     <link rel="stylesheet" href="~/css/AddArticle.css" asp-append-version="true" />
 </head>
+@{
+    int item = Model.Category.Id;
+}
+@section SaveButton {
+        <section class ="middle-header">
+        <div class="home">
+            <p>
+                @Html.DisplayFor(model => model.Category.Name)
+            </p>
+        </div>
+        <div class="edit">
+            <div>
+                <p class ="cancel ">
+                    &nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;&nbsp;
+                </p>
+            </div >
+                <p class ="changes"  onclick="save()">
+                    Save all changes
+                </p>
+            <div>
 
-<div class="content">
+            </div>
+        </div>
+    </section>
+    
+}
+<from class="content" id="form1">
     <div class="add-language-box">
         <div class="languages">
             <label>PAGE LANGUAGES</label>
             <div class="lgbuttons">
                 <button class="plusbutton"> + </button>   
-                <button class="button"> English </button>    
-                <button class="button"> French </button>            
-                <button class="button"> German </button>
-                <button class="button"> Spanish </button>
+                <button class="button"> <img class="languages-icon" src="~/icons/languages/English.png" alt="">English</button>    
+                <button class="button"> <img class="languages-icon" src="~/icons/languages/French.png"  alt="">French</button>            
+                <button class="button"> <img class="languages-icon" src="~/icons/languages/German.png"  alt="">German</button>
+                <button class="button"> <img class="languages-icon" src="~/icons/languages/Spanish.png" alt="">Spanish</button>
             </div>                
         </div>
     </div> 
     
     <div class="add-article-box">
-        <div class="picture">        
-            <label>PICTURE</label>
-            <div class="area">
-                <input type="file" id="upload">       
-            </div>  
+    <div class="image-upload-box">
+            <div class="day-photo-background-crop">
+                <img id="day-photo-background-img" src="" />
+            </div>
+            <div class="editing-tools-box">
+                <form class="add-photo-box" id="add-photo-form" enctype="multipart/form-data">
+                    <label class="add-photo-button" for="photo-upload-input">
+                        <img src="~/icons/photo-icon.svg" />
+                    </label>
+                    <p class="caption hide-on-draggedover">
+                        <input id="photo-upload-input" name="imageFile" type="file" accept="image/png, image/jpg, image/jpeg, image/gif" />
+                        <label for="photo-upload-input">Choose a file</label>
+                        or drop it here
+                    </p>
+                    <p class="caption hide-on-draggedover">You can add next formats: .png .jpg .jpeg .gif </p>
+                    <p class="caption show-on-draggedover">
+                        Drop it here!!
+                    </p>
+                </form>
+            </div>
         </div>
-    
         <div class="drop-down-fields">      
             <div class="select-box">            
                 <label for="main-a-subcategories">SUBCATEGORY</label>           
-                <select name="main-a-subcutegories" id="main-a-subcutegories" placeholder="Not Selected">
-                    <option disabled selected>Not Selected</option>
+                <select name="subcutegories" id="main-a-subcutegories" placeholder="Not Selected">
+                    <option value="">Not Selected</option>
+    
                 </select>        
             </div>
       
             <div class="select-box">            
                 <label for="main-a-teams">TEAM</label>            
-                <select name="main-a-teams" id="main-a-teams" placeholder="Not Selected">
-                    <option disabled selected>Not Selected</option>
+                <select name="teams" id="main-a-teams" placeholder="Not Selected">
+                    <option value="">Not Selected</option>
                 </select>               
             </div>
        
             <div class="select-box">            
                 <label for="main-a-locations">LOCATION</label>           
                 <select name="main-a-locations" id="main-a-locations" placeholder="Not Selected">
-                    <option disabled selected>Not Selected</option>
+                    <option value="">Not Selected</option>
                 </select>        
             </div>    
         </div>
 
         <div class="required-fields">
             <div class="input-box">
-                <label class="alt_label">ALT.</label>
-                <input class="alt_input" type="text" placeholder="Alternative text for picture" />
+                <label class="alt_label">ALT.*</label>
+                <input class="alt_input" type="text" placeholder="Alternative text for picture" name="AlternativeTextForThePicture" required>
             </div>
 
             <div class="input-box">
-                <label class="artheadline_label">ARTICLE HEADLINE</label>
-                <input class="artheadline_input" type="text" placeholder="Name" />
+                <label class="artheadline_label">ARTICLE HEADLINE*</label>
+                <input class="artheadline_input" type="text" placeholder="Name" name="Title" required>
             </div>
 
             <div class="input-box">
-                <label class="captiontext_label">CAPTION</label>
-                <input class="captiontext_input" type="text" placeholder="Write caption text here" />
+                <label class="captiontext_label">CAPTION*</label>
+                <input class="captiontext_input" type="text" placeholder="Write caption text here"  name="caption" required>
             </div>
+
+            <div class="input-box">
+                <label class="captiontext_label">CONTENT*</label>
+            <div id="editor1" class="texteditor">
+            </div>
+            </div>
+
         </div>
+
     </div>   
-</div>
+</from>
+
+@section scripts {
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <!--<script src="//cdn.ckeditor.com/4.19.0/full/ckeditor.js"></script>-->
+    <script>
+
+    let editor = CKEDITOR.replace('editor1', {
+        uiColor: '#AADC6E',
+        height:500,
+        autoGrow_maxHeight:1000
+    });
+
+    let category = {"id":@item };
+
+    function save() {
+        infoForm = $('#article-form')[0];
+        let data = new FormData(infoForm);
+        $('#form1').find ('input, textearea, select').each(function() {
+            data.append(this.name, $(this).val());
+        });
+        console.log(data);
+        let ReferenceItemId = @item;
+        let subcutegory = data.get("teams");
+        if (subcutegory != "" && subcutegory != "null") {
+            ReferenceItemId = parseInt(data.get("subcutegories"));
+        }
+        let team = data.get("teams");
+        if (team != "" && team != "null" ) {
+            ReferenceItemId = parseInt(data.get("teams"));
+        }
+        data.append('ReferenceItemId', ReferenceItemId);
+        data.append('ContentText', editor.getData());
+        data.append('imageFile', $('input[name="imageFile"]').prop('files')[0]);
+        $.ajax({
+        url: '/SaveNewArticle',
+        type: 'post',
+        processData: false,
+        contentType: false,
+        data: data,
+        async: false,
+        headers:
+        {
+            'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
+        },
+        }).done(function (date) {
+             console.log("fff");
+        });
+
+    }       
+    DateGetClass = new ExtendDateClass();
+
+    function createSubcategory() {
+    
+        let sel = $('#main-a-subcutegories');
+        let res = DateGetClass.getSubcategoryofCategory(category);
+        $(res).each(function() {
+            sel.append($("<option>").attr('value', this.id).text(this.name));
+        });
+    }
+    $("#main-a-subcutegories").change(function(){
+
+        let id = $(this).find(":selected").val();
+        console.log(id);
+        if (id == "") {
+            $('#main-a-teams').empty();
+            $('#main-a-teams').prop('disabled', true);
+            return 0;
+        }
+        $('#main-a-teams').prop('disabled', false);
+        createTeam({ "id": parseInt(id) });
+    });
+    createSubcategory();
+    function createTeam(subcategory) {
+        console.log(subcategory);
+        let sel = $('#main-a-teams');
+        sel.empty()
+        sel.append($("<option>").attr('value', "").text("Not Selected"));
+        let res = DateGetClass.getTeamofSubcategory(subcategory);
+        $(res).each(function() {
+            sel.append($("<option>").attr('value', this.id).text(this.name));
+        });
+    }
+
+$('#photo-upload-input').on('change', function () {
+    const file = $('input[name="imageFile"]').prop('files')[0];
+    if (file) {
+        $('#day-photo-background-img').attr('src', URL.createObjectURL(file));
+    }
+});
+
+$('.image-upload-box').on('dragover dragenter dragleave drop', function (evt) {
+    evt.preventDefault();
+});
+
+$('.image-upload-box').on('dragenter dragover', function (evt) {
+    $('.hide-on-draggedover').hide();
+    $('.show-on-draggedover').show();
+    $('.image-upload-box').addClass('isDragover');
+});
+
+$('.image-upload-box').on('dragleave dragend drop', function (evt) {
+    $('.image-upload-box').removeClass('isDragover');
+    $('.hide-on-draggedover').show();
+    $('.show-on-draggedover').hide();
+});
+
+$('.image-upload-box').on('drop', function (evt) {
+    let dt = evt.originalEvent.dataTransfer;
+    let files = dt.files;
+    $('input[name="imageFile"]').prop('files', files);
+    const file = files[0];
+    if (file) {
+        $('#day-photo-background-img').attr('src', URL.createObjectURL(file));
+    }
+  });
+
+function uploadPhotoOfTheDay() {
+    infoForm = $('#photo-info-form')[0];
+    let fd = new FormData(infoForm);
+    fd.append('imageFile', $('input[name="imageFile"]').prop('files')[0]);
+    isDisplayed = $('#photo-of-day-isDisplayed').prop('checked')
+    fd.append('isDisplayed', isDisplayed);
+    $.ajax({
+        async: true,
+        url: "/api/Articles/UploadPhotoOfTheDay",
+        type: "PUT",
+        processData: false,
+        contentType: false,
+        data: fd,
+
+        success: function (response) {
+            $('#success-banner').css('display', 'flex');
+            $('#success-banner').delay(5000).fadeOut();
+        },
+        
+        error: function () {
+            $('#error-banner').css('display', 'flex');
+            $('#error-banner').delay(5000).fadeOut();
+        }
+    });
+}
+</script>
+}

@@ -28,8 +28,8 @@ namespace SportHub.Tests
         public void Setup()
         {
             categories = new NavigationItem[] {
-                new NavigationItem { Id = 1, Name = "NBL", ParentsItem = null, ParentsItemId = null, Type = "Category" },
-                new NavigationItem { Id = 2, Name = "NFL", ParentsItem = null, ParentsItemId = null, Type = "Category" }
+                new NavigationItem { Id = 1, Name = "NBL", ParentsItem = null, ParentsItemId = null, Type = "ñategory" },
+                new NavigationItem { Id = 2, Name = "NFL", ParentsItem = null, ParentsItemId = null, Type = "ñategory" }
             };
 
             subcategories = new NavigationItem[] {

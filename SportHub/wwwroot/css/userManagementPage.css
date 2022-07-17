@@ -24,6 +24,8 @@
     font-weight: 500;
     font-size: 15px;
     color: #7f8899;
+    user-select: none;
+    cursor: pointer;
 }
 
 .user-table {
@@ -34,7 +36,6 @@
 .admin-table {
     width: 100%;
     min-width: 580px;
-    display: none;
 }
 
 .table-header {
@@ -92,6 +93,9 @@
 }
 
 .custom-dropdown-selected p {
+    height: 100%;
+    width: 60%;
+    line-height: 35px;
     margin: auto;
 }
 
@@ -123,4 +127,8 @@
 .arrow-button, .space-button {
     width: 37px;
     height: 100%;
+}
+
+.colunm-caption {
+    user-select: none;
 }

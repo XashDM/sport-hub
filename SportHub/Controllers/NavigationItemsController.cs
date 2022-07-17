@@ -27,7 +27,7 @@ namespace SportHub.Controlles
         [HttpPost("/save")]
         public async Task<IActionResult> SaveItems(Dictionary<string, List<NavigationItemForSave>> data)
         {
-            bool result = await _navigationService.AddNewItems(data["date"]);
+            bool result = await _navigationService.AddNewItems(data["data"]);
             return result ? new ObjectResult("OK") : BadRequest("Errore");
         }
 

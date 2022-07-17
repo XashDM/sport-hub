@@ -284,6 +284,10 @@ option {
     filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(355deg) brightness(86%) contrast(118%);
 }
 
+.red-accent-img {
+    filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(355deg) brightness(86%) contrast(118%);
+}
+
 .overlay {
     display: none;
     background-color: white;
