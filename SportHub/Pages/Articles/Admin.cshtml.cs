@@ -41,13 +41,15 @@ namespace SportHub.Pages.Articles
         public string SelectedTeam { get; set; }
         [BindProperty(SupportsGet = true)]
         public string PublishField { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string SearchField { get; set; }
         public List<string> SubCategoriesDisplayed = new List<string>();
         public List<string> TeamsDisplayed = new List<string>();
         public async Task OnGetAsync(string? category)
         {
             Categories = _service.GetCategories();
             CategoriesToMove = _service.GetCategoriesToMove(category);
-            Article = _service.GetArticlesRange(0,10,PublishField, category, SelectedSubcategory, SelectedTeam);
+            Article = _service.GetArticlesRange(0,10,PublishField, category, SelectedSubcategory, SelectedTeam, SearchField);
             
             if (category != null)
             {

@@ -85,16 +85,21 @@ select {
 
     .get-admins-articles-form-dropdown form {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
     }
 
         .get-admins-articles-form-dropdown form select {
         }
 
+.get-admins-articles-dropdown-elements {
+    display: flex;
+    justify-content: space-between;
+}
+
 .get-admins-articles-preview-and-search {
-    display:flex;
-    justify-content:space-between;
-    margin:25px;
+    display: flex;
+    justify-content: space-between;
+    margin: 25px 0;
 }
 
 .get-admins-articles-preview {
