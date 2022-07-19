@@ -117,34 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Change password" xml:space="preserve">
-    <value>Змінити пароль</value>
+  <data name="BREAKDOWN" xml:space="preserve">
+    <value>BREAKDOWN</value>
   </data>
-  <data name="Follow:" xml:space="preserve">
-    <value>Слідкувати...</value>
+  <data name="MORE" xml:space="preserve">
+    <value>MORE</value>
   </data>
-  <data name="Log out" xml:space="preserve">
-    <value>Вийти</value>
+  <data name="MOST COMMENTED" xml:space="preserve">
+    <value>MOST COMMENTED</value>
   </data>
-  <data name="My surveys" xml:space="preserve">
-    <value>Мої опитування</value>
+  <data name="MOST POPULAR" xml:space="preserve">
+    <value>MOST POPULAR</value>
   </data>
-  <data name="Search..." xml:space="preserve">
-    <value>Пошук...</value>
-  </data>
-  <data name="Share..." xml:space="preserve">
-    <value>Поширити...</value>
-  </data>
-  <data name="Sign in" xml:space="preserve">
-    <value>Увійти</value>
-  </data>
-  <data name="Sign up" xml:space="preserve">
-    <value>Зареєструватися</value>
-  </data>
-  <data name="Team hub" xml:space="preserve">
-    <value>Команда</value>
-  </data>
-  <data name="View profile" xml:space="preserve">
-    <value>Переглянути профіль</value>
+  <data name="PHOTO OF THE DAY" xml:space="preserve">
+    <value>PHOTO OF THE DAY</value>
   </data>
 </root>

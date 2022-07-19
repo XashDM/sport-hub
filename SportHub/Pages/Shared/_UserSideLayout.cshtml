@@ -52,12 +52,12 @@
                               <div class=userInfo>
                                   <span id="username" class="infoName"></span> <br /><span id="email" class="infoMail" ></span>
                               </div>
-                          <a href="#">View profile </a>
-                          <a href="#">Change password</a>
-                          <a href="#">My surveys</a>
-                          <a href="#">Team hub</a>
+                          <a href="#">@localizer["View profile"] </a>
+                          <a href="#">@localizer["Change password"]</a>
+                          <a href="#">@localizer["My surveys"]</a>
+                          <a href="#">@localizer["Team hub"]</a>
                           <hr class="solid">
-                          <a href="#" class="logoutUser" onclick="logoutUser();">Log out </a>
+                          <a href="#" class="logoutUser" onclick="logoutUser();">@localizer["Log out"] </a>
                           </div>
                           <img class="polygon" id="pol" src="@Url.Content("~/images/Polygon.png")" />
                         </div>
@@ -80,7 +80,7 @@
         </div>
 
         <div class="sidebar-socials">
-            <p class="caption">Follow:</p>
+            <p class="caption">@localizer["Follow:"]</p>
             <div>
                 <a href="@Url.ActionLink("#")"><img src="~/icons/facebook-logo.png" class="header-icons" alt="Facebook" /></a>
                 <a href="@Url.ActionLink("#")"><img src="~/icons/google-logo.png" class="header-icons" alt="Google+" /></a>

@@ -1,6 +1,7 @@
 ﻿@page "/addlanguage"
 @model SportHub.Pages.Localization.AddLanguageModel
 @{
+    Layout = "_AdminLayout";
 }
 
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
@@ -30,10 +31,10 @@
                 @foreach (var language in Model.LanguageList)
                 {
                     <label for="@language.Id">
-                    @localizer[@language.LanguageName] 
                     <input type="checkbox" id="@language.Id"
                            onchange="checkboxStatusChange()"
                            value="@language.LanguageName" />
+                    @localizer[@language.LanguageName]
                     </label>
                 }
             </div>

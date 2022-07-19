@@ -11,17 +11,20 @@ footer {
     filter: blur(6px);
 }
 
+.local-navigation {
+    filter: blur(6px);
+}
+
 .form-group {
+    display: flex;
     position: relative;
     width: 458px;
     height: 335px;
-    left: 25%;
-    top: 25%;
+    margin: auto;
     background: #FFFFFF;
     box-shadow: 0px 4px 28px #393333;
     filter: unset;
 }
-
 
 
 .myMultiselectLable {
