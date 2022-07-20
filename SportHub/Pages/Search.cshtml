@@ -1,7 +1,7 @@
 ﻿@page
 @model SportHub.Pages.SearchModel
 @{
-    if (Model.IsOdmen == false)
+    if (Model.IsAdmin == true)
     {
         Layout = "_AdminLayout";
         @section SaveButton {
@@ -16,8 +16,6 @@
     }
     ViewData["Title"] = "Search";
 }
-
-        
 
 <head>
     <meta charset="utf-8" />

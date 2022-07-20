@@ -38,6 +38,9 @@ namespace SportHub.Domain
             modelBuilder.Entity<Article>()
                 .Property(article => article.IsPublished)
                 .HasDefaultValue(false);
+            modelBuilder.Entity<User>()
+                .Property(user => user.IsExternal)
+                .HasDefaultValue(false);
         }
     }
 }

@@ -24,12 +24,12 @@ namespace SportHub.Pages
         public IList<Article> Articles { get; set; }
         public string Title { get; set; }
         public int AmountOfFindedTitles { get; set; }
-        public bool IsOdmen { get; set; }
-        
+        public bool IsAdmin { get; set; }
+
         [Authorize(Roles = "Admin")]
         public void OnGetAuthorized(string? searchValue)
         {
-            IsOdmen = true;
+            IsAdmin = true;
         }
 
         public void OnGet(string? searchValue)
@@ -55,6 +55,6 @@ namespace SportHub.Pages
                 articleForSearchResult.Team = _articleService.GetArticlesTeam(Articles[i].Id);
                 ArticlesSearch.Add(articleForSearchResult);
             }
-        }        
+        }
     }
 }

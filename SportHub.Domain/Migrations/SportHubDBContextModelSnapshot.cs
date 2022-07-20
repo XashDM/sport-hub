@@ -25,6 +25,10 @@ namespace SportHub.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Caption")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("ContentText")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -206,13 +210,17 @@ namespace SportHub.Domain.Migrations
                     b.Property<ulong>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsExternal")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("char(64)");
 
@@ -309,7 +317,7 @@ namespace SportHub.Domain.Migrations
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
                     b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentsItem")
-                        .WithMany()
+                        .WithMany("Children")
                         .HasForeignKey("ParentsItemId");
 
                     b.Navigation("ParentsItem");
@@ -333,6 +341,11 @@ namespace SportHub.Domain.Migrations
             modelBuilder.Entity("SportHub.Domain.Models.Article", b =>
                 {
                     b.Navigation("DisplayItems");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
+                {
+                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

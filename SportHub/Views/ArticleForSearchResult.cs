@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         private string _contentText;
+
         public virtual string ContentText
         {
             get
@@ -20,9 +21,10 @@
                 else
                 {
                     _contentText = value.Substring(0, length);
-                }                   
+                }
             }
         }
+
         public string? Category { get; set; }
         public string? Subcategory { get; set; }
         public string? Team { get; set; }

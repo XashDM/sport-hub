@@ -1,4 +1,4 @@
-﻿@page "{category?}"
+﻿@page "{Category?}"
 @model SportHub.Pages.Articles.IndexModel
 
 @{
@@ -25,36 +25,40 @@
 </head>
 
 <div class="get-admins-articles-main-body">
-    <div class="get-admins-articles-preview-and-search">
-        <a href="#">
-            <div class="get-admins-articles-preview">
-                <img src="~/images/red-eye-preview.svg"/>
-                Preview
-            </div>
-        </a>
-        
-        <div class="get-admins-articles-search-field">
-            <button onclick="findHideSearchField()">
-                <img src="~/images/SearchMagnifier.svg"/>
-            </button>
-            <input id="search-field" class="get-admins-articles-search-field-field" style="display:none"/>
-        </div>
-    </div>
+    
+    
     <div class="get-admins-articles-form-dropdown">
         <form method="get">
-            <select asp-for="SelectedSubcategory" asp-items="Model.SelectSubcategory" onchange="this.form.submit()" class="get-admins-articles-subcategory-select">
-                <option value="">All Subcategories</option>
-            </select>
+            <div class="get-admins-articles-preview-and-search">
+                <a href="#">
+                    <div class="get-admins-articles-preview">
+                        <img src="~/images/red-eye-preview.svg"/>
+                        Preview
+                    </div>
+                </a>
+                <div class="get-admins-articles-search-field">
+                    <button onclick="findHideSearchField()" type="button">
+                        <img src="~/images/SearchMagnifier.svg"/>
+                    </button>
+                    <input asp-for="SearchField" id="search-field" class="get-admins-articles-search-field-field" style=""/>
+                </div>
+            </div>
+            <div class="get-admins-articles-dropdown-elements">
+                <select asp-for="SelectedSubcategory" asp-items="Model.SelectSubcategory" onchange="this.form.submit()" class="get-admins-articles-subcategory-select">
+                    <option value="">All Subcategories</option>
+                </select>
 
-            <select asp-for="SelectedTeam" asp-items="Model.SelectTeam" onchange="this.form.submit()" class="get-admins-articles-team-select">
-                <option value="">All Teams</option>
-            </select>
+                <select asp-for="SelectedTeam" asp-items="Model.SelectTeam" onchange="this.form.submit()" class="get-admins-articles-team-select">
+                    <option value="">All Teams</option>
+                </select>
 
-            <select asp-for="PublishField" onchange="this.form.submit()" id="publish-dropdown-list" class="get-admins-articles-publish-unpublish-select">
-                <option value="">All</option>
-                <option>Published</option>
-                <option>Unpublished</option>
-            </select>
+                <select asp-for="PublishField" onchange="this.form.submit()" id="publish-dropdown-list" class="get-admins-articles-publish-unpublish-select">
+                    <option value="">All</option>
+                    <option>Published</option>
+                    <option>Unpublished</option>
+                </select>
+            </div>
+            
         </form>
     </div>
 

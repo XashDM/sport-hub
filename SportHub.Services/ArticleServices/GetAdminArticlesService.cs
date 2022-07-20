@@ -17,9 +17,29 @@ namespace SportHub.Services.ArticleServices
             _context = context;
         }
 
-        public IList<Article> GetArticlesRange(int start, int end, string? publishValue, string? category, string? subcategory, string? team)
+        public IList<Article> GetArticlesRange(int start, int end, string? publishValue, string? category, string? subcategory, string? team, string? search)
         {
-            IList<Article> articles = GetArticlesByPublished(publishValue, category, subcategory, team).Skip(start).Take(end).ToList();
+            IList<Article> articles = GetArticlesBySearch(publishValue, category, subcategory, team, search).Skip(start).Take(end).ToList();
+            return articles;
+        }
+
+        public IList<Article> GetArticlesBySearch(string? publishValue, string? category, string? subcategory, string? team, string? search)
+        {
+            IList<Article> articles = GetArticlesByPublished(publishValue, category, subcategory, team);
+            IList<Article> articlesSearched = new List<Article>();
+            
+            if (search != null)
+            {
+                for (int i = 0; i < articles.Count; i++)
+                {
+                    if (articles[i].ContentText.Contains(search) || articles[i].Title.Contains(search))
+                    {
+                        articlesSearched.Add(articles[i]);
+                    }
+                }
+                return articlesSearched;
+            }
+
             return articles;
         }
 

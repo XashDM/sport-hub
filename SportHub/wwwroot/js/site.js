@@ -4,7 +4,6 @@
 
 // Write your JavaScript code.
 
-
 async function sha256(message) {
     const msgBuffer = new TextEncoder().encode(message);
     const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
@@ -12,6 +11,117 @@ async function sha256(message) {
     const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
     return hashHex;
 }
+
+function handleGoogleCredentialResponseSignup(googleUser) {
+    let token = googleUser.credential;
+    sendExternalAuthAjaxRequest(token, true, 'Google');
+};
+
+function handleGoogleCredentialResponseSignin(googleUser) {
+    let token = googleUser.credential;
+    sendExternalAuthAjaxRequest(token, false, 'Google');
+};
+
+function sendExternalAuthAjaxRequest(token, isSignup, authProvider, email = null, firstname = null, lastname = null) {
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        async: true,
+        url: '/api/Users/HandleExternalAuth',
+        type: 'post',
+        data: JSON.stringify({
+            'UserToken': token,
+            'AuthProvider': authProvider,
+            'IsCreationRequired': isSignup,
+            'Email': email,
+            'FirstName': firstname,
+            'LastName': lastname
+        }),
+        success: function (jwtToken) {
+            localStorage.setItem('Jwt Token', jwtToken);
+            window.location.href = '/';
+        },
+        error: function (response) {
+            console.error(response);
+            if (isSignup) {
+                if (response.statusCode === 500) {
+                    applySignupResponse('Something went wrong. Try again later', 'responce-danger-text');
+                    resetBorderColors();
+                    return;
+                }
+                applySignupResponse(response.responseJSON, 'response-danger-text');
+                resetBorderColors();
+            }
+            else {
+                if (response.statusCode === 500) {
+                    $('#form-result').text('Something went wrong. Try again later');
+                    $('#form-result').show();
+                    return;
+                }
+
+                $('#form-result').text(response.responseJSON);
+                $('#form-result').show();
+            }
+        }
+    });
+}
+
+window.fbAsyncInit = function () {
+    FB.init({
+        appId: '646098686739937',
+        oauth: true,
+        status: true, // check login status
+        cookie: true, // enable cookies to allow the server to access the session
+        xfbml: true // parse XFBML
+    });
+
+};
+
+function handleFacebookResponseSignup() {
+    FB.login(function (response) {
+        if (response.authResponse) {
+            const userToken = response.authResponse.accessToken;
+            FB.api(
+                "/me?fields=name,email",
+                function (response) {
+                    if (response) {
+                        const firstname = response.name.split(' ')[0];
+                        const lastname = response.name.split(' ')[1];
+                        sendExternalAuthAjaxRequest(userToken, true, 'Facebook', response.email, firstname, lastname);
+                    }
+                }
+            );
+        } 
+    }, {
+        scope: 'public_profile,email'
+    });
+}
+
+function handleFacebookResponseSignin() {
+    FB.login(function (response) {
+        if (response.authResponse) {
+            const userToken = response.authResponse.accessToken;
+            FB.api(
+                "/me?fields=name,email",
+                function (response) {
+                    if (response) {
+                        sendExternalAuthAjaxRequest(userToken, false, 'Facebook', response.email);
+                    }
+                }
+            );
+        }
+    }, {
+        scope: 'public_profile,email'
+    });
+}
+(function () {
+    var e = document.createElement('script');
+    e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+    e.async = true;
+    //document.getElementById('fb-root').appendChild(e);
+}());
 
 $("#loginForm").submit((event) => {
     event.preventDefault();
@@ -93,7 +203,7 @@ function searchFieldWithTimeLimit() {
         if (checkTyping == true) {
             searchField();
             checkTyping = false;
-        }   
+        }
     }, 1000);
 }
 
@@ -102,7 +212,7 @@ $('#header-search-field').on('click', function () {
         $('main').css('z-index', '-1');
         $('.search-result-articles').slideDown();
     }
-});    
+});
 
 let amountOfArticlesInSearchField = 0;
 let startElementPosition = 10;
@@ -122,9 +232,9 @@ function searchField() {
         startPosition: 0,
         amountArticles: 10,
     };
-    
+
     if (searchValue != "") {
-        
+
         $.ajax({
             method: 'post',
             url: '/api/Articles/ArticlesRange',
@@ -261,8 +371,8 @@ function searchField() {
                             console.log(availableArticles);
                         }
                     }
-                    
-                    
+
+
                 }
                 displayedArticles = amountOfArticles;
             }
@@ -361,7 +471,7 @@ function updateSearchAfterScrolling() {
                     articleSearchField.find('.search-article-category-name').text('No matches found.');
                     articleSearchField.find('.search-article-bottom-content').text('Please try another search.');
                 }
-            }   
+            }
         }
     });
     startElementPosition += amountOfElements;
@@ -401,7 +511,7 @@ input.addEventListener("keypress", function (event) {
 });
 
 
-function logoutUser(){
+function logoutUser() {
     localStorage.removeItem('Jwt Token');
     location.reload();
 };

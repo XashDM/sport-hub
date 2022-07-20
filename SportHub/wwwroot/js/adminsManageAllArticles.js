@@ -47,14 +47,16 @@ function updateArticlesAfterScrolling() {
     if (selectedPublish == 'All') {
         selectedPublish = null;
     }
-
+    var searchPostValue = $('.get-admins-articles-search-field-field').val();
+    console.log(searchPostValue);
     let articleDisplayParameters = {
         startPosition: startElementPosition,
         amountArticles: amountOfElements,
         publishValue: selectedPublish,
         category: category,
         subcategory: selectedSubcategory,
-        team: selectedTeam
+        team: selectedTeam,
+        search: searchPostValue
     };
 
     $.ajax({
@@ -139,8 +141,17 @@ function openDropdownFunction(articleId) {
 }
 
 function findHideSearchField() {
-    $("#search-field").toggle();
-    $("#search-field").focus();
+    console.log("GAY NIGGA");
+    if ($("#search-field").css('display') == 'block') {
+        const searchValueFind = $('#search-field').val();
+        console.log(searchValueFind);
+        $(location).attr('href', `/search?searchValue=${searchValueFind}`);
+    }
+    else {
+        $("#search-field").show();
+        $("#search-field").focus();
+    }
+    
 }
 
 function openDeletePopUp(articleId) {
@@ -242,4 +253,32 @@ function changeArticleCategory(articleId, categoryId) {
             $("#publish-banner").delay(1000).fadeOut(500);
         }
     });
+}
+
+function redirectToSearchPage() {
+    if (this.key == "Enter") {
+        const searchValueFind = $('#search-field').val();
+        console.log(searchValueFind);
+        $(location).attr('href', `/search?searchValue=${searchValueFind}`);
+    }
+}
+
+window.onload = function () {
+    var input2 = $('#search-field');
+    // Execute a function when the user presses a key on the keyboard
+    input2[0].addEventListener("keypress", function (event) {
+        console.log('Asdasd');
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter") {
+            const searchValueFind = $('#search-field').val();
+            console.log(searchValueFind);
+            $(location).attr('href', `/search?searchValue=${searchValueFind}`);
+        }
+    });
+}
+
+function moveToSearchPage() {
+    const searchValue = $('#header-search-field').val();
+    console.log(searchValue);
+    $(location).attr('href', `/search?searchValue=${searchValue}`);
 }

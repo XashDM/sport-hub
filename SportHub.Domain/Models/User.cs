@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SportHub.Domain.Models
@@ -22,19 +23,23 @@ namespace SportHub.Domain.Models
         [Column(TypeName = "varchar(100)")]
         public string LastName { get; set; }
 
-        [Required]
         [MaxLength(64)]
         [Column(TypeName = "char(64)")]
-        public string PasswordHash { get; set; }
+        [JsonIgnore]
+        public string? PasswordHash { get; set; }
 
         [Required]
         [MaxLength(320)]
         [Column(TypeName = "varchar(320)")]
         [EmailAddress]
+        [JsonIgnore]
         public string Email { get; set; }
         [Required]
         [Column(TypeName = "bit")]
         public bool IsActive { get; set; }
+
+        [Required]
+        public bool IsExternal { get; set; }
         public virtual ICollection<UserRole> Roles { get; set; }
     }
 }

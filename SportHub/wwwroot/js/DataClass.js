@@ -1,4 +1,4 @@
-﻿class DateClass {
+﻿class DataClass {
     activeItem = {
     Category: null,
     Subcategory: null,
@@ -102,10 +102,8 @@
     }
 
 }
-class ExtendDateClass extends DateClass {
-    constructor() {
-        super();
-    }
+class ExtendDateClass extends DataClass {
+
     getTeamofSubcategory(parent) {
         let result;
         if (parent == null) {
@@ -183,5 +181,9 @@ class ExtendDateClass extends DateClass {
         result = parent.children
     }
     return result;
+    }
+    constructor() {
+        super();
+        this.getCategory();
     }
 }
