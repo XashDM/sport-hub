@@ -129,7 +129,6 @@
             success: function (categories) {
                 amountOfCategories = categories.length;
                 for (var i = 0; i < amountOfCategories; i++) {
-                    console.log(categories[i].name);
                     var categoryElement = $('#category-element-home').clone().appendTo('.category-list-category-list-all-items');
                     categoryElement.attr('href',`/Articles/Admin/${categories[i].name}`);
                     categoryElement.text(categories[i].name);
@@ -141,24 +140,25 @@
                 if (checkCategory == true) {
                     categoryWithoutSpaces = category.replace(/ /g,"-");
                     $(`#category-element-${categoryWithoutSpaces}lower`).css('color', '#D72130');
-                    console.log($(`#category-element-${categoryWithoutSpaces}lower`).text());
                 }
                 else {
                     $(`#category-element-home`).css('color', '#D72130');
                 }
+                let scrollWidth = $('.category-list-category-list-all-items')[0].scrollWidth;
+                let visibleWidth = $('.category-list-category-list-all-items')[0].clientWidth;
+                let scrollPosition = $('.category-list-category-list-all-items')[0].scrollLeft;
+                //change button color is needed
+                if (scrollPosition > 0){
+                    $("#left-button-image").css('filter', redColorFilter);
+                }
+                if (scrollPosition + visibleWidth < scrollWidth) {
+                    $("#right-button-image").css('filter', redColorFilter);
+                }
+                else {
+                    $("#right-button-image").css('fill', 'blue');
+                }
             }
         });
-
-        //change button color is needed
-        let scrollWidth = $('.category-list-category-list-all-items')[0].scrollWidth;
-        let visibleWidth = $('.category-list-category-list-all-items')[0].clientWidth;
-        if (scrollWidth > visibleWidth) {
-            $("#right-button-image").css('filter', redColorFilter);
-            console.log("yes");
-        }
-        else {
-            $("#right-button-image").css('fill', 'blue');
-        }
     });
 
     function moveCategoryListLeft() {
@@ -185,7 +185,7 @@
         }
 
         $('.category-list-category-list-all-items').animate({ scrollLeft: '+=100' }, 200, function () {
-            if (visibleWidth + scrollPosition >= scrollWidth || (visibleWidth + scrollPosition) / scrollWidth > 0.95) {
+            if (visibleWidth + scrollPosition + 100 >= scrollWidth) {
                 $("#right-button-image").css('filter', grayColorFilter);
             }
         });  
