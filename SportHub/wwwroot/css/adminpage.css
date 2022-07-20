@@ -253,6 +253,15 @@ main {
     flex-direction: column;
 }
 
+.breakdown-articles-block {
+    display: flex;
+    flex: 1 1 600px;
+    max-width: 815px;
+    margin: 0 auto;
+    margin-top: 50px;
+    flex-direction: column;
+}
+
 .admin-configuration-block .main-articles_block {
     width: 100%;
     display: flex;
@@ -266,6 +275,12 @@ main {
 }
 
 .main-articles_block .section-caption-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.breakdown-articles_block .section-caption-block {
     display: flex;
     align-items: center;
     justify-content: space-between;

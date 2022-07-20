@@ -24,7 +24,7 @@ namespace SportHub.Services
                 .Subject("Signup verification")
                 .UsingTemplate(emailBody, new { });
             //I have problem with gmail
-            await email.SendAsync();
+            //await email.SendAsync();
         }
         public async void SendResetPasswordEmail(User user, [FromServices] IFluentEmail mailer, string token)
         {
