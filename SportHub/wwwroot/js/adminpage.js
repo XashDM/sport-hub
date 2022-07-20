@@ -327,9 +327,9 @@ function displayConfigurationBlocks(mainArticles) {
 
     if (mainArticles.length == 0) {
         let configurationBodyClone = configurationBody
-            .clone()
+            .clone();
         configurationBodyClone.appendTo('#main-articles-block')
-            .show();;
+            .show();
     }
 
     $(mainArticles).each(function (idx) {
@@ -387,47 +387,52 @@ function displayConfigurationBlocks(mainArticles) {
     });
 }
 
+
+//----------------breakdown section scripts---------------------------
+/**/
 $('#breakdown-configuration-block').on('click', '.add-new-button', () => {
     let maxArticleCount = 4;
-    let currentArticleAmount = $('.configuration-body').length;
+    //ми маємо 2 .configuration-body на сторінці, через це воно і не працює
+    //треба видати йому id і шукати по ній
+    let currentArticleAmount = $('.configuration-body-bd').length;
 
     if (currentArticleAmount === maxArticleCount + 1) {
         return;
     }
 
-    let configurationBody = $('.configuration-body')
+    let configurationBody = $('.configuration-body-bd')
         .first()
 
     configurationBody
-        .find('p.delete-button')
+        .find('p.delete-button-bd')
         .removeClass('disabled');
 
     configurationBody
         .next()
-        .find('p.delete-button')
+        .find('p.delete-button-bd')
         .removeClass('disabled');
 
     let configurationBodyClone = configurationBody
         .clone()
-        .attr('id', 'configuration-body' + currentArticleAmount);
+        .attr('id', 'configuration-body-bd' + currentArticleAmount);
 
     if (currentArticleAmount === (maxArticleCount)) {
         configurationBodyClone
-            .find('p.add-new-button')
+            .find('p.add-new-button-bd')
             .addClass('disabled');
     }
 
     configurationBodyClone.appendTo('#breakdown-configuration-block');
     configurationBodyClone.show();
-    $('.add-new-button').eq(-2).fadeOut(400);
+    $('.add-new-button-bd').eq(-2).fadeOut(400);
 });
 
 $('#breakdown-articles-block').on('click', '.delete-button', (el) => {
-    if ($('.configuration-body').length < 3) {
+    if ($('.configuration-body-bd').length < 3) {
         return;
     }
     else {
-        $('.add-new-button')
+        $('.add-new-button-bd')
             .last()
             .removeClass('disabled');
     }
@@ -435,12 +440,12 @@ $('#breakdown-articles-block').on('click', '.delete-button', (el) => {
     let element = el.currentTarget.parentElement.parentElement.parentElement;
     $(element).fadeOut(400, () => {
         $(element).remove();
-        if ($('.configuration-body').length === 2) {
-            $('.delete-button')
+        if ($('.configuration-body-bd').length === 2) {
+            $('.delete-button-bd')
                 .eq(1)
                 .addClass('disabled');
         }
-        $('.add-new-button').eq(-1).fadeIn();
+        $('.add-new-button-bd').eq(-1).fadeIn();
     });
 });
 
@@ -506,9 +511,11 @@ $('#breakdown-articles-block').on('click', '.custom-selector-body option', funct
     selector.text(selectedOption.text());
 });
 
+//це вже оголошено глобально, видаляй
 var scrollLimit = 100;
 var scrollFlag = true;
 
+//для чого дублювати цю функцію? +1
 document.addEventListener('scroll', function (event) {
     if ($(event.target).attr('class') === 'custom-selector-body') {
         let currentScrollLimitValue = $(event.target).attr('value');
@@ -529,17 +536,18 @@ document.addEventListener('scroll', function (event) {
     }
 }, true);
 
+//і цю? +1
 $('#save-changes-button').click(function () {
     applyMainArticlesConfigurationChanges();
     uploadPhotoOfTheDay();
 });
-
+//і цю? +1
 function generatePageArguments(pageNumber, pageSize) {
     const pageArguments = { 'PageNumber': pageNumber, 'PageSize': pageSize }
 
     return pageArguments;
 }
-
+//+1
 function applyMainArticlesConfigurationChanges() {
     $.ajax({
         headers: {
@@ -559,7 +567,7 @@ function applyMainArticlesConfigurationChanges() {
         }
     });
 }
-
+//+1
 function getMainArticles() {
     $.ajax({
         headers: {
@@ -576,7 +584,7 @@ function getMainArticles() {
         }
     });
 }
-
+//+1
 function getAllCategories() {
     $.ajax({
         async: true,
@@ -590,7 +598,7 @@ function getAllCategories() {
         }
     });
 }
-
+//+1
 function getAllSubcategoriesByCategoryId(elementToFill, categoryId, selectedItem = -1) {
     $.ajax({
         async: true,
@@ -609,7 +617,7 @@ function getAllSubcategoriesByCategoryId(elementToFill, categoryId, selectedItem
         }
     });
 }
-
+//+1
 function getAllTeamsByParentId(elementToFill, parentId, selectedItem = -1) {
     $.ajax({
         async: true,
@@ -628,7 +636,7 @@ function getAllTeamsByParentId(elementToFill, parentId, selectedItem = -1) {
         }
     });
 }
-
+//+1
 function getAllArticlesByParentId(elementToFill, pageArguments, articleParentId, selectedItem = -1, allowErase = true, changeSelected = true) {
     $.ajax({
         headers: {
@@ -662,7 +670,7 @@ function getAllArticlesByParentId(elementToFill, pageArguments, articleParentId,
         }
     });
 }
-
+//+1
 function resetNextSelectElementsByContainer(container, index) {
     let selects = $(container).find('select');
     $(selects).each(function (idx) {
@@ -673,7 +681,7 @@ function resetNextSelectElementsByContainer(container, index) {
     const customArticleSelector = container.find('.main-a-articles-selector option');
     customArticleSelector.empty();
 }
-
+//+1
 function insertOptions(selectElement, dataArrayToInsert, areArticles = false, allowInsertDefault = true) {
     if (allowInsertDefault) {
         $(selectElement).append($('<option>', { value: -1, text: 'Not Chosen' }));
@@ -689,7 +697,7 @@ function insertOptions(selectElement, dataArrayToInsert, areArticles = false, al
         }
     }
 }
-
+//+1
 function gatherMainArticlesInput() {
     let mainArticlesInput = {}
     $('.configuration-body').each(function (idx) {
@@ -703,20 +711,26 @@ function gatherMainArticlesInput() {
 
     return mainArticlesInput;
 }
-
+//+1
+//все, що позначено +1 в основному стосуєтся мейн артіклів, я правильно розумію?
+//а для того, що універсальне, можна сміливо видаляти дублікати
+//+1
 function selectItemBySelectorAndSelectedItem(selector, selectedItem) {
     selector.val(selectedItem);
 }
-
-function displayConfigurationBlocks(mainArticles) {
-    let configurationBody = $('.configuration-body')
+/* баг тут сидить (і не один). ти банально копіював функції і не дивився, що вони роблять
+ * от і вийшло, що для main articles ця функція викликалася тут, бо ти її перевизначив
+ * і додавав нові config-body до breakdown section
+ * Наполегливо рекомендую розібратися і написати таке самому, а не копіювати
+function displayConfigurationBlocks11(mainArticles) {
+    let configurationBody = $('.configuration-body-bd')
         .first()
 
     if (mainArticles.length == 0) {
         let configurationBodyClone = configurationBody
-            .clone()
+            .clone();
         configurationBodyClone.appendTo('#breakdown-articles-block')
-            .show();;
+            .show();
     }
 
     $(mainArticles).each(function (idx) {
@@ -772,7 +786,8 @@ function displayConfigurationBlocks(mainArticles) {
         configurationBodyClone.appendTo('#breakdown-articles-block')
             .show();
     });
-}
+} */
+//-------------------photo of the day scripts-----------------------
 
 function GetPhotoOfTheDay() {
     $.ajax({

@@ -323,7 +323,8 @@ main {
     display: none;
 }
 
-.configuration-body label, #photo-info-form label {
+.configuration-body label, #photo-info-form label,
+.configuration-body-bd label {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 500;
@@ -335,7 +336,7 @@ main {
     margin-bottom: 5px;
 }
 
-.configuration-body select, .main-a-articles-selector, .custom-selector-body {
+.configuration-body select, .configuration-body-bd select, .main-a-articles-selector, .custom-selector-body {
     box-sizing: border-box;
     width: 246px;
     height: 36px;
@@ -358,11 +359,13 @@ main {
     padding-left: 16px;
 }
 
-.configuration-body select:focus {
+.configuration-body select:focus,
+.configuration-body-bd select:focus {
     outline: none;
 }
 
-.configuration-body select option {
+.configuration-body select option,
+.configuration-body-bd select option {
     text-align: left;
     font-family: 'Open Sans';
     font-style: normal;
@@ -372,12 +375,14 @@ main {
     color: #2B2F43;
 }
 
-.configuration-body .select-box {
+.configuration-body .select-box,
+.configuration-body-bd .select-box {
     display: flex;
     flex-direction: column;
 }
 
-.configuration-body .main-a-articles-selector {
+.configuration-body .main-a-articles-selector,
+.configuration-body-bd .main-a-articles-selector {
     cursor: pointer;
     width: 100%;
     display: flex;
@@ -385,7 +390,8 @@ main {
     justify-content: center;
 }
 
-.configuration-body .main-a-articles-selector option {
+.configuration-body .main-a-articles-selector option,
+.configuration-body-bd .main-a-articles-selector option {
     background-color: transparent;
     width: 100%;
     height: 80%;
@@ -395,16 +401,20 @@ main {
     align-items: center;
 }
 
-.configuration-body .team-category-option-block {
+.configuration-body .team-category-option-block,
+.configuration-body-bd .team-category-option-block {
     display: flex;
     justify-content: space-between;
 }
 
-.configuration-body .article-option-block {
+.configuration-body .article-option-block,
+.configuration-body-bd .article-option-block {
     margin-top: 24px;
 }
 
-.configuration-body .article-option-block select, .main-a-articles-selector, .custom-selector-body {
+.configuration-body .article-option-block select, 
+.configuration-body-bd .article-option-block select, 
+.main-a-articles-selector, .custom-selector-body {
     width: 100%;
 }
 
@@ -519,7 +529,7 @@ input:checked + .slider:before {
     justify-content: space-between;
 }
 
-.delete-button {
+.delete-button, .delete-button-bd {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
@@ -530,7 +540,7 @@ input:checked + .slider:before {
     transition: all 0.5s ease;
 }
 
-.add-new-button {
+.add-new-button, .add-new-button-bd {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 700;
