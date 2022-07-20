@@ -390,10 +390,11 @@ function displayConfigurationBlocks(mainArticles) {
 
 //----------------breakdown section scripts---------------------------
 /**/
-$('#breakdown-configuration-block').on('click', '.add-new-button', () => {
-    let maxArticleCount = 4;
-    //ми маємо 2 .configuration-body на сторінці, через це воно і не працює
-    //треба видати йому id і шукати по ній
+$('.breakdown-configuration-block').on('click', '.add-new-button-bd', () => {
+    let maxArticleCount = 7;
+
+    console.log("add!");
+
     let currentArticleAmount = $('.configuration-body-bd').length;
 
     if (currentArticleAmount === maxArticleCount + 1) {
@@ -402,6 +403,8 @@ $('#breakdown-configuration-block').on('click', '.add-new-button', () => {
 
     let configurationBody = $('.configuration-body-bd')
         .first()
+
+    console.log(configurationBody);
 
     configurationBody
         .find('p.delete-button-bd')
@@ -422,12 +425,12 @@ $('#breakdown-configuration-block').on('click', '.add-new-button', () => {
             .addClass('disabled');
     }
 
-    configurationBodyClone.appendTo('#breakdown-configuration-block');
+    configurationBodyClone.appendTo('.breakdown-configuration-block');
     configurationBodyClone.show();
     $('.add-new-button-bd').eq(-2).fadeOut(400);
 });
 
-$('#breakdown-articles-block').on('click', '.delete-button', (el) => {
+$('.breakdown-configuration-block').on('click', '.delete-button-bd', (el) => {
     if ($('.configuration-body-bd').length < 3) {
         return;
     }
