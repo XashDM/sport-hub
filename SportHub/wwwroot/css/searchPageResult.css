@@ -1,0 +1,120 @@
+.search-page-info-title {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 41px;
+    margin: 25px 0 11px 66px;
+}
+
+.search-page-all-content {
+    margin: 44px 0 0 166px;
+}
+
+.search-page-result {
+    display: flex;
+    margin-left: 32px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.search-page-search-result-articles {
+    background-color: white;
+    max-height: 600px;
+    overflow-y: scroll;
+    width: 774px;
+    margin-top: 19px;
+    padding: 20px;
+    margin-bottom: 20px;
+    scrollbar-color: darkgrey transparent;
+    scrollbar-width: thin;
+}
+
+    .search-page-search-result-articles::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .search-page-search-result-articles::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        border-radius: 2px;
+    }
+
+.search-page-search-article-info:hover {
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.110932);
+}
+
+/*.search-page-search-article-info {
+    margin-bottom: 20px;
+    width: 855px;
+    height: 116px;
+    background: #FFFFFF;
+}*/
+
+.search-page-search-content {
+    padding: 22px 13px 28px 32px;
+    margin-bottom: 20px;
+}
+
+.search-page-search-article-top-info {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.find-words-search-article-top-info {
+    color: black;
+}
+
+.image-arrow-right-in-search {
+    margin: 0 3px;
+}
+
+.search-page-search-article-category-name {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #B2B2B2;
+}
+
+.search-page-search-article-subcategory-name {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #B2B2B2;
+}
+
+.search-page-search-article-team-name {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #B2B2B2;
+}
+
+.search-page-search-article-bottom-content {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #7F7B7B;
+}
+
+.no-articles-was-found {
+    font-family: 'Open Sans';
+    font-style: normal;
+    margin-left: 30px;
+}

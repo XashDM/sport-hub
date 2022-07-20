@@ -78,7 +78,10 @@ namespace SportHub.Tests
 
             var imageService = new Mock<IImageService>();
 
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var adminArticleService = new Mock<IGetAdminArticlesService>();
+            var searchService = new Mock<ISearchService>();
+
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
 
             // act
 
@@ -103,7 +106,10 @@ namespace SportHub.Tests
                 .Returns(Task.FromResult(subcategoriesToReturn));
 
             var imageService = new Mock<IImageService>();
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var adminArticleService = new Mock<IGetAdminArticlesService>();
+            var searchService = new Mock<ISearchService>();
+
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
 
             // act
 
@@ -128,7 +134,10 @@ namespace SportHub.Tests
                 .Returns(Task.FromResult(teamsToReturn));
             
             var imageService = new Mock<IImageService>();
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var adminArticleService = new Mock<IGetAdminArticlesService>();
+            var searchService = new Mock<ISearchService>();
+
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
 
             // act
 
@@ -152,7 +161,10 @@ namespace SportHub.Tests
                 .Returns(Task.FromResult(articles));
 
             var imageService = new Mock<IImageService>();
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var adminArticleService = new Mock<IGetAdminArticlesService>();
+            var searchService = new Mock<ISearchService>();
+
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
 
             // act
 
@@ -177,7 +189,10 @@ namespace SportHub.Tests
                 .ThrowsAsync(new InvalidPageArgumentsException());
 
             var imageService = new Mock<IImageService>();
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var adminArticleService = new Mock<IGetAdminArticlesService>();
+            var searchService = new Mock<ISearchService>();
+
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
 
             // act
 
@@ -204,7 +219,10 @@ namespace SportHub.Tests
             var articleService = new Mock<IGetArticleService>();
             var imageService = new Mock<IImageService>();
 
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var adminArticleService = new Mock<IGetAdminArticlesService>();
+            var searchService = new Mock<ISearchService>();
+
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
 
             // act
 
@@ -225,7 +243,10 @@ namespace SportHub.Tests
             articleService.Setup(articleService => articleService.GetMainArticles()).Returns(Task.FromResult(mainArticles));
 
             var imageService = new Mock<IImageService>();
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var adminArticleService = new Mock<IGetAdminArticlesService>();
+            var searchService = new Mock<ISearchService>();
+
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
 
             // act
 
@@ -247,7 +268,10 @@ namespace SportHub.Tests
             articleService.Setup(articleService => articleService.GetDisplayedMainArticles()).Returns(Task.FromResult(articlesToReturn));
 
             var imageService = new Mock<IImageService>();
-            var articleController = new ArticlesController(articleService.Object, imageService.Object);
+            var adminArticleService = new Mock<IGetAdminArticlesService>();
+            var searchService = new Mock<ISearchService>();
+
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
 
             // act
 
