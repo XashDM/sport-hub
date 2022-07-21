@@ -208,8 +208,10 @@ namespace SportHub.Tests
         public async Task SaveMainArticles_TakesDictionaryOfArticleIdAndTheirDisplayValue_ReturnsStatusCode201()
         {
             // arrange
+
+            MainArticlesToSaveArgs mainArticlesToSaveArgs = new MainArticlesToSaveArgs();
             
-            Dictionary<int, bool> articleIds = new Dictionary<int, bool>()
+            mainArticlesToSaveArgs.ArticlesDisplayValues = new Dictionary<int, bool>()
             {
                 { 1, true },
                 { 2, true },
@@ -226,7 +228,7 @@ namespace SportHub.Tests
 
             // act
 
-            var result = await articleController.SaveMainArticles(articleIds) as StatusCodeResult;
+            var result = await articleController.SaveMainArticles(mainArticlesToSaveArgs) as StatusCodeResult;
 
             // assert
 

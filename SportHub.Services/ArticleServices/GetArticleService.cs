@@ -166,6 +166,11 @@ namespace SportHub.Services.ArticleServices
             return GetAllCategoriesQueryable().ToArrayAsync();
         }
 
+        private async Task<bool> IsExistingArticleId(int articleId)
+        {
+            return await _context.Articles.Where(article => article.Id.Equals(articleId)).AnyAsync();
+        }
+
         public IQueryable<NavigationItem> GetAllSubcategoriesByCategoryIdQueryable(int categoryId)
         {
             var subcategories = _context.NavigationItems
@@ -212,16 +217,14 @@ namespace SportHub.Services.ArticleServices
 
         public async Task SaveMainArticles(Dictionary<int, bool> articlesToSave)
         {
-            var itemsToReset = _context.DisplayItems
-                .Where(displayItem => displayItem.Type.Equals("Article"))
-                .Where(displayItem => displayItem.DisplayLocation.Equals("MainSection"));
-
-            _context.RemoveRange(itemsToReset);
-            await _context.SaveChangesAsync();
-
             List<DisplayItem> itemsToSave = new List<DisplayItem>();
             foreach (var item in articlesToSave)
             {
+                if (await IsExistingArticleId(item.Key) == false)
+                {
+                    throw new ArticleNotFoundException();
+                }
+
                 DisplayItem displayItem = new DisplayItem()
                 {
                     DisplayLocation = "MainSection",
@@ -232,6 +235,13 @@ namespace SportHub.Services.ArticleServices
 
                 itemsToSave.Add(displayItem);
             }
+
+            var itemsToReset = _context.DisplayItems
+                .Where(displayItem => displayItem.Type.Equals("Article"))
+                .Where(displayItem => displayItem.DisplayLocation.Equals("MainSection"));
+
+            _context.RemoveRange(itemsToReset);
+            await _context.SaveChangesAsync();
 
             await _context.AddRangeAsync(itemsToSave);
             await _context.SaveChangesAsync();

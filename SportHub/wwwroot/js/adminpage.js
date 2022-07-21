@@ -186,7 +186,7 @@ function applyMainArticlesConfigurationChanges() {
         async: true,
         url: '/api/Articles/SaveMainArticles',
         type: 'post',
-        data: JSON.stringify(gatherMainArticlesInput()),
+        data: JSON.stringify({ "ArticlesDisplayValues": gatherMainArticlesInput() }),
         success: function () {
             return;
         },

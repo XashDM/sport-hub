@@ -18,7 +18,7 @@ namespace SportHub.OAuthRoot.Strategies
                     throw new InvalidAuthDataException();
                 }
 
-                var createdUser = _userService.CreateUser(externalAuthArgs.Email, null, externalAuthArgs.FirstName, externalAuthArgs.LastName, 
+                var createdUser = await _userService.CreateUser(externalAuthArgs.Email, null, externalAuthArgs.FirstName, externalAuthArgs.LastName, 
                                                             ExternalAuthProvidersEnum.Facebook.ToString(), true);
                 var authToken = _jwtSigner.FetchToken(createdUser);
 

@@ -5,6 +5,7 @@ using SportHub.Models;
 using SportHub.Services;
 using SportHub.Services.Exceptions.RootExceptions;
 using System;
+using System.Threading.Tasks;
 
 namespace SportHub.Pages
 {
@@ -23,11 +24,11 @@ namespace SportHub.Pages
         [BindProperty]
         public SignupCredentials signupCredentials { get; set; }
 
-        public IActionResult OnPost(SignupCredentials credentials)
+        public async Task<IActionResult> OnPost(SignupCredentials credentials)
         {
             try
             {
-                var user = _userService.CreateUser(credentials.Email, credentials.PasswordHash, credentials.FirstName, credentials.LastName);
+                var user = await _userService.CreateUser(credentials.Email, credentials.PasswordHash, credentials.FirstName, credentials.LastName);
                 _emailService.SendSignUpEmail(user, _mailer);
 
                 Response.StatusCode = 201;
