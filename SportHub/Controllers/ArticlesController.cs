@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SportHub.Domain.Models;
 using SportHub.Models;
 using SportHub.Services;
 using SportHub.Services.Exceptions.RootExceptions;
@@ -8,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SportHub.Domain.Models;
+using Microsoft.AspNetCore.Http;
+using SportHub.Views;
+using System.Linq;
 
 namespace SportHub.Controllers
 {
@@ -16,12 +21,16 @@ namespace SportHub.Controllers
     public class ArticlesController : ControllerBase
     {
         private readonly IGetArticleService _articleService;
+        private readonly IGetAdminArticlesService _adminArticlesService;
         private readonly IImageService _imageService;
+        private readonly ISearchService _searchArticles;
 
-        public ArticlesController(IGetArticleService articleService, IImageService imageService)
+        public ArticlesController(IGetArticleService articleService, IGetAdminArticlesService adminArticlesService, IImageService imageService, ISearchService searchArticles)
         {
             _articleService = articleService;
             _imageService = imageService;
+            _searchArticles = searchArticles;
+            _adminArticlesService = adminArticlesService;
         }
 
         [HttpGet(nameof(GetAllCategories))]
@@ -142,9 +151,53 @@ namespace SportHub.Controllers
             }
         }
 
+        [Route("/SaveNewArticle")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SaveNewArticle([FromForm] ArticleToAdd article)
+        {
+            try
+            {
+                string link = null;
+                if (article.imageFile is not null)
+                {
+                    link = await _imageService.UploadImageAsync(article.imageFile);
+                }
+                ImageItem imageItem = new ImageItem()
+                {
+                    Alt = article.AlternativeTextForThePicture,
+                    Author = "None",
+                    ShortDescription = "None",
+                    PhotoTitle = "None",
+                    ImageLink = link
+                };
+                imageItem = await _articleService.UploadArticlePhoto(imageItem);
+                if(imageItem == null)
+                    return StatusCode(400, "Something went wrong");
+
+                Article articleToSave = new Article
+                {
+                    ReferenceItemId = article.ReferenceItemId,
+                    ImageItemId = imageItem.Id,
+                    Title = article.Title,
+                    Caption = article.Caption,
+                    ContentText = article.ContentText,
+                    IsPublished = true,
+                };
+
+                bool resulte = await _articleService.SaveArticle(articleToSave);
+                if (!resulte) 
+                    return StatusCode(400, "Something went wrong");
+
+                return Ok(article);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
         [HttpPut(nameof(UploadPhotoOfTheDay))]
         [AllowAnonymous]
-        public async Task<IActionResult> UploadPhotoOfTheDay([FromForm]PhotoOfTheDayModel photo)
+        public async Task<IActionResult> UploadPhotoOfTheDay([FromForm] PhotoOfTheDayModel photo)
         {
             string link = null;
             if (photo.imageFile is not null)
@@ -186,7 +239,6 @@ namespace SportHub.Controllers
             return Ok();
         }
 
-
         //admin only
         [HttpGet(nameof(GetPhotoOfTheDay))]
         [AllowAnonymous]
@@ -206,5 +258,35 @@ namespace SportHub.Controllers
             return Ok(image);
         }
 
+        [HttpPost(nameof(SearchArticlesRange))]
+        [AllowAnonymous]
+        public async Task<IActionResult> SearchArticlesRange([FromBody] ArticlesSearch articleInfo)
+        {
+            var articles = _searchArticles.ArticleSearchLimits(articleInfo.searchValue, articleInfo.startPosition, articleInfo.amountArticles);
+            IList<ArticleForSearchResult> articleForSearchResult = new List<ArticleForSearchResult>();
+            
+            for (int i = 0; i < articles.Count; i++)
+            {
+                ArticleForSearchResult articleSearchResult = new ArticleForSearchResult();
+                articleSearchResult.Id = articles[i].Id;
+                articleSearchResult.ContentText = articles[i].ContentText;
+                articleSearchResult.Category = _articleService.GetArticlesCategory(articles[i].Id);
+                articleSearchResult.Subcategory = _articleService.GetArticlesSubcategory(articles[i].Id);
+                articleSearchResult.Team = _articleService.GetArticlesTeam(articles[i].Id);
+                articleForSearchResult.Add(articleSearchResult);
+            }
+
+            return new OkObjectResult(articleForSearchResult);
+        }
+
+        [HttpPost(nameof(ArticlesRange))]
+        [AllowAnonymous]
+        public async Task<IActionResult> ArticlesRange([FromBody] ArticlesSearch articleInfo)
+        {
+            var articles = _searchArticles.ArticleSearchAllTree(articleInfo.searchValue).Skip(articleInfo.startPosition).Take(articleInfo.amountArticles);
+            return new OkObjectResult(articles);
+        }
     }
 }
+
+        

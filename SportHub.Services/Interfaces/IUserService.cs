@@ -1,5 +1,7 @@
 ﻿using SportHub.Domain.Models;
+using SportHub.Domain.ViewModel;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SportHub.Services
 {
@@ -10,10 +12,19 @@ namespace SportHub.Services
         User ChangePassword(string email, string passwordHash);
 
         bool IsExistingEmail(string email);
-        IList<User> GetAllUsersList();
+        Task<IList<User>> GetAllUsersList();
 
-        IList<User> GetAllAdminsList();
+        Task<IList<User>> GetAllAdminsList();
+
+        Task<bool> BlockUserByIdAsync(int userId);
+
+        Task<bool> ActivateUserByIdAsync(int userId);
+
+        Task<bool> DeleteUserByIdAsync(int userId);
+
+        Task<bool> GrantAdminRoleByIdAsync(int userId);
 
         User CreateUser(string email, string? passwordHash, string firstName, string lastName, string? authProvider = null, bool isExternal = false);
+        Task<bool> RemoveAdminRoleByIdAsync(int userId);
     }
 }

@@ -16,6 +16,8 @@ namespace SportHub.Domain.Models
         [Required]
         public string Title { get; set; }
         [Required]
+        public string? Caption { get; set; }
+        [Required]
         public string ContentText { get; set; }
         [Required]
         [DataType(DataType.Date)]

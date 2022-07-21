@@ -1,4 +1,4 @@
-﻿let NIDateClass = new DateClass();
+﻿let NIDataClass = new DataClass();
 let SaveInMoment = false;
 let addedItem = [];
 
@@ -30,7 +30,7 @@ function saveItem() {
         type: 'post',
         dataType: "json",
         data: JSON.stringify({
-            date: addedItem
+            data: addedItem
         }),//$.param({ data: addedItem}, true),//JSON.stringify({ addedItem }), // addedItem,
         async: false,
         headers:
@@ -39,9 +39,9 @@ function saveItem() {
             'Content-Type': 'application/json',
             'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
         },
-    }).done(function (date) {
+    }).done(function (data) {
         addedItem = [];
-        openTreeforItem(NIDateClass.parentFor("Category"));
+        openTreeforItem(NIDataClass.parentFor("Category"));
     });
 }
 // function for adding new item and push to server called by add-button on form
@@ -58,19 +58,19 @@ function createItem(type) {
         $.ajax({
             url: '@Url.Page("Index","AddItem")',
             data: item,
-        }).done(function (date) {
-            openTreeforItem(NIDateClass.parantFor(type));
+        }).done(function (data) {
+            openTreeforItem(NIDataClass.parantFor(type));
         });
     }
     else {
         if (type == "Category") {
 
-            NIDateClass.Tree.push(item);
+            NIDataClass.Tree.push(item);
             openTreeforItem(null);
             addedItem.push(item);
         }
         else {
-            parent = NIDateClass.parentFor(type);
+            parent = NIDataClass.parentFor(type);
             parent.children.push(item);
             if (item.parentsItemId != null) {
                 addedItem.push(item);
@@ -105,11 +105,11 @@ function openTreeforItem(obj) {
     }
     removeChildrenFromVisualTree(elementForDelete)
     if (typeOfButton == "Category") {
-        NIDateClass.activeItem[typeOfButton] = obj;
+        NIDataClass.activeItem[typeOfButton] = obj;
         lastActiveItem = obj;
         createSubcategory();
     } else if (typeOfButton == "Subcategory") {
-        NIDateClass.activeItem[typeOfButton] = obj;
+        NIDataClass.activeItem[typeOfButton] = obj;
         lastActiveItem = obj;
         createTeam();
     } else {
@@ -121,9 +121,9 @@ function fatherIdfor(type) {
     if (type == "Category") {
         return null;
     } else if (type == "Subcategory") {
-        return NIDateClass.activeItem["Category"].id;
+        return NIDataClass.activeItem["Category"].id;
     } else if (type == "Team") {
-        return NIDateClass.activeItem["Subcategory"].id;
+        return NIDataClass.activeItem["Subcategory"].id;
     }
 }
 // function for opening Form called from add_button 
@@ -157,11 +157,11 @@ function createButton(type) {
     };
     return button;
 }
-//Create list of elemnt form 'Date' - array , ItamClass -css class for element  'ItemId' css id for element 
-function сreateList(date, itamClass, itemId, listElement) {
+//Create list of elemnt form 'Data' - array , ItamClass -css class for element  'ItemId' css id for element 
+function сreateList(data, itamClass, itemId, listElement) {
     let sizeOfList = 0;
-    for (let e in date) {
-        let element = date[e];
+    for (let e in data) {
+        let element = data[e];
         let name = element.name;
         let categoryListElement = document.createElement("li");
         categoryListElement.setAttribute("class", itamClass);
@@ -182,7 +182,7 @@ function сreateList(date, itamClass, itemId, listElement) {
 function createCategory() {
 
     let type = "Category";
-    let categoryDate = NIDateClass.getCategory();
+    let categoryData = NIDataClass.getCategory();
     let nameofCategory = "Category";
 
 
@@ -200,14 +200,14 @@ function createCategory() {
 
     categoryContener.prepend(createButton(type));
 
-    сreateList(categoryDate, "item", nameofCategory, categoryList);
+    сreateList(categoryData, "item", nameofCategory, categoryList);
 }
 //Create Subcategorys list on screen 
 function createSubcategory() {
     let type = "Subcategory";
-    let categoryName = NIDateClass.activeItem["Category"].name;
+    let categoryName = NIDataClass.activeItem["Category"].name;
     let nameofSubcategory = categoryName + "-Subcategory";
-    let subcategoryDate = NIDateClass.getSubcategoryofCategory();
+    let subcategoryData = NIDataClass.getSubcategoryofCategory();
 
     let subcategory = document.getElementById("Category-" + categoryName);
 
@@ -224,7 +224,7 @@ function createSubcategory() {
     subcategoryContener.appendChild(subcategoryList);
 
     let sizeOfList = сreateList(
-        subcategoryDate,
+        subcategoryData,
         "item other",
         type,
         subcategoryList
@@ -235,8 +235,8 @@ function createSubcategory() {
 //Create Teams list on screen 
 function createTeam() {
     let type = "Team";
-    let subcategoryName = NIDateClass.activeItem["Subcategory"].name;
-    let teamDate = NIDateClass.getTeamofSubcategory();
+    let subcategoryName = NIDataClass.activeItem["Subcategory"].name;
+    let teamData = NIDataClass.getTeamofSubcategory();
 
     let namaofTeaminSubcategory = subcategoryName + "-Team";
     let fullName = "Subcategory" + "-" + subcategoryName;
@@ -255,7 +255,7 @@ function createTeam() {
     teamContener.appendChild(teamList);
 
     let SizeOfList = сreateList(
-        teamDate,
+        teamData,
         "item other",
         namaofTeaminSubcategory,
         teamList

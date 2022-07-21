@@ -31,7 +31,7 @@ namespace SportHub.Controllers
         [Route("/articles")]
         public async Task<IActionResult> Articles([FromBody] ArticlesDisplayVariables articleInfo)
         {
-            IList<Article> articles = _allArticlesService.GetArticlesRange(articleInfo.startPosition, articleInfo.amountArticles, articleInfo.publishValue, articleInfo.category, articleInfo.subcategory, articleInfo.team);
+            IList<Article> articles = _allArticlesService.GetArticlesRange(articleInfo.startPosition, articleInfo.amountArticles, articleInfo.publishValue, articleInfo.category, articleInfo.subcategory, articleInfo.team, articleInfo.search);
             for (int i = 0; i < articles.Count; i++)
             {
                 articles[i].ImageItem.ImageLink = await _imageService.GetImageLinkByNameAsync(articles[i].ImageItem.ImageLink);

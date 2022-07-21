@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace SportHub.Domain.Models
 {
@@ -22,7 +23,6 @@ namespace SportHub.Domain.Models
         [MaxLength(100)]
         [Column(TypeName = "varchar(100)")]
         public string Type { get; set; }
-
         public int? ParentsItemId { get; set; }
         public virtual NavigationItem? ParentsItem { get; set; }
     }
