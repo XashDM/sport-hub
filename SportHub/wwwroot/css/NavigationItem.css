@@ -109,8 +109,8 @@
 
 .other:before {
     content: "";
-    width: 30px;
-    height: 1px;
+    width: 32px;
+    height: 0px;
     right: 100%;
     top: 50%;
     position: absolute;
@@ -146,12 +146,13 @@
     color: black;
 }
 .saved {
-    margin-bottom: 5px;
     font-weight: bold;
     font-size: 20px;
+    margin:5px 0px;
 }
 .saved-m {
     font-size: 12px;
+    margin: 5px 0px;
 }
 .item:hover {
     border: 0.5px solid #FFFFFF;
@@ -181,7 +182,7 @@
         background: none;
         position: absolute;
         width: 5px;
-        top: 19px;
+        top: 18px;
         left: -32px;
         border-left: 0.5px dashed #B2B2B2;
     }

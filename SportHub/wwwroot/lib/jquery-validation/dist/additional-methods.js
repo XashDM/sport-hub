@@ -475,19 +475,19 @@ $.validator.addMethod( "dateFA", function( value, element ) {
 }, $.validator.messages.date );
 
 /**
- * Return true, if the value is a valid date, also making this formal check dd/mm/yyyy.
+ * Return true, if the value is a valid data, also making this formal check dd/mm/yyyy.
  *
- * @example $.validator.methods.date("01/01/1900")
+ * @example $.validator.methods.data("01/01/1900")
  * @result true
  *
- * @example $.validator.methods.date("01/13/1990")
+ * @example $.validator.methods.data("01/13/1990")
  * @result false
  *
- * @example $.validator.methods.date("01.01.1900")
+ * @example $.validator.methods.data("01.01.1900")
  * @result false
  *
  * @example <input name="pippo" class="{dateITA:true}" />
- * @desc Declares an optional input element whose value must be a valid date.
+ * @desc Declares an optional input element whose value must be a valid data.
  *
  * @name $.validator.methods.dateITA
  * @type Boolean

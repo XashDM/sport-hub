@@ -50,13 +50,9 @@ namespace SportHub.Controllers
             {
                 return StatusCode(e.StatusCode, e.Message);
             }
-            catch (ArgumentNullException)
+            catch (ExternalAuthException e)
             {
-                return BadRequest("Not supplied with requested data");
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return BadRequest("Invalid Auth provider");
+                return StatusCode(e.StatusCode, e.Message);
             }
             catch (Exception)
             {
@@ -79,6 +75,97 @@ namespace SportHub.Controllers
             var user = _userService.ChangePassword(email, passwordHash);
 
             return Ok();
+        }
+
+        [HttpPost(nameof(Block))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Block([FromBody] UserIdArgs args)
+        {
+            var result = await _userService.BlockUserByIdAsync(args.UserId);
+            if (result)
+            {
+               return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost(nameof(Activate))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Activate([FromBody] UserIdArgs args)
+        {
+            var result = await _userService.ActivateUserByIdAsync(args.UserId);
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost(nameof(Delete))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete([FromBody] UserIdArgs args)
+        {
+            var result = await _userService.DeleteUserByIdAsync(args.UserId);
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost(nameof(GrantAdminRole))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GrantAdminRole([FromBody] UserIdArgs args)
+        {
+            var result = await _userService.GrantAdminRoleByIdAsync(args.UserId);
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost(nameof(RemoveAdminRole))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RemoveAdminRole([FromBody] UserIdArgs args)
+        {
+            var result = await _userService.RemoveAdminRoleByIdAsync(args.UserId);
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet(nameof(AllUsersList))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AllUsersList()
+        {
+            var users = await _userService.GetAllUsersList();
+            return new OkObjectResult(users);
+        }
+
+        [HttpGet(nameof(AllAdminsList))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AllAdminsList()
+        {
+            var users = await _userService.GetAllAdminsList();
+            return new OkObjectResult(users);
         }
     }
 }

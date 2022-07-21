@@ -25,6 +25,10 @@ namespace SportHub.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Caption")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("ContentText")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -193,6 +197,10 @@ namespace SportHub.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AuthProvider")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(320)
@@ -313,7 +321,7 @@ namespace SportHub.Domain.Migrations
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
                     b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentsItem")
-                        .WithMany()
+                        .WithMany("Children")
                         .HasForeignKey("ParentsItemId");
 
                     b.Navigation("ParentsItem");
@@ -337,6 +345,11 @@ namespace SportHub.Domain.Migrations
             modelBuilder.Entity("SportHub.Domain.Models.Article", b =>
                 {
                     b.Navigation("DisplayItems");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
+                {
+                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

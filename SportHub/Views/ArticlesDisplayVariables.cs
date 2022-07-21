@@ -12,6 +12,7 @@ namespace SportHub.Views
         public string? category { get; set; }
         public string? subcategory { get; set; }
         public string? team { get; set; }
+        public string? search { get;set; }
     }
 }
 

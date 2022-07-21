@@ -381,6 +381,17 @@ namespace SportHub.Services.ArticleServices
             }
         }
 
+        public async Task<ImageItem> UploadArticlePhoto(ImageItem image)
+        {
+            if (image.ImageLink != null)
+            {
+                await _context.AddAsync(image);
+                await _context.SaveChangesAsync();
+                return image;
+            }
+            return null; 
+        }
+
         //admin only, returns hidden article 
         public async Task<DisplayItem> GetPhotoOfTheDay()
         {
@@ -442,6 +453,22 @@ namespace SportHub.Services.ArticleServices
                     _context.SaveChanges();
                 }
             }
+        }
+
+        public async Task<bool> SaveArticle(Article article)
+        {
+            if (article.ReferenceItemId != null)
+            {
+               NavigationItem item = await _context.NavigationItems.FirstOrDefaultAsync(item => item.Id == article.ReferenceItemId);
+               if(item == null)
+                    return false;
+            }
+
+            article.PostedDate = DateTime.Now;
+
+            _context.Add(article);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
