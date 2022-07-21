@@ -24,7 +24,7 @@ namespace SportHub.Services
 
         Task<bool> GrantAdminRoleByIdAsync(int userId);
 
+        User CreateUser(string email, string? passwordHash, string firstName, string lastName, string? authProvider = null, bool isExternal = false);
         Task<bool> RemoveAdminRoleByIdAsync(int userId);
-        User CreateUser(string email, string? passwordHash, string firstName, string lastName, bool isExternal = false);
     }
 }
