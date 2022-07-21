@@ -14,12 +14,14 @@ namespace SportHub.Services.ArticleServices
     {
         private readonly SportHubDBContext _context;
         private readonly IImageService _imageService;
+        private readonly INavigationItemService _navigationItemService;
         NavigationItem NavigationItem;
 
-        public GetArticleService(SportHubDBContext context, IImageService imageService)
+        public GetArticleService(SportHubDBContext context, IImageService imageService, INavigationItemService navigationItemService)
         {
             _context = context;
             _imageService = imageService;
+            _navigationItemService = navigationItemService;
         }
 
         public string ChangeArticlesCategory(int id, int categoryId)
@@ -199,14 +201,16 @@ namespace SportHub.Services.ArticleServices
             return GetAllTeamsByParentIdQueryable(parentId).ToArrayAsync();
         }
 
-        public IQueryable<Article> GetAllArticlesByParentIdQueryable(int parentId)
+        public async Task<IQueryable<Article>> GetAllArticlesByParentIdQueryable(int parentId)
         {
+            var parentsIdsList = await _navigationItemService.GetRecusiveTree(parentId);
+
             var articles = _context.Articles
                 .AsNoTracking()
                 .Include(article => article.ReferenceItem)
                 .ThenInclude(refItem => refItem.ParentsItem)
                 .ThenInclude(refItem => refItem.ParentsItem)
-                .Where(article => article.ReferenceItemId.Equals(parentId));
+                .Where(article => parentsIdsList.Contains(article.ReferenceItemId.Value));
 
             return articles;
         }
@@ -287,7 +291,7 @@ namespace SportHub.Services.ArticleServices
 
         public async Task<Article[]> GetArticlesByParentIdPaginatedArrayAsync(int parentId, int pageSize, int pageNumber)
         {
-            var allArticles = GetAllArticlesByParentIdQueryable(parentId);
+            var allArticles = await GetAllArticlesByParentIdQueryable(parentId);
 
             var paginatedArticles = await Paginate(allArticles, pageSize, pageNumber)
                 .Item1

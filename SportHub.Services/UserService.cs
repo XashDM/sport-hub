@@ -31,7 +31,7 @@ namespace SportHub.Services
             return user;
         }
 
-        public async Task<User> CreateUser(string email, string? passwordHash, string firstName, string lastName, bool isExternal = false)
+        public async Task<User> CreateUser(string email, string? passwordHash, string firstName, string lastName, string? authProvider = null, bool isExternal = false)
         {
             if (IsExistingEmail(email))
             {
@@ -39,23 +39,17 @@ namespace SportHub.Services
             }
 
             var userRole = GetUserRoleByName("User");
-            bool isExternalUser = false;
-
-            if (isExternal)
-            {
-                passwordHash = null;
-                isExternalUser = true;
-            }
 
             var user = new User
             {
                 Email = email,
-                PasswordHash = passwordHash,
+                PasswordHash = isExternal ? null : passwordHash,
                 FirstName = firstName,
                 LastName = lastName,
                 Roles = userRole,
                 IsActive = true,
-                IsExternal = isExternalUser
+                IsExternal = isExternal,
+                AuthProvider = authProvider
             };
 
             await _context.Users.AddAsync(user);

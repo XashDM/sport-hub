@@ -10,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SportHub.Domain.Models;
+using Microsoft.AspNetCore.Http;
+using SportHub.Views;
+using System.Linq;
 
 namespace SportHub.Controllers
 {
@@ -18,12 +21,16 @@ namespace SportHub.Controllers
     public class ArticlesController : ControllerBase
     {
         private readonly IGetArticleService _articleService;
+        private readonly IGetAdminArticlesService _adminArticlesService;
         private readonly IImageService _imageService;
+        private readonly ISearchService _searchArticles;
 
-        public ArticlesController(IGetArticleService articleService, IImageService imageService)
+        public ArticlesController(IGetArticleService articleService, IGetAdminArticlesService adminArticlesService, IImageService imageService, ISearchService searchArticles)
         {
             _articleService = articleService;
             _imageService = imageService;
+            _searchArticles = searchArticles;
+            _adminArticlesService = adminArticlesService;
         }
 
         [HttpGet(nameof(GetAllCategories))]
@@ -255,6 +262,34 @@ namespace SportHub.Controllers
             return Ok(image);
         }
 
+        [HttpPost(nameof(SearchArticlesRange))]
+        [AllowAnonymous]
+        public async Task<IActionResult> SearchArticlesRange([FromBody] ArticlesSearch articleInfo)
+        {
+            var articles = _searchArticles.ArticleSearchLimits(articleInfo.searchValue, articleInfo.startPosition, articleInfo.amountArticles);
+            IList<ArticleForSearchResult> articleForSearchResult = new List<ArticleForSearchResult>();
+            
+            for (int i = 0; i < articles.Count; i++)
+            {
+                ArticleForSearchResult articleSearchResult = new ArticleForSearchResult();
+                articleSearchResult.Id = articles[i].Id;
+                articleSearchResult.ContentText = articles[i].ContentText;
+                articleSearchResult.Category = _articleService.GetArticlesCategory(articles[i].Id);
+                articleSearchResult.Subcategory = _articleService.GetArticlesSubcategory(articles[i].Id);
+                articleSearchResult.Team = _articleService.GetArticlesTeam(articles[i].Id);
+                articleForSearchResult.Add(articleSearchResult);
+            }
+
+            return new OkObjectResult(articleForSearchResult);
+        }
+
+        [HttpPost(nameof(ArticlesRange))]
+        [AllowAnonymous]
+        public async Task<IActionResult> ArticlesRange([FromBody] ArticlesSearch articleInfo)
+        {
+            var articles = _searchArticles.ArticleSearchAllTree(articleInfo.searchValue).Skip(articleInfo.startPosition).Take(articleInfo.amountArticles);
+            return new OkObjectResult(articles);
+        }
     }
 }
 

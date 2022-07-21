@@ -1,4 +1,5 @@
 ﻿let allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+var mainArticlesPerPage = 15;
 
 $('#main-articles-block').on('click', '.add-new-button', () => {
     let maxArticleCount = 4;
@@ -83,9 +84,12 @@ $('#main-articles-block').on('change', 'select[name="main-a-categories"]', funct
     const subcategoriesSelect = outerBox.find('select[name="main-a-subcategories"]');
     const teamsSelect = outerBox.find('select[name="main-a-teams"]');
     const articlesSelect = outerBox.find('.custom-selector-body');
+
+    articlesSelect.attr('value', 1);
+
     getAllSubcategoriesByCategoryId(subcategoriesSelect, categoryId);
     getAllTeamsByParentId(teamsSelect, categoryId);
-    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, 20), categoryId);
+    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, mainArticlesPerPage), categoryId);
 });
 
 $('#main-articles-block').on('change', 'select[name="main-a-subcategories"]', function () {
@@ -99,8 +103,11 @@ $('#main-articles-block').on('change', 'select[name="main-a-subcategories"]', fu
     resetNextSelectElementsByContainer(outerBox, 1);
     const teamsSelect = outerBox.find('select[name="main-a-teams"]');
     const articlesSelect = outerBox.find('.custom-selector-body');
+
+    articlesSelect.attr('value', 1);
+
     getAllTeamsByParentId(teamsSelect, subcategoryId);
-    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, 15), subcategoryId);
+    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, mainArticlesPerPage), subcategoryId);
 });
 
 $('#main-articles-block').on('change', 'select[name="main-a-teams"]', function () {
@@ -114,7 +121,9 @@ $('#main-articles-block').on('change', 'select[name="main-a-teams"]', function (
     resetNextSelectElementsByContainer(outerBox, 2);
     const articlesSelect = outerBox.find('.custom-selector-body');
 
-    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, 15), teamId);
+    articlesSelect.attr('value', 1);
+
+    getAllArticlesByParentId(articlesSelect, generatePageArguments(1, mainArticlesPerPage), teamId);
 });
 
 $('#main-articles-block').on('click', '.main-a-articles-selector', function () {
@@ -133,25 +142,25 @@ $('#main-articles-block').on('click', '.custom-selector-body option', function (
     selector.text(selectedOption.text());
 });
 
-var scrollLimit = 100;
 var scrollFlag = true;
 
 document.addEventListener('scroll', function (event) {
     if ($(event.target).attr('class') === 'custom-selector-body') {
-        let currentScrollLimitValue = $(event.target).attr('value');
-        if (!currentScrollLimitValue) {
-            currentScrollLimitValue = scrollLimit;
-            $(event.target).attr('value', scrollLimit);
+        let currentPage = $(event.target).attr('value');
+
+        if (!currentPage) {
+            currentPage = 1;
+            $(event.target).attr('value', currentPage);
         }
-        if ($(event.target).scrollTop() > currentScrollLimitValue && scrollFlag === true) {
+        
+        if ($(event.target).scrollTop() + event.target.offsetHeight + 10 > event.target.scrollHeight && scrollFlag === true) {
             scrollFlag = false;
 
-            currentScrollLimitValue = parseInt(currentScrollLimitValue) + 100;
-            $(event.target).attr('value', currentScrollLimitValue);
+            const nextPage = parseInt(currentPage) + 1;
+            $(event.target).attr('value', nextPage);
 
-            const page = (currentScrollLimitValue / 100);
-            const lastArticleLoadedReferenceId = $(event.target).parent().find('.custom-selector-body option').last().val().split(',')[1];
-            getAllArticlesByParentId($(event.target), generatePageArguments(page, 15), lastArticleLoadedReferenceId, -1, false, false);
+            const firstArticleLoadedReferenceId = $(event.target).parent().find('.custom-selector-body option').first().val().split(',')[1];
+            getAllArticlesByParentId($(event.target), generatePageArguments(nextPage, mainArticlesPerPage), firstArticleLoadedReferenceId, -1, false, false);
         }
     }
 }, true);
@@ -392,7 +401,7 @@ function displayConfigurationBlocks(mainArticles) {
             getAllSubcategoriesByCategoryId(subcategorySelector, parentsArray[parentsArray.length - 1].id);
             getAllTeamsByParentId(teamSelector, parentsArray[parentsArray.length - 1].id, parentsArray[0].id);
         }
-        getAllArticlesByParentId(articleSelector, generatePageArguments(1, 15), parentsArray[0].id, currentArticle);
+        getAllArticlesByParentId(articleSelector, generatePageArguments(1, mainArticlesPerPage), parentsArray[0].id, currentArticle);
 
         isDisplayedCheckbox.prop('checked', currentIsDisplayedState);
 

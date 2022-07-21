@@ -1,6 +1,7 @@
 ﻿using SportHub.Config.JwtAuthentication;
 using SportHub.Models;
 using SportHub.Services;
+using SportHub.Services.Exceptions.ExternalAuthExceptions;
 using System;
 using System.Threading.Tasks;
 
@@ -14,10 +15,11 @@ namespace SportHub.OAuthRoot.Strategies
             {
                 if (externalAuthArgs.Email == null || externalAuthArgs.FirstName == null || externalAuthArgs.LastName == null)
                 {
-                    throw new ArgumentNullException();
+                    throw new InvalidAuthDataException();
                 }
 
-                var createdUser = await _userService.CreateUser(externalAuthArgs.Email, null, externalAuthArgs.FirstName, externalAuthArgs.LastName, true);
+                var createdUser = await _userService.CreateUser(externalAuthArgs.Email, null, externalAuthArgs.FirstName, externalAuthArgs.LastName, 
+                                                            ExternalAuthProvidersEnum.Facebook.ToString(), true);
                 var authToken = _jwtSigner.FetchToken(createdUser);
 
                 return authToken;
@@ -26,13 +28,19 @@ namespace SportHub.OAuthRoot.Strategies
             {
                 if (externalAuthArgs.Email == null)
                 {
-                    throw new ArgumentNullException();
+                    throw new InvalidAuthDataException();
                 }
 
                 var existingUser = _userService.GetUserByEmail(externalAuthArgs.Email);
-                var authToken = _jwtSigner.FetchToken(existingUser);
 
-                return authToken;
+                if (existingUser.AuthProvider.Equals(ExternalAuthProvidersEnum.Facebook.ToString()))
+                {
+                    var authToken = _jwtSigner.FetchToken(existingUser);
+
+                    return authToken;
+                }
+
+                return null;
             }
         }
     }
