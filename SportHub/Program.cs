@@ -43,6 +43,7 @@ builder.Services.AddDbContext<SportHubDBContext>(options =>
 });
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddSingleton<IExternalAuthHandlerFactory, ExternalAuthHandlerFactory>();
 builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();
 builder.Services.AddScoped<INavigationItemService, MainNavigationItemService>();

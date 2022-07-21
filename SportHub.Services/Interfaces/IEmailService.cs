@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SportHub.Domain.Models;
 
-namespace SportHub.Services
+namespace SportHub.Services.Interfaces
 {
     public interface IEmailService
     {

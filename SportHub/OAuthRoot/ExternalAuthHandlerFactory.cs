@@ -1,6 +1,9 @@
-﻿using SportHub.Models;
+﻿using SportHub.Config.JwtAuthentication;
+using SportHub.Models;
 using SportHub.OAuthRoot.Strategies;
+using SportHub.Services;
 using SportHub.Services.Exceptions.ExternalAuthExceptions;
+using SportHub.Services.Interfaces;
 using System;
 
 namespace SportHub.OAuthRoot

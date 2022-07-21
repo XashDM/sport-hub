@@ -26,7 +26,7 @@ function sendExternalAuthAjaxRequest(token, isSignup, authProvider, email = null
             'LastName': lastname
         }),
         success: function (jwtToken) {
-            localStorage.setItem('Jwt Token', jwtToken);
+            localStorage.setItem('Jwt Token', jwtToken.accessToken);
             window.location.href = '/';
         },
         error: function (response) {

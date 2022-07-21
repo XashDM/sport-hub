@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using SportHub.Domain.Models;
+using SportHub.Models;
 
 namespace SportHub.Config.JwtAuthentication
 {
@@ -21,33 +22,57 @@ namespace SportHub.Config.JwtAuthentication
             _privateRsaKey = new RsaSecurityKey(rsa);
         }
 
-        public string FetchToken(User user)
+        public AccessToken FetchToken(User user)
         {
+            var tokenGuid = Guid.NewGuid().ToString();
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = "SportHub",
                 Audience = "SportHub",
-                Subject = new ClaimsIdentity(CreateTokenClaims(user)),
+                Subject = new ClaimsIdentity(CreateTokenClaims(user, tokenGuid)),
                 IssuedAt = DateTime.UtcNow,
-                Expires = DateTime.UtcNow.AddMinutes(45),
-                SigningCredentials = new SigningCredentials(_privateRsaKey, SecurityAlgorithms.RsaSha256Signature)
+                Expires = DateTime.UtcNow.AddSeconds(59),
+                SigningCredentials = new SigningCredentials(_privateRsaKey, SecurityAlgorithms.RsaSha256)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+
+            return new AccessToken() { Id = tokenGuid, TokenJwt = tokenHandler.WriteToken(token) };
+        }
+        public TokenValidationParameters GetTokenValidationParameters()
+        {
+            return new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = FetchPKey(),
+                ValidateIssuer = true,
+                ValidIssuer = "SportHub",
+                ValidAlgorithms = new string[] { SecurityAlgorithms.RsaSha256.ToString() },
+                ValidateAudience = true,
+                ValidAudience = "SportHub",
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
+                CryptoProviderFactory = new CryptoProviderFactory()
+                {
+                    CacheSignatureProviders = false
+                }
+            };
         }
 
         public RsaSecurityKey FetchPKey()
         {
             return _privateRsaKey;
         }
-        private List<Claim> CreateTokenClaims(User user)
+
+        private List<Claim> CreateTokenClaims(User user, string tokenId)
         {
             List<Claim> claimsList = new List<Claim>();
             claimsList.Add(new Claim(ClaimTypes.Email, user.Email));
             claimsList.Add(new Claim(ClaimTypes.Surname, user.LastName));
             claimsList.Add(new Claim(ClaimTypes.Name, user.FirstName));
+            claimsList.Add(new Claim(ClaimTypes.Sid, tokenId));
+            claimsList.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             foreach (var userRole in user.Roles)
             {
                 claimsList.Add(new Claim(ClaimTypes.Role, userRole.RoleName));

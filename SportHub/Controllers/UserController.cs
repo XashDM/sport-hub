@@ -7,6 +7,7 @@ using SportHub.Models;
 using SportHub.OAuthRoot;
 using SportHub.Services;
 using SportHub.Services.Exceptions.RootExceptions;
+using SportHub.Services.Interfaces;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -20,14 +21,16 @@ namespace SportHub.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IJwtSigner _jwtSigner;
         private readonly IExternalAuthHandlerFactory _externalAuthHandlerFactory;
+        private readonly ITokenService _tokenService;
+        private readonly IJwtSigner _jwtSigner;
 
-        public UsersController(IUserService userService, IJwtSigner jwtSigner, IExternalAuthHandlerFactory externalAuthHandlerFactory)
+        public UsersController(IUserService userService, IExternalAuthHandlerFactory externalAuthHandlerFactory, ITokenService tokenService, IJwtSigner jwtSigner)
         {
             _userService = userService;
-            _jwtSigner = jwtSigner;
             _externalAuthHandlerFactory = externalAuthHandlerFactory;
+            _tokenService = tokenService;
+            _jwtSigner = jwtSigner;
         }
 
         [HttpPost(nameof(HandleExternalAuth))]
@@ -37,11 +40,11 @@ namespace SportHub.Controllers
             try
             {
                 var externalAuthHandler = _externalAuthHandlerFactory.GetAuthHandler(externalAuthArgs.IsCreationRequired, externalAuthArgs.AuthProvider);
-                var authToken = await externalAuthHandler.HandleExternalAuth(externalAuthArgs, _userService, _jwtSigner);
+                var userTokens = await externalAuthHandler.HandleExternalAuth(externalAuthArgs, _userService, _tokenService, _jwtSigner);
 
-                if (authToken != null)
+                if (userTokens != null)
                 {
-                    return Ok(authToken);
+                    return Ok(userTokens);
                 }
 
                 return StatusCode(400, "Cannot authenticate user");
