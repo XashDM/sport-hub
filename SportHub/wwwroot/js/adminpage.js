@@ -507,6 +507,7 @@ $('.close-button').on('click', function () {
 
 $(document).ready(() => {
     getAllCategories();
+    console.log("Cats are here");
     getMainArticles();
     GetPhotoOfTheDay();
 });

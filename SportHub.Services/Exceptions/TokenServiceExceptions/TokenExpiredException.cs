@@ -4,6 +4,6 @@ namespace SportHub.Services.Exceptions.TokenServiceExceptions
 {
     public class TokenExpiredException : TokenServiceException
     {
-        public TokenExpiredException() : base($"Token has expired", 400) { }
+        public TokenExpiredException() : base($"Token has expired", 400, true) { }
     }
 }

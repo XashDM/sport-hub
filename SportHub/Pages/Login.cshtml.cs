@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -55,7 +56,14 @@ namespace SportHub.Pages
                 var accessToken = _jwtSigner.FetchToken(currentUser);
                 var refreshToken = await _tokenService.CreateRefreshTokenAsync(accessToken.Id, currentUser.Id);
 
-                return new JsonResult(new AuthTokenResponse() { AccessToken = accessToken.TokenJwt, RefreshToken = refreshToken.Token });
+                Response.Cookies.Append("RefreshToken", refreshToken.Token, new CookieOptions()
+                {
+                    HttpOnly = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddDays(7)
+                });
+
+                return new JsonResult(new AccessTokenJwt() { Token = accessToken.TokenJwt });
             }
             catch (UserServiceException e)
             {

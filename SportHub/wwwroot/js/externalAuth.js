@@ -15,7 +15,7 @@ function sendExternalAuthAjaxRequest(token, isSignup, authProvider, email = null
             'Content-Type': 'application/json'
         },
         async: true,
-        url: '/api/Users/HandleExternalAuth',
+        url: '/api/Auth/HandleExternalAuth',
         type: 'post',
         data: JSON.stringify({
             'UserToken': token,
@@ -25,8 +25,8 @@ function sendExternalAuthAjaxRequest(token, isSignup, authProvider, email = null
             'FirstName': firstname,
             'LastName': lastname
         }),
-        success: function (jwtToken) {
-            localStorage.setItem('Jwt Token', jwtToken.accessToken);
+        success: function (token) {
+            localStorage.setItem('Jwt Token', token);
             window.location.href = '/';
         },
         error: function (response) {

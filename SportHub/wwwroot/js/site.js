@@ -12,6 +12,41 @@ async function sha256(message) {
     return hashHex;
 }
 
+$(document).ajaxSend(function (event, jqxhr, settings) {
+    if (settings.url == '/api/Auth/RefreshToken') {
+        return;
+    }
+
+    refreshToken();
+});
+
+function refreshToken () {
+    const jwtToken = localStorage.getItem('Jwt Token');
+    if (jwtToken) {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            async: false,
+            url: '/api/Auth/RefreshToken',
+            type: 'post',
+            data: JSON.stringify({
+                'Token': jwtToken,
+            }),
+            success: function (token) {
+                localStorage.setItem('Jwt Token', token);
+            },
+            error: function (response) {
+                console.error(response);
+                if (response.isReloginRequired == true) {
+                    window.location.href = window.location.origin + '/Login';
+                }
+            }
+        });
+    }   
+};
+
 $("#loginForm").submit((event) => {
     event.preventDefault();
     const emailAddress = $("#field_email").val().toString();
@@ -35,7 +70,7 @@ function Login(email, passwordHash) {
             'PasswordHash': passwordHash
         },
         success(response) {
-            localStorage.setItem('Jwt Token', response.accessToken);
+            localStorage.setItem('Jwt Token', response.token);
             window.location.href = '/Index'
         },
         error(errorThrown) {
@@ -123,7 +158,6 @@ function searchField() {
     };
 
     if (searchValue != "") {
-
         $.ajax({
             method: 'post',
             url: '/api/Articles/ArticlesRange',
@@ -303,7 +337,6 @@ function updateSearchAfterScrolling() {
         startPosition: startElementPosition,
         amountArticles: amountOfElements,
     };
-
     $.ajax({
         method: 'post',
         url: '/api/Articles/ArticlesRange',

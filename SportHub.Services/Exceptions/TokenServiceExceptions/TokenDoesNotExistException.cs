@@ -4,6 +4,6 @@ namespace SportHub.Services.Exceptions.TokenServiceExceptions
 {
     public class TokenDoesNotExistException : TokenServiceException
     {
-        public TokenDoesNotExistException() : base($"Provided token does non exist", 404) { }
+        public TokenDoesNotExistException() : base($"Provided token does not exist", 404) { }
     }
 }

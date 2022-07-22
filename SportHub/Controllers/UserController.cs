@@ -21,46 +21,10 @@ namespace SportHub.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IExternalAuthHandlerFactory _externalAuthHandlerFactory;
-        private readonly ITokenService _tokenService;
-        private readonly IJwtSigner _jwtSigner;
 
-        public UsersController(IUserService userService, IExternalAuthHandlerFactory externalAuthHandlerFactory, ITokenService tokenService, IJwtSigner jwtSigner)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
-            _externalAuthHandlerFactory = externalAuthHandlerFactory;
-            _tokenService = tokenService;
-            _jwtSigner = jwtSigner;
-        }
-
-        [HttpPost(nameof(HandleExternalAuth))]
-        [AllowAnonymous]
-        public async Task<IActionResult> HandleExternalAuth(ExternalAuthArgs externalAuthArgs)
-        {
-            try
-            {
-                var externalAuthHandler = _externalAuthHandlerFactory.GetAuthHandler(externalAuthArgs.IsCreationRequired, externalAuthArgs.AuthProvider);
-                var userTokens = await externalAuthHandler.HandleExternalAuth(externalAuthArgs, _userService, _tokenService, _jwtSigner);
-
-                if (userTokens != null)
-                {
-                    return Ok(userTokens);
-                }
-
-                return StatusCode(400, "Cannot authenticate user");
-            }
-            catch (UserServiceException e)
-            {
-                return StatusCode(e.StatusCode, e.Message);
-            }
-            catch (ExternalAuthException e)
-            {
-                return StatusCode(e.StatusCode, e.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Something went wrong");
-            }
         }
 
         [HttpPost(nameof(ResetPassword))]
