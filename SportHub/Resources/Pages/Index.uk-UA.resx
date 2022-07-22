@@ -120,6 +120,9 @@
   <data name="BREAKDOWN" xml:space="preserve">
     <value>СВІЖІ НОВИНИ</value>
   </data>
+  <data name="DAY" xml:space="preserve">
+    <value />
+  </data>
   <data name="MORE" xml:space="preserve">
     <value>БІЛЬШЕ</value>
   </data>
@@ -128,6 +131,12 @@
   </data>
   <data name="MOST POPULAR" xml:space="preserve">
     <value>НАЙБІЛЬШ ПОПУЛЯРНІ</value>
+  </data>
+  <data name="OF THE" xml:space="preserve">
+    <value>ДНЯ</value>
+  </data>
+  <data name="PHOTO" xml:space="preserve">
+    <value>ФОТО</value>
   </data>
   <data name="PHOTO OF THE DAY" xml:space="preserve">
     <value>ФОТО ДНЯ</value>

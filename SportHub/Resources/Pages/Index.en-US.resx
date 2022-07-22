@@ -120,6 +120,9 @@
   <data name="BREAKDOWN" xml:space="preserve">
     <value>BREAKDOWN</value>
   </data>
+  <data name="DAY" xml:space="preserve">
+    <value>DAY</value>
+  </data>
   <data name="MORE" xml:space="preserve">
     <value>MORE</value>
   </data>
@@ -128,6 +131,12 @@
   </data>
   <data name="MOST POPULAR" xml:space="preserve">
     <value>MOST POPULAR</value>
+  </data>
+  <data name="OF THE" xml:space="preserve">
+    <value>OF THE</value>
+  </data>
+  <data name="PHOTO" xml:space="preserve">
+    <value>PHOTO</value>
   </data>
   <data name="PHOTO OF THE DAY" xml:space="preserve">
     <value>PHOTO OF THE DAY</value>
