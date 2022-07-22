@@ -412,6 +412,11 @@ function displayConfigurationBlocks(mainArticles) {
 
 function GetPhotoOfTheDay() {
     $.ajax({
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
         async: true,
         url: "/api/Articles/GetPhotoOfTheDay",
         type: "GET",
@@ -481,6 +486,11 @@ function uploadPhotoOfTheDay() {
     isDisplayed = $('#photo-of-day-isDisplayed').prop('checked')
     fd.append('isDisplayed', isDisplayed);
     $.ajax({
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
         async: true,
         url: "/api/Articles/UploadPhotoOfTheDay",
         type: "PUT",

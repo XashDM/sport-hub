@@ -200,7 +200,7 @@ namespace SportHub.Controllers
             }
         }
         [HttpPut(nameof(UploadPhotoOfTheDay))]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UploadPhotoOfTheDay([FromForm] PhotoOfTheDayModel photo)
         {
             string link = null;
@@ -245,7 +245,7 @@ namespace SportHub.Controllers
 
         //admin only
         [HttpGet(nameof(GetPhotoOfTheDay))]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetPhotoOfTheDay()
         {
             //image is DisplayItem
