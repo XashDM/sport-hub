@@ -32,7 +32,7 @@ namespace SportHub.Config.JwtAuthentication
                 Audience = "SportHub",
                 Subject = new ClaimsIdentity(CreateTokenClaims(user, tokenGuid)),
                 IssuedAt = DateTime.UtcNow,
-                Expires = DateTime.UtcNow.AddSeconds(20),
+                Expires = DateTime.UtcNow.AddSeconds(60),
                 SigningCredentials = new SigningCredentials(_privateRsaKey, SecurityAlgorithms.RsaSha256)
             };
 

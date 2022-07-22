@@ -34,8 +34,8 @@ function Login(email, passwordHash) {
             'Email': email,
             'PasswordHash': passwordHash
         },
-        success(token) {
-            localStorage.setItem('Jwt Token', token);
+        success(response) {
+            localStorage.setItem('Jwt Token', response.accessToken);
             window.location.href = '/Index'
         },
         error(errorThrown) {
