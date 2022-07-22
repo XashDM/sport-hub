@@ -3,7 +3,6 @@ if (token) {
     var parseToken = JSON.parse(atob(token.split('.')[1]));
 }
 
-if (parseToken.role == "User") {
-    console.log("u a not an admin");
+if (!parseToken.role.includes("Admin")) {
     window.location.replace("/");
 }

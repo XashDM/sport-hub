@@ -133,7 +133,7 @@
     }
 
     function isAdmin(token) {
-        if (token.role == "Admin") {
+        if (token.role.includes("Admin")) {
             $('.user-role').text("Administrator");
         }
         else{
