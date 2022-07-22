@@ -22,8 +22,6 @@ namespace SportHub.Controllers
 
         public IActionResult LocalizatonIndex()
         {
-            var test = _localizer["LANGUAGES"];
-            ViewData["LANGUAGES"] = test;
             return View();
         }
 

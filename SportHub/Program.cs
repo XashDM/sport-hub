@@ -78,10 +78,10 @@ builder.Services.Configure<RequestLocalizationOptions>(
     {
         var supportedCultres = new List<CultureInfo>
         {
-            new CultureInfo ("en"),
+            new CultureInfo("en-US"),
             new CultureInfo("uk-UA")
         };
-        opt.DefaultRequestCulture = new RequestCulture("en");
+        opt.DefaultRequestCulture = new RequestCulture("en-US");
         opt.SupportedCultures = supportedCultres;
         opt.SupportedUICultures = supportedCultres;
     });
