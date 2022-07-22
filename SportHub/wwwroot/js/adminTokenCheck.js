@@ -4,6 +4,5 @@ if (token) {
 }
 
 if (!parseToken.role.includes("Admin")) {
-    console.log("u a not an admin");
     window.location.replace("/");
 }
