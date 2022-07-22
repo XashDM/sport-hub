@@ -1,7 +1,11 @@
 ﻿@page "/addlanguage"
 @model SportHub.Pages.Localization.AddLanguageModel
 @{
+    Layout = "_AdminLayout";
 }
+
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using Microsoft.Extensions.Localization
 
 <!DOCTYPE html>
 <html>
@@ -14,7 +18,7 @@
     <div class="bg-image"></div>
 
     <div class="form-group">
-        <div class="myMultiselectLable">Add language</div>
+        <div class="myMultiselectLable">@localizer["Add language"]</div>
         <div id="myMultiselect" class="multiselect">
 
             <div id="mySelectLabel" class="selectBox" onclick="toggleCheckboxArea()">
@@ -27,10 +31,10 @@
                 @foreach (var language in Model.LanguageList)
                 {
                     <label for="@language.Id">
-                    @language.LanguageName 
                     <input type="checkbox" id="@language.Id"
                            onchange="checkboxStatusChange()"
                            value="@language.LanguageName" />
+                    @localizer[@language.LanguageName]
                     </label>
                 }
             </div>

@@ -17,3 +17,8 @@
       
     });
 });
+
+
+$(document).ready(function () {
+    $('#localization-page-button').toggleClass('red-accent-img');
+});
