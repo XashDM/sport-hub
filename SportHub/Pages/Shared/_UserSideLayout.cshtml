@@ -25,10 +25,37 @@
                     </div>
                 </div>
                 <div class="search-box">
-                    <form style="display: flex; margin: auto;">
-                        <button id="search-button"><img src="~/icons/search-icon.png" class="header-icons" alt="Search!" /></button>
-                        <input type="search" id="header-search-field" class="lable" placeholder=@localizer["Search..."] />
-                    </form>
+                    <div class="search-button-and-field-input">
+                        <button id="search-button" onclick="moveToSearchPage()" ><img src="~/icons/search-icon.png" class="header-icons" alt="Search!" /></button>
+                        <input type="text" id="header-search-field" class="lable" placeholder="Search..." oninput="searchFieldWithTimeLimit()" autocomplete="off" />
+                    </div>
+                    
+                    <div class="search-result-articles" onscroll="searchScroll()" id="search-field-tag">
+                        
+                    </div>
+
+                    <div class="search-result-articles-copy">
+                        <div class="search-article-info">
+                            <a id="article-href">
+                                <div class="search-article-top-info">
+                                    <div class="search-article-category-name">
+
+                                    </div>
+                                    <img id="image-in-search-between-category-subcategory" class="image-arrow-in-search" src=~/images/combined-shape-grey.svg/>
+                                    <div class="search-article-subcategory-name">
+
+                                    </div>
+                                    <img id="image-in-search-between-subcategory-team" class="image-arrow-in-search" src=~/images/combined-shape.svg/>
+                                    <div class="search-article-team-name">
+
+                                    </div>
+                                </div>
+                                <div class="search-article-bottom-content">
+            
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="social-media-box">
@@ -117,6 +144,7 @@
             <p class="regular-text">Copyright ©2022 SportHub</p>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/DataClass.js" asp-append-version="true"></script>
@@ -128,6 +156,7 @@
             displayLogInOut();
             displayData();
         });
+
     </script>
 </body>
 </html>

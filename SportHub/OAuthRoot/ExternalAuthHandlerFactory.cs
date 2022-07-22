@@ -1,5 +1,6 @@
 ﻿using SportHub.Models;
 using SportHub.OAuthRoot.Strategies;
+using SportHub.Services.Exceptions.ExternalAuthExceptions;
 using System;
 
 namespace SportHub.OAuthRoot
@@ -23,7 +24,7 @@ namespace SportHub.OAuthRoot
             }
             else
             {
-                throw new ArgumentOutOfRangeException();
+                throw new InvalidAuthProviderException();
             }
         }
     }

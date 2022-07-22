@@ -14,7 +14,7 @@ $(document).ready(function () {
         $('#page-header-name').text("All categories");
     }
 
-    // відслюдковую позицію скролера
+    // відслідковую позицію скролера
     let hiddenDivSize = $('.get-admins-articles-scroll-position').height();
     let visibleDivSize = $('.get-admins-articles-container-body').height();
     let scrollHeight = hiddenDivSize - visibleDivSize;
@@ -47,31 +47,30 @@ function updateArticlesAfterScrolling() {
     if (selectedPublish == 'All') {
         selectedPublish = null;
     }
-
+    var searchPostValue = $('.get-admins-articles-search-field-field').val();
     let articleDisplayParameters = {
         startPosition: startElementPosition,
         amountArticles: amountOfElements,
         publishValue: selectedPublish,
         category: category,
         subcategory: selectedSubcategory,
-        team: selectedTeam
+        team: selectedTeam,
+        search: searchPostValue
     };
 
     $.ajax({
         method: 'post',
         url: '/articles',
-        dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify(articleDisplayParameters),
         success: function (articles) {
             amountOfArticles = articles.length;
-            
             for (var i = 0; i < amountOfArticles; i++) {
                 var articleField = $('.get-admins-articles-elements:first')
                     .clone().attr('id', `article-with-id-${articles[i].id}`)
                     .insertAfter("div.get-admins-articles-elements:last");
                 articleField.find('.get-admins-articles-elements').attr('id', `article-with-id-${articles[i].id}`);
-                articleField.find('.get-admins-articles-image').attr('src', articles[i].imageLink);
+                articleField.find('.get-admins-articles-image').attr('src', articles[i].imageItem.imageLink);
                 articleField.find('.get-admins-articles-image-container-a').attr('href', `/Articles/Details?id=${articles[i].id}`);
                 articleField.find('.get-admins-articles-title').text(articles[i].title);
                 articleField.find('.get-admins-articles-content-text').text(articles[i].contentText);
@@ -101,11 +100,11 @@ function updateArticlesAfterScrolling() {
                     'id', `isPublishedButton-${articles[i].id}`);
                 articleField.find('.get-admins-articles-published-info-outside').attr('id', `articlePublishFooter-${articles[i].id}`);
                 articleField.find('.get-admins-articles-published-info').attr('id', `publishedForUnpublished-${articles[i].id}`);
-                articleField.find('.get-admins-articles-delete').attr('onclick', `deleteArticleFunction(${articles[i].id})`);
+                articleField.find('.get-admins-articles-delete').attr('onclick', `openDeletePopUp(${articles[i].id})`);
 
                 articleField.find('.get-admins-articles-move-button').attr('onclick', `openMove(${articles[i].id})`);
                 articleField.find('.get-admins-articles-dropdown-move-content').attr('id', `article-move-${articles[i].id}`);
-                
+
                 // move buttons
                 articleField.find('.get-admins-articles-dropdown-move-content-item').map(function () {
                     let idWithCategory = this.id.split("-").pop();
@@ -126,8 +125,8 @@ function updateArticlesAfterScrolling() {
                     articleField.find('.get-admins-articles-edit').attr('id', `edit-${articles[i].id}`);
                     articleField.find('.get-admins-articles-edit').attr('href', `/Articles/Details?id=${articles[i].id}`);
                     articleField.find('.get-admins-articles-edit').css("display", "none");
-                }  
-            } 
+                }
+            }
             startElementPosition += amountOfElements;
         }
     });
@@ -141,8 +140,15 @@ function openDropdownFunction(articleId) {
 }
 
 function findHideSearchField() {
-    $("#search-field").toggle();
-    $("#search-field").focus();
+    if ($("#search-field").css('display') == 'block') {
+        const searchValueFind = $('#search-field').val();
+        $(location).attr('href', `/search?searchValue=${searchValueFind}`);
+    }
+    else {
+        $("#search-field").show();
+        $("#search-field").focus();
+    }
+
 }
 
 function openDeletePopUp(articleId) {
@@ -244,4 +250,28 @@ function changeArticleCategory(articleId, categoryId) {
             $("#publish-banner").delay(1000).fadeOut(500);
         }
     });
+}
+
+function redirectToSearchPage() {
+    if (this.key == "Enter") {
+        const searchValueFind = $('#search-field').val();
+        $(location).attr('href', `/search?searchValue=${searchValueFind}`);
+    }
+}
+
+window.onload = function () {
+    var input2 = $('#search-field');
+    // Execute a function when the user presses a key on the keyboard
+    input2[0].addEventListener("keypress", function (event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter") {
+            const searchValueFind = $('#search-field').val();
+            $(location).attr('href', `/search?searchValue=${searchValueFind}`);
+        }
+    });
+}
+
+function moveToSearchPage() {
+    const searchValue = $('#header-search-field').val();
+    $(location).attr('href', `/search?searchValue=${searchValue}`);
 }

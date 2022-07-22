@@ -1,0 +1,75 @@
+﻿@page
+@model SportHub.Pages.SearchModel
+@{
+    if (Model.IsAdmin == true)
+    {
+        Layout = "_AdminLayout";
+        @section SaveButton {
+            <div class="middle-header">
+                <p class="search-page-info-title" id="page-header-name">Search</p>
+            </div>
+        }
+    }
+    else
+    {
+        Layout = "_UserSideLayout";
+    }
+    ViewData["Title"] = "Search";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SportHub</title>
+    <link rel="stylesheet" href="~/css/searchPageResult.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SportHub.styles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/js/searchPageArticlesUpdate.js"></script>
+</head>
+
+<div class="search-page-all-content">
+    <div class="search-page-result">
+        <div class="search-page-result-name">
+            @(Model.Title + " ")
+        </div>
+        <div class="search-page-result-amount" style=@(Model.AmountOfFindedTitles == 0 ? "display:none":"")>
+            (@Model.AmountOfFindedTitles)
+        </div>
+    </div>
+
+    <div class="search-page-search-result-articles" onscroll="searchScrollSearchPage()">  
+    @{
+        for (int index = 0; index<Model.ArticlesSearch.Count; index++) {
+            <div class="search-page-search-article-info">
+                <a id="article-href" asp-page="/Articles/Details" asp-route-id="@Model.ArticlesSearch[index].Id">
+                    <div class="search-page-search-content">
+                        <div class="search-page-search-article-top-info">
+                            <div class="search-page-search-article-category-name" style=@(Model.ArticlesSearch[index].Subcategory == "" ? "color:#D72130":"")>
+                                @Model.ArticlesSearch[index].Category
+                            </div>
+                            <img id="search-page-image-in-search-between-category-subcategory" style=@(Model.ArticlesSearch[index].Subcategory == "" ? "display:none":"") class="image-arrow-right-in-search" src=~/images/combined-shape-grey.svg/>
+                            <div class="search-page-search-article-subcategory-name" style=@(Model.ArticlesSearch[index].Team == "" ? "color:#D72130":"")>
+                                @Model.ArticlesSearch[index].Subcategory
+                            </div>
+                            <img id="search-page-image-in-search-between-subcategory-team" class="image-arrow-right-in-search" src=~/images/combined-shape.svg/>
+                            <div class="search-page-search-article-team-name" style=@(Model.ArticlesSearch[index].Team != "" ? "color:#D72130":"")>
+                                @Model.ArticlesSearch[index].Team
+                            </div>
+                        </div>
+                        <div class="search-page-search-article-bottom-content">
+                            @Model.ArticlesSearch[index].ContentText
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    }
+    </div>
+
+    <div class="no-articles-was-found" style=@(Model.AmountOfFindedTitles > 0 ? "display:none":"")>
+        <h2 class="">No matches found.</h2>
+        <div class="bottom-text-for-no-result">
+            Please try another search.
+        </div>
+    </div>
+</div>

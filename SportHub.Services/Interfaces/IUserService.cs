@@ -12,6 +12,7 @@ namespace SportHub.Services
         User ChangePassword(string email, string passwordHash);
 
         bool IsExistingEmail(string email);
+
         Task<IList<User>> GetAllUsersList();
 
         Task<IList<User>> GetAllAdminsList();
@@ -25,6 +26,7 @@ namespace SportHub.Services
         Task<bool> GrantAdminRoleByIdAsync(int userId);
 
         Task<bool> RemoveAdminRoleByIdAsync(int userId);
-        User CreateUser(string email, string? passwordHash, string firstName, string lastName, bool isExternal = false);
+
+        Task<User> CreateUser(string email, string? passwordHash, string firstName, string lastName, string? authProvider = null, bool isExternal = false);
     }
 }

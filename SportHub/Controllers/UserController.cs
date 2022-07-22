@@ -50,13 +50,9 @@ namespace SportHub.Controllers
             {
                 return StatusCode(e.StatusCode, e.Message);
             }
-            catch (ArgumentNullException)
+            catch (ExternalAuthException e)
             {
-                return BadRequest("Not supplied with requested data");
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return BadRequest("Invalid Auth provider");
+                return StatusCode(e.StatusCode, e.Message);
             }
             catch (Exception)
             {

@@ -12,117 +12,6 @@ async function sha256(message) {
     return hashHex;
 }
 
-function handleGoogleCredentialResponseSignup(googleUser) {
-    let token = googleUser.credential;
-    sendExternalAuthAjaxRequest(token, true, 'Google');
-};
-
-function handleGoogleCredentialResponseSignin(googleUser) {
-    let token = googleUser.credential;
-    sendExternalAuthAjaxRequest(token, false, 'Google');
-};
-
-function sendExternalAuthAjaxRequest(token, isSignup, authProvider, email = null, firstname = null, lastname = null) {
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        async: true,
-        url: '/api/Users/HandleExternalAuth',
-        type: 'post',
-        data: JSON.stringify({
-            'UserToken': token,
-            'AuthProvider': authProvider,
-            'IsCreationRequired': isSignup,
-            'Email': email,
-            'FirstName': firstname,
-            'LastName': lastname
-        }),
-        success: function (jwtToken) {
-            localStorage.setItem('Jwt Token', jwtToken);
-            window.location.href = '/';
-        },
-        error: function (response) {
-            console.error(response);
-            if (isSignup) {
-                if (response.statusCode === 500) {
-                    applySignupResponse('Something went wrong. Try again later', 'responce-danger-text');
-                    resetBorderColors();
-                    return;
-                }
-                applySignupResponse(response.responseJSON, 'response-danger-text');
-                resetBorderColors();
-            }
-            else {
-                if (response.statusCode === 500) {
-                    $('#form-result').text('Something went wrong. Try again later');
-                    $('#form-result').show();
-                    return;
-                }
-
-                $('#form-result').text(response.responseJSON);
-                $('#form-result').show();
-            }
-        }
-    });
-}
-
-window.fbAsyncInit = function () {
-    FB.init({
-        appId: '646098686739937',
-        oauth: true,
-        status: true, // check login status
-        cookie: true, // enable cookies to allow the server to access the session
-        xfbml: true // parse XFBML
-    });
-
-};
-
-function handleFacebookResponseSignup() {
-    FB.login(function (response) {
-        if (response.authResponse) {
-            const userToken = response.authResponse.accessToken;
-            FB.api(
-                "/me?fields=name,email",
-                function (response) {
-                    if (response) {
-                        const firstname = response.name.split(' ')[0];
-                        const lastname = response.name.split(' ')[1];
-                        sendExternalAuthAjaxRequest(userToken, true, 'Facebook', response.email, firstname, lastname);
-                    }
-                }
-            );
-        } 
-    }, {
-        scope: 'public_profile,email'
-    });
-}
-
-function handleFacebookResponseSignin() {
-    FB.login(function (response) {
-        if (response.authResponse) {
-            const userToken = response.authResponse.accessToken;
-            FB.api(
-                "/me?fields=name,email",
-                function (response) {
-                    if (response) {
-                        sendExternalAuthAjaxRequest(userToken, false, 'Facebook', response.email);
-                    }
-                }
-            );
-        }
-    }, {
-        scope: 'public_profile,email'
-    });
-}
-(function () {
-    var e = document.createElement('script');
-    e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-    e.async = true;
-    document.getElementById('fb-root').appendChild(e);
-}());
-
 $("#loginForm").submit((event) => {
     event.preventDefault();
     const emailAddress = $("#field_email").val().toString();
@@ -192,7 +81,326 @@ function displayLogInOut() {
     }
 }
 
-function logoutUser(){
+//search-results
+let noResultTop = 'No matches found.';
+let noResultBottom = 'Please try another search.';
+let variable;
+let checkTyping = false;
+function searchFieldWithTimeLimit() {
+    checkTyping = true;
+    variable = setTimeout(function () {
+        if (checkTyping == true) {
+            searchField();
+            checkTyping = false;
+        }
+    }, 1000);
+}
+
+$('#header-search-field').on('click', function () {
+    if ($('.search-result-articles').css('display') == 'none' && $(".lable").val() != '') {
+        $('main').css('z-index', '-1');
+        $('.search-result-articles').slideDown();
+    }
+});
+
+let amountOfArticlesInSearchField = 0;
+let startElementPosition = 10;
+let amountOfElements = 2;
+let amountToDelete;
+let displayedArticles = 0;
+let articleContentTextLength = 300;
+function searchField() {
+    clearTimeout(variable);
+
+    startElementPosition = 10;
+    let amountOfArticles;
+    let searchValue = $(".lable").val();
+
+    let searchParameters = {
+        searchValue: searchValue,
+        startPosition: 0,
+        amountArticles: 10,
+    };
+
+    if (searchValue != "") {
+
+        $.ajax({
+            method: 'post',
+            url: '/api/Articles/ArticlesRange',
+            contentType: 'application/json',
+            data: JSON.stringify(searchParameters),
+            success: function (articles) {
+                if (articles.length != 0) {
+                    $('main').css('z-index', '-1');
+                    amountOfArticles = articles.length;
+                    let articleIndex = 0;
+                    $('.search-result-articles').find('.search-article-info').map(function () {
+                        if (amountOfArticles > articleIndex) {
+                            $(this).find('#article-href').attr('href', `/Articles/Details?id=${articles[articleIndex].id}`);
+                            $(this).find('.search-article-category-name').text(articles[articleIndex].referenceItem.name);
+                            if (articles[articleIndex].referenceItem.parentsItem != null) {
+                                $(this).find('.search-article-subcategory-name').text(articles[articleIndex].referenceItem.parentsItem.name);
+                                if (articles[articleIndex].referenceItem.parentsItem.parentsItem != null) {
+                                    $(this).find('.search-article-team-name').text(articles[articleIndex].referenceItem.parentsItem.parentsItem.name);
+                                    $(this).find('.search-article-team-name').css('color', '#D72130');
+                                    $(this).find('.search-article-subcategory-name').css('color', '');
+                                    $(this).find('.search-article-category-name').css('color', '');
+                                }
+                                else {
+                                    $(this).find('.search-article-subcategory-name').css('color', '#D72130');
+                                    $(this).find('.search-article-team-name').text('');
+                                }
+                            }
+                            else {
+                                $(this).find('.search-article-category-name').css('color', '#D72130');
+                                $(this).find('.search-article-team-name').text('');
+                                $(this).find('.search-article-subcategory-name').text('');
+                                $(this).find('#image-in-search-between-category-subcategory').css('display', 'none');
+                            }
+
+                            let fieldFromArticle = articles[articleIndex].contentText;
+                            let articleContentText = "";
+                            for (var j = 0; j < fieldFromArticle.length; j++) {
+                                if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
+                                    articleContentText += `<span class="find-words-search-article-top-info"><b>${fieldFromArticle.substr(j, searchValue.length)}</b></span>`;
+                                    j += searchValue.length - 1;
+                                }
+                                else {
+                                    articleContentText += fieldFromArticle[j];
+                                }
+                            }
+                            $(this).find('.search-article-bottom-content').html(articleContentText.substr(0, articleContentTextLength));
+
+                            articleIndex++;
+                            $(this).show();
+                            $(this).appendTo('.search-result-articles');
+                        }
+                        else {
+                            $(this).remove();
+                        }
+                    });
+                    for (var i = articleIndex; i < amountOfArticles; i++) {
+                        var articleSearchField = $('.search-article-info:first')
+                            .clone().attr('id', `article-with-id-${articles[i].id}`).css('display', 'block')
+                            .appendTo('.search-result-articles');
+                        //add category, subcategory, team fields
+                        articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
+                        articleSearchField.find('.search-article-category-name').text(articles[i].referenceItem.name);
+                        if (articles[i].referenceItem.parentsItem != null) {
+                            articleSearchField.find('.search-article-subcategory-name').text(articles[i].referenceItem.parentsItem.name);
+                            if (articles[i].referenceItem.parentsItem.parentsItem != null) {
+                                articleSearchField.find('.search-article-team-name').text(articles[i].referenceItem.parentsItem.parentsItem.name);
+                                articleSearchField.find('.search-article-team-name').css('color', '#D72130');
+                                articleSearchField.find('.search-article-subcategory-name').css('color', '');
+                                articleSearchField.find('.search-article-category-name').css('color', '');
+                            }
+                            else {
+                                articleSearchField.find('.search-article-subcategory-name').css('color', '#D72130');
+                                articleSearchField.find('.search-article-team-name').text('');
+                            }
+                        }
+                        else {
+                            articleSearchField.find('.search-article-category-name').css('color', '#D72130');
+                            articleSearchField.find('.search-article-team-name').text('');
+                            articleSearchField.find('.search-article-subcategory-name').text('');
+                            articleSearchField.find('#image-in-search-between-category-subcategory').css('display', 'none');
+                        }
+
+                        let fieldFromArticle = articles[i].contentText;
+                        let articleContentText = "";
+                        for (var j = 0; j < fieldFromArticle.length; j++) {
+                            if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
+                                articleContentText += `<span class="find-words-search-article-top-info"><b>${fieldFromArticle.substr(j, searchValue.length)}</b></span>`;
+                                j += searchValue.length - 1;
+                            }
+                            else {
+                                articleContentText += fieldFromArticle[j];
+                            }
+                        }
+                        articleSearchField.find('.search-article-bottom-content').html(articleContentText.substr(0, articleContentTextLength));
+                    }
+                    $('.search-result-articles').slideDown('');
+                }
+                else {
+                    amountOfArticles = 0;
+                    console.log("no result");
+                    let categoryName = $('.search-article-info:first').find('.search-article-category-name').text().replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, "");
+                    console.log(categoryName, noResultTop.replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, ""));
+                    let availableArticles = 0;
+                    if (categoryName == noResultTop.replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, "")) {
+                        console.log("asdasd");
+                    }
+                    else {
+                        if (displayedArticles == 0) {
+                            var articleSearchField = $('.search-article-info:first')
+                                .clone().css('display', 'block')
+                                .appendTo('.search-result-articles');
+                            articleSearchField.find('.search-article-category-name').text(noResultTop);
+                            articleSearchField.find('.search-article-subcategory-name').text('');
+                            articleSearchField.find('.search-article-team-name').text('');
+                            articleSearchField.find('.search-article-bottom-content').text(noResultBottom);
+                            $('.search-result-articles').show();
+                            console.log("add some");
+                        }
+                        else {
+                            $('.search-result-articles').find('.search-article-info').map(function () {
+                                if (availableArticles == 0) {
+                                    $(this).css('display', 'block');
+                                    $(this).find('.search-article-category-name').text(noResultTop);
+                                    $(this).find('.search-article-subcategory-name').text('');
+                                    $(this).find('.search-article-team-name').text('');
+                                    $(this).find('.search-article-bottom-content').text(noResultBottom);
+                                    console.log($(this));
+                                }
+                                else {
+                                    $(this).remove();
+                                }
+                                availableArticles++;
+                            });
+                            console.log(availableArticles);
+                        }
+                    }
+
+
+                }
+                displayedArticles = amountOfArticles;
+            }
+        });
+        //for (var i = 0; i < amountOfArticlesInSearchField; i++) {
+        //    $('.search-result-articles').find('.search-article-info').first().remove();
+        //}
+        amountOfArticlesInSearchField = amountToDelete;
+    }
+    else {
+        displayedArticles = 0;
+        let variableForDelete = 0;
+        $(".search-result-articles").slideUp('', function () {
+            let unfoundedElements = $('.search-result-articles').find('.search-article-info').last()
+            $('.search-result-articles').empty();
+            $('.search-result-articles').hide();
+            //unfoundedElements.appendTo('.search-result-articles');
+        });
+    }
+}
+
+function searchScroll() {
+    let hiddenDivSize = $('.search-result-articles')[0].scrollHeight;
+    let visibleDivSize = $('.search-result-articles').height();
+    let scrollHeight = hiddenDivSize - visibleDivSize;
+    let scrollPosition = $('.search-result-articles').scrollTop();
+    if ((visibleDivSize + scrollPosition) / hiddenDivSize > 0.8) {
+        updateSearchAfterScrolling();
+        hiddenDivSize = $('.search-result-articles')[0].scrollHeight;
+        scrollHeight = visibleDivSize / hiddenDivSize * visibleDivSize;
+    }
+}
+
+function updateSearchAfterScrolling() {
+    let searchValue = $(".lable").val();
+
+    let searchParameters = {
+        searchValue: searchValue,
+        startPosition: startElementPosition,
+        amountArticles: amountOfElements,
+    };
+
+    $.ajax({
+        method: 'post',
+        url: '/api/Articles/ArticlesRange',
+        contentType: 'application/json',
+        data: JSON.stringify(searchParameters),
+        success: function (articles) {
+            if (articles.length != 0) {
+                amountOfArticles = articles.length;
+                amountToDelete = amountOfArticles;
+                for (var i = 0; i < amountOfArticles; i++) {
+                    var articleSearchField = $('.search-article-info:first')
+                        .clone().attr('id', `article-with-id-${articles[i].id}`)
+                        .appendTo('.search-result-articles');
+                    //add category, subcategory, team fields
+                    articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
+                    articleSearchField.find('.search-article-category-name').text(articles[i].referenceItem.name);
+                    if (articles[i].referenceItem.parentsItem != null) {
+                        articleSearchField.find('.search-article-subcategory-name').text(articles[i].referenceItem.parentsItem.name);
+                        if (articles[i].referenceItem.parentsItem.parentsItem != null) {
+                            articleSearchField.find('.search-article-team-name').text(articles[i].referenceItem.parentsItem.parentsItem.name);
+                            articleSearchField.find('.search-article-team-name').css('color', '#D72130');
+                            articleSearchField.find('.search-article-subcategory-name').css('color', '');
+                            articleSearchField.find('.search-article-category-name').css('color', '');
+                        }
+                        else {
+                            articleSearchField.find('.search-article-subcategory-name').css('color', '#D72130');
+                            articleSearchField.find('.search-article-team-name').text('');
+                        }
+                    }
+                    else {
+                        articleSearchField.find('.search-article-category-name').css('color', '#D72130');
+                        articleSearchField.find('.search-article-team-name').text('');
+                        articleSearchField.find('.search-article-subcategory-name').text('');
+                        articleSearchField.find('#image-in-search-between-category-subcategory').css('display', 'none');
+                    }
+
+                    let fieldFromArticle = articles[i].contentText;
+                    let articleContentText = "";
+                    for (var j = 0; j < fieldFromArticle.length; j++) {
+                        if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
+                            articleContentText += `<span class="find-words-search-article-top-info"><b>${fieldFromArticle.substr(j, searchValue.length)}</b></span>`;
+                            j += searchValue.length - 1;
+                        }
+                        else {
+                            articleContentText += fieldFromArticle[j];
+                        }
+                    }
+                    articleSearchField.find('.search-article-bottom-content').html(articleContentText.substr(0, articleContentTextLength));
+                    $('.search-result-articles').show();
+                }
+                if (amountOfArticles == 0) {
+                    var articleSearchField = $('.search-article-info:first')
+                        .clone().appendTo('.search-result-articles');
+                    articleSearchField.find('.search-article-category-name').text('No matches found.');
+                    articleSearchField.find('.search-article-bottom-content').text('Please try another search.');
+                }
+            }
+        }
+    });
+    startElementPosition += amountOfElements;
+}
+
+let ignoreClickOnMeElement = document.getElementsByClassName('search-result-articles')[0];
+let ignoreClickOnMeElement2 = document.getElementById('header-search-field');
+document.addEventListener('click', function (event) {
+    let isClickInsideElement = ignoreClickOnMeElement.contains(event.target);
+    let isClickInsideElement2 = ignoreClickOnMeElement2.contains(event.target);
+    if (!isClickInsideElement && !isClickInsideElement2) {
+        $('#search-field-tag').slideUp('fast', function () {
+            $('main').css('z-index', '');
+        });
+    }
+});
+
+function checkIsInputActive() {
+    let searchValue = $(".lable").val();
+    if (searchValue != "" && $('#search-field-tag').css('display') == 'none') {
+        console.log("Working(no)");
+        console.log($('#search-field-tag').css('display'));
+    }
+}
+
+function moveToSearchPage() {
+    const searchValue = $('#header-search-field').val();
+    console.log(searchValue);
+    $(location).attr('href', `/search?searchValue=${searchValue}`);
+}
+
+var input = document.getElementById("header-search-field");
+input.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        moveToSearchPage();
+    }
+});
+
+
+function logoutUser() {
     localStorage.removeItem('Jwt Token');
     location.reload();
 };

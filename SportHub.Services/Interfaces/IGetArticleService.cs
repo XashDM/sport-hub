@@ -15,7 +15,6 @@ namespace SportHub.Services.Interfaces
         IQueryable<NavigationItem> GetAllCategoriesQueryable();
         IQueryable<NavigationItem> GetAllSubcategoriesByCategoryIdQueryable(int categoryId);
         IQueryable<NavigationItem> GetAllTeamsByParentIdQueryable(int subcategoryId);
-        IQueryable<Article> GetAllArticlesByParentIdQueryable(int teamId);
         (IQueryable<T>, int, int) Paginate<T>(IQueryable<T> items, int pageSize, int pageNumber);
         Task SaveMainArticles(Dictionary<int, bool> articlesToSave);
         Task<DisplayItem[]> GetMainArticles();
@@ -29,6 +28,7 @@ namespace SportHub.Services.Interfaces
         Task<NavigationItem[]> GetAllSubcategoriesByCategoryIdArrayAsync(int categoryId);
         Task<NavigationItem[]> GetAllTeamsByParentIdArrayAsync(int parentId);
         Task<Article[]> GetArticlesByParentIdPaginatedArrayAsync(int parentId, int pageSize, int pageNumber);
+        Task<IQueryable<Article>> GetAllArticlesByParentIdQueryable(int parentId);
         Task<bool> SaveArticle(Article article);
         Task<ImageItem> UploadArticlePhoto(ImageItem image);
     }
