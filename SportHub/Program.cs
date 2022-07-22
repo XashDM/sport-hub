@@ -20,6 +20,7 @@ using Azure.Storage.Blobs;
 using Microsoft.Extensions.Logging;
 using System.Configuration;
 using SportHub.OAuthRoot;
+using SportHub.RefreshTokenHandlerRoot;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
@@ -52,6 +53,7 @@ builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IGetAdminArticlesService, GetAdminArticlesService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddSingleton<IImageService>(x => new ImageService(blobContainerClient));
+builder.Services.AddSingleton<IRefreshTokenHandler, RefreshTokenHandler>();
 builder.Services
     .AddFluentEmail("sporthub.mailservice@gmail.com", "SportHub")
     .AddRazorRenderer()

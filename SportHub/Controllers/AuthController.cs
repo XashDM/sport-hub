@@ -4,6 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using SportHub.Config.JwtAuthentication;
 using SportHub.Models;
 using SportHub.Models.Output;
+using SportHub.RefreshTokenHandlerRoot;
+using SportHub.Services.Exceptions.RootExceptions;
 using SportHub.Services.Interfaces;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,35 +19,41 @@ namespace SportHub.Controllers
     [Route("api/Auth")]
     public class AuthController : ControllerBase
     {
-        private readonly ITokenService _tokenService;
-        private readonly IJwtSigner _jwtSigner;
+        private readonly IRefreshTokenHandler _refreshTokenHandler;
         private readonly IUserService _userService;
+        private readonly IJwtSigner _jwtSigner;
+        private readonly ITokenService _tokenService;
 
-        public AuthController(ITokenService tokenService, IJwtSigner jwtSigner, IUserService userService)
+        public AuthController(IRefreshTokenHandler refreshTokenHandler, IUserService userService, IJwtSigner jwtSigner, ITokenService tokenService)
         {
-            _tokenService = tokenService;
-            _jwtSigner = jwtSigner;
+            _refreshTokenHandler = refreshTokenHandler;
             _userService = userService;
+            _jwtSigner = jwtSigner;
+            _tokenService = tokenService;
         }
-
 
         [HttpPost(nameof(RefreshToken))]
         [AllowAnonymous]
         public async Task<IActionResult> RefreshToken([FromBody] TokenRequest tokenRequest)
         {
-            var userEmail = await _tokenService.ValidateTokenPair(_jwtSigner.GetTokenValidationParameters(), 
-                tokenRequest.AccessToken, tokenRequest.RefreshToken);
-            if (userEmail != null)
+            try
             {
-                var user = _userService.GetUserByEmail(userEmail);
-                var accessToken = _jwtSigner.FetchToken(user);
-                var refreshToken = await _tokenService.CreateRefreshTokenAsync(accessToken.Id, user.Id);
-                var response = new AuthTokenResponse() { AccessToken = accessToken.TokenJwt, RefreshToken = refreshToken.Token };
+                var authTokenPair = await _refreshTokenHandler.GetAuthTokenPair(tokenRequest, _userService, _jwtSigner, _tokenService);
 
-                return Ok(response);
+                return Ok(authTokenPair);
             }
-
-            return BadRequest();
+            catch (TokenServiceException e)
+            {
+                return StatusCode(e.StatusCode, e.Message);
+            }
+            catch (UserServiceException e)
+            {
+                return StatusCode(e.StatusCode, e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Something went wrong");
+            }
         }
     }
 }

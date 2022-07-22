@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using SportHub.Domain;
 using SportHub.Domain.Models;
+using SportHub.Services.Exceptions.TokenServiceExceptions;
 using SportHub.Services.Interfaces;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -77,44 +78,61 @@ namespace SportHub.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<string?> ValidateTokenPair(TokenValidationParameters validationParameters, string accessToken, string refreshToken)
+        public async Task<ClaimsPrincipal> ValidateTokenPair(TokenValidationParameters validationParameters, string accessToken, string refreshToken)
         {
-           
             var jwtTokenHandler = new JwtSecurityTokenHandler();
 
             validationParameters.ValidateLifetime = false;
-            var tokenInValidation = jwtTokenHandler.ValidateToken(accessToken, validationParameters, out var validatedToken);
 
+            ClaimsPrincipal? validTokenPrincipal;
+            SecurityToken? validatedToken;
+
+            try
+            {
+                validTokenPrincipal = jwtTokenHandler.ValidateToken(accessToken, validationParameters, out validatedToken);
+            }
+            catch (Exception)
+            {
+                throw new InvalidTokenException();
+            }
+            
             if (validatedToken.ValidTo > DateTime.UtcNow)
             {
-                return null;
+                throw new TokenNotExpiredException();
             }
 
-            var accessTokenId = tokenInValidation.Claims.SingleOrDefault(claim => claim.Type.Equals(ClaimTypes.Sid)).Value;
-            var storedRefreshToken = await GetRefreshTokenByTokenValueAndAccessTokenId(refreshToken, accessTokenId);
+            var accessTokenIdClaim = validTokenPrincipal.Claims.SingleOrDefault(claim => claim.Type.Equals(ClaimTypes.Sid));
+
+            ValidateClaim(accessTokenIdClaim);
+
+            var storedRefreshToken = await GetRefreshTokenByTokenValueAndAccessTokenId(refreshToken, accessTokenIdClaim.Value);
 
             if (storedRefreshToken == null)
             {
-                return null;
+                throw new TokenDoesNotExistException();
             }
 
             if (storedRefreshToken.ExpiryDate < DateTime.UtcNow)
             {
-                return null; // relogin
+                throw new TokenExpiredException(); // relogin
             }
 
             if (storedRefreshToken.IsRevoked)
             {
-                return null; // relogin
+                throw new TokenRevokedException(); // relogin
             }
 
-            var userId = Convert.ToInt32(tokenInValidation.Claims.SingleOrDefault(claim => claim.Type.Equals(ClaimTypes.NameIdentifier)).Value);
+            var userIdClaim = validTokenPrincipal.Claims.SingleOrDefault(claim => claim.Type.Equals(ClaimTypes.NameIdentifier));
+
+            ValidateClaim(userIdClaim);
+
+            int userId = int.Parse(userIdClaim.Value);
                 
             if (storedRefreshToken.IsUsed)
             {
                 await RevokeAllUserTokensByUserId(userId);
 
-                return null; // Security breach
+                throw new TokenIsUsedException(); // Security breach
             }
             else
             {
@@ -123,9 +141,19 @@ namespace SportHub.Services
 
             await UpdateRefreshTokenById(storedRefreshToken.Id, storedRefreshToken.IsUsed, storedRefreshToken.IsRevoked);
 
-            var userEmail = tokenInValidation.Claims.SingleOrDefault(claim => claim.Type.Equals(ClaimTypes.Email)).Value;
+            var userEmailClaim = validTokenPrincipal.Claims.SingleOrDefault(claim => claim.Type.Equals(ClaimTypes.Email));
 
-            return userEmail;
+            ValidateClaim(userEmailClaim);
+
+            return validTokenPrincipal;
+        }
+
+        private void ValidateClaim(Claim? claimToValidate)
+        {
+            if (claimToValidate == null)
+            {
+                throw new TokenClaimNotFoundOrInvalidException();
+            }
         }
 
         private string GenerateRefreshTokenString() // Generates a 128 char long random string
