@@ -4,6 +4,9 @@
     ViewData["Title"] = "Home page";
 }
 
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using Microsoft.Extensions.Localization
+
 <head>
     <link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
 </head>
@@ -32,7 +35,7 @@
                             <div class="main-bottom-info h3-heading-text">
                             </div>
                             <a id="banner-more-button" class="more-button" href="#">
-                                <p>MORE</p>
+                                <p>@localizer["MORE"]</p>
                             </a>
                         </div>
                         <div class="banner-nav-box">
@@ -68,7 +71,7 @@
             <div class="main-column">
                 <hr />
                 <div class="separator-lable">
-                    <p>BREAKDOWN</p>
+                    <p>@localizer["BREAKDOWN"]</p>
                 </div>
                 <!--content here-->
                 <div class="secondary-news-box">
@@ -171,7 +174,7 @@
                     <div id="photo-of-the-day-section">
                         <hr />
                         <div class="separator-lable">
-                            <p>PHOTO OF THE DAY</p>
+                            <p>@localizer["PHOTO OF THE DAY"]</p>
                         </div>
                         <div class="photo-of-the-day-tag">
                             <img src="/icons/Triangle.png" />
@@ -189,7 +192,7 @@
                 }
                 <div class="best-news">
                     <div class="most-popular-block">
-                        <p class="most-popular-label">MOST POPULAR</p>
+                        <p class="most-popular-label">@localizer["MOST POPULAR"]</p>
                         <div class="most-popular-box">
                             <div class="small-news-box box-shadow">
                                 <div class="small-news-crop">
@@ -224,7 +227,7 @@
                         </div>
                     </div>
                     <div class="most-commented-block">
-                        <p class="most-commented-label">MOST COMMENTED</p>
+                        <p class="most-commented-label">@localizer["MOST COMMENTED"]</p>
                         <div class="most-commented-box">
                             <div class="small-news-box box-shadow">
                                 <div class="small-news-crop">

@@ -62,8 +62,11 @@ namespace SportHub.Services.Services
         public async Task DeleteDisplayedLanguage(int id)
         {
             var language = await GetDisplayedLanguageById(id);
-            _context.DisplayedLanguages.Remove(language);
-            await _context.SaveChangesAsync();
+            if (language != null)
+            {
+                _context.DisplayedLanguages.Remove(language);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task UpdateDisplayedLanguage(int id, bool isEnable)
@@ -96,11 +99,6 @@ namespace SportHub.Services.Services
         private async Task<DisplayedLanguage> GetDisplayedLanguageById(int id)
         {
             var language = (await _context.DisplayedLanguages.ToListAsync()).FirstOrDefault(x => x.Id == id);
-
-            if (language == null)
-            {
-                throw new ArgumentNullException(nameof(language));
-            }
 
             return language;
         }

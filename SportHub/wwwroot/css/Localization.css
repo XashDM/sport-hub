@@ -63,12 +63,12 @@
 }
 
 .right {
-    width: 30%;
-    padding-left: 10%;
+    width: 40%;
+    padding-left: 3%;
 }
 
 .row:after {
-    width: 308px;
+    width: 348px;
     content: "";
     display: table;
     clear: both;
