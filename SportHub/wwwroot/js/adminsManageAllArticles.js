@@ -48,7 +48,6 @@ function updateArticlesAfterScrolling() {
         selectedPublish = null;
     }
     var searchPostValue = $('.get-admins-articles-search-field-field').val();
-    console.log(searchPostValue);
     let articleDisplayParameters = {
         startPosition: startElementPosition,
         amountArticles: amountOfElements,
@@ -101,11 +100,11 @@ function updateArticlesAfterScrolling() {
                     'id', `isPublishedButton-${articles[i].id}`);
                 articleField.find('.get-admins-articles-published-info-outside').attr('id', `articlePublishFooter-${articles[i].id}`);
                 articleField.find('.get-admins-articles-published-info').attr('id', `publishedForUnpublished-${articles[i].id}`);
-                articleField.find('.get-admins-articles-delete').attr('onclick', `deleteArticleFunction(${articles[i].id})`);
+                articleField.find('.get-admins-articles-delete').attr('onclick', `openDeletePopUp(${articles[i].id})`);
 
                 articleField.find('.get-admins-articles-move-button').attr('onclick', `openMove(${articles[i].id})`);
                 articleField.find('.get-admins-articles-dropdown-move-content').attr('id', `article-move-${articles[i].id}`);
-                
+
                 // move buttons
                 articleField.find('.get-admins-articles-dropdown-move-content-item').map(function () {
                     let idWithCategory = this.id.split("-").pop();
@@ -126,8 +125,8 @@ function updateArticlesAfterScrolling() {
                     articleField.find('.get-admins-articles-edit').attr('id', `edit-${articles[i].id}`);
                     articleField.find('.get-admins-articles-edit').attr('href', `/Articles/Details?id=${articles[i].id}`);
                     articleField.find('.get-admins-articles-edit').css("display", "none");
-                }  
-            } 
+                }
+            }
             startElementPosition += amountOfElements;
         }
     });
@@ -141,17 +140,15 @@ function openDropdownFunction(articleId) {
 }
 
 function findHideSearchField() {
-    console.log("GAY NIGGA");
     if ($("#search-field").css('display') == 'block') {
         const searchValueFind = $('#search-field').val();
-        console.log(searchValueFind);
         $(location).attr('href', `/search?searchValue=${searchValueFind}`);
     }
     else {
         $("#search-field").show();
         $("#search-field").focus();
     }
-    
+
 }
 
 function openDeletePopUp(articleId) {
@@ -258,7 +255,6 @@ function changeArticleCategory(articleId, categoryId) {
 function redirectToSearchPage() {
     if (this.key == "Enter") {
         const searchValueFind = $('#search-field').val();
-        console.log(searchValueFind);
         $(location).attr('href', `/search?searchValue=${searchValueFind}`);
     }
 }
@@ -267,11 +263,9 @@ window.onload = function () {
     var input2 = $('#search-field');
     // Execute a function when the user presses a key on the keyboard
     input2[0].addEventListener("keypress", function (event) {
-        console.log('Asdasd');
         // If the user presses the "Enter" key on the keyboard
         if (event.key === "Enter") {
             const searchValueFind = $('#search-field').val();
-            console.log(searchValueFind);
             $(location).attr('href', `/search?searchValue=${searchValueFind}`);
         }
     });
@@ -279,6 +273,5 @@ window.onload = function () {
 
 function moveToSearchPage() {
     const searchValue = $('#header-search-field').val();
-    console.log(searchValue);
     $(location).attr('href', `/search?searchValue=${searchValue}`);
 }
