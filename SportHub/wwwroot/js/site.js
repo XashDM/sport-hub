@@ -45,6 +45,15 @@ function Login(email, passwordHash) {
     });
 };
 
+$(".switch-arrow").on({
+    mouseenter: function () {
+        $('.message-box-with-arrow').show();
+    },
+    mouseleave: function () {
+        $('.message-box-with-arrow').hide();
+    }
+});
+
 function userData() {
     var token = localStorage.getItem('Jwt Token');
     if (token) {

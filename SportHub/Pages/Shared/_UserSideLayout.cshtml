@@ -68,6 +68,12 @@
                         <button class="small-button-inversed" onclick="window.location='/SignUp';">Sign up</button>
                     </div>
                     <div class="profile" id="profile"> 
+                        <div class="switch-button-to-admin-view">
+                            <a href="/adminpage">
+                                <img src="~/images/left-right-admin-arrow.svg" class="switch-arrow" alt="">
+                            </a>
+                            <p class="message-box-with-arrow">Switch to admin view</p>
+                        </div>
                        <div class="dropdown" id="dropdown">
                           <img src="https://www.tutorialrepublic.com/examples/images/avatar/2.jpg" class="avatar" alt="Avatar">
                           <button class="dropbtn" id="fullName"></button>
@@ -149,6 +155,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/DataClass.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src=~/js/adminTokenCheckUserLayout.js></script>
 
     @await RenderSectionAsync("Scripts", required: false)
     <script>

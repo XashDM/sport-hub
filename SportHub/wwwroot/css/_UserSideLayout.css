@@ -128,6 +128,45 @@ button#search-button {
     color: #B2B2B2;
 }
 
+.switch-button-to-admin-view {
+    display: none;
+    position: relative;
+    margin: 8px 32px 0 0;
+}
+
+.message-box-with-arrow {
+    display: none;
+    position: absolute;
+    background: rgb(48,53,66);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    width: 150px;
+    height: 35px;
+    color: #fff;
+    text-align: center;
+    align-items: center;
+    left: -51px;
+    top: 32px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 35px;
+    text-align: center;
+}
+
+.message-box-with-arrow:before {
+    transform: rotate(90deg);
+    content: "";
+    position: absolute;
+    top: -9px;
+    left: 62px;
+    z-index: 1;
+    border: solid 5px transparent;
+    border-right-color: rgb(48,53,66);
+}
+
 .search-article-bottom-content {
     font-family: 'Open Sans';
     font-style: normal;
