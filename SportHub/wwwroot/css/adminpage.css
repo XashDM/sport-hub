@@ -75,6 +75,10 @@ main {
     border: 1px solid #EDEDED;
 }
 
+.language-picker {
+    margin-right: 30px;
+}
+
 .header-container {
     display: flex;
     flex-direction: row;

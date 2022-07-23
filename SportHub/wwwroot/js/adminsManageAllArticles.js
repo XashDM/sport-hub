@@ -94,6 +94,8 @@ function updateArticlesAfterScrolling() {
                 articleField.find('.get-admins-articles-dropdown-content').attr('id', `${articles[i].id}`);
                 articleField.find('.get-admins-articles-drop-btn')
                     .attr('onclick', `openDropdownFunction(${articles[i].id})`);
+                articleField.find('.get-admins-articles-drop-btn')
+                    .attr('id', `dropdown-btn-${articles[i].id}`);
                 articleField.find('.get-admins-articles-publish-button')
                     .attr('onclick', `publishUnpublish(${articles[i].id})`);
                 articleField.find('.get-admins-articles-publish-button').attr(
@@ -137,6 +139,15 @@ function updateArticlesAfterScrolling() {
 function openDropdownFunction(articleId) {
     document.getElementById(articleId.toString()).classList.toggle("show");
     $(`#article-move-${articleId}`).fadeOut();
+    
+    if ($(`#${articleId}`).css('display') == "block") {
+        $(`#article-with-id-${articleId}`).css('box-shadow', '0px 2px 24px rgba(0, 0, 0, 0.110932)');
+        $(`#dropdown-btn-${articleId} img`).css('opacity', 1);
+    }
+    else {
+        $(`#article-with-id-${articleId}`).css('box-shadow', '');
+        $(`#dropdown-btn-${articleId} img`).css('opacity', '');
+    }
 }
 
 function findHideSearchField() {
