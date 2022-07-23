@@ -55,16 +55,6 @@ builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IGetAdminArticlesService, GetAdminArticlesService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddSingleton<IImageService>(x => new ImageService(blobContainerClient));
-builder.Services
-    .AddFluentEmail("sporthub.mailservice@gmail.com", "SportHub")
-    .AddRazorRenderer()
-    .AddSmtpSender(new SmtpClient("smtp.live.com")
-    {
-        UseDefaultCredentials = false,
-        Port = 587,
-        Credentials = new NetworkCredential("sportshub.service@hotmail.com", "steamisjustavaporizedwater123"),
-        EnableSsl = true
-    });
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddControllers();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();

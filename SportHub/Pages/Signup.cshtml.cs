@@ -1,4 +1,3 @@
-using FluentEmail.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Models;
@@ -13,13 +12,11 @@ namespace SportHub.Pages
     {
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
-        private readonly IFluentEmail _mailer;
 
-        public SignupModel(IUserService userService, IEmailService emailService, [FromServices] IFluentEmail mailer)
+        public SignupModel(IUserService userService, IEmailService emailService)
         {
             _userService = userService;
             _emailService = emailService;
-            _mailer = mailer;
         }
         [BindProperty]
         public SignupCredentials signupCredentials { get; set; }
@@ -29,7 +26,7 @@ namespace SportHub.Pages
             try
             {
                 var user = await _userService.CreateUser(credentials.Email, credentials.PasswordHash, credentials.FirstName, credentials.LastName);
-                _emailService.SendSignUpEmail(user, _mailer);
+                await _emailService.SendSignUpEmail(user);
 
                 Response.StatusCode = 201;
                 return new JsonResult(new { success = true });
