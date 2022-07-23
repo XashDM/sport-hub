@@ -39,7 +39,7 @@ namespace SportHub.Pages
             catch (Exception)
             {
                 Response.StatusCode = 500;
-                return new JsonResult(new { error = "Something went wrong" });
+                return new JsonResult(new { error = "Something went wrong. Please try again later" });
             }
         }
     }

@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using SportHub.OAuthRoot;
+using SportHub.Services.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
@@ -37,6 +38,11 @@ BlobContainerClient blobContainerClient = new BlobContainerClient(
 // Add services to the container.
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
+
+var emailConfig = builder.Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailServiceConfig>();
+builder.Services.AddSingleton(emailConfig);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<SportHubDBContext>(options =>
@@ -59,7 +65,6 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddControllersWithViews();
 
-//localization
 builder.Services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
 builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 builder.Services.Configure<RequestLocalizationOptions>(
