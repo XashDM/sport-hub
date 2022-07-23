@@ -37,7 +37,6 @@ BlobContainerClient blobContainerClient = new BlobContainerClient(
 // Add services to the container.
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
-builder.Services.AddControllers();
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<SportHubDBContext>(options =>
@@ -56,7 +55,6 @@ builder.Services.AddScoped<IGetAdminArticlesService, GetAdminArticlesService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddSingleton<IImageService>(x => new ImageService(blobContainerClient));
 builder.Services.AddScoped<ILanguageService, LanguageService>();
-builder.Services.AddControllers();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddControllersWithViews();
@@ -107,11 +105,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
