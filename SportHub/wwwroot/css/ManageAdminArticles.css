@@ -54,9 +54,14 @@ body {
 }
 
 select {
-    width: 212px;
-    height: 36px;
-    border: 1px solid #D4D9E2;
+    border-style: none;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    cursor: pointer;
 }
 
 .get-admins-articles-container-body {

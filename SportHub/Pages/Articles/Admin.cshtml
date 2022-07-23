@@ -9,11 +9,11 @@
 @section SaveButton {
     <div class="middle-header">
         <p class="info-title" id="page-header-name"></p>
-        <div class="red-button-object">
-            <a class="new-article" id="new-article-route" href="/addarticle">
+        <a class="red-button-object" href="/addarticle/@Model.SelectedCategory">
+            <div class="new-article" id="new-article-route">
                 + New Article
-            </a>
-        </div>
+            </div>
+        </a>
     </div>
 }
 
@@ -95,7 +95,7 @@
                         </div>
                         <div class="get-admins-articles-dropdown">
                             <div class="get-admins-articles-content-btn">
-                                <button onclick="openDropdownFunction(@Model.Article[index].Id)" class="get-admins-articles-drop-btn">
+                                <button onclick="openDropdownFunction(@Model.Article[index].Id)" class="get-admins-articles-drop-btn" id="dropdown-btn-@Model.Article[index].Id">
                                     <img src="~/images/drop-down-botton.svg"/>
                                 </button>
                             </div>
