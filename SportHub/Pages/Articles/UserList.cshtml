@@ -1,0 +1,68 @@
+﻿@page "/user/articles/{Category?}/{Subcategory?}/{Team?}"
+@model SportHub.Pages.Articles.UserListModel
+@{
+}
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/UserArticles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/userArticles.js"></script>
+</head>
+
+<div id="category">@Model.CategoryView</div>
+<h2>@Model.SubCategoryView</h2>
+<h3>@Model.TeamView</h3>
+
+<div class="user-articles-main-body">
+    <div class="user-articles-header-image">
+        <img src="@Model.HeaderArticle.ImageItem.ImageLink" />
+        <div class="user-articles-image-character">
+            <div class="user-articles-info-image">
+                <div class="user-articles-published">
+                    <b>
+                        Published / @Html.DisplayFor(model => model.HeaderArticle.PostedDate)
+                    </b>
+                </div>
+                <div class="user-articles-title-info">
+                    <b>
+                        @Html.DisplayFor(model => model.HeaderArticle.ImageItem.PhotoTitle)
+                    </b>
+                </div>
+                <div class="user-articles-bottom-info">
+                    @Html.DisplayFor(model => model.HeaderArticle.ImageItem.ShortDescription)
+                </div> 
+            </div>
+            <a class="user-articles-more-btn" href="/Articles/Details/?id=@Model.HeaderArticle.Id">
+                More
+            </a>
+        </div>
+        
+    </div>
+    <div class="user-articles-bottom-articles" onscroll="scrollCheck()">
+        <div class="user-articles-scroll-position">
+        @{
+            for (int index = 1; index<10; index++)
+            {
+                <a class="user-articles-elements" id="article-with-id-@Model.Articles[index].Id" href="/Articles/Details?id=@Model.Articles[index].Id">
+                    
+                    <div class="user-articles-left-content-image-container">
+                        <img class="user-articles-bottom-image" src="@Model.Articles[index].ImageItem.ImageLink" alt="@Model.Articles[index].ImageItem.Alt">
+                    </div>
+
+                    <div class="user-articles-right-content">
+                        <div class="user-articles-right-text">
+                            <div class="user-articles-title">
+                                @Model.Articles[index].Title
+                            </div>
+                            <div class="user-articles-content-text">
+                                @Model.Articles[index].ContentText
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        }
+        </div>
+    </div>
+</div>

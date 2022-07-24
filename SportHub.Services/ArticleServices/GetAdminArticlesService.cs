@@ -6,15 +6,18 @@ using System.Linq;
 using SportHub.Services.NavigationItemServices;
 using SportHub.Services.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace SportHub.Services.ArticleServices
 {
     public class GetAdminArticlesService : IGetAdminArticlesService
     {
         private readonly SportHubDBContext _context;
-        public GetAdminArticlesService(SportHubDBContext context)
+        private readonly IImageService _imageService;
+        public GetAdminArticlesService(SportHubDBContext context, IImageService imageService)
         {
             _context = context;
+            _imageService = imageService;
         }
 
         public IList<Article> GetArticlesRange(int start, int end, string? publishValue, string? category, string? subcategory, string? team, string? search)
@@ -165,6 +168,21 @@ namespace SportHub.Services.ArticleServices
             {
                 return null;
             }
+        }
+
+        public async Task<IList<Article>> GetUserArticles(string? category, string? subcategory, string? team)
+        {
+            IList<Article> articles = GetArticles(category, subcategory, team);
+            IList<Article> userArticles = new List<Article>();
+            for (int i = 0; i < articles.Count; i++)
+            {
+                if (articles[i].IsPublished == true)
+                {
+                    articles[i].ImageItem.ImageLink = await _imageService.GetImageLinkByNameAsync(articles[i].ImageItem.ImageLink);
+                    userArticles.Add(articles[i]);                   
+                }
+            }
+            return userArticles;
         }
 
         public IList<NavigationItem> GetCategories()
