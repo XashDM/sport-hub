@@ -1,11 +1,13 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using SportHub.Domain.Models;
+using SportHub.Models;
 
 namespace SportHub.Config.JwtAuthentication
 {
     public interface IJwtSigner
     {
         RsaSecurityKey FetchPKey();
-        string FetchToken(User user);
+        AccessToken FetchToken(User user);
+        TokenValidationParameters GetTokenValidationParameters();
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Models;
 using SportHub.Services;
+using SportHub.Services.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 

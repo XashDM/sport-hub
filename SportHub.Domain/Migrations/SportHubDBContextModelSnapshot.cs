@@ -191,6 +191,43 @@ namespace SportHub.Domain.Migrations
                     b.ToTable("NavigationItems");
                 });
 
+            modelBuilder.Entity("SportHub.Domain.Models.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("IssuedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("JwtTokenId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("SportHub.Domain.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -317,10 +354,21 @@ namespace SportHub.Domain.Migrations
             modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
                 {
                     b.HasOne("SportHub.Domain.Models.NavigationItem", "ParentsItem")
-                        .WithMany("Children")
+                        .WithMany()
                         .HasForeignKey("ParentsItemId");
 
                     b.Navigation("ParentsItem");
+                });
+
+            modelBuilder.Entity("SportHub.Domain.Models.RefreshToken", b =>
+                {
+                    b.HasOne("SportHub.Domain.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("UserUserRole", b =>
@@ -341,11 +389,6 @@ namespace SportHub.Domain.Migrations
             modelBuilder.Entity("SportHub.Domain.Models.Article", b =>
                 {
                     b.Navigation("DisplayItems");
-                });
-
-            modelBuilder.Entity("SportHub.Domain.Models.NavigationItem", b =>
-                {
-                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

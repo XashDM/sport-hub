@@ -18,22 +18,9 @@ namespace SportHub.Config.JwtAuthentication
         {
             options.IncludeErrorDetails = true;
             options.SaveToken = true;
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = _jwtSigner.FetchPKey(),
-                ValidateIssuer = true,
-                ValidIssuer = "SportHub",
-                ValidateAudience = true,
-                ValidAudience = "SportHub",
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero,
-                CryptoProviderFactory = new CryptoProviderFactory()
-                {
-                    CacheSignatureProviders = false
-                }
-            };
+            options.TokenValidationParameters = _jwtSigner.GetTokenValidationParameters();
         }
+
         public void Configure(JwtBearerOptions options) { throw new NotImplementedException(); }
     }
 }

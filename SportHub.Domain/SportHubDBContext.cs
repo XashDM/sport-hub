@@ -16,10 +16,9 @@ namespace SportHub.Domain
         public DbSet<NavigationItem> NavigationItems { get; set; }
         public DbSet<DisplayItem> DisplayItems { get; set; }
         public DbSet<ImageItem> ImageItems { get; set; }
-
-
         public DbSet<Language> Languages { get; set; }
         public DbSet<DisplayedLanguage> DisplayedLanguages { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

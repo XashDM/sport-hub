@@ -5,6 +5,7 @@ using SportHub.Services.Exceptions.UserServiceExceptions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SportHub.Services.Interfaces;
 
 namespace SportHub.Services
 {
