@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using SportHub.Config.JwtAuthentication;
 using SportHub.Models;
 using SportHub.Services;
+using SportHub.Services.Interfaces;
 using System.Threading.Tasks;
 
 namespace SportHub.Pages
@@ -41,7 +42,7 @@ namespace SportHub.Pages
             var currentUser = _userService.GetUserByEmail(forgotPassword.Email);
             var token = _jwtSigner.FetchToken(currentUser);
 
-            await _emailService.SendResetPasswordEmail(currentUser, token);
+            await _emailService.SendResetPasswordEmail(currentUser, token.TokenJwt);
 
             return StatusCode(200);
         }

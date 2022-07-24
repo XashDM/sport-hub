@@ -3,7 +3,7 @@ using SportHub.Domain.ViewModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SportHub.Services
+namespace SportHub.Services.Interfaces
 {
     public interface IUserService
     {

@@ -9,6 +9,7 @@ using MimeKit;
 using MimeKit.Text;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using SportHub.Services.Interfaces;
 
 namespace SportHub.Services
 {

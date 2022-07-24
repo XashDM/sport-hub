@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using SportHub.OAuthRoot;
+using SportHub.RefreshTokenHandlerRoot;
 using SportHub.Services.Config;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,6 +53,7 @@ builder.Services.AddDbContext<SportHubDBContext>(options =>
 });
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddSingleton<IExternalAuthHandlerFactory, ExternalAuthHandlerFactory>();
 builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();
 builder.Services.AddScoped<INavigationItemService, MainNavigationItemService>();
@@ -60,6 +62,7 @@ builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IGetAdminArticlesService, GetAdminArticlesService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddSingleton<IImageService>(x => new ImageService(blobContainerClient));
+builder.Services.AddSingleton<IRefreshTokenHandler, RefreshTokenHandler>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
