@@ -78,7 +78,7 @@ function createItem(type) {
             openTreeforItem(parent);
         }
     }
-    document.getElementById("formid").style.display = "none";
+    closeForm();
 }
 // When click on item this functon is called by that item and get parameter his info - 'obj'
 function getContenerforType(element) {
@@ -269,6 +269,11 @@ var modal = document.getElementById("formid");
 let B = document.getElementById("addId");
 window.onclick = function (event) {
     if (event.target == modal) {
-        modal.style.display = "none";
+        closeForm();
     }
 };
+
+function closeForm() {
+    modal.style.display = "none";
+    document.getElementById("item-name-input").value = "";
+}
