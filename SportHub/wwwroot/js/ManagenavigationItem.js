@@ -272,3 +272,8 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 };
+
+
+$(document).ready(function () {
+    $("#navigation-item-button").toggleClass('red-accent-img');
+});
