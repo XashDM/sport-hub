@@ -21,15 +21,17 @@ namespace SportHub.Controllers
         private readonly IJwtSigner _jwtSigner;
         private readonly ITokenService _tokenService;
         private readonly IExternalAuthHandlerFactory _externalAuthHandlerFactory;
+        private readonly IEmailService _emailService;
 
         public AuthController(IRefreshTokenHandler refreshTokenHandler, IUserService userService, IJwtSigner jwtSigner, 
-            ITokenService tokenService, IExternalAuthHandlerFactory externalAuthHandlerFactory)
+            ITokenService tokenService, IExternalAuthHandlerFactory externalAuthHandlerFactory, IEmailService emailService)
         {
             _refreshTokenHandler = refreshTokenHandler;
             _userService = userService;
             _jwtSigner = jwtSigner;
             _tokenService = tokenService;
             _externalAuthHandlerFactory = externalAuthHandlerFactory;
+            _emailService = emailService;
         }
 
         [HttpPost(nameof(RefreshToken))]
@@ -77,7 +79,7 @@ namespace SportHub.Controllers
             try
             {
                 var externalAuthHandler = _externalAuthHandlerFactory.GetAuthHandler(externalAuthArgs.IsCreationRequired, externalAuthArgs.AuthProvider);
-                var userTokens = await externalAuthHandler.HandleExternalAuth(externalAuthArgs, _userService, _tokenService, _jwtSigner);
+                var userTokens = await externalAuthHandler.HandleExternalAuth(externalAuthArgs, _userService, _tokenService, _jwtSigner, _emailService);
 
                 if (userTokens != null)
                 {

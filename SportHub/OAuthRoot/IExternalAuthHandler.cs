@@ -9,6 +9,6 @@ namespace SportHub.OAuthRoot
 {
     public interface IExternalAuthHandler
     {
-        Task<AuthTokenResponse?> HandleExternalAuth(ExternalAuthArgs externalAuthArgs, IUserService _userService, ITokenService _tokenService, IJwtSigner _jwtSigner);
+        Task<AuthTokenResponse?> HandleExternalAuth(ExternalAuthArgs externalAuthArgs, IUserService _userService, ITokenService _tokenService, IJwtSigner _jwtSigner, IEmailService _emailService);
     }
 }
