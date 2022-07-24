@@ -5,7 +5,7 @@ namespace SportHub.Services.Interfaces
 {
     public interface IEmailService
     {
-        Task SendSignUpEmail(User user);
-        Task SendResetPasswordEmail(User user, string token);
+        Task SendSignUpEmail(string userEmailAddress);
+        Task SendResetPasswordEmail(string userEmailAddress, string token);
     }
 }

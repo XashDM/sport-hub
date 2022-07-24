@@ -38,7 +38,9 @@ function refreshToken () {
                 localStorage.setItem('Jwt Token', token);
             },
             error: function (response) {
-                console.error(response);
+                if (response.status == 500) {
+                    console.error(response);
+                }
                 if (response.isReloginRequired == true) {
                     window.location.href = window.location.origin + '/Login';
                 }
@@ -130,6 +132,81 @@ function logoutUser() {
     location.reload();
 };
 
+function SendResetMail(email) {
+    forgotPassword =
+    {
+        'Email': email
+    }
+    $.ajax({
+        headers:
+        {
+            "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+        },
+        async: false,
+        url: '/ForgotPassword',
+        type: 'post',
+        data: {
+            'forgotPassword': forgotPassword,
+        },
+        success() {
+            $("#forgotPassword").hide();
+            $("#email").text("Check your email " + email)
+            $("#checkYourMail").show();
+        },
+        error(errorThrown) {
+            console.log(errorThrown);
+        }
+    });
+};
+
+$("#setNewPassword").submit((event) => {
+    event.preventDefault();
+    const password1 = $("#field_newPassword").val().toString();
+    const password2 = $("#field_confirmPassword").val().toString();
+    if (password1 === password2) {
+        let passwordHash = sha256(password1).then((res) => {
+            passwordHash = res;
+            ResetPassword(passwordHash);
+        });
+    }
+    else {
+        $("#reset-result").html('Passwords do not match');
+    }
+});
+
+function ResetPassword(passwordHash) {
+    let urlParams = new URLSearchParams(window.location.search);
+    let token = urlParams.get("token");
+    $.ajax({
+        headers:
+        {
+            "Authorization": 'Bearer ' + token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        async: false,
+        url: '/api/Users/ResetPassword?passwordHash=' + passwordHash,
+        type: 'post',
+        data: {
+            "passwordHash": passwordHash
+        },
+        success() {
+            $("#reset-result").html('Your password has been updated.').css('color', '#57A902');
+        },
+        error(errorThrown) {
+            console.log(errorThrown);
+            $("#reset-result").html('Passwords do not match');
+
+        }
+    });
+};
+
+$("#requestResetPasswordEmail").submit((event) => {
+    event.preventDefault();
+    const email = $("#field_email").val().toString();
+    SendResetMail(email);
+});
+
 // for sidebar
 let timer1;
 let timer2;
@@ -165,6 +242,11 @@ function CreateCatgorySidebar() {
     List.css({
         display: "block"
     })
+    let refElement = $("<a href='/'>Home</a>").css("color", 'rgb(215, 33, 48)');
+    $(`<li/>`).mouseenter(function () {
+        HideSubcategory();
+    })
+    .append(refElement).appendTo(List);
     let date = DateGetClass.getCategory();
     console.log(date);
     for (let e in date) {

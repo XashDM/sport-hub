@@ -1,18 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using SportHub.Config.JwtAuthentication;
 using SportHub.Models;
-using SportHub.Models.Output;
 using SportHub.OAuthRoot;
 using SportHub.RefreshTokenHandlerRoot;
 using SportHub.Services.Exceptions.RootExceptions;
 using SportHub.Services.Interfaces;
 using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SportHub.Controllers
@@ -26,15 +21,17 @@ namespace SportHub.Controllers
         private readonly IJwtSigner _jwtSigner;
         private readonly ITokenService _tokenService;
         private readonly IExternalAuthHandlerFactory _externalAuthHandlerFactory;
+        private readonly IEmailService _emailService;
 
         public AuthController(IRefreshTokenHandler refreshTokenHandler, IUserService userService, IJwtSigner jwtSigner, 
-            ITokenService tokenService, IExternalAuthHandlerFactory externalAuthHandlerFactory)
+            ITokenService tokenService, IExternalAuthHandlerFactory externalAuthHandlerFactory, IEmailService emailService)
         {
             _refreshTokenHandler = refreshTokenHandler;
             _userService = userService;
             _jwtSigner = jwtSigner;
             _tokenService = tokenService;
             _externalAuthHandlerFactory = externalAuthHandlerFactory;
+            _emailService = emailService;
         }
 
         [HttpPost(nameof(RefreshToken))]
@@ -81,9 +78,8 @@ namespace SportHub.Controllers
         {
             try
             {
-                var temp = Request.Cookies;
                 var externalAuthHandler = _externalAuthHandlerFactory.GetAuthHandler(externalAuthArgs.IsCreationRequired, externalAuthArgs.AuthProvider);
-                var userTokens = await externalAuthHandler.HandleExternalAuth(externalAuthArgs, _userService, _tokenService, _jwtSigner);
+                var userTokens = await externalAuthHandler.HandleExternalAuth(externalAuthArgs, _userService, _tokenService, _jwtSigner, _emailService);
 
                 if (userTokens != null)
                 {
