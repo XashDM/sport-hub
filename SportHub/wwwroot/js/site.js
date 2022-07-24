@@ -38,7 +38,9 @@ function refreshToken () {
                 localStorage.setItem('Jwt Token', token);
             },
             error: function (response) {
-                console.error(response);
+                if (response.status == 500) {
+                    console.error(response);
+                }
                 if (response.isReloginRequired == true) {
                     window.location.href = window.location.origin + '/Login';
                 }
