@@ -1,18 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using SportHub.Config.JwtAuthentication;
 using SportHub.Models;
-using SportHub.Models.Output;
 using SportHub.OAuthRoot;
 using SportHub.RefreshTokenHandlerRoot;
 using SportHub.Services.Exceptions.RootExceptions;
 using SportHub.Services.Interfaces;
 using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SportHub.Controllers
@@ -81,7 +76,6 @@ namespace SportHub.Controllers
         {
             try
             {
-                var temp = Request.Cookies;
                 var externalAuthHandler = _externalAuthHandlerFactory.GetAuthHandler(externalAuthArgs.IsCreationRequired, externalAuthArgs.AuthProvider);
                 var userTokens = await externalAuthHandler.HandleExternalAuth(externalAuthArgs, _userService, _tokenService, _jwtSigner);
 
