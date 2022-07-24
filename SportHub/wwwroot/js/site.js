@@ -165,6 +165,11 @@ function CreateCatgorySidebar() {
     List.css({
         display: "block"
     })
+    let refElement = $("<a href='/'>Home</a>").css("color", 'rgb(215, 33, 48)');
+    $(`<li/>`).mouseenter(function () {
+        HideSubcategory();
+    })
+    .append(refElement).appendTo(List);
     let date = DateGetClass.getCategory();
     console.log(date);
     for (let e in date) {
