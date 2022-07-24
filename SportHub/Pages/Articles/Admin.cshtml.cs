@@ -45,8 +45,10 @@ namespace SportHub.Pages.Articles
         public string SearchField { get; set; }
         public List<string> SubCategoriesDisplayed = new List<string>();
         public List<string> TeamsDisplayed = new List<string>();
+        public string SelectedCategory { get; set; }
         public async Task OnGetAsync(string? category)
         {
+            SelectedCategory = category;
             Categories = _service.GetCategories();
             CategoriesToMove = _service.GetCategoriesToMove(category);
             Article = _service.GetArticlesRange(0,10,PublishField, category, SelectedSubcategory, SelectedTeam, SearchField);

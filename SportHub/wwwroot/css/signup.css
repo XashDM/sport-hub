@@ -13,8 +13,9 @@
     --red-hover: #e02232;
     --red-active: #c80515;
     --fieldframe-dark: #7f8899;
-    --fieldframe-light: #ccd3e0;
-    --text-color-dark: #2b2f43;
+    --fieldframe-light: #D4D9E2;
+    --text-color-dark: #434C5D;
+    --input-placeholder-light: #C6CCD7;
 }
 
 .small-button {
@@ -31,7 +32,7 @@
 
 .signup-page-container .signup-header {
     width: 100%;
-    height: 75px;
+    height: 80px;
     position: absolute;
     display: flex;
 }
@@ -72,28 +73,39 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-right: 25px;
 }
 
 .signup-login-redirect p {
     color: var(--text-color-dark);
+    margin: 0;
+    font-family: 'Open Sans';
+    font-style: normal;
     font-weight: 600;
     font-size: 12px;
-    margin: 0;
+    line-height: 17px;
 }
 
-.signup-login-redirect input {
+.signup-login-redirect button {
     border: 1px solid var(--red-main);
     background: white;
     width: 130px;
     height: 32px;
     color: var(--red-main);
     margin: 0 30px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 17px;
+    text-align: center;
+    transition: .5s;
 }
 
-.signup-login-redirect input:hover {
+.signup-login-redirect button:hover {
     background: var(--red-main);
     color: white;
-    transition-duration: 0.4s;
+    transition: .5s
 }
 
 .signup-page-container .left-container {
@@ -119,12 +131,6 @@
     width: 100%;
 }
 
-.signup-header-block .menu-caption {
-    color: black;
-    font-size: 22px;
-    font-weight: bold;
-}
-
 .signup-page-container .right-container .signup-block {
     width: 390px;
     height: 400px;
@@ -136,9 +142,12 @@
 }
 
 .right-container .signup-block .menu-caption {
-    font-size: 22px;
     color: black;
+    font-family: 'Open Sans';
+    font-style: normal;
     font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
 }
 
 .right-container .signup-block form {
@@ -153,7 +162,7 @@
 }
 
 .signup-block form label {
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     font-size: 10px;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
@@ -187,7 +196,7 @@
 .signup-block .signup-icons img {
     width: 32px;
     height: 32px;
-    margin-right: 8px;
+    margin-right: 12px;
 }
 
 .signup-block .signup-icons img:hover {
@@ -201,6 +210,10 @@
     font-size: 12px;
 }
 
+.signup-block .double-input-box input::placeholder {
+    color: var(--input-placeholder-light);
+}
+
 .signup-block .single-input-box input {
     width: 100%;
     height: 42px;
@@ -208,13 +221,22 @@
     font-size: 12px;
 }
 
-.signup-block input[type=submit] {
+.signup-block .single-input-box input::placeholder {
+    color: var(--input-placeholder-light)
+}
+
+.signup-block button {
     width: 100%;
     height: 42px;
     margin-top: 36px;
     background: var(--red-main);
-    color: #FFFFFF;
-    font-weight: bold;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
     border: none;
 }
 

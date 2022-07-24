@@ -170,8 +170,8 @@ namespace SportHub.Controllers
                 {
                     Alt = article.AlternativeTextForThePicture,
                     Author = "None",
-                    ShortDescription = "None",
-                    PhotoTitle = "None",
+                    ShortDescription = article.Caption,
+                    PhotoTitle = article.Title,
                     ImageLink = link
                 };
                 imageItem = await _articleService.UploadArticlePhoto(imageItem);
