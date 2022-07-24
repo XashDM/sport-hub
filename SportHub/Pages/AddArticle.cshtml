@@ -234,32 +234,6 @@ $('.image-upload-box').on('drop', function (evt) {
     if (file) {
         $('#day-photo-background-img').attr('src', URL.createObjectURL(file));
     }
-  });
-
-function uploadPhotoOfTheDay() {
-    infoForm = $('#photo-info-form')[0];
-    let fd = new FormData(infoForm);
-    fd.append('imageFile', $('input[name="imageFile"]').prop('files')[0]);
-    isDisplayed = $('#photo-of-day-isDisplayed').prop('checked')
-    fd.append('isDisplayed', isDisplayed);
-    $.ajax({
-        async: true,
-        url: "/api/Articles/UploadPhotoOfTheDay",
-        type: "PUT",
-        processData: false,
-        contentType: false,
-        data: fd,
-
-        success: function (response) {
-            $('#success-banner').css('display', 'flex');
-            $('#success-banner').delay(5000).fadeOut();
-        },
-        
-        error: function () {
-            $('#error-banner').css('display', 'flex');
-            $('#error-banner').delay(5000).fadeOut();
-        }
-    });
-}
+});
 </script>
 }
