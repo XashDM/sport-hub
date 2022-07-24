@@ -42,7 +42,7 @@ namespace SportHub.Pages
             var currentUser = _userService.GetUserByEmail(forgotPassword.Email);
             var token = _jwtSigner.FetchToken(currentUser);
 
-            await _emailService.SendResetPasswordEmail(currentUser, token.TokenJwt);
+            await _emailService.SendResetPasswordEmail(currentUser.Email, token.TokenJwt);
 
             return StatusCode(200);
         }

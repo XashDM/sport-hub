@@ -22,7 +22,7 @@ namespace SportHub.Services
             _emailServiceConfig = emailServiceConfig;
         }
 
-        public async Task SendSignUpEmail(User user)
+        public async Task SendSignUpEmail(string userEmailAddress)
         {
             var loginPage = ConfigurationManager.AppSettings.Get("loginPage");
             var loginEmailPath = ConfigurationManager.AppSettings.Get("loginEmailPath");
@@ -31,11 +31,11 @@ namespace SportHub.Services
                 .Replace("{DateRegistered}", DateTime.Now.ToString("MMMM dd, yyyy"))
                 .Replace("{loginpage}", loginPage);
 
-            var email = GenerateEmail(user, "Signup verification", emailBody);
+            var email = GenerateEmail(userEmailAddress, "Signup verification", emailBody);
 
             await SendEmail(email);
         }
-        public async Task SendResetPasswordEmail(User user, string token)
+        public async Task SendResetPasswordEmail(string userEmailAddress, string token)
         {
             var resetPasswordPage = ConfigurationManager.AppSettings.Get("resetPasswordPage");
             var resetPasswordEmailPath = ConfigurationManager.AppSettings.Get("resetPasswordEmailPath");
@@ -43,16 +43,16 @@ namespace SportHub.Services
             var emailBody = File.ReadAllText($"{Directory.GetCurrentDirectory()}{resetPasswordEmailPath}")
                 .Replace("{resetPasswordPage}", $"{resetPasswordPage}{token}");
 
-            var email = GenerateEmail(user, "Password reset", emailBody);
+            var email = GenerateEmail(userEmailAddress, "Password reset", emailBody);
 
             await SendEmail(email);
         }
 
-        private MimeMessage GenerateEmail(User user, string subject, string emailBody)
+        private MimeMessage GenerateEmail(string userEmailAddress, string subject, string emailBody)
         {
             var email = new MimeMessage();
             email.From.Add(new MailboxAddress(_emailServiceConfig.DisplayName, _emailServiceConfig.From));
-            email.To.Add(MailboxAddress.Parse(user.Email));
+            email.To.Add(MailboxAddress.Parse(userEmailAddress));
             email.Subject = subject;
             email.Body = new TextPart(TextFormat.Html) { Text = emailBody };
 
