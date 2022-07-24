@@ -11,7 +11,8 @@ namespace SportHub.OAuthRoot.Strategies
 {
     public class FacebookAuth : IExternalAuthHandler
     {
-        public async Task<AuthTokenResponse?> HandleExternalAuth(ExternalAuthArgs externalAuthArgs, IUserService _userService, ITokenService _tokenService, IJwtSigner _jwtSigner)
+        public async Task<AuthTokenResponse?> HandleExternalAuth(ExternalAuthArgs externalAuthArgs, IUserService _userService, ITokenService _tokenService, 
+            IJwtSigner _jwtSigner, IEmailService _emailService)
         {
             if (externalAuthArgs.IsCreationRequired)
             {
@@ -20,8 +21,9 @@ namespace SportHub.OAuthRoot.Strategies
                     throw new InvalidAuthDataException();
                 }
 
-                var createdUser = await _userService.CreateUser(externalAuthArgs.Email, null, externalAuthArgs.FirstName, externalAuthArgs.LastName, 
-                                                            ExternalAuthProvidersEnum.Facebook.ToString(), true);
+                await _emailService.SendSignUpEmail(externalAuthArgs.Email);
+
+                var createdUser = await _userService.CreateUser(externalAuthArgs.Email, null, externalAuthArgs.FirstName, externalAuthArgs.LastName,                                      ExternalAuthProvidersEnum.Facebook.ToString(), true);
                 var accessToken = _jwtSigner.FetchToken(createdUser);
                 var refreshToken = await _tokenService.CreateRefreshTokenAsync(accessToken.Id, createdUser.Id);
 
