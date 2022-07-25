@@ -107,6 +107,15 @@ body {
     margin-bottom: 50px;
 }
 
+    .user-articles-bottom-articles::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .user-articles-bottom-articles::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        border-radius: 2px;
+    }
+
 .user-articles-elements {
     width: 802px;
     height: 182px;
