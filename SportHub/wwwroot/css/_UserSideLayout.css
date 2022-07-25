@@ -322,7 +322,15 @@ button#search-button {
     align-items: center;
     -webkit-transform-origin: top;
 }
-.menu-new li {
+
+.sidebar li a:hover {
+        color: #d72130;
+}
+.sidebar li a {
+    margin-top: 0px;
+    height: 50px;
+    padding-bottom: 5px;
+    list-style-type: initial;
 }
 .item-sidebar:hover {
     color: #d72130;
