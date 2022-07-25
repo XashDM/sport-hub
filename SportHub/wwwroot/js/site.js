@@ -237,7 +237,7 @@ function HideSubcategory() {
 
 let activeCategory = null;
 let activeSubcategory = null;
-let path = "/user/Articles";
+let path = "/User/Articles";
 function CreateCatgorySidebar() {
     let List = $("#category-sidebar")
     List.empty();
