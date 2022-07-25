@@ -299,7 +299,9 @@ button#search-button {
     margin-top: 90px;
     margin-left: 0px;
     padding-left: 0px;
+    list-style: none;
 }
+/*
 .sidebar li {
     margin-top: 0px;
     height: 50px;
@@ -322,15 +324,37 @@ button#search-button {
     align-items: center;
     -webkit-transform-origin: top;
 }
-
-.sidebar li a:hover {
-        color: #d72130;
+*/
+#category-sidebar li {
+    margin-top: 0px;
+    height: 50px;
+    padding-bottom: 5px;
+    list-style-type: initial;
 }
 .sidebar li a {
     margin-top: 0px;
     height: 50px;
     padding-bottom: 5px;
     list-style-type: initial;
+    color: inherit;
+}
+
+    .sidebar li:hover {
+        color: #d72130;
+    }
+
+.menu-new li a {
+    margin-top: 0px;
+    height: 50px;
+    list-style-type: initial;
+    margin-left: 0px;
+    list-style-type: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    -webkit-transform-origin: top;
 }
 .item-sidebar:hover {
     color: #d72130;

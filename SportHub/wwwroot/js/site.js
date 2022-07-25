@@ -254,11 +254,11 @@ function CreateCatgorySidebar() {
     console.log(date);
     for (let e in date) {
         let element = date[e];
-        let refElement = $(`<a href='${path}/${element.name}'>${element.name}</a>`)
+        let refElement = $(`<a href='${path}/${element.name}'>${element.name}</a>`);
+        var li = $(`<li/>`)
             .mouseenter(function () {
                 CreateSubcatgorySidebar(element);
-            });
-        var li = $(`<li/>`)
+            })
             .append(refElement)
             .appendTo(List);
     }
