@@ -277,3 +277,8 @@ function closeForm() {
     modal.style.display = "none";
     document.getElementById("item-name-input").value = "";
 }
+
+$(document).ready(function () {
+    $("#navigation-item-button").toggleClass('red-accent-img');
+});
+

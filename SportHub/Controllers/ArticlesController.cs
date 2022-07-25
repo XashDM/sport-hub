@@ -262,6 +262,14 @@ namespace SportHub.Controllers
             return Ok(image);
         }
 
+        [HttpPost(nameof(SearchUserArticlesRange))]
+        [AllowAnonymous]
+        public async Task<IActionResult> SearchUserArticlesRange([FromBody] UserArticleRange articleInfo)
+        {
+            var articles = _adminArticlesService.GetUserArticles(articleInfo.Category, articleInfo.Subcategory, articleInfo.Team).Result.Skip(articleInfo.startPosition).Take(articleInfo.amountOfArticles);
+            return new OkObjectResult(articles);
+        }
+
         [HttpPost(nameof(SearchArticlesRange))]
         [AllowAnonymous]
         public async Task<IActionResult> SearchArticlesRange([FromBody] ArticlesSearch articleInfo)

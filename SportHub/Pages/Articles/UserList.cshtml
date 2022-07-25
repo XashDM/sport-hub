@@ -1,0 +1,90 @@
+﻿@page "/user/articles/{Category?}/{Subcategory?}/{Team?}"
+@model SportHub.Pages.Articles.UserListModel
+@{
+    ViewData["Title"] = @Model.CategoryView + "articles";
+}
+
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using Microsoft.Extensions.Localization
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/UserArticles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/userArticles.js"></script>
+</head>
+
+<div id="category" class="user-articles-info">@Model.CategoryView</div>
+<div id="subcategory" class="user-articles-info">@Model.SubCategoryView</div>
+<div id="team" class="user-articles-info">@Model.TeamView</div>
+
+<div class="user-articles-main-body">
+    <div class="user-articles-no-articles-was-found" style=@(Model.AmountOfArticles > 0 ? "display:none":"")>
+        <h2 class="user-articles-h2">No articles found.</h2>
+        <div class="user-articles-bottom-text-for-no-result">
+            Articles will be added later.
+        </div>
+    </div>
+@{
+    if (@Model.AmountOfArticles != 0)
+    {
+    <div class="user-articles-header-image">
+        <img src="@Model.HeaderArticle.ImageItem.ImageLink" />
+        <div class="user-articles-image-character">
+            <div class="user-articles-info-image">
+                <div class="user-articles-published">
+                    <b>
+                        @localizer["PUBLISHED"] / @Html.DisplayFor(model => model.HeaderArticle.PostedDate)
+                    </b>
+                </div>
+                <div class="user-articles-title-info">
+                    <b>
+                        @Html.DisplayFor(model => model.HeaderArticle.ImageItem.PhotoTitle)
+                    </b>
+                </div>
+                <div class="user-articles-bottom-info">
+                    @Html.DisplayFor(model => model.HeaderArticle.ImageItem.ShortDescription)
+                </div> 
+            </div>
+            <a class="user-articles-more-btn" href="/Articles/Details/?id=@Model.HeaderArticle.Id">
+                @localizer["MORE"]
+            </a>
+        </div>   
+    </div>
+
+    <div class="user-articles-background-text">
+        News
+    </div>
+    <div class="user-articles-background-text-news">
+        @Model.CategoryView
+    </div>
+
+    <div class="user-articles-bottom-articles" onscroll="scrollCheck()">
+        <div class="user-articles-scroll-position">
+        @{
+            for (int index = 1; index<@Model.AmountBottomDisplayedArticles; index++)
+            {
+                <a class="user-articles-elements" id="article-with-id-@Model.Articles[index].Id" href="/Articles/Details?id=@Model.Articles[index].Id">
+                    
+                    <div class="user-articles-left-content-image-container">
+                        <img class="user-articles-bottom-image" src="@Model.Articles[index].ImageItem.ImageLink" alt="@Model.Articles[index].ImageItem.Alt">
+                    </div>
+
+                    <div class="user-articles-right-content">
+                        <div class="user-articles-right-text">
+                            <div class="user-articles-title">
+                                @Model.Articles[index].Title
+                            </div>
+                            <div class="user-articles-content-text">
+                                @Model.Articles[index].ContentText
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        }
+        </div>
+    </div>
+    }
+}
+</div>

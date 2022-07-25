@@ -26,8 +26,8 @@ namespace SportHub.Pages
         {
             try
             {
+                await _emailService.SendSignUpEmail(credentials.Email);
                 var user = await _userService.CreateUser(credentials.Email, credentials.PasswordHash, credentials.FirstName, credentials.LastName);
-                await _emailService.SendSignUpEmail(user);
 
                 Response.StatusCode = 201;
                 return new JsonResult(new { success = true });

@@ -86,6 +86,19 @@
         opacity: 0;
     }
 
+/*
+    Removes flickering when dragged over, for moz and webkit;
+    Also disable some buttons (important)
+*/
+#drop-section * {
+    pointer-events: none;
+}
+
+.editing-tools-box label {
+    /*need some active buttons*/
+    pointer-events: initial !important;
+}
+
 .drop-down-fields .select-box {
     display: flex;
     flex-direction: column;

@@ -142,14 +142,50 @@
             @RenderBody()
         </main>
     </div>
+
     <footer>
-        <div class="navbar-logo">
-            <a class="logo-caption" asp-page="/Index">SportHub</a>
-        </div>
-        <div class="copyright-box">
-            <p class="regular-text">Copyright ©2022 SportHub</p>
+        <div class="link-area">
+            <div class="line"></div>
+  	 	    <div class="row">
+  	 		    <div class="footer-col">
+  	 			    <h4>COMPANY INFO</h4>
+  	 			    <ul>
+  	 				    <li><a href="/AboutSportsHub">About Sports Hub</a></li>
+  	 				    <li><a href="#">News / In the Press</a></li>
+  	 				    <li><a href="#">Advertising / Sports Blogger Ad Network</a></li>
+  	 				    <li><a href="#">Events</a></li>
+                        <li><a href="#">Contact Us</a></li>
+  	 			    </ul>
+  	 		    </div>
+  	 		    <div class="footer-col">
+  	 			    <h4>CONTRIBUTORS</h4>
+  	 			    <ul>
+  	 				    <li><a href="#">Featured Writers Program</a></li>
+  	 				    <li><a href="#">Featured Team Writers Program</a></li>
+  	 				    <li><a href="#">Internship Program</a></li>
+  	 			    </ul>
+  	 		    </div>
+  	 		    <div class="footer-col">
+  	 			    <h4>NEWSLETTER</h4>
+  	 				<p class="sing-up-text">Sign up to receive the latest sports news<p>
+                    <form class="subscribe-section">
+                        <input type="email" placeholder="Your email address"/>
+                        <button class="subscribe-button">Subscribe</button>
+                    </form>
+  	 		    </div>
+  	 	    </div>
+  	    </div>
+
+        <div class="red-rectangle-area">
+            <div class="navbar-logo">
+                <a class="logo-caption" asp-page="/Index">SportHub</a>
+            </div>
+            <div class="copyright-box">
+                <p class="regular-text">Copyright ©2022 SportHub</p>
+            </div>
         </div>
     </footer>
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
