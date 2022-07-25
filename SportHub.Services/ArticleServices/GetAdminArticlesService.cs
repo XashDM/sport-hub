@@ -182,7 +182,9 @@ namespace SportHub.Services.ArticleServices
                     userArticles.Add(articles[i]);                   
                 }
             }
-            return userArticles;
+            IEnumerable<Article> sortedEnum = userArticles.OrderBy(f => f.PostedDate);
+            IList<Article> sortedList = sortedEnum.ToList();
+            return sortedList;
         }
 
         public IList<NavigationItem> GetCategories()
