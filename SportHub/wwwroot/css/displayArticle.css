@@ -166,12 +166,13 @@ body {
 }
 
 .get-article-comments {
-    width: 80%;
-    height: 746px;
+    /*width: 80%;
+    height: 746px;*/
     background-color: #F8F8F8;
     float: left;
     margin: auto;
     margin: 0 10%;
+    margin-bottom: 25px;
     padding: 20px;
 }
 

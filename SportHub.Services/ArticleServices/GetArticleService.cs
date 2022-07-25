@@ -480,5 +480,19 @@ namespace SportHub.Services.ArticleServices
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public MainComment CreateMainComment(string message, int articleId, int userId)
+        {
+            var newMainComment = new MainComment
+            {
+                UserId = userId,
+                ArticleId = articleId,
+                Message = message,
+                Created = DateTime.UtcNow,
+            };
+            _context.MainComments.Add(newMainComment);
+            _context.SaveChanges();
+            return newMainComment;
+        }
     }
 }

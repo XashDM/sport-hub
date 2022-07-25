@@ -45,6 +45,7 @@ namespace SportHub.Config.JwtAuthentication
         private List<Claim> CreateTokenClaims(User user)
         {
             List<Claim> claimsList = new List<Claim>();
+            claimsList.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             claimsList.Add(new Claim(ClaimTypes.Email, user.Email));
             claimsList.Add(new Claim(ClaimTypes.Surname, user.LastName));
             claimsList.Add(new Claim(ClaimTypes.Name, user.FirstName));

@@ -31,5 +31,6 @@ namespace SportHub.Services.Interfaces
         Task<IQueryable<Article>> GetAllArticlesByParentIdQueryable(int parentId);
         Task<bool> SaveArticle(Article article);
         Task<ImageItem> UploadArticlePhoto(ImageItem image);
+        MainComment CreateMainComment(string message, int articleId, int userId);
     }
 }
