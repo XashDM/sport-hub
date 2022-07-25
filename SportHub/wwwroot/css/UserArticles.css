@@ -134,7 +134,7 @@ body {
 
 .user-articles-bottom-articles {
     width: 826px;
-    height: 1058px;
+    max-height: 1058px;
     overflow: scroll;
     overflow-x: visible;
     padding: 24px 0 0 24px;
