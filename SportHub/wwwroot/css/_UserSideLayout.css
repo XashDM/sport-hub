@@ -299,17 +299,29 @@ button#search-button {
     margin-top: 90px;
     margin-left: 0px;
     padding-left: 0px;
+    list-style: none;
 }
-.sidebar li {
+
+#category-sidebar li {
     margin-top: 0px;
     height: 50px;
     padding-bottom: 5px;
     list-style-type: initial;
 }
-.sidebar li:hover {
-    color: #d72130;
+
+.sidebar li a {
+    margin-top: 0px;
+    height: 50px;
+    padding-bottom: 5px;
+    list-style-type: initial;
+    color: inherit;
 }
-.menu-new li {
+
+    .sidebar li:hover {
+        color: #d72130;
+    }
+
+.menu-new li a {
     margin-top: 0px;
     height: 50px;
     list-style-type: initial;
@@ -321,8 +333,6 @@ button#search-button {
     text-align: center;
     align-items: center;
     -webkit-transform-origin: top;
-}
-.menu-new li {
 }
 .item-sidebar:hover {
     color: #d72130;

@@ -236,12 +236,17 @@ function HideSubcategory() {
         display: "none"
     });
 }
+
+let activeCategory = null;
+let activeSubcategory = null;
+let path = "/User/Articles";
 function CreateCatgorySidebar() {
     let List = $("#category-sidebar")
     List.empty();
     List.css({
         display: "block"
     })
+    let path = "/user/Articles";
     let refElement = $("<a href='/'>Home</a>").css("color", 'rgb(215, 33, 48)');
     $(`<li/>`).mouseenter(function () {
         HideSubcategory();
@@ -251,11 +256,12 @@ function CreateCatgorySidebar() {
     console.log(date);
     for (let e in date) {
         let element = date[e];
+        let refElement = $(`<a href='${path}/${element.name}'>${element.name}</a>`);
         var li = $(`<li/>`)
-            .text(element.name)
             .mouseenter(function () {
                 CreateSubcatgorySidebar(element);
             })
+            .append(refElement)
             .appendTo(List);
     }
 }
@@ -268,15 +274,17 @@ function CreateSubcatgorySidebar(e) {
     $("#blureid").css({
         display: "block"
     });
+    activeCategory = e; 
     let date = DateGetClass.getSubcategoryofCategory(e);
     for (let e in date) {
         let element = date[e];
+        let refElement = $(`<a href='${path}/${activeCategory.name}/${element.name}'>${element.name}</a>`);
         var li = $(`<li/>`)
-            .text(element.name)
-            .addClass('item-sidebar')
             .mouseenter(function () {
                 CreateTeamSidebar(element);
             })
+            .addClass('item-sidebar')
+            .append(refElement)
             .appendTo(List);
     }
 }
@@ -289,12 +297,14 @@ function CreateTeamSidebar(e) {
     $("#blureid").css({
         display: "block"
     });
+    activeSubcategory = e;
     let date = DateGetClass.getTeamofSubcategory(e);
     for (let e in date) {
         let element = date[e];
+        let refElement = $(`<a href='${path}/${activeCategory.name}/${activeSubcategory.name}/${element.name}'>${element.name}</a>`);
         var li = $(`<li/>`)
-            .text(element.name)
             .addClass('item-sidebar')
+            .append(refElement)
             .appendTo(List);
     }
 }
