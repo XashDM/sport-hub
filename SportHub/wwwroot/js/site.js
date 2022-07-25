@@ -56,7 +56,12 @@ $("#loginForm").submit((event) => {
         passwordHash = res;
         Login(emailAddress, passwordHash);
     });
-})
+});
+
+$(document).ready(function () {
+    displayLogInOut();
+    displayData();
+});
 
 function Login(email, passwordHash) {
     $.ajax({
@@ -100,7 +105,7 @@ function userData() {
 }
 
 function displayData() {
-    console.log(userData());
+    //console.log(userData());
     document.getElementById("fullName").textContent = userData().name + ' ' + userData().family_name;
     document.getElementById("email").textContent = userData().email;
     document.getElementById("username").textContent = userData().name + ' ' + userData().family_name;

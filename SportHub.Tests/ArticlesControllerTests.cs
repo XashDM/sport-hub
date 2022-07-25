@@ -80,8 +80,9 @@ namespace SportHub.Tests
 
             var adminArticleService = new Mock<IGetAdminArticlesService>();
             var searchService = new Mock<ISearchService>();
+            var commentService = new Mock<ICommentService>();
 
-            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object, commentService.Object);
 
             // act
 
@@ -108,8 +109,9 @@ namespace SportHub.Tests
             var imageService = new Mock<IImageService>();
             var adminArticleService = new Mock<IGetAdminArticlesService>();
             var searchService = new Mock<ISearchService>();
+            var commentService = new Mock<ICommentService>();
 
-            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object, commentService.Object);
 
             // act
 
@@ -136,8 +138,9 @@ namespace SportHub.Tests
             var imageService = new Mock<IImageService>();
             var adminArticleService = new Mock<IGetAdminArticlesService>();
             var searchService = new Mock<ISearchService>();
+            var commentService = new Mock<ICommentService>();
 
-            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object, commentService.Object);
 
             // act
 
@@ -163,8 +166,9 @@ namespace SportHub.Tests
             var imageService = new Mock<IImageService>();
             var adminArticleService = new Mock<IGetAdminArticlesService>();
             var searchService = new Mock<ISearchService>();
+            var commentService = new Mock<ICommentService>();
 
-            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object, commentService.Object);
 
             // act
 
@@ -191,8 +195,9 @@ namespace SportHub.Tests
             var imageService = new Mock<IImageService>();
             var adminArticleService = new Mock<IGetAdminArticlesService>();
             var searchService = new Mock<ISearchService>();
+            var commentService = new Mock<ICommentService>();
 
-            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object, commentService.Object);
 
             // act
 
@@ -223,8 +228,9 @@ namespace SportHub.Tests
 
             var adminArticleService = new Mock<IGetAdminArticlesService>();
             var searchService = new Mock<ISearchService>();
+            var commentService = new Mock<ICommentService>();
 
-            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object, commentService.Object);
 
             // act
 
@@ -247,9 +253,9 @@ namespace SportHub.Tests
             var imageService = new Mock<IImageService>();
             var adminArticleService = new Mock<IGetAdminArticlesService>();
             var searchService = new Mock<ISearchService>();
+            var commentService = new Mock<ICommentService>();
 
-            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
-
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object, commentService.Object);
             // act
 
             var result = await articleController.GetMainArticles() as OkObjectResult;
@@ -272,8 +278,9 @@ namespace SportHub.Tests
             var imageService = new Mock<IImageService>();
             var adminArticleService = new Mock<IGetAdminArticlesService>();
             var searchService = new Mock<ISearchService>();
+            var commentService = new Mock<ICommentService>();
 
-            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object);
+            var articleController = new ArticlesController(articleService.Object, adminArticleService.Object, imageService.Object, searchService.Object, commentService.Object);
 
             // act
 

@@ -45,5 +45,7 @@ namespace SportHub.Domain.Models
         public string? AuthProvider { get; set; } // Google, Facebook, etc. 
 
         public virtual ICollection<UserRole> Roles { get; set; }
+        
+        public virtual ICollection<CommentUserLikeDislike> LikesDislikes { get; set; }
     }
 }

@@ -16,6 +16,10 @@ namespace SportHub.Domain
         public DbSet<NavigationItem> NavigationItems { get; set; }
         public DbSet<DisplayItem> DisplayItems { get; set; }
         public DbSet<ImageItem> ImageItems { get; set; }
+        public DbSet<MainComment> MainComments { get; set; }
+        public DbSet<SubComment> SubComments { get; set; }
+        public DbSet<CommentUserLikeDislike> CommentUserLikeDislikes { get; set; }
+
         public DbSet<Language> Languages { get; set; }
         public DbSet<DisplayedLanguage> DisplayedLanguages { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }

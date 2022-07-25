@@ -24,13 +24,15 @@ namespace SportHub.Controllers
         private readonly IGetAdminArticlesService _adminArticlesService;
         private readonly IImageService _imageService;
         private readonly ISearchService _searchArticles;
+        private readonly ICommentService _commentService;
 
-        public ArticlesController(IGetArticleService articleService, IGetAdminArticlesService adminArticlesService, IImageService imageService, ISearchService searchArticles)
+        public ArticlesController(IGetArticleService articleService, IGetAdminArticlesService adminArticlesService, IImageService imageService, ISearchService searchArticles, ICommentService commentService)
         {
             _articleService = articleService;
             _imageService = imageService;
             _searchArticles = searchArticles;
             _adminArticlesService = adminArticlesService;
+            _commentService = commentService;
         }
 
         [HttpGet(nameof(GetAllCategories))]
@@ -297,6 +299,61 @@ namespace SportHub.Controllers
         {
             var articles = _searchArticles.ArticleSearchAllTree(articleInfo.searchValue).Skip(articleInfo.startPosition).Take(articleInfo.amountArticles);
             return new OkObjectResult(articles);
+        }
+
+        [HttpPost(nameof(CreateMainComment))]
+        [Authorize]
+        public async Task<IActionResult> CreateMainComment(CommentDTO comment)
+        {
+            var createdComment = _articleService.CreateMainComment(comment.Message, comment.ArticleId, comment.UserId);
+            return Ok(createdComment);
+        }
+
+        [HttpDelete(nameof(DeleteComment))]
+        [Authorize]
+        public async Task<IActionResult> DeleteComment([FromQuery] int mainCommentId)
+        {
+            _commentService.DeleteComment(mainCommentId);
+            return Ok();
+        }
+
+        [HttpGet(nameof(GetSortedComments))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetSortedComments([FromQuery] string sortedBy, int articleId)
+        {
+            var sortedComments = await _commentService.GetSortedComments(sortedBy, articleId);
+            return Ok(sortedComments);
+        }
+
+        [HttpGet(nameof(GetCommentsCount))]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetCommentsCount([FromQuery] int articleId)
+        {
+            var countComments = await _commentService.GetCommentCount(articleId);
+            return Ok(countComments);
+        }
+
+        [HttpPut(nameof(EditComment))]
+        [Authorize]
+        public async Task<IActionResult> EditComment([FromBody] EditedCommentArgs editComment)
+        {
+            var editedComment = await _commentService.EditComment(editComment.Message, editComment.MainCommentId);
+            return Ok(editedComment);
+        }
+
+        [HttpPost(nameof(LikeOrDislikeComment))]
+        [Authorize]
+        public async Task<IActionResult> LikeOrDislikeComment([FromBody] LikeDislikeCommentArgs commentArgs)
+        {
+            try
+            {
+                var commentReaction = await _commentService.LikeOrDislikeComment(commentArgs.MainCommentId, commentArgs.UserId, commentArgs.IsLiked);
+                return Ok(commentReaction);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportHub.Domain;
 
@@ -10,9 +11,10 @@ using SportHub.Domain;
 namespace SportHub.Domain.Migrations
 {
     [DbContext(typeof(SportHubDBContext))]
-    partial class SportHubDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220724094026_CommentsAndUserLikesDislikesTable")]
+    partial class CommentsAndUserLikesDislikesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,43 +252,6 @@ namespace SportHub.Domain.Migrations
                     b.ToTable("NavigationItems");
                 });
 
-            modelBuilder.Entity("SportHub.Domain.Models.RefreshToken", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsRevoked")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsUsed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime>("IssuedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("JwtTokenId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RefreshTokens");
-                });
-
             modelBuilder.Entity("SportHub.Domain.Models.SubComment", b =>
                 {
                     b.Property<int>("Id")
@@ -494,17 +459,6 @@ namespace SportHub.Domain.Migrations
                         .HasForeignKey("ParentsItemId");
 
                     b.Navigation("ParentsItem");
-                });
-
-            modelBuilder.Entity("SportHub.Domain.Models.RefreshToken", b =>
-                {
-                    b.HasOne("SportHub.Domain.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SportHub.Domain.Models.SubComment", b =>

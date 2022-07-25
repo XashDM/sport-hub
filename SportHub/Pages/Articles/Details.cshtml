@@ -12,10 +12,12 @@
     <title>@ViewData["Title"] - SportHub</title>
     <link rel="stylesheet" href="~/css/displayArticle.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SportHub.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/CommentSectionTemp.css" asp-append-version="true" />
+    
 </head>
 
 
-<div class="get-article-main">   
+    <div class="get-article-main">   
     <div class="get-article-content">
         <div class="get-article-top-info">
             <div class="get-article-category-link">
@@ -61,25 +63,64 @@
         @Html.DisplayFor(model => model.category)
     </div>
     <div class="get-article-comments">
-        <div class="get-article-count-comments">
-            <b>COMMENTS (0)</b>
+        <div class="commentSection">
+        <div class="header_comment">
+           <div class="row">
+              <p class="pull-left">
+                 <span class="count_comment">COMMENTS (0)</span>
+              </p>
+              <p class="pull-right">
+                 <span class="sort_title">Sort by: </span>
+                 <select id="selectSort" class="sort_by">
+                    <option value="popular" >Most popular</option>
+                    <option value="newest" selected>Newest</option>
+                    <option value="oldest">Oldest</option>
+                 </select>
+              </p>
+           </div>
         </div>
-        <div class="get-article-sort-by">
-            Sort by: 
-            <select>
-                <option>Most popular</option>
-                <option>Oldest first</option>
-                <option>Newest first</option>
-            </select>
-        </div>
-        <div class="get-article-your-commects">
-
-        </div>
-        <div class="get-article-body-commects">
-
-        </div>
-        <div class="get-article-bottom-comments">
-
+        <div class="commentsBox">
+           <div class="col-md-12" id="fbcomment">
+              <div class="body_comment">
+                 <div class="row">
+                    <div class="box_comment">
+                       <div class="avatar_comment">
+                          <img src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg" alt="avatar"/>
+                          <textarea class="commentar" placeholder="Write a comment" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Write a comment'"></textarea>
+                       </div>
+                       <div class="box_post">
+                          <div class="pull-right">
+                             <button onclick="cancel_comment()" type="button" value="1">Cancel</button>
+                             <button onclick="submit_comment()" type="button" value="1">Submit</button>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="row">
+                    <ul id="list_comment">
+                    </ul>
+                 </div>
+              </div>
+           </div>
         </div>
     </div>
+            
+	<button class="show_more" type="button">Show more</button>
+    </div>
+    
 </div>
+
+    <script>
+	    $("textarea").keyup(function (e) {
+		    while ($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) 
+		    {
+			    $(this).height($(this).height() + 1);
+				    };
+		    });	
+	    $('textarea').blur(function (e) {         
+        var textLines = $(this).val().trim().split(/\r*\n/).length;      
+        $(this).val($(this).val().trim()).height(textLines*17);
+        });
+    </script>
+    <script src="~/js/comments.js" asp-append-version="true"></script>
+
