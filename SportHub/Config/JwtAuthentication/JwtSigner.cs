@@ -73,7 +73,6 @@ namespace SportHub.Config.JwtAuthentication
             claimsList.Add(new Claim(ClaimTypes.Surname, user.LastName));
             claimsList.Add(new Claim(ClaimTypes.Name, user.FirstName));
             claimsList.Add(new Claim(ClaimTypes.Sid, tokenId));
-            claimsList.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             foreach (var userRole in user.Roles)
             {
                 claimsList.Add(new Claim(ClaimTypes.Role, userRole.RoleName));

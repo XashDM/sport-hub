@@ -317,11 +317,13 @@ namespace SportHub.Controllers
             return Ok();
         }
 
-        [HttpGet(nameof(GetSortedComments))]
+        [HttpPost(nameof(GetSortedComments))]
         [AllowAnonymous]
-        public async Task<IActionResult> GetSortedComments([FromQuery] string sortedBy, int articleId)
+        public async Task<IActionResult> GetSortedComments([FromBody] SortedMainCommentsArgs commentsArgs)
         {
-            var sortedComments = await _commentService.GetSortedComments(sortedBy, articleId);
+            var sortedComments = await _commentService.GetSortedCommentPaginatedAsync(commentsArgs.SortedBy, commentsArgs.ArticleId, 
+                commentsArgs.PageArgs.PageSize, commentsArgs.PageArgs.PageNumber);
+
             return Ok(sortedComments);
         }
 
@@ -348,7 +350,7 @@ namespace SportHub.Controllers
             try
             {
                 var commentReaction = await _commentService.LikeOrDislikeComment(commentArgs.MainCommentId, commentArgs.UserId, commentArgs.IsLiked);
-                return Ok(commentReaction);
+                return Ok();
             }
             catch (Exception)
             {

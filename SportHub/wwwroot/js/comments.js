@@ -201,11 +201,11 @@ $(document).ready(function () {
 	$('#selectSort').on('change', function (e) {
 		var selected = $(this).val();
 		$('#list_comment').empty();
-		getSortedComments(selected, articleId);
+		getSortedComments(selected, articleId, generatePageArguments(1, 5));
 	});
 
 	getCommentCount(articleId);
-	getSortedComments("newest", articleId);
+	getSortedComments("newest", articleId, generatePageArguments(1, 5));
 });
 let liked = 0;
 let disliked = 0;
@@ -259,7 +259,13 @@ function sendLikeOrDislike(mainCommentId, userId, isLiked, $current) {
 	});
 }
 
-function getSortedComments(type, articleId) {
+function generatePageArguments(pageNumber, pageSize) {
+	const pageArguments = { 'PageNumber': pageNumber, 'PageSize': pageSize }
+
+	return pageArguments;
+}
+
+function getSortedComments(type, articleId, pageArgs) {
 	$.ajax({
 		headers:
 		{
@@ -268,9 +274,16 @@ function getSortedComments(type, articleId) {
 			'Content-Type': 'application/json'
 		},
 		async: false,
-		url: locationOrigin + '/api/Articles/GetSortedComments/?sortedBy=' + type + '&articleId=' + articleId ,
-		type: 'get',
+		data: JSON.stringify({
+			"PageArgs": pageArgs,
+			"SortedBy": type,
+			"ArticleId": articleId
+		}),
+		url: locationOrigin + '/api/Articles/GetSortedComments',
+		type: 'post',
 		success: function (data) {
+			console.log(data);
+			console.log("Ігор киця");
 			$('#list_comment').empty();
 			displayAllComments(data);
 		},

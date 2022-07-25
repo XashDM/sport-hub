@@ -14,10 +14,12 @@ namespace SportHub.Services
     public class CommentService : ICommentService
     {
         private readonly SportHubDBContext _context;
+        private readonly IGetArticleService _getArticleService;
 
-        public CommentService(SportHubDBContext context)
+        public CommentService(SportHubDBContext context, IGetArticleService getArticleService)
         {
             _context = context;
+            _getArticleService = getArticleService;
         }
 
         public void DeleteComment(int mainCommentId)
@@ -44,35 +46,41 @@ namespace SportHub.Services
             return foundComment;
         }
 
-        public async Task<MainComment[]> GetSortedComments(string sortedBy, int articleId)
+        public IQueryable<MainComment> GetSortedComments(string sortedBy, int articleId)
         {
+            var mainComments = _context.MainComments.Include(comment => comment.User)
+                                            .Where(comment => comment.ArticleId.Equals(articleId));
             if (sortedBy == "popular")
             {
-                var mainComments = await _context.MainComments.Include(comment => comment.User)
-                                            .Where(comment => comment.ArticleId.Equals(articleId))
-                                            .OrderByDescending(comment => comment.Likes)
-                                            .ToArrayAsync();
+                mainComments.OrderByDescending(comment => comment.Likes);
+                                            
                 return mainComments;
             }
             else if (sortedBy == "newest")
             {
-                var mainComments = await _context.MainComments.Include(comment => comment.User)
-                                            .Where(comment => comment.ArticleId.Equals(articleId))
-                                            .OrderByDescending(date => date.Created)
-                                            .ToArrayAsync();
+                mainComments.OrderByDescending(date => date.Created);
+                                            
                 return mainComments;
             }
             else 
             {
-                var mainComments = await _context.MainComments.Include(comment => comment.User)
-                                            .Where(comment => comment.ArticleId.Equals(articleId))
-                                            .OrderBy(date => date.Created)
-                                            .ToArrayAsync();
+                mainComments.OrderBy(date => date.Created);
+                                            
                 return mainComments;
             }
         }
 
-        public async Task<CommentUserLikeDislike>? LikeOrDislikeComment(int mainCommentId, int userId, bool isLiked)
+        public async Task<(MainComment[], int)> GetSortedCommentPaginatedAsync(string sortedBy, int articleId, int pageSize, int pageNumber) 
+        {
+            var sortedMainComments = GetSortedComments(sortedBy, articleId);
+            var paginationResult = _getArticleService.Paginate(sortedMainComments, pageSize, pageNumber);
+            var paginatedMainComments = await paginationResult.Item1.ToArrayAsync();
+            var totalComments = paginationResult.Item3;
+
+            return (paginatedMainComments, totalComments);
+        }
+
+        public async Task<CommentUserLikeDislike?> LikeOrDislikeComment(int mainCommentId, int userId, bool isLiked)
         {
             var record = await _context.CommentUserLikeDislikes
                                             .Where(entry => entry.MainCommentId.Equals(mainCommentId) && entry.UserId.Equals(userId))
