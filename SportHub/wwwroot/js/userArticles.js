@@ -21,7 +21,6 @@ function scrollCheck() {
         updateAfterScrolling();
         hiddenDivSize = $('.user-articles-bottom-articles')[0].scrollHeight;
         scrollHeight = visibleDivSize / hiddenDivSize * visibleDivSize;
-        console.log(hiddenDivSize, visibleDivSize, scrollPosition);
     }
 }
 
