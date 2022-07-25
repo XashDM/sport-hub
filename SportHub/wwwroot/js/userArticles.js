@@ -1,6 +1,6 @@
 ﻿let amountOfArticlesInSearchFieldSearchPage = 0;
 let startElementPosition = 10;
-let amountOfArticlesAdded = 2;
+let amountOfArticlesAdded = 5;
 
 function scrollCheck() {
     let hiddenDivSize = $('.user-articles-bottom-articles')[0].scrollHeight;
@@ -16,10 +16,22 @@ function scrollCheck() {
 }
 
 function updateAfterScrolling() {
+    let subcategory = $('#subcategory').text()
+    if (subcategory == "") {
+        subcategory = null;
+    }
+
+    let team = $('#team').text()
+    if (team == "") {
+        team = null;
+    }
+
     let searchParameters = {
         startPosition: startElementPosition,
         amountOfArticles: amountOfArticlesAdded,
-        Category: $('#category').text()
+        Category: $('#category').text(),
+        Subcategory: subcategory,
+        Team: team
     };
     $.ajax({
         method: 'post',
@@ -32,7 +44,8 @@ function updateAfterScrolling() {
                 for (var i = 0; i < amountOfArticles; i++) {
                     console.log(articles[i].title);
                     var articleCopied = $('.user-articles-elements:first')
-                        .clone().attr('id', `article-with-id-${articles[i].id}`).attr('href', `/Articles/Details?id=${articles[i].id}`)
+                        .clone().attr('id', `article-with-id-${articles[i].id}`)
+                        .attr('href', `/Articles/Details?id=${articles[i].id}`)
                         .appendTo('.user-articles-scroll-position');
                     articleCopied.find('.user-articles-title').text(articles[i].title);
                     articleCopied.find('.user-articles-content-text').text(articles[i].contentText);

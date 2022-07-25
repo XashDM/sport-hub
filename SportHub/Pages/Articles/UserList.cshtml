@@ -10,9 +10,9 @@
     <script src="~/js/userArticles.js"></script>
 </head>
 
-<div id="category">@Model.CategoryView</div>
-<h2>@Model.SubCategoryView</h2>
-<h3>@Model.TeamView</h3>
+<div id="category" class="user-articles-info">@Model.CategoryView</div>
+<div id="subcategory" class="user-articles-info">@Model.SubCategoryView</div>
+<div id="team" class="user-articles-info">@Model.TeamView</div>
 
 <div class="user-articles-main-body">
     <div class="user-articles-header-image">
@@ -36,9 +36,16 @@
             <a class="user-articles-more-btn" href="/Articles/Details/?id=@Model.HeaderArticle.Id">
                 More
             </a>
-        </div>
-        
+        </div>   
     </div>
+
+    <div class="user-articles-background-text">
+        News
+    </div>
+    <div class="user-articles-background-text-news">
+        @Model.CategoryView
+    </div>
+
     <div class="user-articles-bottom-articles" onscroll="scrollCheck()">
         <div class="user-articles-scroll-position">
         @{
