@@ -24,6 +24,7 @@ namespace SportHub.Pages.Articles
         public string TeamView { get; set; }
         public IList<Article> Articles { get; set; }
         public int AmountOfArticles { get; set; }
+        public int AmountBottomDisplayedArticles { get; set; }
         public Article HeaderArticle { get; set; }
         public async Task OnGetAsync(string category, string? subcategory, string? team)
         {
@@ -32,7 +33,18 @@ namespace SportHub.Pages.Articles
             TeamView = team;
             Articles = await _articleService.GetUserArticles(category, subcategory, team);
             AmountOfArticles = Articles.Count;
-            HeaderArticle = Articles[0];
+            if (Articles.Count != 0)
+            {
+                HeaderArticle = Articles[0];
+            }
+            if (AmountOfArticles < 10)
+            {
+                AmountBottomDisplayedArticles = AmountOfArticles;
+            }
+            else
+            {
+                AmountBottomDisplayedArticles = 10;
+            }
         }
     }
 }

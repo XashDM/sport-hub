@@ -1,7 +1,11 @@
 ﻿@page "/user/articles/{Category?}/{Subcategory?}/{Team?}"
 @model SportHub.Pages.Articles.UserListModel
 @{
+    ViewData["Title"] = @Model.CategoryView + "articles";
 }
+
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using Microsoft.Extensions.Localization
 
 <head>
     <meta charset="utf-8" />
@@ -15,6 +19,15 @@
 <div id="team" class="user-articles-info">@Model.TeamView</div>
 
 <div class="user-articles-main-body">
+    <div class="user-articles-no-articles-was-found" style=@(Model.AmountOfArticles > 0 ? "display:none":"")>
+        <h2 class="user-articles-h2">No articles found.</h2>
+        <div class="user-articles-bottom-text-for-no-result">
+            Articles will be added later.
+        </div>
+    </div>
+@{
+    if (@Model.AmountOfArticles != 0)
+    {
     <div class="user-articles-header-image">
         <img src="@Model.HeaderArticle.ImageItem.ImageLink" />
         <div class="user-articles-image-character">
@@ -34,7 +47,7 @@
                 </div> 
             </div>
             <a class="user-articles-more-btn" href="/Articles/Details/?id=@Model.HeaderArticle.Id">
-                More
+                @localizer["MORE"]
             </a>
         </div>   
     </div>
@@ -49,7 +62,7 @@
     <div class="user-articles-bottom-articles" onscroll="scrollCheck()">
         <div class="user-articles-scroll-position">
         @{
-            for (int index = 1; index<10; index++)
+            for (int index = 1; index<@Model.AmountBottomDisplayedArticles; index++)
             {
                 <a class="user-articles-elements" id="article-with-id-@Model.Articles[index].Id" href="/Articles/Details?id=@Model.Articles[index].Id">
                     
@@ -72,4 +85,6 @@
         }
         </div>
     </div>
+    }
+}
 </div>

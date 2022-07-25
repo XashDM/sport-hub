@@ -196,3 +196,18 @@ body {
     height: 95px;
     overflow: hidden;
 }
+
+.user-articles-bottom-text-for-no-result {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #7F7B7B;
+}
+
+.user-articles-no-articles-was-found {
+    font-family: 'Open Sans';
+    font-style: normal;
+    margin-left: 30px;
+}
