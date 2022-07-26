@@ -9,7 +9,7 @@
 	else {
 		$('.box_comment').css('border', `#d72130 1px solid`);
 		$('.commentar').val('You have to login in order to leave comments.').css('color', '#d72130');
-    }
+	}
 	el = document.createElement('li');
 	fullName = document.getElementById("fullName").textContent = userData().name + ' ' + userData().family_name;
 	var commentDate = new Date().toLocaleTimeString();
@@ -30,7 +30,7 @@
 			"UserId": token.nameid
 		}),
 		success() {
-			el.className = "box_result row";
+			el.className = "box_result rows";
 			el.innerHTML =
 				'<div class="comment-ex">' +
 				'<div class="author-img">' +
@@ -49,7 +49,7 @@
 				'<div class="tools_comment">' +
 				//'<a class="like" href="#">Like</a>' +
 				'<img class="like" src="/icons/like-icon.svg"  alt="Inactive"/>' +
-				'<a class="replay" href="#">Comment</a>' +	
+				'<a class="replay" href="#">Comment</a>' +
 				'<span class="count">0</span>' +
 				'<img class="dislike" src="/icons/dislike-icon.svg" alt="InactiveDislike"/>' +
 				'<span class="countDislike">0</span>' +
@@ -91,10 +91,10 @@ $(document).ready(function () {
 		cancel_reply();
 		$current = $(this);
 		el = document.createElement('li');
-		el.className = "box_reply row";
+		el.className = "box_reply rows";
 		el.innerHTML =
 			'<div class=\"reply_comment\">' +
-			'<div class=\"row\">' +
+			'<div class=\"rows\">' +
 			'<div class=\"box_comment\">' +
 			'<div class=\"avatar_comment\">' +
 			'<img src=\"https://html5css.ru/howto/img_avatar2.png\" alt=\"avatar\"/>' +
@@ -173,7 +173,6 @@ $(document).ready(function () {
 
 			lastEditedComment = [currentCommentElement, text];
 		}
-
 	});
 
 	$('#list_comment').on('click', '#cancelBtn', function (e) {
@@ -182,7 +181,7 @@ $(document).ready(function () {
 		$('.box_post').eq(1).remove();
 		$('.editedComment').replaceWith("<div class=\"comment-text\"><p class=\"mainComment\">" + text + "</p></div>");
 	});
-	
+
 	$('#list_comment').on('click', '.like', function (e) {
 		e.preventDefault();
 		const id = (e.target.parentElement.dataset).id
@@ -204,7 +203,6 @@ $(document).ready(function () {
 		getSortedComments(selected, articleId, generatePageArguments(1, 5));
 	});
 
-	getCommentCount(articleId);
 	getSortedComments("newest", articleId, generatePageArguments(1, 5));
 });
 let liked = 0;
@@ -251,7 +249,7 @@ function sendLikeOrDislike(mainCommentId, userId, isLiked, $current) {
 				//	$current.closest('div').find('.countDislike').text(y - 1);
 				//	disliked += 1;
 				//}
-            }
+			}
 		},
 		error(errorThrown) {
 			console.log(errorThrown);
@@ -283,9 +281,9 @@ function getSortedComments(type, articleId, pageArgs) {
 		type: 'post',
 		success: function (data) {
 			console.log(data);
-			console.log("Ігор киця");
 			$('#list_comment').empty();
-			displayAllComments(data);
+			$('.count_comment').text('COMMENTS (' + data.commentCount + ')');
+			displayAllComments(data.comments);
 		},
 		error(errorThrown) {
 			console.log(errorThrown);
@@ -326,7 +324,7 @@ function displayAllComments(data) {
 	else {
 		for (let i = 0; i <= data.length; i++) {
 			el = document.createElement('li');
-			el.className = "box_result row";
+			el.className = "box_result rows";
 			el.innerHTML =
 				'<div class="comment-ex">' +
 				'<div class="author-img">' +
@@ -337,13 +335,13 @@ function displayAllComments(data) {
 				'<h4 id="fullName">' + data[i].user.firstName + ' ' + data[i].user.lastName + '</h4>' +
 				'</div>' +
 				'<div class="comment-date">' +
-			'<span class="commentDate" id="commentDate">' + formatDateMy(data[i].created) + '</span>' +
+				'<span class="commentDate" id="commentDate">' + formatDateMy(data[i].created) + '</span>' +
 				'</div>' +
 				'<div class="comment-text">' +
 				'<p class="mainComment">' + data[i].message + '</p>' +
 				'</div>' +
 				'<div class="tools_comment" data-id=' + data[i].id + '>' +
-			//'<a class="like" href="#">Like</a>' +
+				//'<a class="like" href="#">Like</a>' +
 				'<img class="like" src="/icons/like-icon.svg" alt="Inactive"/>' +
 
 				/*'<a class="replay" href="#">Comment</a>' +*/
@@ -360,10 +358,10 @@ function displayAllComments(data) {
 			document.getElementById('list_comment').append(el);
 			$('.commentar').val('');
 		}
-    }
+	}
 	for (let i = 0; i <= data.length; i++) {
 		el = document.createElement('li');
-		el.className = "box_result row";
+		el.className = "box_result rows";
 		var equal = data[i].userId == parsedToken.nameid;
 		if (equal) {
 			el.innerHTML = '<div class="comment-ex">' +
@@ -410,14 +408,14 @@ function displayAllComments(data) {
 				'<h4 id="fullName">' + data[i].user.firstName + ' ' + data[i].user.lastName + '</h4>' +
 				'</div>' +
 				'<div class="comment-date">' +
-			'<span class="commentDate" id="commentDate">' + formatDateMy(data[i].created) + '</span>' +
+				'<span class="commentDate" id="commentDate">' + formatDateMy(data[i].created) + '</span>' +
 				'</div>' +
 				'<div class="comment-text">' +
 				'<p class="mainComment">' + data[i].message + '</p>' +
 				'</div>' +
-			'<div class="tools_comment" data-id=' + data[i].id + '>' +
-			//'<a class="like" href="#">Like</a>' +
-			'<img class="like" src="/icons/like-icon.svg" alt="Inactive"/>' +
+				'<div class="tools_comment" data-id=' + data[i].id + '>' +
+				//'<a class="like" href="#">Like</a>' +
+				'<img class="like" src="/icons/like-icon.svg" alt="Inactive"/>' +
 				'<a class="replay" href="#">Comment</a>' +
 				'<i class="fa fa-thumbs-o-up"></i> <span class="count">' + data[i].likes + '</span>' +
 				'<img class="dislike" src="/icons/dislike-icon.svg" alt="InactiveDislike"/>' +
@@ -449,22 +447,47 @@ function formatDateMy(str) {
 	return normalDate;
 }
 
-function getCommentCount(articleId) {	
-	$.ajax({
-		headers:
-		{
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		async: false,
-		url: locationOrigin + '/api/Articles/GetCommentsCount?articleId=' + articleId,
-		type: 'get',
-		success: function (data) {
-			$('.count_comment').text('COMMENTS (' + data + ')');
-		},
-		error(errorThrown) {
-			console.log(errorThrown);
-		}
-	});
+function submit_reply() {
+	var comment_replay = $('.comment_replay').val();
+	el = document.createElement('li');
+	el.className = "box_reply rows";
+	el.innerHTML =
+		'<div class="comment-ex">' +
+		'<div class="author-img">' +
+		'<img class="userImg" src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg" alt="avatar" />' +
+		'</div>' +
+		'<div class="comment-info">' +
+		'<div class="comment-author">' +
+		'<h4 id="fullName">' + data[i].user.firstName + ' ' + data[i].user.lastName + '</h4>' +
+		'</div>' +
+		'<div class="comment-date">' +
+		'<span class="commentDate" id="commentDate">' + formatDateMy(data[i].created) + '</span>' +
+		'</div>' +
+		'<div class="comment-text">' +
+		'<p>' + comment_replay + '</p>' +
+		'</div>' +
+		'<div class="tools_comment" data-id=' + data[i].id + '>' +
+		//'<a class="like" href="#">Like</a>' +
+		'<img class="like" src="/icons/like-icon.svg" alt="Inactive"/>' +
+		'<a class="replay" href="#">Comment</a>' +
+		'<i class="fa fa-thumbs-o-up"></i> <span class="count">' + data[i].likes + '</span>' +
+		'<img class="dislike" src="/icons/dislike-icon.svg" alt="InactiveDislike"/>' +
+		'<span class="countDislike">' + data[i].dislikes + '</span>' +
+		'<a href="#" class="showHide" data-id=' + data[i].id + '>' + ' ' +
+
+		//'<span class="delete-stuff pull-right">Delete &nbsp;</span>' +
+		//'<span class="edit-stuff pull-right">Edit &nbsp;</span>' +
+
+		'</a >' +
+		'</div>' +
+		'<ul class="child_replay"></ul>' +
+		'</div>'
+	'</div>';
+	$current.closest('li').find('.child_replay').prepend(el);
+	$('.comment_replay').val('');
+	cancel_reply();
 }
 
+function cancel_reply() {
+	$('.reply_comment').remove();
+}

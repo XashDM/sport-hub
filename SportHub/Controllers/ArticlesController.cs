@@ -321,10 +321,16 @@ namespace SportHub.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetSortedComments([FromBody] SortedMainCommentsArgs commentsArgs)
         {
-            var sortedComments = await _commentService.GetSortedCommentPaginatedAsync(commentsArgs.SortedBy, commentsArgs.ArticleId, 
+            var sortedComments = await _commentService.GetSortedCommentPaginatedAsync(commentsArgs.SortedBy, commentsArgs.ArticleId,
                 commentsArgs.PageArgs.PageSize, commentsArgs.PageArgs.PageNumber);
 
-            return Ok(sortedComments);
+            var sortedCommentsResult = new SortedMainCommentsOut()
+            {
+                Comments = sortedComments.Item1,
+                CommentCount = sortedComments.Item2
+            };
+
+            return Ok(sortedCommentsResult);
         }
 
         [HttpGet(nameof(GetCommentsCount))]
