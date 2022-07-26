@@ -125,6 +125,7 @@ function displayLogInOut() {
         $("#profile").hide();
         window.localStorage.removeItem("Jwt Token");
     }
+    $('.account-box').css('display', 'flex');
 }
 
 function logoutUser() {
