@@ -16,6 +16,7 @@
 </head>
 <body>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/userTokenCheck.js"></script>
     <header>
         <nav class="navbar">
             <div class="container">
@@ -67,7 +68,7 @@
                     </div>
                 </div>
                 <div class="account-box">
-                    <div class="buttons" id="buttons">
+                    <div class="signin-signup-buttons" id="buttons">
                         <button class="small-button" onclick="window.location='/Login';">@localizer["Sign in"]</button>
                         <button class="small-button-inversed" onclick="window.location='/SignUp';">@localizer["Sign up"]</button>
                     </div>
