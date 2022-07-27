@@ -48,16 +48,25 @@ body {
     margin: 8px 28px 8px 29px;
 }
 
-.get-admins-articles-select {
+.get-admins-articles-subcategory-select {
     width: 200px;
     height: 28px;
     border: solid 1px #D4D9E2;
     padding-left: 20px;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 19px;
+}
+
+.get-admins-articles-team-select {
+    width: 200px;
+    height: 28px;
+    border: solid 1px #D4D9E2;
+    padding-left: 20px;
+}
+
+.get-admins-articles-publish-unpublish-select {
+    width: 200px;
+    height: 28px;
+    border: solid 1px #D4D9E2;
+    padding-left: 20px;
 }
 
 .get-admins-articles-select option {
