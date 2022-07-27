@@ -6,6 +6,8 @@ using SportHub.Views;
 using System.Collections.Generic;
 using SportHub.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Text.RegularExpressions;
 
 namespace SportHub.Pages
 {
@@ -45,6 +47,7 @@ namespace SportHub.Pages
                 try
                 {
                     articleForSearchResult.ContentText = Articles[i].ContentText;
+                    articleForSearchResult.ContentText = Regex.Replace(articleForSearchResult.ContentText, "<.*?>", String.Empty);
                 }
                 catch
                 {

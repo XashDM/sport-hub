@@ -76,7 +76,7 @@ function updateSearchAfterScrollingSearchPage() {
                         articleSearchField.find('#search-page-image-in-search-between-category-subcategory').css('display', 'none');
                     }
 
-                    let fieldFromArticle = articles[i].contentText;
+                    let fieldFromArticle = articles[i].contentText.replace(/<[^>]*>?/gm, '').substr(0, 300);
                     let articleContentText = "";
                     for (var j = 0; j < fieldFromArticle.length; j++) {
                         if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
@@ -87,7 +87,7 @@ function updateSearchAfterScrollingSearchPage() {
                             articleContentText += fieldFromArticle[j];
                         }
                     }
-                    articleSearchField.find('.search-page-search-article-bottom-content').html(articleContentText.substr(0, 300));
+                    articleSearchField.find('.search-page-search-article-bottom-content').html(articleContentText);
                 }
                 if (amountOfArticles == 0) {
                     var articleSearchField = $('.search-page-search-article-info:first')
