@@ -75,7 +75,7 @@ function searchField() {
                                 $(this).find('#image-in-search-between-category-subcategory').css('display', 'none');
                             }
 
-                            let fieldFromArticle = articles[articleIndex].contentText;
+                            let fieldFromArticle = articles[articleIndex].contentText.replace(/<[^>]*>?/gm, '').substr(0, articleContentTextLength);
                             let articleContentText = "";
                             for (var j = 0; j < fieldFromArticle.length; j++) {
                                 if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
@@ -86,7 +86,7 @@ function searchField() {
                                     articleContentText += fieldFromArticle[j];
                                 }
                             }
-                            $(this).find('.search-article-bottom-content').html(articleContentText.substr(0, articleContentTextLength));
+                            $(this).find('.search-article-bottom-content').html(articleContentText);
 
                             articleIndex++;
                             $(this).show();
@@ -123,7 +123,7 @@ function searchField() {
                             articleSearchField.find('#image-in-search-between-category-subcategory').css('display', 'none');
                         }
 
-                        let fieldFromArticle = articles[i].contentText;
+                        let fieldFromArticle = articles[i].contentText.replace(/<[^>]*>?/gm, '').substr(0, articleContentTextLength);
                         let articleContentText = "";
                         for (var j = 0; j < fieldFromArticle.length; j++) {
                             if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
@@ -134,20 +134,16 @@ function searchField() {
                                 articleContentText += fieldFromArticle[j];
                             }
                         }
-                        articleSearchField.find('.search-article-bottom-content').html(articleContentText.substr(0, articleContentTextLength));
+                        articleSearchField.find('.search-article-bottom-content').html(articleContentText);
                     }
                     $('.search-result-articles').slideDown('');
                 }
                 else {
                     amountOfArticles = 0;
-                    console.log("no result");
                     let categoryName = $('.search-article-info:first').find('.search-article-category-name').text().replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, "");
-                    console.log(categoryName, noResultTop.replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, ""));
+                    noResultTop.replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, "");
                     let availableArticles = 0;
-                    if (categoryName == noResultTop.replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, "")) {
-                        console.log("asdasd");
-                    }
-                    else {
+                    if (categoryName != noResultTop.replace(/ /g, '').replace(/(\r\n|\n|\r)/gm, "")) {
                         if (displayedArticles == 0) {
                             var articleSearchField = $('.search-article-info:first')
                                 .clone().css('display', 'block')
@@ -157,7 +153,6 @@ function searchField() {
                             articleSearchField.find('.search-article-team-name').text('');
                             articleSearchField.find('.search-article-bottom-content').text(noResultBottom);
                             $('.search-result-articles').show();
-                            console.log("add some");
                         }
                         else {
                             $('.search-result-articles').find('.search-article-info').map(function () {
@@ -167,14 +162,12 @@ function searchField() {
                                     $(this).find('.search-article-subcategory-name').text('');
                                     $(this).find('.search-article-team-name').text('');
                                     $(this).find('.search-article-bottom-content').text(noResultBottom);
-                                    console.log($(this));
                                 }
                                 else {
                                     $(this).remove();
                                 }
                                 availableArticles++;
                             });
-                            console.log(availableArticles);
                         }
                     }
 
@@ -257,7 +250,7 @@ function updateSearchAfterScrolling() {
                         articleSearchField.find('#image-in-search-between-category-subcategory').css('display', 'none');
                     }
 
-                    let fieldFromArticle = articles[i].contentText;
+                    let fieldFromArticle = articles[i].contentText.replace(/(\r\n|\n|\r)/gm, '').substr(0, articleContentTextLength);
                     let articleContentText = "";
                     for (var j = 0; j < fieldFromArticle.length; j++) {
                         if (fieldFromArticle.substr(j, searchValue.length) == searchValue) {
@@ -268,7 +261,7 @@ function updateSearchAfterScrolling() {
                             articleContentText += fieldFromArticle[j];
                         }
                     }
-                    articleSearchField.find('.search-article-bottom-content').html(articleContentText.substr(0, articleContentTextLength));
+                    articleSearchField.find('.search-article-bottom-content').html(articleContentText);
                     $('.search-result-articles').show();
                 }
                 if (amountOfArticles == 0) {
@@ -295,17 +288,8 @@ document.addEventListener('click', function (event) {
     }
 });
 
-function checkIsInputActive() {
-    let searchValue = $(".lable").val();
-    if (searchValue != "" && $('#search-field-tag').css('display') == 'none') {
-        console.log("Working(no)");
-        console.log($('#search-field-tag').css('display'));
-    }
-}
-
 function moveToSearchPage() {
     const searchValue = $('#header-search-field').val();
-    console.log(searchValue);
     $(location).attr('href', `/search?searchValue=${searchValue}`);
 }
 
