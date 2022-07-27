@@ -48,25 +48,20 @@ namespace SportHub.Services
 
         public IQueryable<MainComment> GetSortedComments(string sortedBy, int articleId)
         {
-            var mainComments = _context.MainComments.Include(comment => comment.User)
-                                            .Where(comment => comment.ArticleId.Equals(articleId));
+            var mainComments = _context.MainComments
+                .Where(comment => comment.ArticleId.Equals(articleId));
+
             if (sortedBy == "popular")
             {
-                mainComments.OrderByDescending(comment => comment.Likes);
-                                            
-                return mainComments;
+                return mainComments.OrderByDescending(comment => comment.Likes);
             }
             else if (sortedBy == "newest")
             {
-                mainComments.OrderByDescending(date => date.Created);
-                                            
-                return mainComments;
+                return mainComments.OrderByDescending(date => date.Created);
             }
-            else 
+            else
             {
-                mainComments.OrderBy(date => date.Created);
-                                            
-                return mainComments;
+                return mainComments.OrderBy(date => date.Created);
             }
         }
 
@@ -74,7 +69,11 @@ namespace SportHub.Services
         {
             var sortedMainComments = GetSortedComments(sortedBy, articleId);
             var paginationResult = _getArticleService.Paginate(sortedMainComments, pageSize, pageNumber);
-            var paginatedMainComments = await paginationResult.Item1.ToArrayAsync();
+
+            var paginatedMainComments = await paginationResult.Item1
+                .Include(comment => comment.User)
+                .ToArrayAsync();
+
             var totalComments = paginationResult.Item3;
 
             return (paginatedMainComments, totalComments);
@@ -169,6 +168,20 @@ namespace SportHub.Services
                     }
                 }
             }
+        }
+
+        public SubComment CreateSubComment(int mainCommentId, string message, int userId)
+        {
+            var newSubComment = new SubComment
+            {
+                UserId = userId,
+                MainCommentId = mainCommentId,
+                Message = message,
+                Created = DateTime.UtcNow,
+            };
+            _context.SubComments.Add(newSubComment);
+            _context.SaveChanges();
+            return newSubComment;
         }
     }
 }

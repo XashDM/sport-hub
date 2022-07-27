@@ -189,22 +189,14 @@ h4 {
 
 .box_comment .cancel {
     margin-left: 8px;
-    background-color: #f5f6f7;
-    color: #4b4f56;
     text-decoration: none;
     line-height: 22px;
     border-radius: 2px;
-    font-size: 14px;
     font-weight: bold;
     position: relative;
     text-align: center;
     border-color: #ccd0d5;
 }
-
-    .box_comment .cancel:hover {
-        background-color: #d0d0d0;
-        border-color: #ccd0d5;
-    }
 
 .box_comment img {
     height: 16px;
@@ -234,16 +226,15 @@ h4 {
     }
 
 .child_replay {
-    /*border-left: 1px dotted #d3d6db;*/
     margin-top: 12px;
     list-style: none;
-    padding: 0 0 0 20px
+    padding: 0 0 0 95px
 }
 
 .reply_comment {
-    --mainWidth: 530px;
+    width: 630px;
     margin: 12px 0;
-    width: calc(var(--mainWidth) - 100px);
+    
 }
 
 
@@ -312,10 +303,6 @@ h4 {
     color: #979797;
 }
 
-a {
-    color: #7F8899;
-    font-size:12px;
-}
 .count, .countDislike {
     margin: 5px;
     color: #7F8899;
@@ -324,4 +311,29 @@ a {
 .comment-info {
     margin: 0 50px 0 0;
     width: 630px;
+}
+
+.pageNumber{
+    display: none;
+}
+
+.comment-reply {
+    margin: 0;
+    padding: 3px 0 10px 0;
+    margin-bottom: 8px;
+    text-align: justify;
+    border-bottom: 1px solid #D8D8D8;
+}
+
+.showHide, .replay, .count, .countDislike {
+    font-family: 'Open Sans';
+    border: none;
+    color: #7F8899;
+    background: white;
+    text-decoration: none;
+    line-height: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    position: relative;
+    text-align: center;
 }

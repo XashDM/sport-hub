@@ -47,7 +47,6 @@
 				'<p class="mainComment">' + comment + '</p>' +
 				'</div>' +
 				'<div class="tools_comment">' +
-				//'<a class="like" href="#">Like</a>' +
 				'<img class="like" src="/icons/like-icon.svg"  alt="Inactive"/>' +
 				'<a class="replay" href="#">Comment</a>' +
 				'<span class="count">0</span>' +
@@ -85,26 +84,32 @@ $(document).ready(function () {
 	if (token) {
 		token = JSON.parse(atob(token.split('.')[1]));
 	};
+	var counter = 0;
+	var lastEditedComment = null;
+	const baseUrl = (window.location).href;
+	const articleId = baseUrl.substring(baseUrl.lastIndexOf('=') + 1);
 
 	$('#list_comment').on('click', '.replay', function (e) {
 		e.preventDefault();
+		const mainCommentId = (e.target.parentElement.dataset).id;
+		console.log(mainCommentId);
 		cancel_reply();
 		$current = $(this);
 		el = document.createElement('li');
 		el.className = "box_reply rows";
 		el.innerHTML =
-			'<div class=\"reply_comment\">' +
-			'<div class=\"rows\">' +
-			'<div class=\"box_comment\">' +
-			'<div class=\"avatar_comment\">' +
-			'<img src=\"https://html5css.ru/howto/img_avatar2.png\" alt=\"avatar\"/>' +
-			'<textarea id="textarea" class=\"comment_replay\" placeholder=\"Add a comment...\"></textarea>' +
+			'<div class="reply_comment">' +
+			'<div class="rows">' +
+			'<div class="box_comment">' +
+			'<div class="avatar_comment">' +
+			'<img src="https://html5css.ru/howto/img_avatar2.png" alt="avatar"/>' +
+			'<textarea id="textarea" class="comment_replay" placeholder="Add a comment..."></textarea>' +
 			'</div>' +
-			'<div class=\"box_post\">' +
-			'<div class=\"pull-right\">' +
+			'<div class="box_post">' +
+			'<div class="pull-right">' +
 			'</span>' +
-			'<button class=\"cancel\" onclick=\"cancel_reply()\" type=\"button\">Cancel</button>' +
-			'<button onclick=\"submit_reply()\" type=\"button\" value=\"1\">Comment</button>' +
+			'<button class="cancel" onclick="cancel_reply()" type="button">Cancel</button>' +
+			'<button onclick="submit_reply(' + mainCommentId + ')" type="button" value="1">Comment</button>' +
 			'</div>' +
 			'</div>' +
 			'</div>' +
@@ -133,8 +138,7 @@ $(document).ready(function () {
 			}
 		});
 	});
-	var counter = 0;
-	var lastEditedComment = null;
+	
 	$('#list_comment').on('click', '.edit-stuff', function (e) {
 		e.preventDefault();
 		counter++;
@@ -194,19 +198,29 @@ $(document).ready(function () {
 		sendLikeOrDislike(id, token.nameid, false, $(this));
 	});
 
-	const baseUrl = (window.location).href;
-	const articleId = baseUrl.substring(baseUrl.lastIndexOf('=') + 1);
-
 	$('#selectSort').on('change', function (e) {
 		var selected = $(this).val();
 		$('#list_comment').empty();
 		getSortedComments(selected, articleId, generatePageArguments(1, 5));
 	});
 
+	$('#show_more').on('click', '.show_more', function (e) {
+		e.preventDefault();
+		let pNumber = $('.pageNumber').text();
+		pageNumber = parseInt(pNumber);
+		console.log(pageNumber);
+		pageNumber += 1;
+		console.log(pageNumber);
+		getSortedComments("newest", articleId, generatePageArguments(pageNumber, 5));
+		$('.pageNumber').text(pageNumber);
+	});
+
 	getSortedComments("newest", articleId, generatePageArguments(1, 5));
 });
+
 let liked = 0;
 let disliked = 0;
+
 function sendLikeOrDislike(mainCommentId, userId, isLiked, $current) {
 	$.ajax({
 		headers:
@@ -317,6 +331,7 @@ function submit_edit(id) {
 }
 
 function displayAllComments(data) {
+	console.log(data);
 	let token = localStorage.getItem('Jwt Token');
 	if (token) {
 		parsedToken = JSON.parse(atob(token.split('.')[1]));
@@ -447,42 +462,58 @@ function formatDateMy(str) {
 	return normalDate;
 }
 
-function submit_reply() {
+function submit_reply(mainCommentId) {
 	var comment_replay = $('.comment_replay').val();
+	var commentDate = new Date().toLocaleTimeString();
+	fullName = document.getElementById("fullName").textContent = userData().name + ' ' + userData().family_name;
+	let token = localStorage.getItem('Jwt Token');
+	if (token) {
+		token = JSON.parse(atob(token.split('.')[1]));
+	}
 	el = document.createElement('li');
-	el.className = "box_reply rows";
-	el.innerHTML =
-		'<div class="comment-ex">' +
-		'<div class="author-img">' +
-		'<img class="userImg" src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg" alt="avatar" />' +
-		'</div>' +
-		'<div class="comment-info">' +
-		'<div class="comment-author">' +
-		'<h4 id="fullName">' + data[i].user.firstName + ' ' + data[i].user.lastName + '</h4>' +
-		'</div>' +
-		'<div class="comment-date">' +
-		'<span class="commentDate" id="commentDate">' + formatDateMy(data[i].created) + '</span>' +
-		'</div>' +
-		'<div class="comment-text">' +
-		'<p>' + comment_replay + '</p>' +
-		'</div>' +
-		'<div class="tools_comment" data-id=' + data[i].id + '>' +
-		//'<a class="like" href="#">Like</a>' +
-		'<img class="like" src="/icons/like-icon.svg" alt="Inactive"/>' +
-		'<a class="replay" href="#">Comment</a>' +
-		'<i class="fa fa-thumbs-o-up"></i> <span class="count">' + data[i].likes + '</span>' +
-		'<img class="dislike" src="/icons/dislike-icon.svg" alt="InactiveDislike"/>' +
-		'<span class="countDislike">' + data[i].dislikes + '</span>' +
-		'<a href="#" class="showHide" data-id=' + data[i].id + '>' + ' ' +
-
-		//'<span class="delete-stuff pull-right">Delete &nbsp;</span>' +
-		//'<span class="edit-stuff pull-right">Edit &nbsp;</span>' +
-
-		'</a >' +
-		'</div>' +
-		'<ul class="child_replay"></ul>' +
-		'</div>'
-	'</div>';
+	$.ajax({
+		headers:
+		{
+			'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
+			"RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val(),
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		async: false,
+		url: locationOrigin + '/api/Articles/CreateSubComment',
+		type: 'post',
+		data: JSON.stringify({
+			"MainCommentId": mainCommentId,
+			"Message": comment_replay,
+			"UserId": token.nameid
+		}),
+		success() {
+			el.className = "box_reply rows";
+			el.innerHTML =
+				'<div class="comment-ex">' +
+					'<div class="author-img">' +
+						'<img class="userImg" src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg" alt="avatar" />' +
+					'</div>' +
+					'<div class="comment-info">' +
+						'<div class="comment-author">' +
+							'<h4 id="fullName">' + fullName + '</h4>' +
+						'</div>' +
+						'<div class="comment-date">' +
+							'<span class="commentDate" id="commentDate">' + commentDate + '</span>' +
+						'</div>' +
+						'<div class="comment-text">' +
+						'<p class="comment-reply">' + comment_replay + '</p>' +
+						'</div>' +
+						'<ul class="child_replay"></ul>' +
+					'</div>'
+				'</div>';
+			document.getElementById('list_comment').prepend(el);
+			$('.commentar').val('');
+		},
+		error(errorThrown) {
+			console.log(errorThrown);
+		}
+	});	
 	$current.closest('li').find('.child_replay').prepend(el);
 	$('.comment_replay').val('');
 	cancel_reply();

@@ -2,10 +2,10 @@
 
 namespace SportHub.Models
 {
-    public class CommentDTO
+    public class SubCommentArgs
     {
         [Required]
-        public int ArticleId { get; set; }
+        public int MainCommentId { get; set; }
         [Required]
         public string Message { get; set; }
         [Required]

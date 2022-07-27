@@ -12,5 +12,6 @@ namespace SportHub.Services.Interfaces
         Task<CommentUserLikeDislike> LikeOrDislikeComment(int mainCommentId, int userId, bool isLiked);
         IQueryable<MainComment> GetSortedComments(string sortedBy, int articleId);
         Task<(MainComment[], int)> GetSortedCommentPaginatedAsync(string sortedBy, int articleId, int pageSize, int pageNumber);
+        SubComment CreateSubComment(int mainCommentId, string message, int userId);
     }
 }

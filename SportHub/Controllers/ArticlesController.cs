@@ -363,6 +363,21 @@ namespace SportHub.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpPost(nameof(CreateSubComment))]
+        [Authorize]
+        public async Task<IActionResult> CreateSubComment([FromBody] SubCommentArgs comment)
+        {
+            try
+            {
+                var createdSubComment = _commentService.CreateSubComment(comment.MainCommentId, comment.Message, comment.UserId);
+                return Ok(createdSubComment);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
     }
 }
 
