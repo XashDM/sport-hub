@@ -1,9 +1,5 @@
 ﻿$(document).ready(function () {
     $('.user-articles-bottom-articles').scrollTop(0);
-    $('.user-articles-content-text').map(function () {
-        let fieldText = $(this).text().replace(/<[^>]*>?/gm, ' ').substring(0, 300);
-        $(this).text(fieldText);
-    });
 });
 
 let amountOfArticlesInSearchFieldSearchPage = 0;
@@ -56,7 +52,7 @@ function updateAfterScrolling() {
                         .attr('href', `/Articles/Details?id=${articles[i].id}`)
                         .appendTo('.user-articles-scroll-position');
                     articleCopied.find('.user-articles-title').text(articles[i].title);
-                    articleCopied.find('.user-articles-content-text').text(articles[i].contentText.replace(/<[^>]*>?/gm, ' ').substring(0,300));
+                    articleCopied.find('.user-articles-content-text').html(articles[i].contentText.replace(/<[^>]*>?/gm, '')).text().substring(0,300);
                     articleCopied.find('.user-articles-bottom-image').attr('src', articles[i].imageItem.imageLink);
                     articleCopied.find('.user-articles-bottom-image').attr('alt', articles[i].imageItem.alt);
                 }

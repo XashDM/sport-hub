@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Domain.Models;
 using SportHub.Services;
 using SportHub.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace SportHub.Pages.Articles
 {
@@ -32,6 +35,11 @@ namespace SportHub.Pages.Articles
             SubCategoryView = subcategory;
             TeamView = team;
             Articles = await _articleService.GetUserArticles(category, subcategory, team);
+            for(int i = 0; i < Articles.Count; i++)
+            {
+                Articles[i].ContentText = HttpUtility.HtmlDecode(Articles[i].ContentText);
+                Articles[i].ContentText = Regex.Replace(Articles[i].ContentText, @"<[^>]+>", String.Empty);
+            }
             AmountOfArticles = Articles.Count;
             if (Articles.Count != 0)
             {

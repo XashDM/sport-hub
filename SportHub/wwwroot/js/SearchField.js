@@ -29,7 +29,6 @@ let articleContentTextLength = 300;
 function searchField() {
     clearTimeout(variable);
 
-    startElementPosition = 10;
     let amountOfArticles;
     let searchValue = $(".lable").val();
 

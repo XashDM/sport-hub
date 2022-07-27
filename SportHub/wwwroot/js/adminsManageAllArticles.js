@@ -47,6 +47,7 @@ function updateArticlesAfterScrolling() {
     if (selectedPublish == 'All') {
         selectedPublish = null;
     }
+
     var searchPostValue = $('.get-admins-articles-search-field-field').val();
     let articleDisplayParameters = {
         startPosition: startElementPosition,
@@ -73,7 +74,7 @@ function updateArticlesAfterScrolling() {
                 articleField.find('.get-admins-articles-image').attr('src', articles[i].imageItem.imageLink);
                 articleField.find('.get-admins-articles-image-container-a').attr('href', `/Articles/Details?id=${articles[i].id}`);
                 articleField.find('.get-admins-articles-title').text(articles[i].title);
-                articleField.find('.get-admins-articles-content-text').text(articles[i].contentText);
+                articleField.find('.get-admins-articles-content-text').html(articles[i].contentText.replace(/<[^>]*>?/gm, '')).text();
 
                 let articleNavigation = articles[i].referenceItem;
                 let articleInfo = " / ";
@@ -88,6 +89,12 @@ function updateArticlesAfterScrolling() {
                     if (articleNavigation.type == "Subcategory") {
                         articleInfo = articleNavigation.name + articleInfo;
                     }
+                    if (articleNavigation.type == "Category") {
+                        articleInfo = "All subcategories" + articleInfo;
+                    }
+                }
+                if (articleInfo == " / ") {
+                    articleInfo = "All subcategories /";
                 }
                 articleField.find('.get-admins-articles-subcategory-team').text(articleInfo);
 
