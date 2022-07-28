@@ -156,7 +156,7 @@ namespace SportHub.Controllers
         }
 
         [Route("/SaveNewArticle")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SaveNewArticle([FromForm] ArticleToAdd article)
         {
             try

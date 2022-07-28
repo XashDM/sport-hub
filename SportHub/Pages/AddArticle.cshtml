@@ -25,14 +25,24 @@
                 </p>
             </div >
                 <p class ="changes"  onclick="save()">
-                    Save all changes
+                    Save all
                 </p>
             <div>
 
             </div>
         </div>
     </section>
-    
+
+    <div class="spawn" id="anim">
+       <div class="spawn-contener" >
+           <img src="~/Images/ok-result.png" alt=""class="ok-img">
+           <img src="~/Images/close-button.png" alt=""  id="spawn-close" onclick="closespawn()">
+           <div class="text">
+               <p class="saved">Saved</p>
+               <p class="saved-m">The information architecture is successfuly saved!</p>
+           </div>
+       </div>
+    </div>
 }
 <from class="content" id="form1">
     <div class="add-language-box">
@@ -164,10 +174,15 @@
         async: false,
         headers:
         {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
             'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
         },
-        }).done(function (date) {
-             console.log("fff");
+        success: function (data) {
+            spawn();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Errore")
+        }
         });
 
     }       
@@ -249,5 +264,18 @@ $('.image-upload-box').on('drop', function (evt) {
         }
     }
 });
+
+function closespawn(){
+    $("#anim")
+        .css({
+            display: "none"
+        })
+}
+function spawn() {
+    $("#anim")
+        .css({
+            display: "block"
+        })
+}
 </script>
 }
