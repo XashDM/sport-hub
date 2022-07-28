@@ -375,6 +375,7 @@ function displayConfigurationBlocks(mainArticles) {
         const currentArticle = $(this)[0].article;
         let currentParentElement = currentArticle.referenceItem;
         parentsArray.push(currentParentElement);
+
         while (currentParentElement.parentsItem != null) {
             parentsArray.push(currentParentElement.parentsItem);
             currentParentElement = currentParentElement.parentsItem;
@@ -386,7 +387,9 @@ function displayConfigurationBlocks(mainArticles) {
         const teamSelector = configurationBodyClone.find('select[name="main-a-teams"]');
         const subcategorySelector = configurationBodyClone.find('select[name="main-a-subcategories"]');
         const categorySelector = configurationBodyClone.find('select[name="main-a-categories"]');
+
         selectItemBySelectorAndSelectedItem(categorySelector, parentsArray[parentsArray.length - 1].id);
+
         if (parentsArray.length >= 2) {
             if (parentsArray[parentsArray.length - 2].type === 'Team') {
                 getAllSubcategoriesByCategoryId(subcategorySelector, parentsArray[parentsArray.length - 1].id);
