@@ -181,6 +181,10 @@ function deleteArticleFunction(articleId) {
     $.ajax({
         dataType: "json",
         method: "delete",
+        headers:
+        {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token')
+        },
         url: `/article/delete/${articleId}`,
         success: function (result) {
             document.getElementById(`article-with-id-${articleId}`).style.display = "none";
@@ -203,6 +207,10 @@ function publishUnpublish(articleId) {
     $.ajax({
         dataType: "json",
         method: "put",
+        headers:
+        {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token')
+        },
         url: `/article/publishunpublish/${articleId}`,
         success: function (result) {
             if (result.isPublished) {
@@ -258,6 +266,10 @@ function openMove(articleId) {
 function changeArticleCategory(articleId, categoryId) {
     $.ajax({
         method: "put",
+        headers:
+        {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token')
+        },
         url: `/article/move/${articleId}/${categoryId}`,
         success: function (result) {
             $(`#article-with-id-${articleId}`).hide();

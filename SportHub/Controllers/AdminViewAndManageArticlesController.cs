@@ -9,6 +9,7 @@ using SportHub.Services.Interfaces;
 using System.Collections.Generic;
 using SportHub.Views;
 using SportHub.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SportHub.Controllers
 {
@@ -40,6 +41,7 @@ namespace SportHub.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         [Route("/article/delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -57,6 +59,7 @@ namespace SportHub.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         [Route("/article/publishunpublish/{id}")]
         public async Task<IActionResult> PublishUnpublish(int id)
         {
@@ -74,6 +77,7 @@ namespace SportHub.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         [Route("/article/move/{id}/{categoryId}")]
         public async Task<IActionResult> PublishUnpublish(int id, int categoryId)
         {
