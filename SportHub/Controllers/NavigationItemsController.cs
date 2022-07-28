@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,8 @@ namespace SportHub.Controlles
             _navigationService = navigationService;
         }
 
-        [HttpPost("/save")]
+        [HttpPost("/Save")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SaveItems(Dictionary<string, List<NavigationItemForSave>> data)
         {
             bool result = await _navigationService.AddNewItems(data["data"]);
