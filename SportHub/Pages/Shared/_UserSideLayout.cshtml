@@ -16,7 +16,6 @@
 </head>
 <body>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/userTokenCheck.js"></script>
     <header>
         <nav class="navbar">
             <div class="container">
@@ -197,12 +196,5 @@
     <script src="~/js/userProfile.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
-    <script>
-        $(document).ready(function () {
-            displayLogInOut();
-            displayData();
-        });
-
-    </script>
 </body>
 </html>

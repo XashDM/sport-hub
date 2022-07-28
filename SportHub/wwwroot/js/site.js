@@ -20,9 +20,24 @@ $(document).ajaxSend(function (event, jqxhr, settings) {
     refreshToken();
 });
 
+$(document).ready(function () {
+    refreshToken();
+    displayLogInOut();
+    displayData();
+});
+
 function refreshToken () {
-    const jwtToken = localStorage.getItem('Jwt Token');
-    if (jwtToken) {
+    const token = localStorage.getItem('Jwt Token');
+
+    if (token) {
+        const parsedToken = JSON.parse(atob(token.split('.')[1]));
+        const today = new Date();
+        const currentTime = today.getTime() / 1000 >> 0;
+
+        if (parsedToken.exp > currentTime) {
+            return;
+        }
+
         $.ajax({
             headers: {
                 'Accept': 'application/json',
@@ -32,7 +47,7 @@ function refreshToken () {
             url: '/api/Auth/RefreshToken',
             type: 'post',
             data: JSON.stringify({
-                'Token': jwtToken,
+                'Token': token,
             }),
             success: function (token) {
                 localStorage.setItem('Jwt Token', token);
@@ -42,11 +57,15 @@ function refreshToken () {
                     console.error(response);
                 }
                 if (response.isReloginRequired == true) {
+                    localStorage.removeItem('Jwt Token');
                     window.location.href = window.location.origin + '/Login';
                 }
             }
         });
-    }   
+    }
+    else {
+        return;
+    }
 };
 
 $("#loginForm").submit((event) => {

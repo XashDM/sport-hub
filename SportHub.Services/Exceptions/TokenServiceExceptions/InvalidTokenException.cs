@@ -4,6 +4,6 @@ namespace SportHub.Services.Exceptions.TokenServiceExceptions
 {
     public class InvalidTokenException : TokenServiceException
     {
-        public InvalidTokenException() : base($"Provided token is invalid", 403) { }
+        public InvalidTokenException() : base($"Provided token is invalid", 403, true) { }
     }
 }

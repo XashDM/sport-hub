@@ -150,7 +150,8 @@
     }
 
     $(document).ready(function () {
-
+        refreshToken();
+        checkAdminToken();
         showUserCredentials();
 
         let category = $(location).attr('pathname');
