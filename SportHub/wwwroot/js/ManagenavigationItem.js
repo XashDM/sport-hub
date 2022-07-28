@@ -26,7 +26,7 @@ function saveItem() {
             display: "fix"
     })
     $.ajax({
-        url: '/save',
+        url: '/Save',
         type: 'post',
         dataType: "json",
         data: JSON.stringify({
@@ -35,13 +35,16 @@ function saveItem() {
         async: false,
         headers:
         {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
         },
-    }).done(function (data) {
-        addedItem = [];
-        openTreeforItem(NIDataClass.parentFor("Category"));
+        success: function (data) {
+            addedItem = [];
+            openTreeforItem(NIDataClass.parentFor("Category"));
+        },
+        error: function (jqXHR, textStatus, errorThrown) { errorFunction(); }
     });
 }
 // function for adding new item and push to server called by add-button on form
