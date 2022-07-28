@@ -104,11 +104,11 @@ namespace SportHub.Services.ArticleServices
                         itemReference = _context.NavigationItems.FirstOrDefault(item => item.Id == itemReference.ParentsItemId);
                         if (itemReference is null)
                         {
-                            return "item reference wasn't found(no subcategory)";
+                            return "All subcategories";
                         }
                         if (itemReference.Type == "Category")
                         {
-                            return "All subcategory";
+                            return "All subcategories";
                         }
                         count++;
                     }
@@ -137,7 +137,7 @@ namespace SportHub.Services.ArticleServices
                         itemReference = _context.NavigationItems.FirstOrDefault(item => item.Id == itemReference.ParentsItemId);
                         if (itemReference is null)
                         {
-                            return "item reference wasn't found";
+                            return "no reference";
                         }
                         count++;
                     }

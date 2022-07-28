@@ -166,7 +166,6 @@
             success: function (categories) {
                 amountOfCategories = categories.length;
                 for (var i = 0; i < amountOfCategories; i++) {
-                    console.log(categories[i].name);
                     var categoryElement = $('#category-element-home').clone().appendTo('.category-list-category-list-all-items');
                     categoryElement.attr('href',`/Articles/Admin/${categories[i].name}`);
                     categoryElement.text(categories[i].name);
@@ -178,7 +177,6 @@
                 if (checkCategory == true) {
                     categoryWithoutSpaces = category.replace(/ /g,"-");
                     $(`#category-element-${categoryWithoutSpaces}lower`).css('color', '#D72130');
-                    console.log($(`#category-element-${categoryWithoutSpaces}lower`).text());
                 }
                 else {
                     $(`#category-element-home`).css('color', '#D72130');
@@ -208,8 +206,6 @@
         }
         $('.category-list-category-list-all-items').animate({ scrollLeft: '-=100' }, 200, function () {
             if ($('.category-list-category-list-all-items')[0].scrollLeft == 0) {
-                // gray color from figma(filter to svg)
-                // grayColorFilter = 'invert(77%) sepia(22%) saturate(6%) hue-rotate(323deg) brightness(96%) contrast(96%)'
                 $("#left-button-image").css('filter', grayColorFilter);
             }
         }); 

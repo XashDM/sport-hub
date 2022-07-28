@@ -6,7 +6,6 @@ else {
     window.location.replace("/");
 }
 
-console.log(parseToken);
 var today = new Date();
 var currentTime = today.getTime() / 1000 >> 0;
 if (!parseToken.role.includes("Admin") || parseToken.exp < currentTime) {
