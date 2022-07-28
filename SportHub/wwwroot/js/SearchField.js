@@ -46,6 +46,7 @@ function searchField() {
             contentType: 'application/json',
             data: JSON.stringify(searchParameters),
             success: function (articles) {
+                startElementPosition = 10;
                 if (articles.length != 0) {
                     $('main').css('z-index', '-1');
                     amountOfArticles = articles.length;
@@ -53,7 +54,7 @@ function searchField() {
                     $('.search-result-articles').find('.search-article-info').map(function () {
                         if (amountOfArticles > articleIndex) {
                             $(this).find('#article-href').attr('href', `/Articles/Details?id=${articles[articleIndex].id}`);
-                            $(this).find('.search-article-category-name').text(articles[articleIndex].referenceItem.name);
+                            $(this).find('.search-article-category-name').text(articles[articleIndex].referenceItem.name + "/");
                             if (articles[articleIndex].referenceItem.parentsItem != null) {
                                 $(this).find('.search-article-subcategory-name').text(articles[articleIndex].referenceItem.parentsItem.name);
                                 if (articles[articleIndex].referenceItem.parentsItem.parentsItem != null) {
@@ -68,6 +69,7 @@ function searchField() {
                                 }
                             }
                             else {
+                                $(this).find('.search-article-category-name').text(articles[articleIndex].referenceItem.name);
                                 $(this).find('.search-article-category-name').css('color', '#D72130');
                                 $(this).find('.search-article-team-name').text('');
                                 $(this).find('.search-article-subcategory-name').text('');
@@ -101,7 +103,7 @@ function searchField() {
                             .appendTo('.search-result-articles');
                         //add category, subcategory, team fields
                         articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
-                        articleSearchField.find('.search-article-category-name').text(articles[i].referenceItem.name);
+                        articleSearchField.find('.search-article-category-name').text(articles[i].referenceItem.name + "/");
                         if (articles[i].referenceItem.parentsItem != null) {
                             articleSearchField.find('.search-article-subcategory-name').text(articles[i].referenceItem.parentsItem.name);
                             if (articles[i].referenceItem.parentsItem.parentsItem != null) {
@@ -116,6 +118,7 @@ function searchField() {
                             }
                         }
                         else {
+                            articleSearchField.find('.search-article-category-name').text(articles[articleIndex].referenceItem.name);
                             articleSearchField.find('.search-article-category-name').css('color', '#D72130');
                             articleSearchField.find('.search-article-team-name').text('');
                             articleSearchField.find('.search-article-subcategory-name').text('');
@@ -195,12 +198,10 @@ function searchField() {
 function searchScroll() {
     let hiddenDivSize = $('.search-result-articles')[0].scrollHeight;
     let visibleDivSize = $('.search-result-articles').height();
-    let scrollHeight = hiddenDivSize - visibleDivSize;
     let scrollPosition = $('.search-result-articles').scrollTop();
     if ((visibleDivSize + scrollPosition) / hiddenDivSize > 0.8) {
         updateSearchAfterScrolling();
         hiddenDivSize = $('.search-result-articles')[0].scrollHeight;
-        scrollHeight = visibleDivSize / hiddenDivSize * visibleDivSize;
     }
 }
 
@@ -228,7 +229,7 @@ function updateSearchAfterScrolling() {
                         .appendTo('.search-result-articles');
                     //add category, subcategory, team fields
                     articleSearchField.find('#article-href').attr('href', `/Articles/Details?id=${articles[i].id}`);
-                    articleSearchField.find('.search-article-category-name').text(articles[i].referenceItem.name);
+                    articleSearchField.find('.search-article-category-name').text(articles[i].referenceItem.name + "/");
                     if (articles[i].referenceItem.parentsItem != null) {
                         articleSearchField.find('.search-article-subcategory-name').text(articles[i].referenceItem.parentsItem.name);
                         if (articles[i].referenceItem.parentsItem.parentsItem != null) {
@@ -243,6 +244,7 @@ function updateSearchAfterScrolling() {
                         }
                     }
                     else {
+                        articleSearchField.find('.search-article-category-name').text(articles[i].referenceItem.name);
                         articleSearchField.find('.search-article-category-name').css('color', '#D72130');
                         articleSearchField.find('.search-article-team-name').text('');
                         articleSearchField.find('.search-article-subcategory-name').text('');
