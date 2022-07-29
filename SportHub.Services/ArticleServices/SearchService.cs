@@ -4,7 +4,6 @@ using SportHub.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using SportHub.Services.NavigationItemServices;
-using FluentEmail.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace SportHub.Services.ArticleServices

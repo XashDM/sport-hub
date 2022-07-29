@@ -1,8 +1,8 @@
 ﻿let allowedExtensions = ["jpg", "jpeg", "png", "gif"];
 var mainArticlesPerPage = 15;
+var maxArticleCount = 4;
 
 $('#main-articles-block').on('click', '.add-new-button', () => {
-    let maxArticleCount = 4;
     let currentArticleAmount = $('.configuration-body').length;
 
     if (currentArticleAmount === maxArticleCount + 1) {
@@ -360,7 +360,7 @@ function displayConfigurationBlocks(mainArticles) {
             $('.add-new-button').eq(-1).hide();
         }
 
-        if (idx === 3) {
+        if (idx === maxArticleCount - 1) {
             $('p.add-new-button').eq(0).addClass('disabled');
         }
 
@@ -407,11 +407,22 @@ function displayConfigurationBlocks(mainArticles) {
 
         configurationBodyClone.appendTo('#main-articles-block')
             .show();
+
+        if (idx != mainArticles.length - 1) {
+            const breakLine = $('.break-line').first().clone();
+            breakLine.appendTo('#main-articles-block');
+            breakLine.show();
+        }
     });
 }
 
 function GetPhotoOfTheDay() {
     $.ajax({
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
         async: true,
         url: "/api/Articles/GetPhotoOfTheDay",
         type: "GET",
@@ -481,6 +492,10 @@ function uploadPhotoOfTheDay() {
     isDisplayed = $('#photo-of-day-isDisplayed').prop('checked')
     fd.append('isDisplayed', isDisplayed);
     $.ajax({
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
+            'Accept': 'application/json',
+        },
         async: true,
         url: "/api/Articles/UploadPhotoOfTheDay",
         type: "PUT",
@@ -507,6 +522,7 @@ $('.close-button').on('click', function () {
 
 $(document).ready(() => {
     getAllCategories();
+    console.log("Cats are here");
     getMainArticles();
     GetPhotoOfTheDay();
 });

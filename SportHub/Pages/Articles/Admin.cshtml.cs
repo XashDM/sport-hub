@@ -12,6 +12,8 @@ using SportHub.Domain.Models;
 using SportHub.Services;
 using SportHub.Services.ArticleServices;
 using SportHub.Services.Interfaces;
+using System.Text.RegularExpressions;
+using System.Web;
 
 namespace SportHub.Pages.Articles
 {
@@ -45,8 +47,10 @@ namespace SportHub.Pages.Articles
         public string SearchField { get; set; }
         public List<string> SubCategoriesDisplayed = new List<string>();
         public List<string> TeamsDisplayed = new List<string>();
+        public string SelectedCategory { get; set; }
         public async Task OnGetAsync(string? category)
         {
+            SelectedCategory = category;
             Categories = _service.GetCategories();
             CategoriesToMove = _service.GetCategoriesToMove(category);
             Article = _service.GetArticlesRange(0,10,PublishField, category, SelectedSubcategory, SelectedTeam, SearchField);
@@ -72,6 +76,9 @@ namespace SportHub.Pages.Articles
             for (int i = 0; i < Article.Count; i++)
             {
                 Article[i].ImageItem.ImageLink = await _imageService.GetImageLinkByNameAsync(Article[i].ImageItem.ImageLink);
+                
+                Article[i].ContentText = HttpUtility.HtmlDecode(Article[i].ContentText);
+                Article[i].ContentText = Regex.Replace(Article[i].ContentText, @"<[^>]+>", String.Empty);
                 SubCategoriesDisplayed.Add(_articleService.GetArticlesSubcategory(Article[i].Id));
                 TeamsDisplayed.Add(_articleService.GetArticlesTeam(Article[i].Id));
             }

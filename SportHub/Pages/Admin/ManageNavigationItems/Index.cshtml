@@ -1,4 +1,4 @@
-﻿@page "/page"
+﻿@page "/admin/navigationitem"
 @model SportHub.Pages.Admin.ManageNavigationItems.IndexModel
 @{
     ViewData["Title"] = "Manage";
@@ -26,15 +26,15 @@
    </div>
   <div class ='contener-for-adding' style ="display: none" id = 'formid'>
 
-    <form class= "form-to-add" id = 'form-for-adding'>
+    <div class= "form-to-add" id = 'form-for-adding'>
         <div class = 'main-content'>
         <span class="text-lable" id = 'labe-with-description'>Add</span>
         <label for="Name"><b>Name</b></label>
-        <input type="text" placeholder="Name of your menu item" name="Name" required  id = 'item-name-input'>
-        <div class ='addbutton' id = 'add-button-id'>Add</div>
-        <div onclick="document.getElementById('formid').style.display='none'" class="cancelbtn">Cancel</div>
+        <input type="text" placeholder="Name of your menu item" name="Name" required  id = 'item-name-input' autocomplete="off">
+        <div type="submit" class ='addbutton' id = 'add-button-id'>Add</div>
+        <div onclick="closeForm()" class="cancelbtn">Cancel</div>
         </div>
-    </form>
+    </div>
 
   </div>
 <div class = 'Category-Contener' id = 'Category-Contener'>

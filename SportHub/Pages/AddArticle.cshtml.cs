@@ -27,6 +27,10 @@ namespace SportHub.Pages
                 return NotFound();
             }
             this.Category = await _navigationService.GetItemByName(category);
+            if (this.Category == null)
+            {
+                return NotFound();
+            }
             if (this.Category.ParentsItemId != null)
             {
                 return NotFound();

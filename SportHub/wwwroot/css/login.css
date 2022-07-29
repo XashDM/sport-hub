@@ -263,12 +263,20 @@ h3btn {
 }
 
 .account-box {
-    display: flex;
+    display: none;
     justify-content: center;
+}
+
+.signin-signup-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    align-items: center;
 }
 
 .profile {
     margin-top: 12px;
+    display: flex;
 }
 
 .polygon {

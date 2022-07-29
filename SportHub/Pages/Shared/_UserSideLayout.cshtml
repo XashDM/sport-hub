@@ -16,12 +16,13 @@
 </head>
 <body>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/userTokenCheck.js"></script>
     <header>
         <nav class="navbar">
             <div class="container">
                 <div class="navbar-logo">
                     <div style="margin-top: 26px">
-                        <a class="logo-caption" asp-page="/Index">SportHub</a>
+                        <a class="logo-caption" asp-page="/Index">Sports Hub</a>
                     </div>
                 </div>
                 <div class="search-box">
@@ -67,11 +68,17 @@
                     </div>
                 </div>
                 <div class="account-box">
-                    <div class="buttons" id="buttons">
+                    <div class="signin-signup-buttons" id="buttons">
                         <button class="small-button" onclick="window.location='/Login';">@localizer["Sign in"]</button>
                         <button class="small-button-inversed" onclick="window.location='/SignUp';">@localizer["Sign up"]</button>
                     </div>
                     <div class="profile" id="profile"> 
+                        <div class="switch-button-to-admin-view">
+                            <a href="/adminpage">
+                                <img src="~/images/left-right-admin-arrow.svg" class="switch-arrow" alt="">
+                            </a>
+                            <p class="message-box-with-arrow">Switch to admin view</p>
+                        </div>
                        <div class="dropdown" id="dropdown">
                           <img src="https://www.tutorialrepublic.com/examples/images/avatar/2.jpg" class="avatar" alt="Avatar">
                           <button class="dropbtn" id="fullName"></button>
@@ -136,19 +143,58 @@
             @RenderBody()
         </main>
     </div>
+
     <footer>
-        <div class="navbar-logo">
-            <a class="logo-caption" asp-page="/Index">SportHub</a>
-        </div>
-        <div class="copyright-box">
-            <p class="regular-text">Copyright ©2022 SportHub</p>
+        <div class="link-area">
+            <div class="line"></div>
+  	 	    <div class="row">
+  	 		    <div class="footer-col">
+  	 			    <h4>COMPANY INFO</h4>
+  	 			    <ul>
+  	 				    <li><a href="/AboutSportsHub">About Sports Hub</a></li>
+  	 				    <li><a href="#">News / In the Press</a></li>
+  	 				    <li><a href="#">Advertising / Sports Blogger Ad Network</a></li>
+  	 				    <li><a href="#">Events</a></li>
+                        <li><a href="#">Contact Us</a></li>
+  	 			    </ul>
+  	 		    </div>
+  	 		    <div class="footer-col">
+  	 			    <h4>CONTRIBUTORS</h4>
+  	 			    <ul>
+  	 				    <li><a href="#">Featured Writers Program</a></li>
+  	 				    <li><a href="#">Featured Team Writers Program</a></li>
+  	 				    <li><a href="#">Internship Program</a></li>
+  	 			    </ul>
+  	 		    </div>
+  	 		    <div class="footer-col">
+  	 			    <h4>NEWSLETTER</h4>
+  	 				<p class="sing-up-text">Sign up to receive the latest sports news<p>
+                    <form class="subscribe-section">
+                        <input type="email" placeholder="Your email address"/>
+                        <button class="subscribe-button">Subscribe</button>
+                    </form>
+  	 		    </div>
+  	 	    </div>
+  	    </div>
+
+        <div class="red-rectangle-area">
+            <div class="navbar-logo">
+                <a class="logo-caption" asp-page="/Index">Sports Hub</a>
+            </div>
+            <div class="copyright-box">
+                <p class="regular-text">Copyright ©2022 Sports Hub</p>
+            </div>
         </div>
     </footer>
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/DataClass.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src=~/js/adminTokenCheckUserLayout.js></script>
+    <script src="~/js/SearchField.js"></script>
+    <script src="~/js/userProfile.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
     <script>

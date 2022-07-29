@@ -1,9 +1,9 @@
-using FluentEmail.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportHub.Models;
 using SportHub.Services;
 using SportHub.Services.Exceptions.RootExceptions;
+using SportHub.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
 
@@ -13,13 +13,11 @@ namespace SportHub.Pages
     {
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
-        private readonly IFluentEmail _mailer;
 
-        public SignupModel(IUserService userService, IEmailService emailService, [FromServices] IFluentEmail mailer)
+        public SignupModel(IUserService userService, IEmailService emailService)
         {
             _userService = userService;
             _emailService = emailService;
-            _mailer = mailer;
         }
         [BindProperty]
         public SignupCredentials signupCredentials { get; set; }
@@ -28,8 +26,8 @@ namespace SportHub.Pages
         {
             try
             {
+                await _emailService.SendSignUpEmail(credentials.Email);
                 var user = await _userService.CreateUser(credentials.Email, credentials.PasswordHash, credentials.FirstName, credentials.LastName);
-                _emailService.SendSignUpEmail(user, _mailer);
 
                 Response.StatusCode = 201;
                 return new JsonResult(new { success = true });
@@ -42,7 +40,7 @@ namespace SportHub.Pages
             catch (Exception)
             {
                 Response.StatusCode = 500;
-                return new JsonResult(new { error = "Something went wrong" });
+                return new JsonResult(new { error = "Something went wrong. Please try again later" });
             }
         }
     }

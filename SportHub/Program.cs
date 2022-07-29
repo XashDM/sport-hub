@@ -24,6 +24,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using SportHub.OAuthRoot;
+using SportHub.RefreshTokenHandlerRoot;
+using SportHub.Services.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
@@ -37,7 +39,11 @@ BlobContainerClient blobContainerClient = new BlobContainerClient(
 // Add services to the container.
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
-builder.Services.AddControllers();
+
+var emailConfig = builder.Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailServiceConfig>();
+builder.Services.AddSingleton(emailConfig);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<SportHubDBContext>(options =>
@@ -47,6 +53,7 @@ builder.Services.AddDbContext<SportHubDBContext>(options =>
 });
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<IJwtSigner, JwtSigner>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddSingleton<IExternalAuthHandlerFactory, ExternalAuthHandlerFactory>();
 builder.Services.AddTransient<IConfigureOptions<JwtBearerOptions>, JwtConfigurer>();
 builder.Services.AddScoped<INavigationItemService, MainNavigationItemService>();
@@ -55,23 +62,12 @@ builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IGetAdminArticlesService, GetAdminArticlesService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddSingleton<IImageService>(x => new ImageService(blobContainerClient));
-builder.Services
-    .AddFluentEmail("sporthub.mailservice@gmail.com", "SportHub")
-    .AddRazorRenderer()
-    .AddSmtpSender(new SmtpClient("smtp.live.com")
-    {
-        UseDefaultCredentials = false,
-        Port = 587,
-        Credentials = new NetworkCredential("sportshub.service@hotmail.com", "steamisjustavaporizedwater123"),
-        EnableSsl = true
-    });
+builder.Services.AddSingleton<IRefreshTokenHandler, RefreshTokenHandler>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
-builder.Services.AddControllers();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddControllersWithViews();
 
-//localization
 builder.Services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
 builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 builder.Services.Configure<RequestLocalizationOptions>(
@@ -117,11 +113,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

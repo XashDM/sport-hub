@@ -1,10 +1,11 @@
-using FluentEmail.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using SportHub.Config.JwtAuthentication;
 using SportHub.Models;
 using SportHub.Services;
+using SportHub.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace SportHub.Pages
 {
@@ -14,19 +15,16 @@ namespace SportHub.Pages
         private readonly IUserService _userService;
         private readonly IJwtSigner _jwtSigner;
         private readonly IEmailService _emailService;
-        private readonly IFluentEmail _mailer;
 
         [BindProperty]
         public ForgotPassword forgotPassword { get; set; }
 
-        public ForgotPasswordModel(ILogger<LoginModel> logger, IUserService userService, IJwtSigner jwtSigner, 
-                                               IEmailService emailService, [FromServices] IFluentEmail mailer)
+        public ForgotPasswordModel(ILogger<LoginModel> logger, IUserService userService, IJwtSigner jwtSigner, IEmailService emailService)
         {
             _logger = logger;
             _userService = userService;
             _jwtSigner = jwtSigner;
             _emailService = emailService;
-            _mailer = mailer;
         }
 
         public void OnGet()
@@ -34,7 +32,7 @@ namespace SportHub.Pages
 
         }
 
-        public IActionResult OnPost(ForgotPassword forgotPassword)
+        public async Task<IActionResult> OnPost(ForgotPassword forgotPassword)
         {
             if (!_userService.IsExistingEmail(forgotPassword.Email))
             {
@@ -42,9 +40,15 @@ namespace SportHub.Pages
             }
 
             var currentUser = _userService.GetUserByEmail(forgotPassword.Email);
+
+            if (currentUser.IsExternal)
+            {
+                return BadRequest("Cannot reset password for this user");
+            }
+
             var token = _jwtSigner.FetchToken(currentUser);
 
-            _emailService.SendResetPasswordEmail(currentUser, _mailer, token);
+            await _emailService.SendResetPasswordEmail(currentUser.Email, token.TokenJwt);
 
             return StatusCode(200);
         }

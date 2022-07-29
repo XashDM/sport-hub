@@ -49,8 +49,8 @@
 } 
 
 .name-col {
-    margin-left: 5%;
-    width: 60%;
+    margin-left: 35px;
+    width: 45%;
 }
 
 .status-col {
@@ -59,8 +59,9 @@
 }
 
 .action-col {
-    width: 30%;
+    width: 40%;
     justify-content: center;
+    min-width: 250px;
 }
 
 .table-body ul {

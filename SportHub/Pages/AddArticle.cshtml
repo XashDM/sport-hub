@@ -25,14 +25,24 @@
                 </p>
             </div >
                 <p class ="changes"  onclick="save()">
-                    Save all changes
+                    Save all
                 </p>
             <div>
 
             </div>
         </div>
     </section>
-    
+
+    <div class="spawn" id="anim">
+       <div class="spawn-contener" >
+           <img src="~/Images/ok-result.png" alt=""class="ok-img">
+           <img src="~/Images/close-button.png" alt=""  id="spawn-close" onclick="closespawn()">
+           <div class="text">
+               <p class="saved">Saved</p>
+               <p class="saved-m">The information architecture is successfuly saved!</p>
+           </div>
+       </div>
+    </div>
 }
 <from class="content" id="form1">
     <div class="add-language-box">
@@ -49,7 +59,7 @@
     </div> 
     
     <div class="add-article-box">
-    <div class="image-upload-box">
+    <div class="image-upload-box" id="drop-section">
             <div class="day-photo-background-crop">
                 <img id="day-photo-background-img" src="" />
             </div>
@@ -126,6 +136,8 @@
     <!--<script src="//cdn.ckeditor.com/4.19.0/full/ckeditor.js"></script>-->
     <script>
 
+    let allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+
     let editor = CKEDITOR.replace('editor1', {
         uiColor: '#AADC6E',
         height:500,
@@ -162,10 +174,15 @@
         async: false,
         headers:
         {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
             'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
         },
-        }).done(function (date) {
-             console.log("fff");
+        success: function (data) {
+            spawn();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Errore")
+        }
         });
 
     }       
@@ -212,54 +229,53 @@ $('#photo-upload-input').on('change', function () {
 
 $('.image-upload-box').on('dragover dragenter dragleave drop', function (evt) {
     evt.preventDefault();
+    evt.stopPropagation();
 });
 
-$('.image-upload-box').on('dragenter dragover', function (evt) {
+$('.image-upload-box').on('dragenter', function (evt) {
     $('.hide-on-draggedover').hide();
     $('.show-on-draggedover').show();
     $('.image-upload-box').addClass('isDragover');
 });
 
-$('.image-upload-box').on('dragleave dragend drop', function (evt) {
+$('.image-upload-box').on('dragleave', function (evt) {
     $('.image-upload-box').removeClass('isDragover');
     $('.hide-on-draggedover').show();
     $('.show-on-draggedover').hide();
 });
 
 $('.image-upload-box').on('drop', function (evt) {
+    $('.image-upload-box').removeClass('isDragover');
+    $('.hide-on-draggedover').show();
+    $('.show-on-draggedover').hide();
+
     let dt = evt.originalEvent.dataTransfer;
     let files = dt.files;
-    $('input[name="imageFile"]').prop('files', files);
     const file = files[0];
+
     if (file) {
-        $('#day-photo-background-img').attr('src', URL.createObjectURL(file));
-    }
-  });
-
-function uploadPhotoOfTheDay() {
-    infoForm = $('#photo-info-form')[0];
-    let fd = new FormData(infoForm);
-    fd.append('imageFile', $('input[name="imageFile"]').prop('files')[0]);
-    isDisplayed = $('#photo-of-day-isDisplayed').prop('checked')
-    fd.append('isDisplayed', isDisplayed);
-    $.ajax({
-        async: true,
-        url: "/api/Articles/UploadPhotoOfTheDay",
-        type: "PUT",
-        processData: false,
-        contentType: false,
-        data: fd,
-
-        success: function (response) {
-            $('#success-banner').css('display', 'flex');
-            $('#success-banner').delay(5000).fadeOut();
-        },
-        
-        error: function () {
-            $('#error-banner').css('display', 'flex');
-            $('#error-banner').delay(5000).fadeOut();
+        let fileExtension = file.name.split(".").pop();
+        if (allowedExtensions.includes(fileExtension)) {
+            $('#day-photo-background-img').attr('src', URL.createObjectURL(file));
+            $('input[name="imageFile"]').prop('files', files);
         }
-    });
+        else {
+            alert("Wrong file extension!");
+        }
+    }
+});
+
+function closespawn(){
+    $("#anim")
+        .css({
+            display: "none"
+        })
+}
+function spawn() {
+    $("#anim")
+        .css({
+            display: "block"
+        })
 }
 </script>
 }

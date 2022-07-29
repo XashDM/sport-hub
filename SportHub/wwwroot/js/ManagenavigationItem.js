@@ -26,7 +26,7 @@ function saveItem() {
             display: "fix"
     })
     $.ajax({
-        url: '/save',
+        url: '/Save',
         type: 'post',
         dataType: "json",
         data: JSON.stringify({
@@ -35,13 +35,18 @@ function saveItem() {
         async: false,
         headers:
         {
+            'Authorization': 'Bearer ' + localStorage.getItem('Jwt Token'),
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
         },
-    }).done(function (data) {
-        addedItem = [];
-        openTreeforItem(NIDataClass.parentFor("Category"));
+        success: function (data) {
+            addedItem = [];
+            openTreeforItem(NIDataClass.parentFor("Category"));
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Errore")
+        }
     });
 }
 // function for adding new item and push to server called by add-button on form
@@ -78,7 +83,7 @@ function createItem(type) {
             openTreeforItem(parent);
         }
     }
-    document.getElementById("formid").style.display = "none";
+    closeForm();
 }
 // When click on item this functon is called by that item and get parameter his info - 'obj'
 function getContenerforType(element) {
@@ -269,6 +274,16 @@ var modal = document.getElementById("formid");
 let B = document.getElementById("addId");
 window.onclick = function (event) {
     if (event.target == modal) {
-        modal.style.display = "none";
+        closeForm();
     }
 };
+
+function closeForm() {
+    modal.style.display = "none";
+    document.getElementById("item-name-input").value = "";
+}
+
+$(document).ready(function () {
+    $("#navigation-item-button").toggleClass('red-accent-img');
+});
+

@@ -1,15 +1,16 @@
 ﻿using Google.Apis.Auth;
 using SportHub.Config.JwtAuthentication;
 using SportHub.Models;
-using SportHub.Services;
-using System;
+using SportHub.Models.Output;
+using SportHub.Services.Interfaces;
 using System.Threading.Tasks;
 
 namespace SportHub.OAuthRoot.Strategies
 {
     public class GoogleAuth : IExternalAuthHandler
     {
-        public async Task<string?> HandleExternalAuth(ExternalAuthArgs externalAuthArgs, IUserService _userService, IJwtSigner _jwtSigner)
+        public async Task<AuthTokenResponse?> HandleExternalAuth(ExternalAuthArgs externalAuthArgs, IUserService _userService, ITokenService _tokenService, 
+            IJwtSigner _jwtSigner, IEmailService _emailService)
         {
             if (externalAuthArgs.IsCreationRequired)
             {
@@ -21,10 +22,13 @@ namespace SportHub.OAuthRoot.Strategies
                     var firstname = validatedToken.GivenName;
                     var lastname = validatedToken.FamilyName;
 
-                    var createdUser = await _userService.CreateUser(email, null, firstname, lastname, ExternalAuthProvidersEnum.Google.ToString(), true);
-                    var authToken = _jwtSigner.FetchToken(createdUser);
+                    await _emailService.SendSignUpEmail(email);
 
-                    return authToken;
+                    var createdUser = await _userService.CreateUser(email, null, firstname, lastname, ExternalAuthProvidersEnum.Google.ToString(), true);
+                    var accessToken = _jwtSigner.FetchToken(createdUser);
+                    var refreshToken = await _tokenService.CreateRefreshTokenAsync(accessToken.Id, createdUser.Id);
+
+                    return new AuthTokenResponse() { AccessToken = accessToken.TokenJwt, RefreshToken = refreshToken.Token };
                 }
 
                 return null;
@@ -41,9 +45,10 @@ namespace SportHub.OAuthRoot.Strategies
 
                     if (existingUser.AuthProvider.Equals(ExternalAuthProvidersEnum.Google.ToString()))
                     {
-                        var authToken = _jwtSigner.FetchToken(existingUser);
+                        var accessToken = _jwtSigner.FetchToken(existingUser);
+                        var refreshToken = await _tokenService.CreateRefreshTokenAsync(accessToken.Id, existingUser.Id);
 
-                        return authToken;
+                        return new AuthTokenResponse() { AccessToken = accessToken.TokenJwt, RefreshToken = refreshToken.Token };
                     }       
                 }
 

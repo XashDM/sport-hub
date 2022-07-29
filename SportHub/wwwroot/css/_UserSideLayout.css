@@ -128,6 +128,45 @@ button#search-button {
     color: #B2B2B2;
 }
 
+.switch-button-to-admin-view {
+    display: none;
+    position: relative;
+    margin: 8px 32px 0 0;
+}
+
+.message-box-with-arrow {
+    display: none;
+    position: absolute;
+    background: rgb(48,53,66);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    width: 150px;
+    height: 35px;
+    color: #fff;
+    text-align: center;
+    align-items: center;
+    left: -51px;
+    top: 32px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 35px;
+    text-align: center;
+}
+
+.message-box-with-arrow:before {
+    transform: rotate(90deg);
+    content: "";
+    position: absolute;
+    top: -9px;
+    left: 62px;
+    z-index: 1;
+    border: solid 5px transparent;
+    border-right-color: rgb(48,53,66);
+}
+
 .search-article-bottom-content {
     font-family: 'Open Sans';
     font-style: normal;
@@ -136,6 +175,7 @@ button#search-button {
     line-height: 19px;
     color: #7F7B7B;
     margin-right: 20px;
+    width: 754px;
 }
 
 .header-icons {
@@ -170,7 +210,7 @@ button#search-button {
     display: none;
     z-index: -1;
     width: 100%;
-    height: 100%;
+    height: 94.2%;
     background-color: rgba(0,0,0,0.4);
     backdrop-filter: blur(2px);
     padding-top: 60px;
@@ -183,7 +223,6 @@ button#search-button {
 }
 
 .account-box {
-    display: flex;
     width: 20%;
 }
 
@@ -260,17 +299,29 @@ button#search-button {
     margin-top: 90px;
     margin-left: 0px;
     padding-left: 0px;
+    list-style: none;
 }
-.sidebar li {
+
+#category-sidebar li {
     margin-top: 0px;
     height: 50px;
     padding-bottom: 5px;
     list-style-type: initial;
 }
-.sidebar li:hover {
-    color: #d72130;
+
+.sidebar li a {
+    margin-top: 0px;
+    height: 50px;
+    padding-bottom: 5px;
+    list-style-type: initial;
+    color: inherit;
 }
-.menu-new li {
+
+    .sidebar li:hover {
+        color: #d72130;
+    }
+
+.menu-new li a {
     margin-top: 0px;
     height: 50px;
     list-style-type: initial;
@@ -282,8 +333,6 @@ button#search-button {
     text-align: center;
     align-items: center;
     -webkit-transform-origin: top;
-}
-.menu-new li {
 }
 .item-sidebar:hover {
     color: #d72130;
@@ -315,19 +364,114 @@ button#search-button {
     justify-content: space-evenly;
 }
 
+.line {
+    content: '';
+    margin-right: 0;
+    margin-left: 252px;
+    margin-bottom: 50px;
+    background: #D8D8D8;
+    height: 1px;
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 252px;
+    margin-right: 268px;
+    justify-content: space-between;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.footer-col h4 {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+}
+
+.footer-col ul li:not(:last-child) {
+    margin-bottom: 14px;
+}
+
+.footer-col ul li:last-child {
+    margin-bottom: 56.84px;
+}
+
+.footer-col ul li:first-child {
+    margin-top: 29px;
+}
+
+.footer-col ul li a {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #7F7B7B;
+}
+
+.sing-up-text {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #7F7B7B;
+    margin-bottom: 9.14px;
+}
+
+form.subscribe-section {
+    display: flex;
+    width: 284px;
+    height: 32px;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    box-sizing: border-box;
+    padding: 0;
+    margin-bottom: 56.84px;
+}
+
+.subscribe-section input {
+    border: 0;
+}
+
+    .subscribe-section input::placeholder {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 17px;
+        color: #B2B2B2;
+        padding-left: 12.6px;
+    }
+
+.subscribe-section button {
+    border: 0;
+    width: 100%;
+    background: #D72130;
+    color: #FFFFFF;
+}
+
 .copyright-box {
     width: 300px;
     margin-top: auto;
     margin-bottom: auto;
 }
 
-footer {
-  background-color: #d72130;
-  height: 83px;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  color: white;
+.red-rectangle-area {
+    background-color: #d72130;
+    height: 83px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    color: white;
 }
 
 main {

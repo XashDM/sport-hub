@@ -156,7 +156,7 @@ namespace SportHub.Controllers
         }
 
         [Route("/SaveNewArticle")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SaveNewArticle([FromForm] ArticleToAdd article)
         {
             try
@@ -170,8 +170,8 @@ namespace SportHub.Controllers
                 {
                     Alt = article.AlternativeTextForThePicture,
                     Author = "None",
-                    ShortDescription = "None",
-                    PhotoTitle = "None",
+                    ShortDescription = article.Caption,
+                    PhotoTitle = article.Title,
                     ImageLink = link
                 };
                 imageItem = await _articleService.UploadArticlePhoto(imageItem);
@@ -200,7 +200,7 @@ namespace SportHub.Controllers
             }
         }
         [HttpPut(nameof(UploadPhotoOfTheDay))]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UploadPhotoOfTheDay([FromForm] PhotoOfTheDayModel photo)
         {
             string link = null;
@@ -245,7 +245,7 @@ namespace SportHub.Controllers
 
         //admin only
         [HttpGet(nameof(GetPhotoOfTheDay))]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetPhotoOfTheDay()
         {
             //image is DisplayItem
@@ -260,6 +260,14 @@ namespace SportHub.Controllers
             //image is DisplayItem
             var image = await _articleService.GetDisplayedPhotoOfTheDay();
             return Ok(image);
+        }
+
+        [HttpPost(nameof(SearchUserArticlesRange))]
+        [AllowAnonymous]
+        public async Task<IActionResult> SearchUserArticlesRange([FromBody] UserArticleRange articleInfo)
+        {
+            var articles = _adminArticlesService.GetUserArticles(articleInfo.Category, articleInfo.Subcategory, articleInfo.Team).Result.Skip(articleInfo.startPosition).Take(articleInfo.amountOfArticles);
+            return new OkObjectResult(articles);
         }
 
         [HttpPost(nameof(SearchArticlesRange))]
