@@ -1,0 +1,43 @@
+﻿.return-box {
+    margin-left: 17px;
+    margin-top: 44px;
+}
+    .return-box img {
+        width: 4.52px;
+        height: 9.31px;
+        padding-right: 6.48px;
+    }
+
+    .return-box p {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16px;
+        color: #D72130;
+    }
+
+.content{
+    display: flex;
+    flex-direction: column;
+    margin-left: 123px;
+    margin-top: 36px;
+}
+
+    .content h1 {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 33px;
+        color: #000000;
+    }
+
+    .content p {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 19px;
+        color: #000000;
+    }

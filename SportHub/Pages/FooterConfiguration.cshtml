@@ -1,0 +1,85 @@
+﻿@page
+@model SportHub.Pages.FooterConfigurationModel
+@{
+    Layout = "_AdminLayout";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/FooterConfiguration.css" asp-append-version="true" />
+</head>
+
+<div class="content">
+    <div class="add-language-box">
+        <div class="languages">
+            <label>PAGE LANGUAGES</label>
+            <div class="lgbuttons">
+                <button class="plusbutton"> + </button>   
+                <button class="button"> <img class="languages-icon" src="~/icons/languages/English.png" alt="">English</button>    
+                <button class="button"> <img class="languages-icon" src="~/icons/languages/French.png"  alt="">French</button>            
+                <button class="button"> <img class="languages-icon" src="~/icons/languages/German.png"  alt="">German</button>
+                <button class="button"> <img class="languages-icon" src="~/icons/languages/Spanish.png" alt="">Spanish</button>
+            </div>                
+        </div>
+    </div> 
+
+    <div class="footer-config-box">
+        <div class="tabs-box">
+            <p class="tab-name red-accent">COMPANY INFO</p>
+            <p class="tab-name">CONTRIBUTORS</p>
+            <p class="tab-name">NEWSLETTER</p>
+        </div>
+
+        <div class="tables">
+            <div class="menu-table">
+                <div class="table-header">
+                    <div class="name-col">
+                        <p class="column-caption">FOOTER MENU NAMES</p>
+                    </div>
+                    <div class="status-col">
+                        <p class="column-caption">HIDE/SHOW</p>
+                    </div>
+                    <div class="action-col">
+                        <p class="column-caption">ACTION</p>
+                    </div>
+                </div>
+            </div>
+            <div class="content-table">
+                <div class="content-header">               
+                    <p>ABOUT SPORTS HUB</p>  
+                </div>
+                <div class="input-content">
+                    <div class="input-box">
+                        <label id="head1" class="captiontext_label">HEADLINE</label>
+                        <input id="input1" class="captiontext_input" type="text" required>
+                    </div>
+                    <div class="input-box">
+                        <label class="captiontext_label">CONTENT</label>
+                    <div id="editor1" class="texteditor"></div>
+                    </div>
+                    <div class="input-box">
+                        <div class="buttons">
+                            <p>Cancel</p>
+                            <button id="button1" class="save-button">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <!--<script src="//cdn.ckeditor.com/4.19.0/full/ckeditor.js"></script>-->
+    <script src="~/js/FooterConfiguration.js"></script>
+<script>
+    let allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+
+    let editor = CKEDITOR.replace('editor1', {
+        uiColor: '#AADC6E',
+        height:360,
+        width: 496,
+        autoGrow_maxHeight:360
+    });
+    </script>
+}
